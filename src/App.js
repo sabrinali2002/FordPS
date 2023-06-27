@@ -34,6 +34,7 @@ function App() {
       const res=sendBotResponse(query)
       setMessages(m=>[...m, {msg: res, author: "Ford Chat"}])
       setBlockQueries(false)
+      setQuery("")
     }
   }, [blockQueries, query])
 
@@ -51,7 +52,6 @@ function App() {
         <form onSubmit={(e)=>{
           e.preventDefault()
           setMessages(m=>[...m, {msg: query, author: "You"}])
-          setQuery("")
           setBlockQueries(true)
         }}>
         <TextField value={query} onChange={(e)=>{
