@@ -4,16 +4,21 @@ import { Fragment, useEffect, useState } from "react";
 import ChatItem from "./components/ChatItem";
 
 async function sendBotResponse(query) {
+  console.log(query);
   const response = await fetch("http://127.0.0.1:5000/quer", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: { input: query },
+    body: JSON.stringify({ quer: query }),
   })
     .then((res) => res.json())
     .then((msg) => {
-      return msg;
+      console.log("message", msg);
+      return msg.response;
+    })
+    .catch((err) => {
+      console.log(err.message);
     });
   return response;
 }
@@ -48,6 +53,7 @@ function App() {
       sendBotResponse(query).then((res) => {
         setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
         setBlockQueries(false);
+        setQuery("");
       });
     }
   }, [blockQueries, query]);
@@ -72,7 +78,6 @@ function App() {
           onSubmit={(e) => {
             e.preventDefault();
             setMessages((m) => [...m, { msg: query, author: "You" }]);
-            setQuery("");
             setBlockQueries(true);
           }}
         >
