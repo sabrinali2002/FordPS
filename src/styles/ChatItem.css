@@ -1,0 +1,16 @@
+p {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 0.2rem;
+    align-self: flex-start;
+}
+
+p.you {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+p.bot {
+    font-size: 0.8rem;
+    color: rgb(49, 135, 255);
+}

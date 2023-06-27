@@ -1,7 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
-import { Card, CardContent, Typography, CardActions, Button, TextField } from '@mui/material';
-import { Fragment, useState } from 'react';
+import './styles/App.css';
+import { Card, CardContent, Typography, TextField } from '@mui/material';
+import { Fragment, useEffect, useState } from 'react';
+import ChatItem from './components/ChatItem'
+
+function sendBotResponse(query){
+  return "Hello World!"
+}
 
 const introCardContent = (<Fragment>
   <CardContent>
@@ -9,10 +13,10 @@ const introCardContent = (<Fragment>
     Welcome to Ford Chat! 👋
   </Typography>
   <Typography variant="body2">
-    I am a chatbot that can answer any questions you have with Ford vehicles. I can help you with the following:
+    I am a chatbot that can answer any questions you have about Ford vehicles. I can help you with the following:
     <br/>
     <ul>
-      <li>Get information about a specific make</li>
+      <li>Get information about a specific model</li>
       <li>Find nearby dealerships to schedule a test drive</li>
       <li>Get redirected to a relevant payments estimator</li>
     </ul>
@@ -22,21 +26,35 @@ const introCardContent = (<Fragment>
 
 function App() {
   const [query, setQuery] = useState("")
+  const [messages, setMessages] = useState([])
+  const [blockQueries, setBlockQueries] = useState(false)
+
+  useEffect(()=>{
+    if(blockQueries){
+      const res=sendBotResponse(query)
+      setMessages(m=>[...m, {msg: res, author: "Bot"}])
+      setBlockQueries(false)
+    }
+  }, [blockQueries, query])
 
   return (
     <div className="App">
       <div className="ChatArea">
-        <Card variant='outlined' style={{maxWidth: '45%', flex: 'none', marginTop: '2%'}}>{introCardContent}</Card>
-        <div style={{flex: 'none'}}>
-
+        <div className="MessagesArea">
+          {messages.map(message=>{
+            return (<ChatItem message={message.msg} author={message.author}/>)
+          })}
         </div>
+        <Card variant='outlined' style={{maxWidth: '45%', flex: 'none', marginBottom: '3%'}}>{introCardContent}</Card>
       </div>
       <div classname="InputArea">
         <form onSubmit={(e)=>{
           e.preventDefault()
-          alert(query)
+          setMessages(m=>[...m, {msg: query, author: "You"}])
+          setQuery("")
+          setBlockQueries(true)
         }}>
-        <TextField onChange={(e)=>{
+        <TextField value={query} onChange={(e)=>{
           setQuery(e.target.value)
         }} style={{backgroundColor: 'white', width: '90%', marginTop: '1%', marginLeft: '5%'}} label={"Enter your query here..."}/>
         </form>
