@@ -3,6 +3,7 @@ import './App.css';
 import data from './locations.json'
 
 function App() {
+  console.log(data);
   return (
     <div className="App">
       <header className="App-header">
