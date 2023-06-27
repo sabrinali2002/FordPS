@@ -32,7 +32,7 @@ function App() {
   useEffect(()=>{
     if(blockQueries){
       const res=sendBotResponse(query)
-      setMessages(m=>[...m, {msg: res, author: "Bot"}])
+      setMessages(m=>[...m, {msg: res, author: "Ford Chat"}])
       setBlockQueries(false)
     }
   }, [blockQueries, query])
