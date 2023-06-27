@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import data from './locations.json'
 
 function App() {
   return (
