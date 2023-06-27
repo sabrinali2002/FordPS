@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { Card, CardContent, Typography, CardActions, Button, TextField } from '@mui/material';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 
 const introCardContent = (<Fragment>
   <CardContent>
@@ -21,24 +21,25 @@ const introCardContent = (<Fragment>
 </Fragment>)
 
 function App() {
+  const [query, setQuery] = useState("")
+
   return (
     <div className="App">
       <div className="ChatArea">
         <Card variant='outlined' style={{maxWidth: '45%', flex: 'none', marginTop: '2%'}}>{introCardContent}</Card>
         <div style={{flex: 'none'}}>
-          <p>hi</p>
-          <p>hi</p>
-          <p>hi</p>
-          <p>hi</p>
-          <p>hi</p>
-          <p>hi</p>
-          <p>hi</p>
-          <p>hi</p>
-          <p>hi</p>
+
         </div>
       </div>
       <div classname="InputArea">
-        <TextField style={{backgroundColor: 'white', width: '90%', marginTop: '1%', marginLeft: '5%'}} label={"Enter your query here..."}/>
+        <form onSubmit={(e)=>{
+          e.preventDefault()
+          alert(query)
+        }}>
+        <TextField onChange={(e)=>{
+          setQuery(e.target.value)
+        }} style={{backgroundColor: 'white', width: '90%', marginTop: '1%', marginLeft: '5%'}} label={"Enter your query here..."}/>
+        </form>
       </div>
     </div>
   );
