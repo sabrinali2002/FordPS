@@ -1,10 +1,14 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+# AI model code
 from llama_index import VectorStoreIndex, SimpleDirectoryReader, GPTListIndex
 import os
 
 os.environ['OPENAI_API_KEY'] = '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'
-
-app = Flask(__name__)
 
 documents = SimpleDirectoryReader('documents').load_data()
 index = GPTListIndex.from_documents(documents)
