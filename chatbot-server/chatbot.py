@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from llama_index import VectorStoreIndex, SimpleDirectoryReader, GPTListIndex, StorageContext, load_index_from_storage
+from llama_index import VectorStoreIndex, SimpleDirectoryReader, GPTListIndex, StorageContext, load_index_from_storage, Prompt
 import os
 
 os.environ['OPENAI_API_KEY'] = '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'
@@ -15,7 +15,17 @@ documents = SimpleDirectoryReader('documents').load_data()
 storage_context = StorageContext.from_defaults(persist_dir="./storage")
 index = load_index_from_storage(storage_context)
 
-query_engine = index.as_query_engine()
+TEMPLATE_STR = (
+    "Pretend you are a Ford dealership chatbot. Talk about Ford in collective first person. If something unrelated is asked, say you cannot answer."
+    "We have provided context information below. \n"
+    "---------------------\n"
+    "{context_str}"
+    "\n---------------------\n"
+    "Given this information, please answer the question: {query_str}\n")
+
+QA_TEMPLATE = Prompt(TEMPLATE_STR)
+
+query_engine = index.as_query_engine(text_qa_template=QA_TEMPLATE)
 
 @app.route('/', methods=['GET'])
 def hello():
