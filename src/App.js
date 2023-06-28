@@ -4,15 +4,17 @@ import { Fragment, useEffect, useState } from "react";
 import ChatItem from "./components/ChatItem";
 
 async function sendBotResponse(query) {
-  console.log(query);
-  const response = await fetch("http://127.0.0.1:5000/quer", {
+  console.log(JSON.stringify({ quer: query }));
+  const response = await fetch("http://fordchat.franklinyin.com/quer", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ quer: query }),
   })
-    .then((res) => res.json())
+    .then((res) => {
+      return res.json()
+    })
     .then((msg) => {
       console.log("message", msg);
       return msg.response;
