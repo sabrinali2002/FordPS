@@ -1,0 +1,25 @@
+.App {
+  background-color: rgb(244, 243, 243);
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.ChatArea {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+.InputArea {
+  margin-top: 85vh;
+  width: 90vw;
+}
+
+.MessagesArea{
+  flex: 'none';
+  width: 90vw;
+}
