@@ -1,14 +1,63 @@
-import logo from './logo.svg';
-import data from './locations.json'
+import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import data from './locations.json'
+
 function Map() {
-//   console.log(data);
+  const [latlong,changeLat] = useState([40.78,-73.97]);
+  function enteredLoc(lat,lon){
+    changeLat([lat,lon]);
+  }
+  // Create a custom icon instance
+  const customMarkerIcon = L.icon({
+    iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
+    iconSize: [32, 32], // Adjust the icon size if necessary
+  });
+  const findLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  };
+
+  function showPosition(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    console.log(latitude, longitude);
+    return [latitude,longitude];
+  }
+  const findLocations = () => {
+    const results = data;
+    const stateSelect = document.getElementById('state');
+    const selected = data[stateSelect.value];
+    const city = document.getElementById('city').value;
+    for(let i = 0; i < Object.keys(selected).length;i++){
+      let loc = selected[i].city.split(", ")[0];
+      let location = loc.substring(0,loc.length-2);
+      if(location == city){
+        console.log(selected[i]);
+        console.log("hi");
+      }
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <form>
-            <input type = "text" placeholder = "Enter your City"></input>
-            <select>
+    <div>
+    <MapContainer
+      center={[37,-73.97]}
+      zoom={6}
+      style={{ height: '900px', width: '100%' }}
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution="Map data &copy; OpenStreetMap contributors"
+      />
+      <Marker position={latlong} icon={customMarkerIcon} />
+    </MapContainer>
+    <form>
+      <input placeholder = "Enter your city" id = "city"></input>
+      <select id = "state">
 	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
@@ -17,7 +66,6 @@ function Map() {
 	<option value="CO">Colorado</option>
 	<option value="CT">Connecticut</option>
 	<option value="DE">Delaware</option>
-	<option value="DC">District Of Columbia</option>
 	<option value="FL">Florida</option>
 	<option value="GA">Georgia</option>
 	<option value="HI">Hawaii</option>
@@ -61,16 +109,11 @@ function Map() {
 	<option value="WI">Wisconsin</option>
 	<option value="WY">Wyoming</option>
 </select>
-        </form>
-      </header>
-      <MapContainer center={[51.505, -0.09]} zoom={6} style={{ height: '50%', width: '50%' }}>
-      <TileLayer
-        url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=QZOjQ55UDWGl5sQc2Z5A"
-        attribution="Map data &copy; <a href=&quot;https://www.openstreetmap.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>OpenStreetMap</a> contributors"
-      />
-    </MapContainer>
-    </div>
+    </form>
+    <button onClick={findLocations}>Submit</button>
+  </div>
   );
 }
 
 export default Map;
+
