@@ -32,13 +32,11 @@ function Map() {
     const results = data;
     const stateSelect = document.getElementById('state');
     const selected = data[stateSelect.value];
-    const city = document.getElementById('city').value;
+    const zip = document.getElementById('zip').value;
     for(let i = 0; i < Object.keys(selected).length;i++){
-      let loc = selected[i].city.split(", ")[0];
-      let location = loc.substring(0,loc.length-2);
-      if(location == city){
+      let loc = selected[i].city.split(", ")[1];
+      if(loc == zip){
         console.log(selected[i]);
-        console.log("hi");
       }
     }
   }
@@ -56,7 +54,7 @@ function Map() {
       <Marker position={latlong} icon={customMarkerIcon} />
     </MapContainer>
     <form>
-      <input placeholder = "Enter your city" id = "city"></input>
+      <input placeholder = "Enter your zip:" id = "zip"></input>
       <select id = "state">
 	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
