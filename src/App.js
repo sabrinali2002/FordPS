@@ -90,7 +90,7 @@ function App() {
           {introCardContent}
         </Card>
       </div>
-      <div classname="InputArea">
+      <div>
         <form
           onSubmit={(e) => {
             e.preventDefault();
