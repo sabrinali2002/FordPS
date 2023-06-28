@@ -3,14 +3,20 @@ import { Card, CardContent, Typography, TextField } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import ChatItem from "./components/ChatItem";
 
-async function sendBotResponse(query) {
+async function sendBotResponse(query, history) {
   console.log(JSON.stringify({ quer: query }));
+  let newQuery = "Here's our conversation before:\n"
+  history.forEach((h) => {
+    newQuery += `Q: ${h.q}\nA: ${h.a}\n`
+  })
+  newQuery += `Here's my new question: ${query}`
+  console.log(newQuery);
   const response = await fetch("http://localhost:5000/quer", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ quer: query }),
+    body: JSON.stringify({ quer: newQuery }),
   })
     .then((res) => {
       return res.json()
@@ -45,17 +51,21 @@ const introCardContent = (
   </Fragment>
 );
 
+
 function App() {
-  const [query, setQuery] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [blockQueries, setBlockQueries] = useState(false);
+    const [query, setQuery] = useState("");
+    const [messages, setMessages] = useState([]);
+    const [blockQueries, setBlockQueries] = useState(false);
+    const [history, setHistory] = useState([]);
 
   useEffect(() => {
     if (blockQueries) {
-      sendBotResponse(query).then((res) => {
+      sendBotResponse(query, history).then((res) => {
         setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
         setBlockQueries(false);
-        setQuery("");
+        const newArr = [...history.slice(-4), {q: query, a: res}];
+        console.log("history:", history);
+        setHistory(newArr);
       });
     }
   }, [blockQueries, query]);
