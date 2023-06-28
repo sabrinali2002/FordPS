@@ -1,7 +1,8 @@
 import "./styles/App.css";
 import { Card, CardContent, Typography, TextField } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
+import { ThreeDots } from "react-loader-spinner";
 import data from './locations.json'
 
 async function sendBotResponse(query) {
@@ -48,22 +49,35 @@ const introCardContent = (
 
 function App() {
   const [query, setQuery] = useState("");
+  const [queryText, setQueryText] = useState("")
   const [messages, setMessages] = useState([]);
-  const [blockQueries, setBlockQueries] = useState(false);
+
+  const blockQueries = useRef(false);
 
   useEffect(() => {
-    if (blockQueries) {
+    if (!blockQueries.current && query.length>0) {
+      blockQueries.current=true
+      setQuery("")
       sendBotResponse(query).then((res) => {
         setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
-        setBlockQueries(false);
-        setQuery("");
+        blockQueries.current=false
       });
     }
-  }, [blockQueries, query]);
+  }, [query]);
 
   return (
     <div className="App">
       <div className="ChatArea">
+      <ThreeDots 
+          height="50" 
+          width="50" 
+          radius="7"
+          color="#8080ff" 
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{marginLeft: '5vw'}}
+          wrapperClassName=""
+          visible={blockQueries.current}
+          />
         <div className="MessagesArea">
           {messages.map((message) => {
             return <ChatItem message={message.msg} author={message.author} />;
@@ -71,7 +85,7 @@ function App() {
         </div>
         <Card
           variant="outlined"
-          style={{ maxWidth: "45%", flex: "none", marginBottom: "3%" }}
+          style={{ maxWidth: "45%", flex: "none", marginBottom: "3%", alignSelf: 'center' }}
         >
           {introCardContent}
         </Card>
@@ -80,22 +94,27 @@ function App() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            setMessages((m) => [...m, { msg: query, author: "You" }]);
-            setBlockQueries(true);
+            if(queryText.length>0 && !blockQueries.current){
+              setQuery(queryText);
+              setMessages((m) => [...m, { msg: queryText, author: "You" }]);
+              setQueryText("")
+            }
           }}
         >
           <TextField
-            value={query}
+            value={queryText}
+            error={blockQueries.current}
             onChange={(e) => {
-              setQuery(e.target.value);
+              setQueryText(e.target.value);
             }}
             style={{
-              backgroundColor: "white",
+              accentColor: "white",
               width: "90%",
               marginTop: "1%",
               marginLeft: "5%",
             }}
             label={"Enter your query here..."}
+            helperText={blockQueries.current?"Please wait!":"Press enter to send."}
           />
         </form>
       </div>

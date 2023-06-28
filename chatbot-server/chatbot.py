@@ -1,11 +1,14 @@
 from flask import Flask, request, jsonify
 from llama_index import VectorStoreIndex, SimpleDirectoryReader, GPTListIndex, StorageContext, load_index_from_storage, Prompt
 import os
+from flask_cors import CORS, cross_origin 
+import sys
 
 os.environ['OPENAI_API_KEY'] = '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'
 
 app = Flask(__name__)
-
+cors = CORS(app)
+app.config['CORS_HEADERS']='Content-Type'
 
 documents = SimpleDirectoryReader('documents').load_data()
 # index = GPTListIndex.from_documents(documents)
@@ -29,11 +32,14 @@ query_engine = index.as_query_engine(text_qa_template=QA_TEMPLATE)
 
 @app.route('/', methods=['GET'])
 def hello():
+    print('get')
     return 'Hello, World!'
 
 @app.route('/quer', methods=['POST'])
 def query_model():
+    print('hi')
     data = request.get_json()
+    print(data)
     response = query_engine.query(data['quer'])
     print(response)
     response_str = str(response)
@@ -42,4 +48,4 @@ def query_model():
 
 if __name__ == '__main__':
     from waitress import serve
-    serve(app, host="0.0.0.0", port=8080)
+    serve(app, host="0.0.0.0", port=80)
