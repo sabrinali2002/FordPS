@@ -3,6 +3,7 @@ import { Card, CardContent, Typography, TextField } from "@mui/material";
 import { Fragment, useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
 import { ThreeDots } from "react-loader-spinner";
+import data from './locations.json'
 
 async function sendBotResponse(query) {
   console.log(JSON.stringify({ quer: query }));
