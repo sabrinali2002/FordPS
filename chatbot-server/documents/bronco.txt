@@ -1,4 +1,75 @@
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est vehicula, tempus l
-Ford F-150: The price of the 2023 Ford F-150 Lightning starts at $59,974. It has a range of 240 miles, and can tow 5,000lbs. 
-Ford Bronco: The 2023 Ford Bronco starts at $34,890. It has 4 doors and 5 seats. There's an option for 300-hp turbocharged 2.3-liter inline-four and a 330-hp twin-turbo 2.7-liter V-6 engine.
-ectus eu, vulputate purus. Sed eget nisl vitae justo sollicitudin pellentesque eu in lectus. Integer sagittis blandit suscipit. Sed ut nibh id magna vestibulum interdum ac at metus. Donec in.
+Cars and SUVs offered by Ford in JSON format:
+[
+  {
+    "Year": 2023,
+    "Model": "Escape",
+    "Link": "https://www.ford.com/suvs-crossovers/escape/?gnav=vhpnav-overview",
+    "Starting at": "$28,000.00",
+    "Seat Capacity": 5,
+    "Drive type": "Front-wheel drive",
+    "Engine type": "1.5L EcoBoost",
+    "Torque": "199lb.-ft@3000rpm",
+    "Doors": 4,
+    "Transmission": "8-Speed Automatic Transmission"
+  },
+  {
+    "Year": 2023,
+    "Model": "Bronco Sport",
+    "Link": "https://www.ford.com/suvs/bronco-sport/?gnav=vhpnav-overview",
+    "Starting at": "$29,215.00",
+    "Seat Capacity": 5,
+    "Drive type": "4x4",
+    "Engine type": "1.5L EcoBoost",
+    "Torque": "190lb.-ft@3000rpm",
+    "Doors": 4,
+    "Transmission": "8-Speed Automatic Transmission"
+  },
+  {
+    "Year": 2023,
+    "Model": "Bronco",
+    "Link": "https://www.ford.com/suvs/bronco/?gnav=header-suvs-vhp",
+    "Starting at": "$34,890.00",
+    "Seat Capacity": "4/5",
+    "Drive type": "4x4",
+    "Engine type": "2.3L Ti-VCT GTDI I-4",
+    "Torque": "315lb-.ft",
+    "Doors": "2/4",
+    "Transmission": "7-Speed Manual/10-Speed Automatic"
+  },
+  {
+    "Year": 2023,
+    "Model": "Explorer",
+    "Link": "https://www.ford.com/suvs/explorer/?gnav=header-suvs-vhp",
+    "Starting at": "$36,760.00",
+    "Seat Capacity": 7,
+    "Drive type": "Rear-wheel drive with available intelligent four-wheel drive",
+    "Engine type": "2.3L EcoBoost® I-4",
+    "Torque": "310lb.-ft@3500rpm",
+    "Doors": 4,
+    "Transmission": "10-Speed Automatic"
+  },
+  {
+    "Year": 2023,
+    "Model": "Edge",
+    "Link": "https://www.ford.com/suvs-crossovers/edge/?gnav=header-suvs-vhp",
+    "Starting at": "$37,945.00",
+    "Seat Capacity": 5,
+    "Drive type": "All wheel drive",
+    "Engine type": "Twin-scroll 2.0L EcoBoost® I-4 turbocharged, direct-injection engine",
+    "Torque": "280lb.-ft@3000rpm",
+    "Doors": 4,
+    "Transmission": "8-Speed Automatic Transmission"
+  },
+  {
+    "Year": 2024,
+    "Model": "Expedition",
+    "Link": "https://www.ford.com/suvs/expedition/?gnav=header-suvs-vhp",
+    "Starting at": "$56,075.00",
+    "Seat Capacity": 8,
+    "Drive type": "Rear-wheel drive",
+    "Engine type": "3.5L EcoBoost® V6",
+    "Torque": "470lb.-ft@2250rpm",
+    "Doors": 4,
+    "Transmission": "10-Speed Automatic"
+  }
+]

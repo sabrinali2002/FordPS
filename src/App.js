@@ -5,7 +5,7 @@ import ChatItem from "./components/ChatItem";
 
 async function sendBotResponse(query) {
   console.log(JSON.stringify({ quer: query }));
-  const response = await fetch("http://fordchat.franklinyin.com/quer", {
+  const response = await fetch("http://localhost:5000/quer", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

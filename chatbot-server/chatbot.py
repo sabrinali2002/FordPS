@@ -11,10 +11,10 @@ cors = CORS(app)
 app.config['CORS_HEADERS']='Content-Type'
 
 documents = SimpleDirectoryReader('documents').load_data()
-# index = GPTListIndex.from_documents(documents)
+index = GPTListIndex.from_documents(documents)
 
 #Persist index in local storage
-# index.storage_context.persist()
+index.storage_context.persist()
 storage_context = StorageContext.from_defaults(persist_dir="./storage")
 index = load_index_from_storage(storage_context)
 
@@ -47,5 +47,4 @@ def query_model():
 
 
 if __name__ == '__main__':
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=80)
+    app.run()
