@@ -25,7 +25,7 @@ async function sendBotResponse(query, history) {
     })
     .then((msg) => {
       console.log("message", msg);
-      return msg.response;
+      return msg.response.replaceAll("A: ", "");
     })
     .catch((err) => {
       console.log(err.message);
