@@ -20,7 +20,7 @@ async function sendBotResponse(query, history) {
     });
     newQuery += `Here's my new question: ${query}`;
     console.log(newQuery);
-    const response = await fetch("http://localhost:5000/quer", {
+    const response = await fetch("http://fordchat.franklinyin.com/quer", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
