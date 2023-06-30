@@ -65,8 +65,48 @@ function App() {
     const [queryText, setQueryText] = useState("");
     const [messages, setMessages] = useState([]);
     const [history, setHistory] = useState([]);
+    const [recording, setRecording] = useState(false);
 
     const blockQueries = useRef(false);
+    const recognition = useRef(null);
+
+    useEffect(() => {
+        // Check if speech recognition is supported
+        if (
+            "SpeechRecognition" in window ||
+            "webkitSpeechRecognition" in window
+        ) {
+            const recognitionInstance = new (window.SpeechRecognition ||
+                window.webkitSpeechRecognition)();
+            recognitionInstance.continuous = true;
+            recognitionInstance.lang = "en-US";
+
+            recognitionInstance.onresult = function (event) {
+                const recognizedText =
+                    event.results[event.results.length - 1][0].transcript;
+                setQueryText(recognizedText);
+            };
+
+            recognitionInstance.onerror = function (event) {
+                console.error("Speech recognition error:", event.error);
+            };
+
+            recognition.current = recognitionInstance;
+        } else {
+            console.error("Speech recognition not supported in this browser.");
+        }
+    }, []);
+
+    const toggleRecording = () => {
+        if (blockQueries.current) {
+            recognition.current.stop();
+            setRecording(false);
+        } else {
+            recognition.current.start();
+            setRecording(true);
+        }
+        blockQueries.current = !blockQueries.current;
+    };
 
     useEffect(() => {
         if (!blockQueries.current && query.length > 0) {
@@ -148,9 +188,22 @@ function App() {
                                 : "Press enter to send."
                         }
                         InputProps={{
-                            endAdornment: (
+                            endAdornment: recording ? (
+                                <div
+                                    className="pulsing-blob"
+                                    onClick={() => {
+                                        toggleRecording();
+                                    }}
+                                ></div>
+                            ) : (
                                 <InputAdornment position="end">
-                                    <Mic size="2rem" />
+                                    <Mic
+                                        className="mic-icon"
+                                        size="2rem"
+                                        onClick={() => {
+                                            toggleRecording();
+                                        }}
+                                    />
                                 </InputAdornment>
                             ),
                         }}
