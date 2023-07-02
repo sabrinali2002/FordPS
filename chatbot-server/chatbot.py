@@ -1,5 +1,8 @@
 from flask import Flask, request, jsonify
-from llama_index import VectorStoreIndex, SimpleDirectoryReader, GPTListIndex, StorageContext, load_index_from_storage, Prompt
+from llama_index import VectorStoreIndex, SimpleDirectoryReader, GPTListIndex, StorageContext, load_index_from_storage, Prompt, SQLDatabase
+from llama_index.indices.struct_store.sql_query import NLSQLTableQueryEngine
+from sqlalchemy import URL, create_engine
+
 import os
 from flask_cors import CORS, cross_origin 
 import sys
@@ -10,25 +13,41 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS']='Content-Type'
 
-documents = SimpleDirectoryReader('documents').load_data()
-index = GPTListIndex.from_documents(documents)
+# documents = SimpleDirectoryReader('documents').load_data()
+# index = GPTListIndex.from_documents(documents)
 
-#Persist index in local storage
-index.storage_context.persist()
-storage_context = StorageContext.from_defaults(persist_dir="./storage")
-index = load_index_from_storage(storage_context)
+# #Persist index in local storage
+# index.storage_context.persist()
+# storage_context = StorageContext.from_defaults(persist_dir="./storage")
+# index = load_index_from_storage(storage_context)
 
-TEMPLATE_STR = (
-    "Pretend you are a Ford dealership chatbot. Talk about Ford in collective first person. If something unrelated is asked, say you cannot answer."
-    "We have provided context information below. \n"
-    "---------------------\n"
-    "{context_str}"
-    "\n---------------------\n"
-    "Given this information, please answer the question: {query_str}\n")
+# TEMPLATE_STR = (
+#     "Pretend you are a Ford dealership chatbot. Talk about Ford in collective first person. If something unrelated is asked, say you cannot answer."
+#     "We have provided context information below. \n"
+#     "---------------------\n"
+#     "{context_str}"
+#     "\n---------------------\n"
+#     "Given this information, please answer the question: {query_str}\n")
 
-QA_TEMPLATE = Prompt(TEMPLATE_STR)
+# QA_TEMPLATE = Prompt(TEMPLATE_STR)
 
-query_engine = index.as_query_engine(text_qa_template=QA_TEMPLATE)
+url_object = URL.create(
+    "mysql+mysqlconnector",
+    username="root",
+    password="OsCy)S6bTdEl9;",  # plain (unescaped) text
+    host="127.0.0.1",
+    database="ford_stats",
+)
+
+engine = create_engine(url_object)
+
+sql_database = SQLDatabase(engine, include_tables=["car_info"])
+query_engine = NLSQLTableQueryEngine(
+    sql_database=sql_database,
+    tables=["car_info"],
+)
+
+prompt="Pretend you are a Ford dealership chatbot. Talk about Ford in collective first person. If something unrelated to Ford cars is asked, say you cannot answer. Given this information, please answer the question: \n"
 
 @app.route('/', methods=['GET'])
 def hello():
@@ -37,10 +56,8 @@ def hello():
 
 @app.route('/quer', methods=['POST'])
 def query_model():
-    print('hi')
     data = request.get_json()
-    print(data)
-    response = query_engine.query(data['quer'])
+    response = query_engine.query(prompt+data['quer'])
     print(response)
     response_str = str(response)
     return jsonify({'response': response_str})
