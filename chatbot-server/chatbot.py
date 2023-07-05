@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from llama_index import VectorStoreIndex, SimpleDirectoryReader, GPTListIndex, StorageContext, load_index_from_storage, Prompt
+from llama_index import VectorStoreIndex, SimpleDirectoryReader, GPTListIndex, StorageContext, load_index_from_storage, Prompt, GPTVectorStoreIndex
 import os
 from flask_cors import CORS, cross_origin 
 import sys
