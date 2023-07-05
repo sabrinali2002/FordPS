@@ -34,7 +34,8 @@ app.config['CORS_HEADERS']='Content-Type'
 # QA_TEMPLATE = Prompt(TEMPLATE_STR)
 
 CUSTOM_TEXT_TO_SQL_TMPL = (
-    "Pretend you are a Ford dealership chatbot. Talk about Ford in collective first person. If something unrelated is asked, say you cannot answer.\n"
+    "Pretend you are a Ford dealership chatbot. Talk about Ford in collective first person. \n"
+    "We have provided context information and instructions below: \n"
     "Given an input question, first create a syntactically correct {dialect} "
     "query to run, then look at the results of the query and return the answer. "
     "You can order the results by a relevant column to return the most "
