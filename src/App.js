@@ -9,8 +9,8 @@ import {
 import { Fragment, useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
 import { ThreeDots } from "react-loader-spinner";
-import data from "./locations.json";
 import { Mic } from "react-bootstrap-icons";
+import data from './zipLocations.json';
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ quer: query }));
@@ -67,6 +67,76 @@ function App() {
     const [history, setHistory] = useState([]);
     const [response, setResponse] = useState('');
     const [choice, changeChoice] = useState('');
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Radius of the Earth in kilometers
+      const dLat = toRadians(lat2 - lat1);
+      const dLon = toRadians(lon2 - lon1);
+    
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRadians(lat1)) *
+          Math.cos(toRadians(lat2)) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
+    
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    
+      const distance = R * c;
+      return distance;
+    }
+    function toRadians(degrees) {
+      return degrees * (Math.PI / 180);
+    }
+    const findLatLong = (zip) => {
+      const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
+      return fetch(s)
+  
+        .then((response)=>response.json())
+  
+        .then((data) => {
+          let latitude = data.location.lat;
+          let longitude = data.location.lon;
+          const res = {latitude,longitude};
+          return res;
+        });
+    }
+    const findLocations = async () => {
+      function extractFiveDigitString(inputString) {
+        const regex = /\b\d{5}\b/g;
+        const matches = inputString.match(regex);
+        if (matches && matches.length > 0) {
+          return matches[0];
+        }
+        return null;
+      }
+      
+      const zip = extractFiveDigitString(query);
+      try{
+        const result = await findLatLong(zip);
+        const distances = {}
+      const l = [result.latitude,result.longitude];
+      for (const coords in data){
+        const [lat,lon] = coords.split(" ");
+        const address = data[coords].address + " " + data[coords].city + " " + lat + " " + lon;
+        const distance = calculateDistance(l[0],l[1],parseFloat(lat),parseFloat(lon));
+        distances[address] = distance;
+      }
+      const sortedLocations = Object.entries(distances).sort((a,b)=>a[1]-b[1]);
+      const closestLocations = sortedLocations.slice(0,5);
+      let topLatLongs = []
+      let string = ""
+      for(let i = 0; i < closestLocations.length; i++){
+        const arr = closestLocations[i][0].split(", ");
+        string += arr[0] + "-----";
+        const location = arr[arr.length-1].split(" ");
+        topLatLongs.push([location[1],location[2]]);
+      }
+      return string;
+      }
+      catch(err){
+        return "Invalid zip";
+      }
+    }
   const handleUserInput = (option) => {
     // Perform actions based on the selected option
     switch (option) {
@@ -100,25 +170,41 @@ function App() {
     useEffect(() => {
         if (!blockQueries.current && query.length > 0) {
             blockQueries.current = true;
-            setQuery("");
-            sendBotResponse(query, history).then((res) => {
-              switch(choice){
-                case 'A':
+            switch(choice){
+              case 'A':
+                setQuery("");
+                sendBotResponse(query, history).then((res) => {
                   setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
+                  setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+                  blockQueries.current = false;
+                })
+                break;
+              case 'B':
+                findLocations().then(loc=>{
+                  setMessages((m) => [...m, { msg: loc, author: "Ford Chat" }]);
+                  blockQueries.current = false;
+                });
+                
                   break;
-                case 'B':
-                  setMessages((m) => [...m, { msg: "12189 publicis sapient road", author: "Ford Chat" }]);
-                  break;
-                case 'C':
-                  setMessages((m) => [...m, { msg: "What time and date would you like?", author: "Ford Chat" }]);
-                  break;
-                default:
-                  setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
-                  break;
-              }
-                setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+              case 'C':
+                setMessages((m) => [...m, { msg: "What time and date would you like?", author: "Ford Chat" }]);
                 blockQueries.current = false;
-            });
+                break;
+              case 'D':
+                setQuery("");
+                sendBotResponse(query, history).then((res) => {
+                  setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
+                  setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+                  blockQueries.current = false;
+                })
+                break;
+              default:
+                sendBotResponse(query, history).then((res) => {
+                  setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
+                  setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+                  blockQueries.current = false;
+                })
+            }
         }
     }, [query, history]);
 
