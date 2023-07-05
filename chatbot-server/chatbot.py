@@ -31,6 +31,36 @@ app.config['CORS_HEADERS']='Content-Type'
 
 # QA_TEMPLATE = Prompt(TEMPLATE_STR)
 
+CUTOM_TEXT_TO_SQL_TMPL = (
+    "Pretend you are a Ford dealership chatbot. Talk about Ford in collective first person. If something unrelated is asked, say you cannot answer.\n"
+    "Given an input question, first create a syntactically correct {dialect} "
+    "query to run, then look at the results of the query and return the answer. "
+    "You can order the results by a relevant column to return the most "
+    "interesting examples in the database.\n"
+    "Never query for all the columns from a specific table, only ask for a "
+    "few relevant columns given the question.\n"
+    "Pay attention to use only the column names that you can see in the schema "
+    "description. "
+    "Be careful to not query for columns that do not exist. "
+    "Pay attention to which column is in which table. "
+    "Also, qualify column names with the table name when needed.\n"
+    "Use the following format:\n"
+    "Question: Question here\n"
+    "SQLQuery: SQL Query to run\n"
+    "SQLResult: Result of the SQLQuery\n"
+    "Answer: Final answer here\n"
+    "Only use the tables listed below.\n"
+    "{schema}\n"
+    "Question: {query_str}\n"
+    "SQLQuery: "
+)
+
+CUSTOM_TEXT_TO_SQL_PROMPT = Prompt(
+    CUSTOM_TEXT_TO_SQL_TMPL,
+    stop_token="\nSQLResult:",
+    prompt_type=PromptType.TEXT_TO_SQL,
+)
+
 url_object = URL.create(
     "mysql+mysqlconnector",
     username="root",
@@ -45,9 +75,10 @@ sql_database = SQLDatabase(engine, include_tables=["car_info"])
 query_engine = NLSQLTableQueryEngine(
     sql_database=sql_database,
     tables=["car_info"],
+    text_to_sql_prompt=CUSTOM_TEXT_TO_SQL_PROMPT
 )
 
-prompt="Pretend you are a Ford dealership chatbot. Talk about Ford in collective first person. If something unrelated to Ford cars is asked, say you cannot answer. Given this information, please answer the question: \n"
+# prompt="Pretend you are a Ford dealership chatbot. Talk about Ford in collective first person. If something unrelated to Ford cars is asked, say you cannot answer. Given this information, please answer the question: \n"
 
 @app.route('/', methods=['GET'])
 def hello():
@@ -57,7 +88,7 @@ def hello():
 @app.route('/quer', methods=['POST'])
 def query_model():
     data = request.get_json()
-    response = query_engine.query(prompt+data['quer'])
+    response = query_engine.query(data['quer'])
     print(response)
     response_str = str(response)
     return jsonify({'response': response_str})
