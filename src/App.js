@@ -65,7 +65,36 @@ function App() {
     const [queryText, setQueryText] = useState("");
     const [messages, setMessages] = useState([]);
     const [history, setHistory] = useState([]);
-
+    const [response, setResponse] = useState('');
+    const [choice, changeChoice] = useState('');
+  const handleUserInput = (option) => {
+    // Perform actions based on the selected option
+    switch (option) {
+      case 'A':
+        setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat" }]);
+        changeChoice('A');
+        // Perform action for option A
+        break;
+      case 'B':
+        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat" }]);
+        changeChoice('B');
+        // Perform action for option B
+        break;
+      case 'C':
+        setMessages((m) => [...m, { msg: "Type in the time and date you would like to schedule a test drive", author: "Ford Chat" }]);
+        changeChoice('C');
+        // Perform action for option C
+        break;
+      case 'D':
+        setMessages((m) => [...m, { msg: "Type in the type of car you would like", author: "Ford Chat" }]);
+        changeChoice('D');
+        // Perform action for option D
+        break;
+      default:
+        setResponse('Invalid input. Please select one of the options (A, B, C, or D).');
+        break;
+    }
+  };
     const blockQueries = useRef(false);
 
     useEffect(() => {
@@ -73,7 +102,20 @@ function App() {
             blockQueries.current = true;
             setQuery("");
             sendBotResponse(query, history).then((res) => {
-                setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
+              switch(choice){
+                case 'A':
+                  setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
+                  break;
+                case 'B':
+                  setMessages((m) => [...m, { msg: "12189 publicis sapient road", author: "Ford Chat" }]);
+                  break;
+                case 'C':
+                  setMessages((m) => [...m, { msg: "What time and date would you like?", author: "Ford Chat" }]);
+                  break;
+                default:
+                  setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
+                  break;
+              }
                 setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
                 blockQueries.current = false;
             });
@@ -94,6 +136,13 @@ function App() {
                     visible={blockQueries.current}
                 />
                 <div className="MessagesArea">
+                <div>
+      <p>{response}</p>
+        <button onClick={() => handleUserInput('A')}>Learn more about our cars</button>
+        <button onClick={() => handleUserInput('B')}>Find the closest dealership near me</button>
+        <button onClick={() => handleUserInput('C')}>Schedule a test drive</button>
+        <button onClick={() => handleUserInput('D')}>Find the car for you</button>
+    </div>
                     {messages.map((message) => {
                         return (
                             <ChatItem
