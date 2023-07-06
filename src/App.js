@@ -13,7 +13,7 @@ import { Mic } from "react-bootstrap-icons";
 import data from './zipLocations.json';
 
 async function sendBotResponse(query, history) {
-    console.log(JSON.stringify({ quer: query }));
+    console.log(JSON.stringify({ debug: true, quer: query }));
     let newQuery = "Here's our conversation before:\n";
     history.forEach((h) => {
         newQuery += `Q: ${h.q}\nA: ${h.a}\n`;
@@ -25,7 +25,7 @@ async function sendBotResponse(query, history) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ quer: newQuery }),
+        body: JSON.stringify({ debug: false, quer: newQuery }),
     })
         .then((res) => {
             return res.json();
@@ -162,6 +162,49 @@ function App() {
     }
   };
     const blockQueries = useRef(false);
+    const [recording, setRecording] = useState(false);
+
+    // const blockQueries = useRef(false);
+    const recognition = useRef(null);
+
+    useEffect(() => {
+        // Check if speech recognition is supported
+        if (
+            "SpeechRecognition" in window ||
+            "webkitSpeechRecognition" in window
+        ) {
+            const recognitionInstance = new (window.SpeechRecognition ||
+                window.webkitSpeechRecognition)();
+            recognitionInstance.continuous = true;
+            recognitionInstance.lang = "en-US";
+
+            recognitionInstance.onresult = function (event) {
+                const recognizedText =
+                    event.results[event.results.length - 1][0].transcript;
+                setQueryText(recognizedText);
+            };
+
+            recognitionInstance.onerror = function (event) {
+                console.error("Speech recognition error:", event.error);
+            };
+
+            recognition.current = recognitionInstance;
+        } else {
+            console.error("Speech recognition not supported in this browser.");
+        }
+    }, []);
+
+    const toggleRecording = () => {
+        if (blockQueries.current) {
+            recognition.current.stop();
+            setRecording(false);
+        } else {
+            recognition.current.start();
+            setRecording(true);
+        }
+        blockQueries.current = !blockQueries.current;
+    };
+
     useEffect(() => {
       if(query.toLowerCase() === 'a' || query.toLowerCase() === 'b' || query.toLowerCase() === 'c' || query.toLowerCase() === 'd'){
         handleUserInput(query.toUpperCase());
@@ -276,9 +319,22 @@ function App() {
                                 : "Press enter to send."
                         }
                         InputProps={{
-                            endAdornment: (
+                            endAdornment: recording ? (
+                                <div
+                                    className="pulsing-blob"
+                                    onClick={() => {
+                                        toggleRecording();
+                                    }}
+                                ></div>
+                            ) : (
                                 <InputAdornment position="end">
-                                    <Mic size="2rem" />
+                                    <Mic
+                                        className="mic-icon"
+                                        size="2rem"
+                                        onClick={() => {
+                                            toggleRecording();
+                                        }}
+                                    />
                                 </InputAdornment>
                             ),
                         }}
