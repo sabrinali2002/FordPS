@@ -209,10 +209,12 @@ function App() {
                 <div className="MessagesArea">
                 <div>
       <p>{response}</p>
+      <div className = "buttons">
         <button onClick={() => handleUserInput('A')}>Learn more about our cars</button>
         <button onClick={() => handleUserInput('B')}>Find the closest dealership near me</button>
         <button onClick={() => handleUserInput('C')}>Schedule a test drive</button>
         <button onClick={() => handleUserInput('D')}>Cost estimate</button>
+        </div>
     </div>
                     {messages.map((message) => {
                         return (
