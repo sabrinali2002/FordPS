@@ -131,10 +131,11 @@ function App() {
             shortStr += arr[i] + ", ";
         }
         console.log(shortStr);
-        string += shortStr+arr[arr.length-2] + "..";
+        string += shortStr + "..";
         // const location = arr[arr.length-1].split(" ");
         // topLatLongs.push([location[1],location[2]]);
       }
+      console.log("string: " + string);
       return string;
       }
       catch(err){
