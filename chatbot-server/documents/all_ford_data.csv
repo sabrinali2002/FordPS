@@ -1,0 +1,201 @@
+﻿Make,Model,Year,Trim,MSRP,Invoice_Price,Used/New_Price,Body_Size,Body_Style,Cylinders,Engine_Aspiration,Drivetrain,Transmission,Horsepower,Torque,Highway_Fuel_Economy
+Ford,Bronco,2023,Badlands,47385,45727,47385,Midsize,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,17 mpg
+Ford,Bronco,2023,Badlands,45095,43517,45095,Compact,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,17 mpg
+Ford,Bronco,2023,Base,32295,31811,32295,Compact,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,21 mpg
+Ford,Bronco,2023,Base w/Advanced 4x4,33090,32594,33090,Compact,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,21 mpg
+Ford,Bronco,2023,Base,36445,35898,36445,Midsize,Convertible SUV,I4,Turbocharged,4WD,automatic,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,21 mpg
+Ford,Bronco,2023,Base w/Advanced 4x4,37240,36682,37240,Midsize,Convertible SUV,I4,Turbocharged,4WD,automatic,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,18 mpg
+Ford,Bronco,2023,Big Bend,36285,35378,36285,Compact,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,21 mpg
+Ford,Bronco,2023,Big Bend w/Advanced 4x4,37080,36153,37080,Compact,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,21 mpg
+Ford,Bronco,2023,Big Bend w/Advanced 4x4,39070,38093,39070,Midsize,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,21 mpg
+Ford,Bronco,2023,Big Bend,38275,37319,38275,Midsize,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,21 mpg
+Ford,Bronco,2023,Black Diamond w/Advanced 4x4,41735,40275,41735,Midsize,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,19 mpg
+Ford,Bronco,2023,Black Diamond w/Advanced 4x4,39745,38354,39745,Compact,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,19 mpg
+Ford,Bronco,2023,Black Diamond,38950,37587,38950,Compact,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,19 mpg
+Ford,Bronco,2023,Black Diamond,40940,39507,40940,Midsize,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,19 mpg
+Ford,Bronco,2023,Everglades,53895,52009,53895,Midsize,Convertible SUV,I4,Turbocharged,4WD,automatic,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,
+Ford,Bronco,2023,Heritage Edition,46295,45138,46295,Midsize,Convertible SUV,I4,Turbocharged,4WD,manual,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,
+Ford,Bronco,2023,Heritage Limited Edition,69185,66764,69185,Midsize,Convertible SUV,V6,Twin-Turbo,4WD,automatic,330 hp @ 5250 rpm,415 ft-lbs. @ 3100 rpm,
+Ford,Bronco,2023,Heritage Limited Edition,66895,64554,66895,Compact,Convertible SUV,V6,Twin-Turbo,4WD,automatic,330 hp @ 5250 rpm,415 ft-lbs. @ 3100 rpm,
+Ford,Bronco,2023,Outer Banks,44445,42890,44445,Midsize,Convertible SUV,I4,Turbocharged,4WD,automatic,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,21 mpg
+Ford,Bronco,2023,Outer Banks,41855,40390,41855,Compact,Convertible SUV,I4,Turbocharged,4WD,automatic,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,21 mpg
+Ford,Bronco,2023,Outer Banks w/Advanced 4x4,46035,44424,46035,Midsize,Convertible SUV,I4,Turbocharged,4WD,automatic,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,21 mpg
+Ford,Bronco,2023,Outer Banks w/Advanced 4x4,43445,41925,43445,Compact,Convertible SUV,I4,Turbocharged,4WD,automatic,300 hp @ 5700 rpm,325 ft-lbs. @ 3400 rpm,21 mpg
+Ford,Bronco,2023,Raptor,73780,71198,73780,Midsize,Convertible SUV,V6,Twin-Turbo,4WD,automatic,,,16 mpg
+Ford,Bronco,2023,Wildtrak,54320,52418,54320,Midsize,Convertible SUV,V6,Twin-Turbo,4WD,automatic,330 hp @ 5250 rpm,415 ft-lbs. @ 3100 rpm,17 mpg
+Ford,Bronco,2023,Wildtrak,52780,50933,52780,Compact,Convertible SUV,V6,Twin-Turbo,4WD,automatic,330 hp @ 5250 rpm,415 ft-lbs. @ 3100 rpm,17 mpg
+Ford,Bronco Sport,2023,Badlands,36590,35310,36590,Compact,SUV,I4,Turbocharged,AWD,automatic,250 hp @ 5500 rpm,277 ft-lbs. @ 3000 rpm,26 mpg
+Ford,Bronco Sport,2023,Base,29215,28776,29215,Compact,SUV,I3,Turbocharged,AWD,automatic,181 hp @ 6000 rpm,190 ft-lbs. @ 3000 rpm,28 mpg
+Ford,Bronco Sport,2023,Big Bend,30930,30157,30930,Compact,SUV,I3,Turbocharged,AWD,automatic,181 hp @ 6000 rpm,190 ft-lbs. @ 3000 rpm,28 mpg
+Ford,Bronco Sport,2023,Heritage,32650,31834,32650,Compact,SUV,I3,Turbocharged,AWD,automatic,181 hp @ 6000 rpm,190 ft-lbs. @ 3000 rpm,28 mpg
+Ford,Bronco Sport,2023,Heritage Limited,44655,43092,44655,Compact,SUV,I4,Turbocharged,AWD,automatic,250 hp @ 5500 rpm,277 ft-lbs. @ 3000 rpm,26 mpg
+Ford,Bronco Sport,2023,Outer Banks,34865,33644,34865,Compact,SUV,I3,Turbocharged,AWD,automatic,181 hp @ 6000 rpm,190 ft-lbs. @ 3000 rpm,28 mpg
+Ford,E-Transit Cargo Van,2023,"350 High Roof w/148"" WB",57810,57810,57810,Large,Cargo Van,,Electric Motor,RWD,automatic,266 hp @ 0 rpm,317 ft-lbs. @ 0 rpm,
+Ford,E-Transit Cargo Van,2023,"350 High Roof w/148"" WB",58970,58970,58970,Large,Cargo Van,,Electric Motor,RWD,automatic,266 hp @ 0 rpm,317 ft-lbs. @ 0 rpm,
+Ford,E-Transit Cargo Van,2023,"350 Low Roof w/148"" WB",55000,55000,55000,Midsize,Cargo Van,,Electric Motor,RWD,automatic,266 hp @ 0 rpm,317 ft-lbs. @ 0 rpm,
+Ford,E-Transit Cargo Van,2023,"350 Low Roof w/130"" WB",53790,53790,53790,Midsize,Cargo Van,,Electric Motor,RWD,automatic,266 hp @ 0 rpm,317 ft-lbs. @ 0 rpm,
+Ford,E-Transit Cargo Van,2023,"350 Medium Roof w/130"" WB",54555,54555,54555,Large,Cargo Van,,Electric Motor,RWD,automatic,266 hp @ 0 rpm,317 ft-lbs. @ 0 rpm,
+Ford,E-Transit Cargo Van,2023,"350 Medium Roof w/148"" WB",55770,55770,55770,Large,Cargo Van,,Electric Motor,RWD,automatic,266 hp @ 0 rpm,317 ft-lbs. @ 0 rpm,
+Ford,Edge,2023,SE,37945,36807,37945,Midsize,SUV,I4,Turbocharged,AWD,automatic,250 hp @ 5500 rpm,280 ft-lbs. @ 3000 rpm,28 mpg
+Ford,Edge,2023,SEL,39345,37771,39345,Midsize,SUV,I4,Turbocharged,AWD,automatic,250 hp @ 5500 rpm,280 ft-lbs. @ 3000 rpm,28 mpg
+Ford,Edge,2023,ST,46485,44626,46485,Midsize,SUV,V6,Twin-Turbo,AWD,automatic,335 hp @ 5550 rpm,380 ft-lbs. @ 3250 rpm,25 mpg
+Ford,Edge,2023,ST-Line,43100,41376,43100,Midsize,SUV,I4,Turbocharged,AWD,automatic,250 hp @ 5500 rpm,280 ft-lbs. @ 3000 rpm,28 mpg
+Ford,Edge,2023,Titanium,43100,41376,43100,Midsize,SUV,I4,Turbocharged,AWD,automatic,250 hp @ 5500 rpm,280 ft-lbs. @ 3000 rpm,28 mpg
+Ford,Escape,2023,Active,30715,29486,30715,Midsize,SUV,I3,Turbocharged,AWD,automatic,181 hp @ 6000 rpm,190 ft-lbs. @ 3000 rpm,
+Ford,Escape,2023,Active,28845,27691,28845,Midsize,SUV,I3,Turbocharged,FWD,automatic,181 hp @ 6000 rpm,190 ft-lbs. @ 3000 rpm,
+Ford,Escape,2023,Base,27500,26675,27500,Midsize,SUV,I3,Turbocharged,FWD,automatic,181 hp @ 6000 rpm,190 ft-lbs. @ 3000 rpm,
+Ford,Escape,2023,Base,29000,28130,29000,Midsize,SUV,I3,Turbocharged,AWD,automatic,181 hp @ 6000 rpm,190 ft-lbs. @ 3000 rpm,
+Ford,Escape,2023,Platinum,35965,34526,35965,Midsize,SUV,I4,Naturally Aspirated,FWD,automatic,165 hp @ 6250 rpm,155 ft-lbs. @ 4000 rpm,
+Ford,Escape,2023,Platinum,37465,35966,37465,Midsize,SUV,I4,Naturally Aspirated,AWD,automatic,165 hp @ 6250 rpm,155 ft-lbs. @ 4000 rpm,
+Ford,Escape,2023,Platinum,37465,35966,37465,Midsize,SUV,I4,Turbocharged,AWD,automatic,250 hp @ 5500 rpm,280 ft-lbs. @ 3000 rpm,
+Ford,Escape,2023,Plug-In Hybrid,38500,36960,38500,Midsize,SUV,I4,Naturally Aspirated,FWD,automatic,221 hp @ 6250 rpm,155 ft-lbs. @ 4000 rpm,93 mpg
+Ford,Escape,2023,ST-Line,32340,31047,32340,Midsize,SUV,I4,Naturally Aspirated,FWD,automatic,165 hp @ 6250 rpm,155 ft-lbs. @ 4000 rpm,
+Ford,Escape,2023,ST-Line,29840,28647,29840,Midsize,SUV,I3,Turbocharged,FWD,automatic,181 hp @ 6000 rpm,190 ft-lbs. @ 3000 rpm,
+Ford,Escape,2023,ST-Line,31710,30441,31710,Midsize,SUV,I3,Turbocharged,AWD,automatic,181 hp @ 6000 rpm,190 ft-lbs. @ 3000 rpm,
+Ford,Escape,2023,ST-Line Elite,38460,36921,38460,Midsize,SUV,I4,Naturally Aspirated,AWD,automatic,165 hp @ 6250 rpm,155 ft-lbs. @ 4000 rpm,
+Ford,Escape,2023,ST-Line Elite,38460,36921,38460,Midsize,SUV,I4,Turbocharged,AWD,automatic,250 hp @ 5500 rpm,280 ft-lbs. @ 3000 rpm,
+Ford,Escape,2023,ST-Line Select,34040,32679,34040,Midsize,SUV,I4,Turbocharged,AWD,automatic,250 hp @ 5500 rpm,280 ft-lbs. @ 3000 rpm,
+Ford,Escape,2023,ST-Line Select,34040,32679,34040,Midsize,SUV,I4,Naturally Aspirated,AWD,automatic,165 hp @ 6250 rpm,155 ft-lbs. @ 4000 rpm,
+Ford,Expedition,2023,King Ranch,77170,74083,77170,Large,SUV,V6,Twin-Turbo,RWD,automatic,400 hp @ 5000 rpm,480 ft-lbs. @ 5000 rpm,23 mpg
+Ford,Expedition,2023,King Ranch,80220,77011,80220,Large,SUV,V6,Twin-Turbo,4WD,automatic,400 hp @ 5000 rpm,480 ft-lbs. @ 5000 rpm,21 mpg
+Ford,Expedition,2023,Limited,67115,64430,67115,Large,SUV,V6,Twin-Turbo,RWD,automatic,400 hp @ 5000 rpm,480 ft-lbs. @ 5000 rpm,23 mpg
+Ford,Expedition,2023,Limited,70165,67358,70165,Large,SUV,V6,Twin-Turbo,4WD,automatic,400 hp @ 5000 rpm,480 ft-lbs. @ 5000 rpm,21 mpg
+Ford,Expedition,2023,MAX King Ranch,79170,76003,79170,Large,SUV,V6,Twin-Turbo,RWD,automatic,400 hp @ 5000 rpm,480 ft-lbs. @ 5000 rpm,23 mpg
+Ford,Expedition,2023,MAX King Ranch,82220,78931,82220,Large,SUV,V6,Twin-Turbo,4WD,automatic,400 hp @ 5000 rpm,480 ft-lbs. @ 5000 rpm,21 mpg
+Ford,Expedition,2023,MAX Limited,72165,69278,72165,Large,SUV,V6,Twin-Turbo,4WD,automatic,400 hp @ 5000 rpm,480 ft-lbs. @ 5000 rpm,21 mpg
+Ford,Expedition,2023,MAX Limited,69115,66350,69115,Large,SUV,V6,Twin-Turbo,RWD,automatic,400 hp @ 5000 rpm,480 ft-lbs. @ 5000 rpm,23 mpg
+Ford,Expedition,2023,MAX Platinum,84670,81283,84670,Large,SUV,V6,Twin-Turbo,4WD,automatic,400 hp @ 5000 rpm,480 ft-lbs. @ 5000 rpm,22 mpg
+Ford,Expedition,2023,MAX XL Fleet,55905,53669,55905,Large,SUV,V6,Twin-Turbo,RWD,automatic,380 hp @ 5000 rpm,470 ft-lbs. @ 2250 rpm,23 mpg
+Ford,Expedition,2023,MAX XL Fleet,58955,56597,58955,Large,SUV,V6,Twin-Turbo,4WD,automatic,380 hp @ 5000 rpm,470 ft-lbs. @ 2250 rpm,21 mpg
+Ford,Expedition,2023,MAX XLT,59940,57543,59940,Large,SUV,V6,Twin-Turbo,RWD,automatic,380 hp @ 5000 rpm,470 ft-lbs. @ 2250 rpm,23 mpg
+Ford,Expedition,2023,MAX XLT,62990,60471,62990,Large,SUV,V6,Twin-Turbo,4WD,automatic,380 hp @ 5000 rpm,470 ft-lbs. @ 2250 rpm,21 mpg
+Ford,Expedition,2023,Platinum,79620,76435,79620,Large,SUV,V6,Twin-Turbo,RWD,automatic,400 hp @ 5000 rpm,480 ft-lbs. @ 5000 rpm,23 mpg
+Ford,Expedition,2023,Platinum,82670,79363,82670,Large,SUV,V6,Twin-Turbo,4WD,automatic,400 hp @ 5000 rpm,480 ft-lbs. @ 5000 rpm,22 mpg
+Ford,Expedition,2023,Timberline,70705,67877,70705,Large,SUV,V6,Twin-Turbo,4WD,automatic,440 hp @ 5000 rpm,510 ft-lbs. @ 2250 rpm,19 mpg
+Ford,Expedition,2023,XL Fleet,52905,50789,52905,Large,SUV,V6,Twin-Turbo,RWD,automatic,380 hp @ 5000 rpm,470 ft-lbs. @ 2250 rpm,23 mpg
+Ford,Expedition,2023,XL Fleet,55955,53717,55955,Large,SUV,V6,Twin-Turbo,4WD,automatic,380 hp @ 5000 rpm,470 ft-lbs. @ 2250 rpm,21 mpg
+Ford,Expedition,2023,XL STX,53875,51700,53875,Large,SUV,V6,Twin-Turbo,RWD,automatic,380 hp @ 5000 rpm,470 ft-lbs. @ 2250 rpm,23 mpg
+Ford,Expedition,2023,XLT,57940,55623,57940,Large,SUV,V6,Twin-Turbo,RWD,automatic,380 hp @ 5000 rpm,470 ft-lbs. @ 2250 rpm,23 mpg
+Ford,Expedition,2023,XLT,60990,58551,60990,Large,SUV,V6,Twin-Turbo,4WD,automatic,380 hp @ 5000 rpm,470 ft-lbs. @ 2250 rpm,21 mpg
+Ford,Explorer,2023,Base,36760,35657,36760,Large,SUV,I4,Turbocharged,RWD,automatic,300 hp @ 5500 rpm,310 ft-lbs. @ 3500 rpm,28 mpg
+Ford,Explorer,2023,Base,38760,37597,38760,Large,SUV,I4,Turbocharged,AWD,automatic,300 hp @ 5500 rpm,310 ft-lbs. @ 3500 rpm,27 mpg
+Ford,Explorer,2023,King Ranch,56130,53885,56130,Large,SUV,V6,Twin-Turbo,AWD,automatic,400 hp @ 5500 rpm,415 ft-lbs. @ 3500 rpm,24 mpg
+Ford,Explorer,2023,King Ranch,54130,51965,54130,Large,SUV,V6,Twin-Turbo,RWD,automatic,400 hp @ 5500 rpm,415 ft-lbs. @ 3500 rpm,26 mpg
+Ford,Explorer,2023,Limited,49070,47107,49070,Large,SUV,I4,Turbocharged,AWD,automatic,300 hp @ 5500 rpm,310 ft-lbs. @ 3500 rpm,27 mpg
+Ford,Explorer,2023,Limited,47070,45187,47070,Large,SUV,I4,Turbocharged,RWD,automatic,300 hp @ 5500 rpm,310 ft-lbs. @ 3500 rpm,28 mpg
+Ford,Explorer,2023,Limited Hybrid,52060,49977,52060,Large,SUV,V6,Naturally Aspirated,RWD,automatic,318 hp @ 6500 rpm,322 ft-lbs. @ 2500 rpm,28 mpg
+Ford,Explorer,2023,Limited Hybrid,54060,51897,54060,Large,SUV,V6,Naturally Aspirated,AWD,automatic,318 hp @ 6500 rpm,322 ft-lbs. @ 2500 rpm,26 mpg
+Ford,Explorer,2023,Platinum,56275,54025,56275,Large,SUV,V6,Twin-Turbo,AWD,automatic,400 hp @ 5500 rpm,415 ft-lbs. @ 3500 rpm,24 mpg
+Ford,Explorer,2023,Platinum,54275,52105,54275,Large,SUV,V6,Twin-Turbo,RWD,automatic,400 hp @ 5500 rpm,415 ft-lbs. @ 3500 rpm,26 mpg
+Ford,Explorer,2023,Platinum Hybrid,52875,50761,52875,Large,SUV,V6,Naturally Aspirated,RWD,automatic,318 hp @ 6500 rpm,322 ft-lbs. @ 2500 rpm,26 mpg
+Ford,Explorer,2023,Platinum Hybrid,54875,52681,54875,Large,SUV,V6,Naturally Aspirated,AWD,automatic,318 hp @ 6500 rpm,322 ft-lbs. @ 2500 rpm,24 mpg
+Ford,Explorer,2023,ST,51505,49445,51505,Large,SUV,V6,Twin-Turbo,AWD,automatic,400 hp @ 5500 rpm,415 ft-lbs. @ 3500 rpm,24 mpg
+Ford,Explorer,2023,ST,49505,47525,49505,Large,SUV,V6,Twin-Turbo,RWD,automatic,400 hp @ 5500 rpm,415 ft-lbs. @ 3500 rpm,26 mpg
+Ford,Explorer,2023,ST-Line,46005,44165,46005,Large,SUV,I4,Turbocharged,RWD,automatic,300 hp @ 5500 rpm,310 ft-lbs. @ 3500 rpm,28 mpg
+Ford,Explorer,2023,ST-Line,48005,46085,48005,Large,SUV,I4,Turbocharged,AWD,automatic,300 hp @ 5500 rpm,310 ft-lbs. @ 3500 rpm,27 mpg
+Ford,Explorer,2023,Timberline,48480,46541,48480,Large,SUV,I4,Turbocharged,AWD,automatic,300 hp @ 5500 rpm,310 ft-lbs. @ 3500 rpm,22 mpg
+Ford,Explorer,2023,XLT,38570,37027,38570,Large,SUV,I4,Turbocharged,RWD,automatic,300 hp @ 5500 rpm,310 ft-lbs. @ 3500 rpm,28 mpg
+Ford,Explorer,2023,XLT,40570,38947,40570,Large,SUV,I4,Turbocharged,AWD,automatic,300 hp @ 5500 rpm,310 ft-lbs. @ 3500 rpm,27 mpg
+Ford,F-150,2023,King Ranch,67100,62739,67100,Large,Pickup Truck,V8,Naturally Aspirated,4WD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,22 mpg
+Ford,F-150,2023,King Ranch,63310,59195,63310,Large,Pickup Truck,V8,Naturally Aspirated,RWD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,24 mpg
+Ford,F-150,2023,King Ranch,66805,62463,66805,Large,Pickup Truck,V8,Naturally Aspirated,4WD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,22 mpg
+Ford,F-150,2023,King Ranch,63005,58910,63005,Large,Pickup Truck,V8,Naturally Aspirated,RWD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,24 mpg
+Ford,F-150,2023,Lariat,61270,57287,61270,Large,Pickup Truck,V6,Twin-Turbo,4WD,automatic,325 hp @ 5000 rpm,400 ft-lbs. @ 3000 rpm,24 mpg
+Ford,F-150,2023,Lariat,57730,53978,57730,Large,Pickup Truck,V6,Twin-Turbo,RWD,automatic,325 hp @ 5000 rpm,400 ft-lbs. @ 3000 rpm,26 mpg
+Ford,F-150,2023,Lariat,62995,58900,62995,Large,Pickup Truck,V8,Naturally Aspirated,4WD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,22 mpg
+Ford,F-150,2023,Lariat,57480,53744,57480,Large,Pickup Truck,V6,Twin-Turbo,RWD,automatic,325 hp @ 5000 rpm,400 ft-lbs. @ 3000 rpm,26 mpg
+Ford,F-150,2023,Limited,84910,79391,84910,Large,Pickup Truck,V6,Twin-Turbo,4WD,automatic,430 hp @ 6000 rpm,570 ft-lbs. @ 3000 rpm,23 mpg
+Ford,F-150,2023,Platinum,68490,64038,68490,Large,Pickup Truck,V8,Naturally Aspirated,4WD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,22 mpg
+Ford,F-150,2023,Platinum,64695,60490,64695,Large,Pickup Truck,V8,Naturally Aspirated,RWD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,24 mpg
+Ford,F-150,2023,Platinum,65000,60775,65000,Large,Pickup Truck,V8,Naturally Aspirated,RWD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,24 mpg
+Ford,F-150,2023,Platinum,68795,64323,68795,Large,Pickup Truck,V8,Naturally Aspirated,4WD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,22 mpg
+Ford,F-150,2023,Raptor,76775,71785,76775,Large,Pickup Truck,V6,Twin-Turbo,4WD,automatic,450 hp @ 5850 rpm,510 ft-lbs. @ 3000 rpm,18 mpg
+Ford,F-150,2023,Raptor R,107350,99609,107350,Large,Pickup Truck,V8,Supercharged,4WD,automatic,700 hp @ 6650 rpm,640 ft-lbs. @ 4250 rpm,
+Ford,F-150,2023,Tremor,61110,57138,61110,Large,Pickup Truck,V8,Naturally Aspirated,4WD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,
+Ford,F-150,2023,XL,39600,37818,39600,Large,Pickup Truck,V6,Naturally Aspirated,4WD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,22 mpg
+Ford,F-150,2023,XL,45410,43366,45410,Large,Pickup Truck,V6,Naturally Aspirated,4WD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,22 mpg
+Ford,F-150,2023,XL,41530,39662,41530,Large,Pickup Truck,V6,Naturally Aspirated,RWD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,24 mpg
+Ford,F-150,2023,XL,48225,46055,48225,Large,Pickup Truck,V8,Naturally Aspirated,4WD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,22 mpg
+Ford,F-150,2023,XL,42930,40999,42930,Large,Pickup Truck,V6,Twin-Turbo,RWD,automatic,325 hp @ 5000 rpm,400 ft-lbs. @ 3000 rpm,26 mpg
+Ford,F-150,2023,XL,42995,41060,42995,Large,Pickup Truck,V6,Naturally Aspirated,4WD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,22 mpg
+Ford,F-150,2023,XL,34885,33315,34885,Large,Pickup Truck,V6,Naturally Aspirated,RWD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,24 mpg
+Ford,F-150,2023,XL,39195,37431,39195,Large,Pickup Truck,V6,Naturally Aspirated,RWD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,24 mpg
+Ford,F-150,2023,XL,40590,38764,40590,Large,Pickup Truck,V6,Twin-Turbo,RWD,automatic,325 hp @ 5000 rpm,400 ft-lbs. @ 3000 rpm,26 mpg
+Ford,F-150,2023,XL,45810,43748,45810,Large,Pickup Truck,V8,Naturally Aspirated,4WD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,22 mpg
+Ford,F-150,2023,XL,39900,38105,39900,Large,Pickup Truck,V6,Naturally Aspirated,4WD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,22 mpg
+Ford,F-150,2023,XL,34585,33029,34585,Large,Pickup Truck,V6,Naturally Aspirated,RWD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,24 mpg
+Ford,F-150,2023,XLT,53045,49597,53045,Large,Pickup Truck,V8,Naturally Aspirated,4WD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,22 mpg
+Ford,F-150,2023,XLT,47800,44693,47800,Large,Pickup Truck,V6,Naturally Aspirated,4WD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,22 mpg
+Ford,F-150,2023,XLT,50220,46955,50220,Large,Pickup Truck,V6,Naturally Aspirated,4WD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,22 mpg
+Ford,F-150,2023,XLT,46360,43346,46360,Large,Pickup Truck,V6,Naturally Aspirated,RWD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,24 mpg
+Ford,F-150,2023,XLT,47750,44646,47750,Large,Pickup Truck,V6,Twin-Turbo,RWD,automatic,325 hp @ 5000 rpm,400 ft-lbs. @ 3000 rpm,26 mpg
+Ford,F-150,2023,XLT,44550,41654,44550,Large,Pickup Truck,V6,Naturally Aspirated,4WD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,22 mpg
+Ford,F-150,2023,XLT,50620,47329,50620,Large,Pickup Truck,V8,Naturally Aspirated,4WD,automatic,400 hp @ 6000 rpm,410 ft-lbs. @ 4250 rpm,22 mpg
+Ford,F-150,2023,XLT,44855,41939,44855,Large,Pickup Truck,V6,Naturally Aspirated,4WD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,22 mpg
+Ford,F-150,2023,XLT,41055,38386,41055,Large,Pickup Truck,V6,Naturally Aspirated,RWD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,24 mpg
+Ford,F-150,2023,XLT,44000,41140,44000,Large,Pickup Truck,V6,Naturally Aspirated,RWD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,24 mpg
+Ford,F-150,2023,XLT,45400,42449,45400,Large,Pickup Truck,V6,Twin-Turbo,RWD,automatic,325 hp @ 5000 rpm,400 ft-lbs. @ 3000 rpm,26 mpg
+Ford,F-150,2023,XLT,40760,38110,40760,Large,Pickup Truck,V6,Naturally Aspirated,RWD,automatic,290 hp @ 6500 rpm,265 ft-lbs. @ 4000 rpm,24 mpg
+Ford,F-150 Lightning,2023,Lariat,74474,74474,74474,Large,Pickup Truck,,Electric Motor,4WD,automatic,426 hp @ 0 rpm,775 ft-lbs. @ 0 rpm,61 mpg
+Ford,F-150 Lightning,2023,Platinum,96874,96874,96874,Large,Pickup Truck,,Electric Motor,4WD,automatic,563 hp @ 0 rpm,775 ft-lbs. @ 0 rpm,60 mpg
+Ford,F-150 Lightning,2023,Pro,46974,46974,46974,Large,Pickup Truck,,Electric Motor,4WD,automatic,426 hp @ 0 rpm,775 ft-lbs. @ 0 rpm,61 mpg
+Ford,F-150 Lightning,2023,XLT,59474,59474,59474,Large,Pickup Truck,,Electric Motor,4WD,automatic,426 hp @ 0 rpm,775 ft-lbs. @ 0 rpm,61 mpg
+Ford,Mustang Mach-E,2023,California Route 1 w/Extended Range,63575,63575,63575,Midsize,Hatchback,,Electric Motor,AWD,automatic,346 hp @ 0 rpm,428 ft-lbs. @ 0 rpm,91 mpg
+Ford,Mustang Mach-E,2023,GT w/Extended Range,69895,69895,69895,Midsize,Hatchback,,Electric Motor,AWD,automatic,480 hp @ 0 rpm,600 ft-lbs. @ 0 rpm,77 mpg
+Ford,Mustang Mach-E,2023,Premium w/Standard Range,54975,54975,54975,Midsize,Hatchback,,Electric Motor,RWD,automatic,266 hp @ 0 rpm,317 ft-lbs. @ 0 rpm,96 mpg
+Ford,Mustang Mach-E,2023,Premium w/Standard Range,57675,57675,57675,Midsize,Hatchback,,Electric Motor,AWD,automatic,266 hp @ 0 rpm,428 ft-lbs. @ 0 rpm,86 mpg
+Ford,Mustang Mach-E,2023,Select w/Standard Range,46895,46895,46895,Midsize,Hatchback,,Electric Motor,RWD,automatic,266 hp @ 0 rpm,317 ft-lbs. @ 0 rpm,96 mpg
+Ford,Mustang Mach-E,2023,Select w/Standard Range,49595,49595,49595,Midsize,Hatchback,,Electric Motor,AWD,automatic,266 hp @ 0 rpm,428 ft-lbs. @ 0 rpm,86 mpg
+Ford,Ranger,2023,Lariat,36460,35001,36460,Compact,Pickup Truck,I4,Turbocharged,RWD,automatic,270 hp @ 5500 rpm,310 ft-lbs. @ 3000 rpm,26 mpg
+Ford,Ranger,2023,Lariat,39945,38347,39945,Compact,Pickup Truck,I4,Turbocharged,4WD,automatic,270 hp @ 5500 rpm,310 ft-lbs. @ 3000 rpm,24 mpg
+Ford,Ranger,2023,Lariat,34500,33120,34500,Compact,Pickup Truck,I4,Turbocharged,RWD,automatic,270 hp @ 5500 rpm,310 ft-lbs. @ 3000 rpm,26 mpg
+Ford,Ranger,2023,Lariat,37985,36466,37985,Compact,Pickup Truck,I4,Turbocharged,4WD,automatic,270 hp @ 5500 rpm,310 ft-lbs. @ 3000 rpm,24 mpg
+Ford,Ranger,2023,XL,26400,25608,26400,Compact,Pickup Truck,I4,Turbocharged,RWD,automatic,270 hp @ 5500 rpm,310 ft-lbs. @ 3000 rpm,26 mpg
+Ford,Ranger,2023,XL,30045,29144,30045,Compact,Pickup Truck,I4,Turbocharged,4WD,automatic,270 hp @ 5500 rpm,310 ft-lbs. @ 3000 rpm,24 mpg
+Ford,Ranger,2023,XL,28585,27728,28585,Compact,Pickup Truck,I4,Turbocharged,RWD,automatic,270 hp @ 5500 rpm,310 ft-lbs. @ 3000 rpm,26 mpg
+Ford,Ranger,2023,XL,32230,31264,32230,Compact,Pickup Truck,I4,Turbocharged,4WD,automatic,270 hp @ 5500 rpm,310 ft-lbs. @ 3000 rpm,24 mpg
+Ford,Ranger,2023,XLT,32420,31123,32420,Compact,Pickup Truck,I4,Turbocharged,RWD,automatic,270 hp @ 5500 rpm,310 ft-lbs. @ 3000 rpm,26 mpg
+Ford,Ranger,2023,XLT,35905,34469,35905,Compact,Pickup Truck,I4,Turbocharged,4WD,automatic,270 hp @ 5500 rpm,310 ft-lbs. @ 3000 rpm,24 mpg
+Ford,Ranger,2023,XLT,30460,29241,30460,Compact,Pickup Truck,I4,Turbocharged,RWD,automatic,270 hp @ 5500 rpm,310 ft-lbs. @ 3000 rpm,26 mpg
+Ford,Ranger,2023,XLT,33945,32587,33945,Compact,Pickup Truck,I4,Turbocharged,4WD,automatic,270 hp @ 5500 rpm,310 ft-lbs. @ 3000 rpm,24 mpg
+Ford,Transit Cargo Van,2023,"150 Low Roof w/148"" WB",43230,41069,43230,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"150 Low Roof w/130"" WB",41955,39857,41955,Midsize,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"150 Low Roof w/148"" WB",47925,45529,47925,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"150 Low Roof w/130"" WB",46650,44318,46650,Midsize,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"150 Medium Roof w/130"" WB",47475,45102,47475,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"150 Medium Roof w/148"" WB",48745,46308,48745,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"150 Medium Roof w/148"" WB",44055,41852,44055,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"250 High Roof w/148"" WB",51845,49253,51845,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"250 High Roof w/148"" WB",47155,44797,47155,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"250 High Roof w/148"" WB",53070,50416,53070,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"250 High Roof w/148"" WB",48375,45957,48375,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"250 Low Roof w/148"" WB",48875,46432,48875,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"250 Low Roof w/148"" WB",44175,41967,44175,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"250 Low Roof w/130"" WB",47600,45220,47600,Midsize,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"250 Low Roof w/130"" WB",42905,40760,42905,Midsize,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"250 Medium Roof w/130"" WB",48425,46004,48425,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"250 Medium Roof w/130"" WB",43730,41544,43730,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"250 Medium Roof w/148"" WB",45005,42755,45005,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"250 Medium Roof w/148"" WB",49700,47215,49700,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 HD High Roof w/148"" WB, 9,950 lbs. GVWR",55305,52540,55305,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 HD High Roof w/148"" WB, 10,360 lbs. GVWR",50570,48041,50570,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 HD High Roof w/148"" WB, 10,360 lbs. GVWR",57115,54259,57115,Large,Cargo Van,V6,Twin-Turbo,AWD,automatic,310 hp @ 5000 rpm,400 ft-lbs. @ 2500 rpm,
+Ford,Transit Cargo Van,2023,"350 HD High Roof w/148"" WB, 11,000 lbs. GVWR",52575,49947,52575,Large,Cargo Van,V6,Twin-Turbo,RWD,automatic,310 hp @ 5000 rpm,400 ft-lbs. @ 2500 rpm,
+Ford,Transit Cargo Van,2023,"350 HD High Roof w/148"" WB, 11,000 lbs. GVWR",58160,55252,58160,Large,Cargo Van,V6,Twin-Turbo,AWD,automatic,310 hp @ 5000 rpm,400 ft-lbs. @ 2500 rpm,
+Ford,Transit Cargo Van,2023,"350 High Roof w/148"" WB",48405,45985,48405,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 High Roof w/148"" WB",53100,50445,53100,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 High Roof w/148"" WB",54320,51604,54320,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 High Roof w/148"" WB",49625,47144,49625,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 High Roof w/148"" WB, 9,950 lbs. GVWR",48945,46498,48945,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 High Roof w/148"" WB, 9,950 lbs. GVWR",53640,50958,53640,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 High Roof w/148"" WB, 9,950 lbs. GVWR",54860,52117,54860,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 High Roof w/148"" WB, 9,950 lbs. GVWR",50165,47656,50165,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 Low Roof w/130"" WB",48850,46408,48850,Midsize,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 Low Roof w/148"" WB",50125,47619,50125,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 Low Roof w/148"" WB",45430,43159,45430,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 Low Roof w/130"" WB",44155,41947,44155,Midsize,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 Low Roof w/148"" WB, 9,950 lbs. GVWR",45970,43671,45970,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 Low Roof w/148"" WB, 9,950 lbs. GVWR",50660,48127,50660,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 Medium Roof w/130"" WB",44975,42727,44975,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 Medium Roof w/148"" WB",50945,48398,50945,Large,Cargo Van,V6,Naturally Aspirated,AWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
+Ford,Transit Cargo Van,2023,"350 Medium Roof w/148"" WB",46255,43942,46255,Large,Cargo Van,V6,Naturally Aspirated,RWD,automatic,275 hp @ 6250 rpm,260 ft-lbs. @ 4000 rpm,
