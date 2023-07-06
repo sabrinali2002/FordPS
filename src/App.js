@@ -13,19 +13,19 @@ import data from "./locations.json";
 import { Mic } from "react-bootstrap-icons";
 
 async function sendBotResponse(query, history) {
-    console.log(JSON.stringify({ quer: query }));
+    console.log(JSON.stringify({ debug: true, quer: query }));
     let newQuery = "Here's our conversation before:\n";
     history.forEach((h) => {
         newQuery += `Q: ${h.q}\nA: ${h.a}\n`;
     });
     newQuery += `Here's my new question: ${query}`;
     console.log(newQuery);
-    const response = await fetch("http://localhost/quer", {
+    const response = await fetch("http://fordchat.franklinyin.com/quer", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ quer: newQuery }),
+        body: JSON.stringify({ debug: false, quer: newQuery }),
     })
         .then((res) => {
             return res.json();
