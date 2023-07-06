@@ -33,7 +33,6 @@ const processLocations = async () => {
       }
     }
   }
-  console.log(allAddresses);
   saveLocationsToFile(allAddresses);
 };
 const saveLocationsToFile = (locationByState) => {
