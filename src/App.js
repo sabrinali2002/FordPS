@@ -163,34 +163,40 @@ function App() {
   };
     const blockQueries = useRef(false);
     useEffect(() => {
+      if(query.toLowerCase() === 'a' || query.toLowerCase() === 'b' || query.toLowerCase() === 'c' || query.toLowerCase() === 'd'){
+        handleUserInput(query.toUpperCase());
+        console.log("reached");
+      }
+      else{
         if (!blockQueries.current && query.length > 0) {
-            blockQueries.current = true;
-            switch(choice){
-              case 'A':
-                setQuery("");
-                sendBotResponse(query, history).then((res) => {
-                  setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
-                  setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
-                  blockQueries.current = false;
-                })
-                break;
-              case 'B':
-                findLocations().then(loc=>{
-                  setMessages((m) => [...m, { msg: loc, author: "Ford Chat" }]);
-                  blockQueries.current = false;
-                });
-                
-                  break;
-              case 'C':
-                setMessages((m) => [...m, { msg: "Monday 4:30", author: "Ford Chat" }]);
+          blockQueries.current = true;
+          switch(choice){
+            case 'A', '':
+              setQuery("");
+              sendBotResponse(query, history).then((res) => {
+                setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
+                setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
                 blockQueries.current = false;
-                break;
-              case 'D':
-                setMessages((m) => [...m, { msg: "$500", author: "Ford Chat" }]);
+              })
+              break;
+            case 'B':
+              findLocations().then(loc=>{
+                setMessages((m) => [...m, { msg: loc, author: "Ford Chat" }]);
                 blockQueries.current = false;
+              });
+              
                 break;
-            }
-        }
+            case 'C':
+              setMessages((m) => [...m, { msg: "Monday 4:30", author: "Ford Chat" }]);
+              blockQueries.current = false;
+              break;
+            case 'D':
+              setMessages((m) => [...m, { msg: "$500", author: "Ford Chat" }]);
+              blockQueries.current = false;
+              break;
+          }
+      }
+      }
     }, [query, history]);
 
     return (
@@ -209,12 +215,6 @@ function App() {
                 <div className="MessagesArea">
                 <div>
       <p>{response}</p>
-      <div className = "buttons">
-        <button onClick={() => handleUserInput('A')}>Learn more about our cars</button>
-        <button onClick={() => handleUserInput('B')}>Find the closest dealership near me</button>
-        <button onClick={() => handleUserInput('C')}>Schedule a test drive</button>
-        <button onClick={() => handleUserInput('D')}>Cost estimate</button>
-        </div>
     </div>
                     {messages.map((message) => {
                         return (
@@ -238,6 +238,12 @@ function App() {
                 </Card>
             </div>
             <div>
+            <div className = "buttons">
+        <button onClick={() => handleUserInput('A')}>A. Learn more about our cars</button>
+        <button onClick={() => handleUserInput('B')}>B. Find the closest dealership near me</button>
+        <button onClick={() => handleUserInput('C')}>C. Schedule a test drive</button>
+        <button onClick={() => handleUserInput('D')}>D. Cost estimate</button>
+        </div>
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
