@@ -66,15 +66,19 @@ function App() {
     const [messages, setMessages] = useState([]);
     const [history, setHistory] = useState([]);
     const [response, setResponse] = useState('');
+    //which state the bot is in: closest dealership, calculator, etc.
     const [choice, changeChoice] = useState('');
+    //map functions -------------------------------------------------------->
+    //finding the distance between user input and dealerships
     function calculateDistance(lat1, lon1, lat2, lon2) {
+      function toRadians(degrees) {
+        return degrees * (Math.PI / 180);
+      }
       const R = 6371; // Radius of the Earth in kilometers
       const dLat = toRadians(lat2 - lat1);
       const dLon = toRadians(lon2 - lon1);
     
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(toRadians(lat1)) *
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRadians(lat1)) *
           Math.cos(toRadians(lat2)) *
           Math.sin(dLon / 2) *
           Math.sin(dLon / 2);
@@ -84,32 +88,26 @@ function App() {
       const distance = R * c;
       return distance;
     }
-    function toRadians(degrees) {
-      return degrees * (Math.PI / 180);
-    }
+    //finds the longitude and latitude of the user
     const findLatLong = (zip) => {
       const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
-      return fetch(s)
-  
-        .then((response)=>response.json())
-  
-        .then((data) => {
+      return fetch(s).then((response)=>response.json()).then((data) => {
           let latitude = data.location.lat;
           let longitude = data.location.lon;
           const res = {latitude,longitude};
           return res;
         });
     }
-    const findLocations = async () => {
-      function extractFiveDigitString(inputString) {
-        const regex = /\b\d{5}\b/g;
-        const matches = inputString.match(regex);
-        if (matches && matches.length > 0) {
-          return matches[0];
-        }
-        return null;
+    //extracts the zip code from the user input for map
+    function extractFiveDigitString(inputString) {
+      const regex = /\b\d{5}\b/g;
+      const matches = inputString.match(regex);
+      if (matches && matches.length > 0) {
+        return matches[0];
       }
-      
+      return null;
+    }
+    const findLocations = async () => {
       const zip = extractFiveDigitString(query);
       try{
         const result = await findLatLong(zip);
@@ -137,28 +135,26 @@ function App() {
         return "Invalid zip";
       }
     }
+    // --------------------------------------------------------------------->
+    //handler for button user clicks
   const handleUserInput = (option) => {
-    // Perform actions based on the selected option
+    // Outputs a response to based on input user selects
     switch (option) {
       case 'A':
         setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat" }]);
         changeChoice('A');
-        // Perform action for option A
         break;
       case 'B':
         setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat" }]);
         changeChoice('B');
-        // Perform action for option B
         break;
       case 'C':
-        setMessages((m) => [...m, { msg: "Type in the time and date you would like to schedule a test drive", author: "Ford Chat" }]);
+        setMessages((m) => [...m, { msg: "Choose the time and day you would prefer", author: "Ford Chat" }]);
         changeChoice('C');
-        // Perform action for option C
         break;
       case 'D':
-        setMessages((m) => [...m, { msg: "Type in the type of car you would like", author: "Ford Chat" }]);
+        setMessages((m) => [...m, { msg: "Describe the car you would like an estimate of", author: "Ford Chat" }]);
         changeChoice('D');
-        // Perform action for option D
         break;
       default:
         setResponse('Invalid input. Please select one of the options (A, B, C, or D).');
@@ -166,7 +162,6 @@ function App() {
     }
   };
     const blockQueries = useRef(false);
-
     useEffect(() => {
         if (!blockQueries.current && query.length > 0) {
             blockQueries.current = true;
@@ -187,23 +182,13 @@ function App() {
                 
                   break;
               case 'C':
-                setMessages((m) => [...m, { msg: "What time and date would you like?", author: "Ford Chat" }]);
+                setMessages((m) => [...m, { msg: "Monday 4:30", author: "Ford Chat" }]);
                 blockQueries.current = false;
                 break;
               case 'D':
-                setQuery("");
-                sendBotResponse(query, history).then((res) => {
-                  setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
-                  setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
-                  blockQueries.current = false;
-                })
+                setMessages((m) => [...m, { msg: "$500", author: "Ford Chat" }]);
+                blockQueries.current = false;
                 break;
-              default:
-                sendBotResponse(query, history).then((res) => {
-                  setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
-                  setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
-                  blockQueries.current = false;
-                })
             }
         }
     }, [query, history]);
@@ -227,7 +212,7 @@ function App() {
         <button onClick={() => handleUserInput('A')}>Learn more about our cars</button>
         <button onClick={() => handleUserInput('B')}>Find the closest dealership near me</button>
         <button onClick={() => handleUserInput('C')}>Schedule a test drive</button>
-        <button onClick={() => handleUserInput('D')}>Find the car for you</button>
+        <button onClick={() => handleUserInput('D')}>Cost estimate</button>
     </div>
                     {messages.map((message) => {
                         return (
