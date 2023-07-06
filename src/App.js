@@ -298,7 +298,7 @@ function App() {
             <div>
             <div className = "buttons">
         <button onClick={() => handleUserInput('A')}>A. Learn more about our cars</button>
-        <button onClick={() => handleUserInput('B')}>B. Find the closest dealership near me</button>
+        <button onClick={() => handleUserInput('B')}>B. Find the closest dealerships near me</button>
         <button onClick={() => handleUserInput('C')}>C. Schedule a test drive</button>
         <button onClick={() => handleUserInput('D')}>D. Cost estimate</button>
         </div>
