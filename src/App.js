@@ -174,7 +174,7 @@ function App() {
                 console.log(places);
                 for(let i = 0; i < places.length-1; i++){
                     if(i === 0){
-                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat", line : false}]);
+                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false}]);
                     }
                     else if(i === places.length-2){
                         setMessages((m) => [...m, { msg: places[i], author: "", line : true}]);
@@ -190,7 +190,7 @@ function App() {
             findLocations(query).then(loc=>{
               const places = loc.split('..');
               if(places.length > 3){
-              setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat", line : true}]);
+              setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat.", line : false}]);
               for(let i = 0; i < places.length-1; i++){
                 if(i === places.length-2){
                     setMessages((m) => [...m, { msg: places[i], author: "", line : true}]);
@@ -208,7 +208,7 @@ function App() {
             })
               break;
             case 'D':
-              setMessages((m) => [...m, { msg: "$500", author: "Ford Chat", line : true }]);
+              setMessages((m) => [...m, { msg: "$50000", author: "Ford Chat", line : true }]);
               blockQueries.current = false;
               break;
           }

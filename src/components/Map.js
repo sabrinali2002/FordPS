@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import data from './zipLocations.json'
+import data from '../zipLocations.json'
 import './Map.css'
 
 function Map() {
@@ -90,7 +90,7 @@ function Map() {
     <MapContainer
       center={latlong}
       zoom={10}
-      style={{ height: '900px', width: '100%' }}
+      style={{ height: '400px', width: '30%' , display:"flex",float:"left", marginRight:"20px"}}
       id = {"map"}
     >
       <TileLayer
@@ -104,10 +104,7 @@ function Map() {
       <Marker className = "marker" position={latlong5} icon={closeMarkerIcon} id = "mark5" />
       <Marker position={latlong} icon={customMarkerIcon} id = "mark"/>
     </MapContainer>
-    <form>
-      <input placeholder = "Enter your zip:" id = "zip"></input>
-    </form>
-    <button onClick={findLocations}>Submit</button>
+
   </div>
   );
 }

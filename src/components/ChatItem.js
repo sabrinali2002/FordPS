@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import '../styles/ChatItem.css'
 import { VolumeUp } from "react-bootstrap-icons";
-
+import Map from './Map'
 function extractLinkFromText(messageText, author, darkMode){
     const wordsArray = messageText.split(" ")
     const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
@@ -43,7 +43,7 @@ export default function ChatItem({message, author, line, darkMode, textSize}){
         color: (darkMode ? "#ffffff" : "#999"),
       };
     const [isSpeaking, toggleIsSpeaking] = useState(false)
-    return(<Fragment>
+    return(<div>{author==="Ford Chat." && <Map></Map>}<Fragment>
         <p className={author.toLowerCase().replace(" ", "-")} style={authorStyle}>{author}</p>
         <div style={{display: 'flex', flexDirection: 'row'}}>
             {extractLinkFromText(message, author, darkMode)}
@@ -55,5 +55,5 @@ export default function ChatItem({message, author, line, darkMode, textSize}){
             />}
         </div>
         {line && <hr style={{width: '90vw', borderColor: author.toLowerCase()==='you'?'#999':'rgb(49, 135, 255)'}}/>}
-    </Fragment>)
+    </Fragment></div>)
 }
