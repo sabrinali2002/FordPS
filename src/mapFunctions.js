@@ -1,6 +1,6 @@
 import data from './zipLocations.json';
 //finds the longitude and latitude of the user
-export const findLatLong = (zip) => {
+const findLatLong = (zip) => {
     const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
     return fetch(s).then((response)=>response.json()).then((data) => {
         let latitude = data.location.lat;
@@ -11,7 +11,7 @@ export const findLatLong = (zip) => {
   }
   
 //extracts the zip code from the user input for map
-export const extractFiveDigitString = (inputString) => {
+const extractFiveDigitString = (inputString) => {
     const regex = /\b\d{5}\b/g;
     const matches = inputString.match(regex);
     if (matches && matches.length > 0) {
@@ -20,7 +20,7 @@ export const extractFiveDigitString = (inputString) => {
     return null;
   }
 //finding the distance between user input and dealerships
-export const calculateDistance = (lat1, lon1, lat2, lon2) => {
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
     function toRadians(degrees) {
       return degrees * (Math.PI / 180);
     }

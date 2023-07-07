@@ -11,7 +11,7 @@ import ChatItem from "./components/ChatItem";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import "react-datepicker/dist/react-datepicker.css";
-import {calculateDistance, extractFiveDigitString, findLatLong, findLocations} from "./mapFunctions.js"
+import { findLocations} from "./mapFunctions.js"
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
@@ -173,11 +173,16 @@ function App() {
             case 'C':
             findLocations(query).then(loc=>{
               const places = loc.split('..');
+              if(places.length > 3){
               setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat" }]);
               for(let i = 0; i < places.length-1; i++){
                 setMessages((m) => [...m, { msg: places[i], author: "" }]);
               }
               setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "Ford Chat" }]);
+            }
+            else{
+                setMessages((m) => [...m, { msg: places[0], author: "Ford Chat" }]);
+            }
               blockQueries.current = false;
             })
               break;
