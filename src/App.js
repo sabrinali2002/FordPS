@@ -70,14 +70,14 @@ function App() {
     //which state the bot is in: closest dealership, calculator, etc.
     const [choice, changeChoice] = useState('');
     // which step of the payment calculator the bot is in: [1]model,[2]trim,[3]lease/finance/buy,[4]price
-    const [calcStep, setCalcStep] = useState(0);
+    const [calcStep, setCalcStep] = useState('');
     // [1]lease, [2]finance, [3]buy
     const [calcMode, setCalcMode] = useState(0);
     // [1]down payment, [2]trade-in, [3]months, [4]expected miles
-    const [leaseStep, setLeaseStep] = useState(0);
+    const [leaseStep, setLeaseStep] = useState(1);
     // [1]down payment, [2]trade-in, [3]months, [4]annual %
-    const [financeStep, setFinanceStep] = useState(0);
-    const [calcButtons, setCalcButtons] = useState('');
+    const [financeStep, setFinanceStep] = useState(1);
+    const [calcButtons, setCalcButtons] = useState([]);
 
     //map functions -------------------------------------------------------->
     //finding the distance between user input and dealerships
@@ -111,9 +111,26 @@ function App() {
     }
     const calcButtonHandler = (event) => {
         let val = event.target.getAttribute('value');
+        console.log(val);
         setQuery(val);
         setMessages((m) => [...m, { msg: val, author: "You" }]);
-        setCalcButtons('');
+        setCalcButtons([]);
+        /*
+        if (calcStep === 4 && calcMode === 0) {
+            switch(val) {
+                case "Lease":
+                    setCalcMode(1);
+                    break;
+                case "Finance":
+                    setCalcMode(2);
+                    break;
+                case "Buy":
+                    setCalcMode(3);
+                    break;
+            }
+            blockQueries.current = false;
+        }
+        */
     }
     //extracts the zip code from the user input for map
     function extractFiveDigitString(inputString) {
@@ -170,15 +187,15 @@ function App() {
         changeChoice('C');
         break;
       case 'D':
-        setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat" }]);
-        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={calcButtonHandler}>{model}</button>)));
+        setMessages((m) => [...m, { msg: "Payment Calculator", author: "You" }]);
         changeChoice('D');
         setCalcStep(1);
+        setQuery("Payment Calculator");
         break;
       default:
         setResponse('Invalid input. Please select one of the options (A, B, C, or D).');
         break;
-    }
+    } 
   };
     const blockQueries = useRef(false);
     const [recording, setRecording] = useState(false);
@@ -254,39 +271,53 @@ function App() {
               blockQueries.current = false;
               break;
             case 'D':
-                setQuery("");
                 switch(calcStep){
-                    case 1: //trim 
+                    case 1: // model
+                        setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat" }]);
+                        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={calcButtonHandler}>{model}</button>)));
+                        blockQueries.current = false;
+                        setCalcStep(2);
+                        break;
+                    case 2: //trim 
+                        blockQueries.current = true;
                         setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat" }]);
                         setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
                         blockQueries.current = false;
-                        setCalcStep(2);
+                        setCalcStep(3);
                         break;   
-                    case 2: //lease,finance,buy
+                    case 3: //lease,finance,buy
                         const options = ['Lease','Finance','Buy'];
                         setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat" }]);
                         setCalcButtons(options.map(option => (<button className='calc-button' key={option} value={option} onClick={calcButtonHandler}>{option}</button>)));
                         blockQueries.current = false;
-                        setCalcStep(3);
+                        //setCalcMode(0); LOOK HERE
+                        setCalcStep(4);
+                        //setQuery(query);
                         break; 
-                    case 3:
+                    case 4:
                         switch(calcMode){
                             case 0:
-                                if (query === "Lease") {
-                                    setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
-                                    setCalcMode(1);
-                                    setLeaseStep(1);
+                                switch(query) {
+                                    case "Lease":
+                                        case 1: // down payment
+                                        setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
+                                        blockQueries.current = false;
+                                        setCalcMode(1)
+                                        setLeaseStep(1);
+                                        break; 
+                                    case "Finance":
+                                        setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
+                                        blockQueries.current = false;
+                                        setCalcMode(2);
+                                        setFinanceStep(1);
+                                        break; 
+                                    case "Buy":
+                                        setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
+                                        blockQueries.current = false;
+                                        setCalcStep(5);
+                                        setCalcMode(0);
+                                        break;
                                 }
-                                else if (query === "Finance") {
-                                    setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
-                                    setCalcMode(2);
-                                    setFinanceStep(1);
-                                }
-                                else if (query == "Buy") {
-                                    setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
-                                    setCalcStep(4);
-                                } 
-                                blockQueries.current = false;
                                 break;
                             case 1: // lease
                                 switch(leaseStep) {
@@ -306,7 +337,8 @@ function App() {
                                         setMessages((m) => [...m, { msg: "Please enter the expected miles driven annually", author: "Ford Chat" }]);
                                         blockQueries.current = false;
                                         setLeaseStep(0);
-                                        setCalcStep(4);
+                                        setCalcStep(5);
+                                        setCalcMode(0);
                                         break; 
                                 }
                                 break;
@@ -328,13 +360,14 @@ function App() {
                                         setMessages((m) => [...m, { msg: "Please enter the desired annual percentage rate", author: "Ford Chat" }]);
                                         blockQueries.current = false;
                                         setFinanceStep(0);
-                                        setCalcStep(4);
+                                        setCalcStep(5);
+                                        setCalcMode(0);
                                         break;
                                 }
                                 break;
                         }
                         break;
-                    case 4:
+                    case 5:
                         let payment = 10;
                         setMessages((m) => [...m, { msg: `Your expected monthly payment is ${payment}`, author: "Ford Chat" }]);
                         blockQueries.current = false;
@@ -343,9 +376,11 @@ function App() {
                         changeChoice('A');
                         break;   
                 }
-          }
-      }
-      }
+                setQuery("");
+                break;
+           }
+       }
+    }
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice]);
 
     return (
@@ -391,7 +426,7 @@ function App() {
         <button onClick={() => handleUserInput('A')}>A. Learn more about our cars</button>
         <button onClick={() => handleUserInput('B')}>B. Find the closest dealership near me</button>
         <button onClick={() => handleUserInput('C')}>C. Schedule a test drive</button>
-        <button onClick={() => handleUserInput('D')}>D. Cost estimate</button>
+        <button onClick={() => handleUserInput('D')}>D. Payment calculator</button>
         </div>
                 <form
                     onSubmit={(e) => {
