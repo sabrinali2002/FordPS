@@ -132,20 +132,27 @@ function App() {
       const l = [result.latitude,result.longitude];
       for (const coords in data){
         const [lat,lon] = coords.split(" ");
-        const address = data[coords].address + " " + data[coords].city + " " + lat + " " + lon;
+        const address = data[coords].name + ": " + data[coords].address + ", " + data[coords].city + " " + lat + " " + lon;
         const distance = calculateDistance(l[0],l[1],parseFloat(lat),parseFloat(lon));
         distances[address] = distance;
       }
       const sortedLocations = Object.entries(distances).sort((a,b)=>a[1]-b[1]);
       const closestLocations = sortedLocations.slice(0,5);
-      let topLatLongs = []
       let string = ""
       for(let i = 0; i < closestLocations.length; i++){
         const arr = closestLocations[i][0].split(", ");
-        string += arr[0] + "-----";
-        const location = arr[arr.length-1].split(" ");
-        topLatLongs.push([location[1],location[2]]);
+        console.log(arr);
+        let shortStr = ""
+        for(let i = 0; i < arr.length-1; i++){
+            console.log(arr[i]);
+            shortStr += arr[i] + ", ";
+        }
+        console.log(shortStr);
+        string += shortStr + "..";
+        // const location = arr[arr.length-1].split(" ");
+        // topLatLongs.push([location[1],location[2]]);
       }
+      console.log("string: " + string);
       return string;
       }
       catch(err){
@@ -244,7 +251,16 @@ function App() {
               break;
             case 'B':
               findLocations().then(loc=>{
-                setMessages((m) => [...m, { msg: loc, author: "Ford Chat" }]);
+                const places = loc.split('..');
+                console.log(places);
+                for(let i = 0; i < places.length-1; i++){
+                    if(i === 0){
+                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat" }]);
+                    }
+                    else{
+                        setMessages((m) => [...m, { msg: places[i], author: "" }]);
+                    }
+                }
                 blockQueries.current = false;
               });
               
@@ -389,7 +405,7 @@ function App() {
             <div>
             <div className = "buttons">
         <button onClick={() => handleUserInput('A')}>A. Learn more about our cars</button>
-        <button onClick={() => handleUserInput('B')}>B. Find the closest dealership near me</button>
+        <button onClick={() => handleUserInput('B')}>B. Find the closest dealerships near me</button>
         <button onClick={() => handleUserInput('C')}>C. Schedule a test drive</button>
         <button onClick={() => handleUserInput('D')}>D. Cost estimate</button>
         </div>
