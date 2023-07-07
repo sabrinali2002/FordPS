@@ -10,8 +10,6 @@ import { Fragment, useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
-import DatePicker from "react-datepicker";
-import data from './zipLocations.json';
 import "react-datepicker/dist/react-datepicker.css";
 import {calculateDistance, extractFiveDigitString, findLatLong, findLocations} from "./mapFunctions.js"
 
