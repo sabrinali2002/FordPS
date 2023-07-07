@@ -109,38 +109,36 @@ function App() {
     }
     const findLocations = async () => {
       const zip = extractFiveDigitString(query);
-      try{
-        const result = await findLatLong(zip);
-        const distances = {}
-      const l = [result.latitude,result.longitude];
-      for (const coords in data){
-        const [lat,lon] = coords.split(" ");
-        const address = data[coords].name + ": " + data[coords].address + ", " + data[coords].city + " " + lat + " " + lon;
-        const distance = calculateDistance(l[0],l[1],parseFloat(lat),parseFloat(lon));
-        distances[address] = distance;
+      if(zip !=null){
+        try{
+            const result = await findLatLong(zip);
+            const distances = {}
+          const l = [result.latitude,result.longitude];
+          for (const coords in data){
+            const [lat,lon] = coords.split(" ");
+            const address = data[coords].name + ": " + data[coords].address + ", " + data[coords].city + " " + lat + " " + lon;
+            const distance = calculateDistance(l[0],l[1],parseFloat(lat),parseFloat(lon));
+            distances[address] = distance;
+          }
+          const sortedLocations = Object.entries(distances).sort((a,b)=>a[1]-b[1]);
+          const closestLocations = sortedLocations.slice(0,5);
+          let string = ""
+          for(let i = 0; i < closestLocations.length; i++){
+            const arr = closestLocations[i][0].split(", ");
+            let shortStr = ""
+            for(let i = 0; i < arr.length-1; i++){
+                shortStr += arr[i] + ", ";
+            }
+            string += shortStr + "..";
+          }
+          return string;
+          }
+          catch(err){
+            return "Invalid zip";
+          }
       }
-      const sortedLocations = Object.entries(distances).sort((a,b)=>a[1]-b[1]);
-      const closestLocations = sortedLocations.slice(0,5);
-      let string = ""
-      for(let i = 0; i < closestLocations.length; i++){
-        const arr = closestLocations[i][0].split(", ");
-        console.log(arr);
-        let shortStr = ""
-        for(let i = 0; i < arr.length-1; i++){
-            console.log(arr[i]);
-            shortStr += arr[i] + ", ";
-        }
-        console.log(shortStr);
-        string += shortStr + "..";
-        // const location = arr[arr.length-1].split(" ");
-        // topLatLongs.push([location[1],location[2]]);
-      }
-      console.log("string: " + string);
-      return string;
-      }
-      catch(err){
-        return "Invalid zip";
-      }
+      return "Invalid zip.."
+
     }
     // --------------------------------------------------------------------->
     //handler for button user clicks
