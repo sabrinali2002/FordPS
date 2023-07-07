@@ -75,19 +75,19 @@ function App() {
     // Outputs a response to based on input user selects
     switch (option) {
       case 'A':
-        setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat" }]);
+        setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat", line : true}]);
         changeChoice('A');
         break;
       case 'B':
-        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat" }]);
+        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line : true}]);
         changeChoice('B');
         break;
       case 'C':
-        setMessages((m) => [...m, { msg: "Please input the name of the car you would like to test and your current zip so we can find the location best for you", author: "Ford Chat" }]);
+        setMessages((m) => [...m, { msg: "Please input the name of the car you would like to test and your current zip so we can find the location best for you", author: "Ford Chat", line : true}]);
         changeChoice('C');
         break;
       case 'D':
-        setMessages((m) => [...m, { msg: "Describe the car you would like an estimate of", author: "Ford Chat" }]);
+        setMessages((m) => [...m, { msg: "Describe the car you would like an estimate of", author: "Ford Chat", line : true}]);
         changeChoice('D');
         break;
       default:
@@ -150,7 +150,7 @@ function App() {
             case 'A', '':
               setQuery("");
               sendBotResponse(query, history).then((res) => {
-                setMessages((m) => [...m, { msg: res, author: "Ford Chat" }]);
+                setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true}]);
                 setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
                 blockQueries.current = false;
               })
@@ -161,10 +161,13 @@ function App() {
                 console.log(places);
                 for(let i = 0; i < places.length-1; i++){
                     if(i === 0){
-                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat" }]);
+                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat", line : false}]);
+                    }
+                    else if(i === places.length-2){
+                        setMessages((m) => [...m, { msg: places[i], author: "" ,line : true}]);
                     }
                     else{
-                        setMessages((m) => [...m, { msg: places[i], author: "" }]);
+                        setMessages((m) => [...m, { msg: places[i], author: "" ,line : false}]);
                     }
                 }
                 blockQueries.current = false;
@@ -176,9 +179,12 @@ function App() {
               if(places.length > 3){
               setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat" }]);
               for(let i = 0; i < places.length-1; i++){
-                setMessages((m) => [...m, { msg: places[i], author: "" }]);
+                setMessages((m) => [...m, { msg: places[i], author: "",line:false }]);
+                if(i === places.length-2){
+                    setMessages((m) => [...m, { msg: places[i], author: "",line:true }]);
+                }
               }
-              setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "Ford Chat" }]);
+              setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "Ford Chat", line:true }]);
             }
             else{
                 setMessages((m) => [...m, { msg: places[0], author: "Ford Chat" }]);
@@ -217,6 +223,7 @@ function App() {
                             <ChatItem
                                 message={message.msg}
                                 author={message.author}
+                                line = {message.line}
                             />
                         );
                     })}
@@ -247,7 +254,7 @@ function App() {
                             setQuery(queryText);
                             setMessages((m) => [
                                 ...m,
-                                { msg: queryText, author: "You" },
+                                { msg: queryText, author: "You" , line : true},
                             ]);
                             setQueryText("");
                         }

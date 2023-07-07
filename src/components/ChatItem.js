@@ -36,7 +36,7 @@ function dictate(message, toggleIsSpeaking){
     speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author}){
+export default function ChatItem({message, author, line}){
     const [isSpeaking, toggleIsSpeaking] = useState(false)
     return(<Fragment>
         <p className={author.toLowerCase().replace(" ", "-")}>{author}</p>
@@ -49,6 +49,6 @@ export default function ChatItem({message, author}){
             }
             />}
         </div>
-        <hr style={{width: '90vw', borderColor: author.toLowerCase()==='you'?'#999':'rgb(49, 135, 255)'}}/>
+        {line && <hr style={{width: '90vw', borderColor: author.toLowerCase()==='you'?'#999':'rgb(49, 135, 255)'}}/>}
     </Fragment>)
 }
