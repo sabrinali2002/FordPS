@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import '../styles/ChatItem.css'
 import { VolumeUp } from "react-bootstrap-icons";
 
-function extractLinkFromText(messageText, author){
+function extractLinkFromText(messageText, author, darkMode){
     const wordsArray = messageText.split(" ")
     const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
 
@@ -12,7 +12,7 @@ function extractLinkFromText(messageText, author){
     
 
     return (
-        <p style={{textAlign: 'left', color:author.toLowerCase()==='you'?'black':'rgb(1, 36, 154)'}}>
+        <p style={{textAlign: 'left', color:author.toLowerCase()==='you'?(darkMode ? "#e4e4ed" : "#999"):(darkMode ? "#ffffff" : "rgb(1, 36, 154)")}}>
         {
             beforeText && beforeText
         }
@@ -36,13 +36,17 @@ function dictate(message, toggleIsSpeaking){
     speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author}){
+export default function ChatItem({message, author, darkMode, textSize}){
+    const authorStyle = {
+        fontSize: textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem"),
+        color: (darkMode ? "#ffffff" : "#999"),
+      };
     const [isSpeaking, toggleIsSpeaking] = useState(false)
     return(<Fragment>
-        <p className={author.toLowerCase().replace(" ", "-")}>{author}</p>
+        <p className={author.toLowerCase().replace(" ", "-")} style={authorStyle}>{author}</p>
         <div style={{display: 'flex', flexDirection: 'row'}}>
-            {extractLinkFromText(message, author)}
-            {author.toLowerCase()!=='you' && <VolumeUp color={isSpeaking?"blue":"black"} size="1.5rem" onClick={()=>{
+            {extractLinkFromText(message, author, darkMode)}
+            {author.toLowerCase()!=='you' && <VolumeUp color={darkMode ? (isSpeaking?"#ffffff":"#e4e4ed") : (isSpeaking?"blue":"black")} size={textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem")} onClick={()=>{
                 if(!isSpeaking)
                     dictate(message, toggleIsSpeaking)
                 }

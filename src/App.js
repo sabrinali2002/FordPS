@@ -11,6 +11,8 @@ import ChatItem from "./components/ChatItem";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import data from './zipLocations.json';
+import { IconButton } from "@mui/material";
+import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
@@ -60,12 +62,24 @@ const introCardContent = (
     </Fragment>
 );
 
+
+
 function App() {
     const [query, setQuery] = useState("");
     const [queryText, setQueryText] = useState("");
     const [messages, setMessages] = useState([]);
     const [history, setHistory] = useState([]);
     const [response, setResponse] = useState('');
+    //accessibility  
+    const [textSize, setTextSize] = useState("small");
+    const [darkMode, setDarkMode] = useState(false);
+    const toggleTextSize = () => {
+        setTextSize((prevSize) => (prevSize === "small" ? "medium" : (prevSize === "medium" ? "large" : "small")));
+      };
+    
+      const toggleDarkMode = () => {
+        setDarkMode((prevMode) => !prevMode);
+      };
     //which state the bot is in: closest dealership, calculator, etc.
     const [choice, changeChoice] = useState('');
     //map functions -------------------------------------------------------->
@@ -259,7 +273,14 @@ function App() {
     }, [query, history]);
 
     return (
-        <div className="App">
+        <div className="ButtonContainer">
+        <div className="App"
+         style={{
+            backgroundColor: darkMode ? "#000080" : "#f4f3f3",
+            color: darkMode ? "#ffffff" : "#000000",
+            fontSize: textSize === "large" ? "22px" : (textSize === "small" ? "16px" : "19px"),
+          }}
+        >
             <div className="ChatArea">
                 <ThreeDots
                     height="50"
@@ -280,12 +301,15 @@ function App() {
                             <ChatItem
                                 message={message.msg}
                                 author={message.author}
+                                darkMode={darkMode}
+                                textSize={textSize}
                             />
                         );
                     })}
                 </div>
                 <Card
                     variant="outlined"
+                    className="CardOutline"
                     style={{
                         maxWidth: "45%",
                         flex: "none",
@@ -356,7 +380,28 @@ function App() {
                         }}
                     />
                 </form>
-            </div>
+                </div>
+                
+        <IconButton
+          onClick={toggleTextSize}
+          color="primary"
+          aria-label="Toggle Text Size"
+        >
+          {textSize === "medium" ? (
+            <TextFieldsOutlined />
+          ) : (
+            <TextFields />
+          )}
+        </IconButton>
+        <IconButton
+          onClick={toggleDarkMode}
+          color="primary"
+          aria-label="Toggle Dark Mode"
+        >
+          {darkMode ? <Brightness7 /> : <Brightness4 />}
+        </IconButton>
+      </div>
+            
         </div>
     );
 }
