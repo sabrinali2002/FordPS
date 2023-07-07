@@ -50,6 +50,17 @@ button:active {
   transform: translate(2px, 2px);
 }
 
+.calc-button {
+  height: 40px;
+  width: 40px;
+  border-radius: 0;
+  border: none;
+  line-height: 1;
+  text-align: center;
+  font-size: 10px;
+  box-shadow: none;
+}
+
 @media (min-width: 768px) {
   button {
     min-width: 120px;
