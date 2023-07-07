@@ -11,6 +11,7 @@ import ChatItem from "./components/ChatItem";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import data from './zipLocations.json';
+import trims from './trims.json';
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
@@ -68,6 +69,16 @@ function App() {
     const [response, setResponse] = useState('');
     //which state the bot is in: closest dealership, calculator, etc.
     const [choice, changeChoice] = useState('');
+    // which step of the payment calculator the bot is in: [1]model,[2]trim,[3]lease/finance/buy,[4]price
+    const [calcStep, setCalcStep] = useState(0);
+    // [1]lease, [2]finance, [3]buy
+    const [calcMode, setCalcMode] = useState(0);
+    // [1]down payment, [2]trade-in, [3]months, [4]expected miles
+    const [leaseStep, setLeaseStep] = useState(0);
+    // [1]down payment, [2]trade-in, [3]months, [4]annual %
+    const [financeStep, setFinanceStep] = useState(0);
+    const [calcButtons, setCalcButtons] = useState('');
+
     //map functions -------------------------------------------------------->
     //finding the distance between user input and dealerships
     function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -98,6 +109,12 @@ function App() {
           return res;
         });
     }
+    const calcButtonHandler = (event) => {
+        let val = event.target.getAttribute('value');
+        setQuery(val);
+        setMessages((m) => [...m, { msg: val, author: "You" }]);
+        setCalcButtons('');
+    }
     //extracts the zip code from the user input for map
     function extractFiveDigitString(inputString) {
       const regex = /\b\d{5}\b/g;
@@ -115,27 +132,20 @@ function App() {
       const l = [result.latitude,result.longitude];
       for (const coords in data){
         const [lat,lon] = coords.split(" ");
-        const address = data[coords].name + ": " + data[coords].address + ", " + data[coords].city + " " + lat + " " + lon;
+        const address = data[coords].address + " " + data[coords].city + " " + lat + " " + lon;
         const distance = calculateDistance(l[0],l[1],parseFloat(lat),parseFloat(lon));
         distances[address] = distance;
       }
       const sortedLocations = Object.entries(distances).sort((a,b)=>a[1]-b[1]);
       const closestLocations = sortedLocations.slice(0,5);
+      let topLatLongs = []
       let string = ""
       for(let i = 0; i < closestLocations.length; i++){
         const arr = closestLocations[i][0].split(", ");
-        console.log(arr);
-        let shortStr = ""
-        for(let i = 0; i < arr.length-1; i++){
-            console.log(arr[i]);
-            shortStr += arr[i] + ", ";
-        }
-        console.log(shortStr);
-        string += shortStr + "..";
-        // const location = arr[arr.length-1].split(" ");
-        // topLatLongs.push([location[1],location[2]]);
+        string += arr[0] + "-----";
+        const location = arr[arr.length-1].split(" ");
+        topLatLongs.push([location[1],location[2]]);
       }
-      console.log("string: " + string);
       return string;
       }
       catch(err){
@@ -160,8 +170,10 @@ function App() {
         changeChoice('C');
         break;
       case 'D':
-        setMessages((m) => [...m, { msg: "Describe the car you would like an estimate of", author: "Ford Chat" }]);
+        setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat" }]);
+        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={calcButtonHandler}>{model}</button>)));
         changeChoice('D');
+        setCalcStep(1);
         break;
       default:
         setResponse('Invalid input. Please select one of the options (A, B, C, or D).');
@@ -217,6 +229,7 @@ function App() {
         handleUserInput(query.toUpperCase());
         console.log("reached");
       }
+
       else{
         if (!blockQueries.current && query.length > 0) {
           blockQueries.current = true;
@@ -231,16 +244,7 @@ function App() {
               break;
             case 'B':
               findLocations().then(loc=>{
-                const places = loc.split('..');
-                console.log(places);
-                for(let i = 0; i < places.length-1; i++){
-                    if(i === 0){
-                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat" }]);
-                    }
-                    else{
-                        setMessages((m) => [...m, { msg: places[i], author: "" }]);
-                    }
-                }
+                setMessages((m) => [...m, { msg: loc, author: "Ford Chat" }]);
                 blockQueries.current = false;
               });
               
@@ -250,13 +254,99 @@ function App() {
               blockQueries.current = false;
               break;
             case 'D':
-              setMessages((m) => [...m, { msg: "$500", author: "Ford Chat" }]);
-              blockQueries.current = false;
-              break;
+                setQuery("");
+                switch(calcStep){
+                    case 1: //trim 
+                        setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat" }]);
+                        setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
+                        blockQueries.current = false;
+                        setCalcStep(2);
+                        break;   
+                    case 2: //lease,finance,buy
+                        const options = ['Lease','Finance','Buy'];
+                        setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat" }]);
+                        setCalcButtons(options.map(option => (<button className='calc-button' key={option} value={option} onClick={calcButtonHandler}>{option}</button>)));
+                        blockQueries.current = false;
+                        setCalcStep(3);
+                        break; 
+                    case 3:
+                        switch(calcMode){
+                            case 0:
+                                if (query === "Lease") {
+                                    setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
+                                    setCalcMode(1);
+                                    setLeaseStep(1);
+                                }
+                                else if (query === "Finance") {
+                                    setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
+                                    setCalcMode(2);
+                                    setFinanceStep(1);
+                                }
+                                else if (query == "Buy") {
+                                    setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
+                                    setCalcStep(4);
+                                } 
+                                blockQueries.current = false;
+                                break;
+                            case 1: // lease
+                                switch(leaseStep) {
+                                    case 1: // trade-in
+                                        setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
+                                        blockQueries.current = false;
+                                        setLeaseStep(2);
+                                        break; 
+                                    case 2: // months
+                                        let durations = [24,36,39,48];
+                                        setMessages((m) => [...m, { msg: "Please enter the desired duration of the lease, in months", author: "Ford Chat" }]);
+                                        setCalcButtons(durations.map(dur => (<button className='calc-button' key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
+                                        blockQueries.current = false;
+                                        setLeaseStep(3);
+                                        break; 
+                                    case 3: // miles
+                                        setMessages((m) => [...m, { msg: "Please enter the expected miles driven annually", author: "Ford Chat" }]);
+                                        blockQueries.current = false;
+                                        setLeaseStep(0);
+                                        setCalcStep(4);
+                                        break; 
+                                }
+                                break;
+                            case 2: // finance
+                                switch(financeStep){
+                                    case 1: // trade-in
+                                        setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
+                                        blockQueries.current = false;
+                                        setFinanceStep(2);
+                                        break; 
+                                    case 2: // months
+                                        let durations = [36,48,60,72,84];
+                                        setMessages((m) => [...m, { msg: "Please enter the desired duration of the loan, in months", author: "Ford Chat" }]);
+                                        setCalcButtons(durations.map(dur => (<button className='calc-button' key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
+                                        blockQueries.current = false;
+                                        setFinanceStep(3);
+                                        break; 
+                                    case 3: // percentage
+                                        setMessages((m) => [...m, { msg: "Please enter the desired annual percentage rate", author: "Ford Chat" }]);
+                                        blockQueries.current = false;
+                                        setFinanceStep(0);
+                                        setCalcStep(4);
+                                        break;
+                                }
+                                break;
+                        }
+                        break;
+                    case 4:
+                        let payment = 10;
+                        setMessages((m) => [...m, { msg: `Your expected monthly payment is ${payment}`, author: "Ford Chat" }]);
+                        blockQueries.current = false;
+                        setCalcStep(0);
+                        setCalcMode(0);
+                        changeChoice('A');
+                        break;   
+                }
           }
       }
       }
-    }, [query, history]);
+    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice]);
 
     return (
         <div className="App">
@@ -299,7 +389,7 @@ function App() {
             <div>
             <div className = "buttons">
         <button onClick={() => handleUserInput('A')}>A. Learn more about our cars</button>
-        <button onClick={() => handleUserInput('B')}>B. Find the closest dealerships near me</button>
+        <button onClick={() => handleUserInput('B')}>B. Find the closest dealership near me</button>
         <button onClick={() => handleUserInput('C')}>C. Schedule a test drive</button>
         <button onClick={() => handleUserInput('D')}>D. Cost estimate</button>
         </div>
@@ -316,6 +406,9 @@ function App() {
                         }
                     }}
                 >
+                    <div style={{display:'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        {calcButtons}
+                    </div>
                     <TextField
                         value={queryText}
                         error={blockQueries.current}
