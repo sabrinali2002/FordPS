@@ -60,6 +60,8 @@ button:active {
   text-align: center;
   font-size: 10px;
   box-shadow: none;
+  padding: 0px;
+  
 }
 
 .calc-button:hover {

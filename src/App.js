@@ -79,6 +79,15 @@ function App() {
     const [financeStep, setFinanceStep] = useState(1);
     const [calcButtons, setCalcButtons] = useState([]);
 
+    const origButtons = (<div className = "buttons">
+            <button onClick={() => handleUserInput('A')}>A. Learn more about our cars</button>
+            <button onClick={() => handleUserInput('B')}>B. Find the closest dealership near me</button>
+            <button onClick={() => handleUserInput('C')}>C. Schedule a test drive</button>
+            <button onClick={() => handleUserInput('D')}>D. Payment calculator</button>
+        </div>)
+    const [menuButtons, setMenuButtons] = useState(origButtons);
+
+     
     //map functions -------------------------------------------------------->
     //finding the distance between user input and dealerships
     function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -189,6 +198,7 @@ function App() {
       case 'D':
         setMessages((m) => [...m, { msg: "Payment Calculator", author: "You" }]);
         changeChoice('D');
+        setMenuButtons([]);
         setCalcStep(1);
         setQuery("Payment Calculator");
         break;
@@ -288,7 +298,7 @@ function App() {
                     case 3: //lease,finance,buy
                         const options = ['Lease','Finance','Buy'];
                         setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat" }]);
-                        setCalcButtons(options.map(option => (<button className='calc-button' key={option} value={option} onClick={calcButtonHandler}>{option}</button>)));
+                        setCalcButtons(options.map(option => (<button className='calc-button' style={{fontSize:'14px'}} key={option} value={option} onClick={calcButtonHandler}>{option}</button>)));
                         blockQueries.current = false;
                         //setCalcMode(0); LOOK HERE
                         setCalcStep(4);
@@ -329,7 +339,7 @@ function App() {
                                     case 2: // months
                                         let durations = [24,36,39,48];
                                         setMessages((m) => [...m, { msg: "Please enter the desired duration of the lease, in months", author: "Ford Chat" }]);
-                                        setCalcButtons(durations.map(dur => (<button className='calc-button' key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
+                                        setCalcButtons(durations.map(dur => (<button className='calc-button' style={{fontSize:'16px'}} key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
                                         blockQueries.current = false;
                                         setLeaseStep(3);
                                         break; 
@@ -352,7 +362,7 @@ function App() {
                                     case 2: // months
                                         let durations = [36,48,60,72,84];
                                         setMessages((m) => [...m, { msg: "Please enter the desired duration of the loan, in months", author: "Ford Chat" }]);
-                                        setCalcButtons(durations.map(dur => (<button className='calc-button' key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
+                                        setCalcButtons(durations.map(dur => (<button className='calc-button' style={{fontSize:'16px'}} key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
                                         blockQueries.current = false;
                                         setFinanceStep(3);
                                         break; 
@@ -373,7 +383,8 @@ function App() {
                         blockQueries.current = false;
                         setCalcStep(0);
                         setCalcMode(0);
-                        changeChoice('A');
+                        //changeChoice('A');
+                        setMenuButtons(origButtons);
                         break;   
                 }
                 setQuery("");
@@ -422,12 +433,7 @@ function App() {
                 </Card>
             </div>
             <div>
-            <div className = "buttons">
-        <button onClick={() => handleUserInput('A')}>A. Learn more about our cars</button>
-        <button onClick={() => handleUserInput('B')}>B. Find the closest dealership near me</button>
-        <button onClick={() => handleUserInput('C')}>C. Schedule a test drive</button>
-        <button onClick={() => handleUserInput('D')}>D. Payment calculator</button>
-        </div>
+            {menuButtons}
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
