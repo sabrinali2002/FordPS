@@ -6,7 +6,7 @@ import data from '../zipLocations.json'
 import './Map.css';
 
 function Map(props) {
-  const [latlong,changeLatLong] = useState([0,0]);
+  const [latlong,changeLatLong] = useState([39,-98]);
   const [ll1,change1] = useState([0,0]);
   const [ll2,change2] = useState([0,0]);
   const [ll3,change3] = useState([0,0]);
@@ -94,7 +94,7 @@ function Map(props) {
     <div>
     <MapContainer
       center={[latlong[0],latlong[1]]}
-      zoom={9}
+      zoom={3}
       style={{ height: '400px', width: '30%' , display:"flex",float:"left", marginRight:"20px"}}
       id = {"map"}
     >
@@ -107,7 +107,6 @@ function Map(props) {
       <Marker position={[ll3[0],ll3[1]]} icon={customMarkerIcon} id = "mark"/>
       <Marker position={[ll4[0],ll4[1]]} icon={customMarkerIcon} id = "mark"/>
       <Marker position={[ll5[0],ll5[1]]} icon={customMarkerIcon} id = "mark"/>
-      <Marker position={[latlong[0],latlong[1]]} icon={customMarkerIcon} id = "mark"/>
     </MapContainer>
 
   </div>

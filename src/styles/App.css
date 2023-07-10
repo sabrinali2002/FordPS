@@ -101,6 +101,23 @@
 	}
 }
 
+.calc-button {
+  width: 40px;
+  height: 40px;
+  background-color: 'white';
+  color: 'white';
+  border: 'none';
+  border-radius: 0;
+  box-shadow: 'none';
+  text-align: 'center';
+  font-size: 10px;
+  line-height: 1;
+}
+
+.calc-button:hover {
+  background-color: rgb(121, 118, 119);
+}
+
 .ButtonContainer {
   position: fixed;
   bottom: 20px;
