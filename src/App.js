@@ -12,7 +12,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import { IconButton } from "@mui/material";
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
-import { findLocations} from "./mapFunctions.js"
+import { findLocations,extractFiveDigitString} from "./mapFunctions.js"
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
@@ -159,7 +159,7 @@ function App() {
         if (!blockQueries.current && query.length > 0) {
           blockQueries.current = true;
           switch(choice){
-            case 'A', '':
+            case 'A':
               setQuery("");
               sendBotResponse(query, history).then((res) => {
                 setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true,zip:""  }]);
@@ -170,10 +170,9 @@ function App() {
             case 'B':
               findLocations(query).then(loc=>{
                 const places = loc.split('..');
-                console.log(places);
                 for(let i = 0; i < places.length-1; i++){
                     if(i === 0){
-                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip:"" }]);
+                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip:extractFiveDigitString(query) }]);
                     }
                     else if(i === places.length-2){
                         setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:"" }]);
@@ -189,7 +188,7 @@ function App() {
             findLocations(query).then(loc=>{
               const places = loc.split('..');
               if(places.length > 3){
-              setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat.", line : false}]);
+              setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat.", line : false, zip:extractFiveDigitString(query)}]);
               for(let i = 0; i < places.length-1; i++){
                 if(i === places.length-2){
                     setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:"" }]);
@@ -210,10 +209,18 @@ function App() {
               setMessages((m) => [...m, { msg: "$50000", author: "Ford Chat", line : true,zip:""  }]);
               blockQueries.current = false;
               break;
+            default:
+                setQuery("");
+              sendBotResponse(query, history).then((res) => {
+                setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true,zip:""  }]);
+                setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+                blockQueries.current = false;
+              })
+              break;
           }
       }
       }
-    }, [query, history]);
+    }, [query, history,choice]);
 
     return (
         <div className="ButtonContainer">

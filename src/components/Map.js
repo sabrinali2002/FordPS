@@ -1,21 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import data from '../zipLocations.json'
-import './Map.css'
+import './Map.css';
 
 function Map(props) {
-  const [latlong,changeLat] = useState([40.78,-73.97]);
-  const [latlong1,changeLat1] = useState([40.78,-73.97]);
-  const [latlong2,changeLat2] = useState([40.78,-73.97]);
-  const [latlong3,changeLat3] = useState([40.78,-73.97]);
-  const [latlong4,changeLat4] = useState([40.78,-73.97]);
-  const [latlong5,changeLat5] = useState([40.78,-73.97]);
-  function enteredLoc(lat,lon){
-    changeLat([lat,lon]);
-  }
-  
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
     iconSize: [32, 32], // Adjust the icon size if necessary
@@ -25,9 +15,7 @@ function Map(props) {
     iconSize: [20, 20], 
   })
   const findLocations = async () => {
-    const zip = document.getElementById('zip').value;
-    const result = await findLatLong(zip);
-    enteredLoc(result.latitude,result.longitude);
+    const result = await findLatLong(props.props);
     const distances = {}
     const l = [result.latitude,result.longitude];
     for (const coords in data){
@@ -39,18 +27,13 @@ function Map(props) {
     const sortedLocations = Object.entries(distances).sort((a,b)=>a[1]-b[1]);
     const closestLocations = sortedLocations.slice(0,5);
     let topLatLongs = []
-    console.log(closestLocations);
     for(let i = 0; i < closestLocations.length; i++){
       const arr = closestLocations[i][0].split(", ");
       const location = arr[arr.length-1].split(" ");
       topLatLongs.push([location[1],location[2]]);
     }
-    changeLat1(topLatLongs[0]);
-    changeLat2(topLatLongs[1]);
-    changeLat3(topLatLongs[2]);
-    changeLat4(topLatLongs[3]);
-    changeLat5(topLatLongs[4]);
     console.log(topLatLongs);
+    return topLatLongs;
   }
   function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Radius of the Earth in kilometers
@@ -73,6 +56,7 @@ function Map(props) {
     return degrees * (Math.PI / 180);
   }
   const findLatLong = (zip) => {
+    console.log(zip);
     const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
     return fetch(s)
 
@@ -81,14 +65,14 @@ function Map(props) {
       .then((data) => {
         let latitude = data.location.lat;
         let longitude = data.location.lon;
-        const res = {latitude,longitude};
+        const res = {lat: latitude,longitude};
         return res;
       });
   }
   return (
     <div>
     <MapContainer
-      center={latlong}
+      center={findLatLong(props.props)}
       zoom={10}
       style={{ height: '400px', width: '30%' , display:"flex",float:"left", marginRight:"20px"}}
       id = {"map"}
@@ -97,12 +81,14 @@ function Map(props) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="Map data &copy; OpenStreetMap contributors"
       />
-      <Marker className = "marker" position={latlong1} icon={closeMarkerIcon} id = "mark1" />
-      <Marker className = "marker" position={latlong2} icon={closeMarkerIcon} id = "mark2" />
-      <Marker className = "marker" position={latlong3} icon={closeMarkerIcon} id = "mark3" />
-      <Marker className = "marker" position={latlong4} icon={closeMarkerIcon} id = "mark4" />
-      <Marker className = "marker" position={latlong5} icon={closeMarkerIcon} id = "mark5" />
-      <Marker position={latlong} icon={customMarkerIcon} id = "mark"/>
+      {
+        findLocations().then((d) => {
+          d.map((locat)=>{
+            return <Marker className = "marker" position={locat} icon={closeMarkerIcon} />
+          })
+        })
+      }
+      <Marker position={findLatLong(props.props)} icon={customMarkerIcon} id = "mark"/>
     </MapContainer>
 
   </div>

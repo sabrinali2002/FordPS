@@ -11,7 +11,7 @@ const findLatLong = (zip) => {
   }
   
 //extracts the zip code from the user input for map
-const extractFiveDigitString = (inputString) => {
+export const extractFiveDigitString = (inputString) => {
     const regex = /\b\d{5}\b/g;
     const matches = inputString.match(regex);
     if (matches && matches.length > 0) {
@@ -20,7 +20,7 @@ const extractFiveDigitString = (inputString) => {
     return null;
   }
 //finding the distance between user input and dealerships
-const calculateDistance = (lat1, lon1, lat2, lon2) => {
+export const calculateDistance = (lat1, lon1, lat2, lon2) => {
     function toRadians(degrees) {
       return degrees * (Math.PI / 180);
     }

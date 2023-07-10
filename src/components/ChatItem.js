@@ -42,7 +42,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
         fontSize: textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem"),
         color: (darkMode ? "#ffffff" : "#999"),
       };
-    const [isSpeaking, toggleIsSpeaking] = useState(false)
+    const [isSpeaking, toggleIsSpeaking] = useState(false);
     return(<div>{author==="Ford Chat." && <Map props = {zip}></Map>}<Fragment>
         <p className={author.toLowerCase().replace(" ", "-")} style={authorStyle}>{author}</p>
         <div style={{display: 'flex', flexDirection: 'row'}}>
