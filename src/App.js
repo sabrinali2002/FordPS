@@ -12,9 +12,36 @@ import ChatItem from "./components/ChatItem";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import data from './zipLocations.json';
+import EV from './EV.json';
 import trims from './trims.json';
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
 import { findLocations} from "./mapFunctions.js"
+import { setUncaughtExceptionCaptureCallback } from "process";
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
+let dict = {};
+for (let model in trims) {
+    dict[model] = {};
+    let trim_data = trims[model];
+    for (let trim of trim_data) {
+        let arr = [];
+        for (let loc in data) {
+            if (Math.random() > .5) {
+                arr.push(data[loc]["name"]);
+            }
+        }
+        dict[model][trim] = arr;
+    }
+}
+
+//console.log(dict);
+
+let json_data = JSON.stringify(dict);
+console.log(json_data);
+
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
@@ -419,10 +446,26 @@ function App() {
                         let payment = 10;
                         setMessages((m) => [...m, { msg: `Your expected monthly payment is ${payment}`, author: "Ford Chat" }]);
                         blockQueries.current = false;
+                        setCalcStep(5);
+                    case 5:
+                        console.log("here");
+                        //console.log(json_data);
+                        if (model in Object.keys(EV)) {
+                            if (trim in EV[model]) {
+                                setMessages((m) => [...m, { msg: "Would you like car delivery or pickup?", author: "Ford Chat" }]);
+                            }
+                        }
+                        setCalcStep(6);
+                        blockQueries.current = false;
+                    case 6: // go to dealership finder
+                        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line:true }]);
+                        changeChoice('B');
+                        blockQueries.current = false;
                         setCalcStep(0);
                         setCalcMode(0);
                         //changeChoice('A');
-                        break;   
+                        break; 
+                      
                 }
           }
       }
@@ -493,7 +536,7 @@ function App() {
                         }
                     }}
                 >
-                    <div style={{display:'flex', justifyContent: 'center', flexWrap: 'wrap', padding:'4px'}}>
+                    <div style={{display:'flex', justifyContent: 'center', flexWrap: 'wrap'}}>
                         {calcButtons}
                     </div>
                     <TextField
