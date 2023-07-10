@@ -5,6 +5,7 @@ import {
     Typography,
     TextField,
     InputAdornment,
+    IconButton
 } from "@mui/material";
 import { Fragment, useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
@@ -12,7 +13,6 @@ import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import data from './zipLocations.json';
 import trims from './trims.json';
-import { IconButton } from "@mui/material";
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
 import { findLocations} from "./mapFunctions.js"
 
@@ -94,6 +94,9 @@ function App() {
     // [1]down payment, [2]trade-in, [3]months, [4]annual %
     const [financeStep, setFinanceStep] = useState(0);
     const [calcButtons, setCalcButtons] = useState('');
+    
+    const [model, setModel] = useState('');
+    const [trim, setTrim] = useState('');
 
     const origButtons = (<div className = "buttons">
         <button onClick={() => handleUserInput('A') } className = "menu">A. Learn more about our cars</button>
@@ -202,10 +205,23 @@ function App() {
         changeChoice('C');
         break;
       case 'D':
-        setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat" }]);
-        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={calcButtonHandler}>{model}</button>)));
+        if (model === '') {
+            setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat" }]);
+            setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={calcButtonHandler}>{model}</button>)));
+            setCalcStep(1);
+        }
+        else if (trim === '') {
+            setQuery(model);
+            setCalcStep(1);
+            blockQueries.current = false;
+        }
+        else {
+            setQuery(trim);
+            setCalcStep(2);
+            blockQueries.current = false;
+        }
         changeChoice('D');
-        setCalcStep(1);
+        setMenuButtons([]);
         break;
       default:
         setResponse('Invalid input. Please select one of the options (A, B, C, or D).');
@@ -316,15 +332,21 @@ function App() {
                 setQuery("");
                 switch(calcStep){
                     case 1: //trim 
+                        if (model === '') {
+                            setModel(query);
+                        }
                         setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat" }]);
                         setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
                         blockQueries.current = false;
                         setCalcStep(2);
                         break;   
                     case 2: //lease,finance,buy
+                        if (trim === '') {
+                            setTrim(query);
+                        }
                         const options = ['Lease','Finance','Buy'];
                         setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat" }]);
-                        setCalcButtons(options.map(option => (<button className='calc-button' key={option} value={option} onClick={calcButtonHandler}>{option}</button>)));
+                        setCalcButtons(options.map(option => (<button className='calc-button' style={{fontSize:'14px'}} key={option} value={option} onClick={calcButtonHandler}>{option}</button>)));
                         blockQueries.current = false;
                         setCalcStep(3);
                         break; 
@@ -357,7 +379,7 @@ function App() {
                                     case 2: // months
                                         let durations = [24,36,39,48];
                                         setMessages((m) => [...m, { msg: "Please enter the desired duration of the lease, in months", author: "Ford Chat" }]);
-                                        setCalcButtons(durations.map(dur => (<button className='calc-button' key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
+                                        setCalcButtons(durations.map(dur => (<button className='calc-button' style={{fontSize:'14px'}} key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
                                         blockQueries.current = false;
                                         setLeaseStep(3);
                                         break; 
@@ -379,7 +401,7 @@ function App() {
                                     case 2: // months
                                         let durations = [36,48,60,72,84];
                                         setMessages((m) => [...m, { msg: "Please enter the desired duration of the loan, in months", author: "Ford Chat" }]);
-                                        setCalcButtons(durations.map(dur => (<button className='calc-button' key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
+                                        setCalcButtons(durations.map(dur => (<button className='calc-button' style={{fontSize:'14px'}} key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
                                         blockQueries.current = false;
                                         setFinanceStep(3);
                                         break; 
@@ -405,7 +427,7 @@ function App() {
           }
       }
       }
-    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice]);
+    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
     return (
         <div className="ButtonContainer">
@@ -471,7 +493,7 @@ function App() {
                         }
                     }}
                 >
-                    <div style={{display:'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+                    <div style={{display:'flex', justifyContent: 'center', flexWrap: 'wrap', padding:'4px'}}>
                         {calcButtons}
                     </div>
                     <TextField
