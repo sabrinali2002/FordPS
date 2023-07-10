@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -6,6 +6,7 @@ import data from '../zipLocations.json'
 import './Map.css';
 
 function Map(props) {
+  const [latlong,changeLatLong] = useState([0,0]);
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
     iconSize: [32, 32], // Adjust the icon size if necessary
@@ -32,7 +33,6 @@ function Map(props) {
       const location = arr[arr.length-1].split(" ");
       topLatLongs.push([location[1],location[2]]);
     }
-    console.log(topLatLongs);
     return topLatLongs;
   }
   function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -69,11 +69,11 @@ function Map(props) {
         return res;
       });
   }
-  let centerLoc = findLatLong(props.props)
+  let la,lo = changeLatLong()
   return (
     <div>
     <MapContainer
-      center={[centerLoc.latitude, centerLoc.longitude]}
+      center={[la,lo]}
       zoom={10}
       style={{ height: '400px', width: '30%' , display:"flex",float:"left", marginRight:"20px"}}
       id = {"map"}
@@ -85,11 +85,12 @@ function Map(props) {
       {
         findLocations().then((d) => {
           d.map((locat)=>{
+            console.log(locat)
             return <Marker className = "marker" position={locat} icon={closeMarkerIcon} />
           })
         })
       }
-      <Marker position={[centerLoc.latitude, centerLoc.longitude]} icon={customMarkerIcon} id = "mark"/>
+      <Marker position={[la,lo]} icon={customMarkerIcon} id = "mark"/>
     </MapContainer>
 
   </div>
