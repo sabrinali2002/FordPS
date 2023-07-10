@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import data from '../zipLocations.json'
 import './Map.css'
 
-function Map() {
+function Map(props) {
   const [latlong,changeLat] = useState([40.78,-73.97]);
   const [latlong1,changeLat1] = useState([40.78,-73.97]);
   const [latlong2,changeLat2] = useState([40.78,-73.97]);
