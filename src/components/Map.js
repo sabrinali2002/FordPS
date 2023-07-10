@@ -65,14 +65,15 @@ function Map(props) {
       .then((data) => {
         let latitude = data.location.lat;
         let longitude = data.location.lon;
-        const res = {lat: latitude,longitude};
+        const res = {latitude,longitude};
         return res;
       });
   }
+  let centerLoc = findLatLong(props.props)
   return (
     <div>
     <MapContainer
-      center={findLatLong(props.props)}
+      center={[centerLoc.latitude, centerLoc.longitude]}
       zoom={10}
       style={{ height: '400px', width: '30%' , display:"flex",float:"left", marginRight:"20px"}}
       id = {"map"}
@@ -88,7 +89,7 @@ function Map(props) {
           })
         })
       }
-      <Marker position={findLatLong(props.props)} icon={customMarkerIcon} id = "mark"/>
+      <Marker position={[centerLoc.latitude, centerLoc.longitude]} icon={customMarkerIcon} id = "mark"/>
     </MapContainer>
 
   </div>
