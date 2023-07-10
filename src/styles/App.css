@@ -102,22 +102,22 @@
 }
 
 .calc-button {
-  width: 40px;
-  height: 40px;
-  background-color: 'white';
-  color: 'white';
-  border: 'none';
-  border-radius: 0;
-  box-shadow: 'none';
-  text-align: 'center';
-  font-size: 10px;
+  background-color: rgb(255,255,255);
+  height: 55px;
+  width: 70px;
+  border-radius: 5px;
+  border: color(0,0,0);
   line-height: 1;
+  text-align: center;
+  font-size: 10px;
+  box-shadow: none;
+  padding: 0px;
+  
 }
 
 .calc-button:hover {
-  background-color: rgb(121, 118, 119);
+  background-color: rgb(190, 188, 188);
 }
-
 .ButtonContainer {
   position: fixed;
   bottom: 20px;

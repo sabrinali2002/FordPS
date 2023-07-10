@@ -16,6 +16,7 @@ import { IconButton } from "@mui/material";
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
 import { findLocations} from "./mapFunctions.js"
 
+
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
     let newQuery = "Here's our conversation before:\n";
@@ -95,6 +96,15 @@ function App() {
     const [financeStep, setFinanceStep] = useState(0);
     const [calcButtons, setCalcButtons] = useState('');
 
+    const mainMenu = (<div className = "buttons">
+    <button onClick={() => handleUserInput('A') } className = "menu">A. Learn more about our cars</button>
+    <button onClick={() => handleUserInput('B')} className = "menu">B. Find the closest dealerships near me</button>
+    <button onClick={() => handleUserInput('C')} className = "menu">C. Schedule a test drive</button>
+    <button onClick={() => handleUserInput('D')} className = "menu">D. Payment Estimator</button>
+    </div>)
+
+    const [mainButtons, setMainButtons] = useState(mainMenu);
+
     //map functions -------------------------------------------------------->
     //finding the distance between user input and dealerships
     function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -129,7 +139,7 @@ function App() {
         let val = event.target.getAttribute('value');
         setQuery(val);
         setMessages((m) => [...m, { msg: val, author: "You" }]);
-        setCalcButtons('');
+        setCalcButtons([]);
     }
     //extracts the zip code from the user input for map
     function extractFiveDigitString(inputString) {
@@ -193,6 +203,7 @@ function App() {
         changeChoice('C');
         break;
       case 'D':
+        setMainButtons([]);
         setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat" }]);
         setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={calcButtonHandler}>{model}</button>)));
         changeChoice('D');
@@ -322,21 +333,27 @@ function App() {
                     case 3:
                         switch(calcMode){
                             case 0:
-                                if (query === "Lease") {
-                                    setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
-                                    setCalcMode(1);
-                                    setLeaseStep(1);
+                                switch(query) {
+                                    case "Lease":
+                                        case 1: // down payment
+                                        setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
+                                        blockQueries.current = false;
+                                        setCalcMode(1)
+                                        setLeaseStep(1);
+                                        break; 
+                                    case "Finance":
+                                        setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
+                                        blockQueries.current = false;
+                                        setCalcMode(2);
+                                        setFinanceStep(1);
+                                        break; 
+                                    case "Buy":
+                                        setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
+                                        blockQueries.current = false;
+                                        setCalcStep(5);
+                                        setCalcMode(0);
+                                        break;
                                 }
-                                else if (query === "Finance") {
-                                    setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
-                                    setCalcMode(2);
-                                    setFinanceStep(1);
-                                }
-                                else if (query === "Buy") {
-                                    setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
-                                    setCalcStep(4);
-                                } 
-                                blockQueries.current = false;
                                 break;
                             case 1: // lease
                                 switch(leaseStep) {
@@ -391,12 +408,13 @@ function App() {
                         setCalcStep(0);
                         setCalcMode(0);
                         changeChoice('A');
+                        setMainButtons(mainMenu);
                         break;   
                 }
           }
       }
       }
-    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice]);
+    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, mainButtons, calcButtons]);
 
     return (
         <div className="ButtonContainer">
@@ -448,12 +466,7 @@ function App() {
                 </Card>
             </div>
             <div>
-            <div className = "buttons">
-        <button onClick={() => handleUserInput('A') } className = "menu">A. Learn more about our cars</button>
-        <button onClick={() => handleUserInput('B')} className = "menu">B. Find the closest dealerships near me</button>
-        <button onClick={() => handleUserInput('C')} className = "menu">C. Schedule a test drive</button>
-        <button onClick={() => handleUserInput('D')} className = "menu">D. Cost estimate</button>
-        </div>
+            {mainButtons}
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
