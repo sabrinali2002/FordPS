@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -7,6 +7,11 @@ import './Map.css';
 
 function Map(props) {
   const [latlong,changeLatLong] = useState([0,0]);
+  const [ll1,change1] = useState([0,0]);
+  const [ll2,change2] = useState([0,0]);
+  const [ll3,change3] = useState([0,0]);
+  const [ll4,change4] = useState([0,0]);
+  const [ll5,change5] = useState([0,0]);
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
     iconSize: [32, 32], // Adjust the icon size if necessary
@@ -33,6 +38,7 @@ function Map(props) {
       const location = arr[arr.length-1].split(" ");
       topLatLongs.push([location[1],location[2]]);
     }
+    //array: [[lat,long]]
     return topLatLongs;
   }
   function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -56,7 +62,6 @@ function Map(props) {
     return degrees * (Math.PI / 180);
   }
   const findLatLong = (zip) => {
-    console.log(zip);
     const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
     return fetch(s)
 
@@ -67,14 +72,29 @@ function Map(props) {
         let longitude = data.location.lon;
         const res = {latitude,longitude};
         return res;
+        //{latitude, longitude}
       });
   }
-  let la,lo = changeLatLong()
+  useEffect(()=>{
+    async function fetchInfo(){
+      findLatLong(props.props).then((res)=>{
+        changeLatLong([res.latitude, res.longitude])
+        findLocations().then((locations)=>{
+          change1(locations[0]);
+          change2(locations[1]);
+          change3(locations[2]);
+          change4(locations[3]);
+          change5(locations[4]);
+        })
+      })
+    }
+    fetchInfo();
+  },[props.props])
   return (
     <div>
     <MapContainer
-      center={[la,lo]}
-      zoom={10}
+      center={[latlong[0],latlong[1]]}
+      zoom={9}
       style={{ height: '400px', width: '30%' , display:"flex",float:"left", marginRight:"20px"}}
       id = {"map"}
     >
@@ -82,15 +102,12 @@ function Map(props) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="Map data &copy; OpenStreetMap contributors"
       />
-      {
-        findLocations().then((d) => {
-          d.map((locat)=>{
-            console.log(locat)
-            return <Marker className = "marker" position={locat} icon={closeMarkerIcon} />
-          })
-        })
-      }
-      <Marker position={[la,lo]} icon={customMarkerIcon} id = "mark"/>
+      <Marker position={[ll1[0],ll1[1]]} icon={customMarkerIcon} id = "mark"/>
+      <Marker position={[ll2[0],ll2[1]]} icon={customMarkerIcon} id = "mark"/>
+      <Marker position={[ll3[0],ll3[1]]} icon={customMarkerIcon} id = "mark"/>
+      <Marker position={[ll4[0],ll4[1]]} icon={customMarkerIcon} id = "mark"/>
+      <Marker position={[ll5[0],ll5[1]]} icon={customMarkerIcon} id = "mark"/>
+      <Marker position={[latlong[0],latlong[1]]} icon={customMarkerIcon} id = "mark"/>
     </MapContainer>
 
   </div>
