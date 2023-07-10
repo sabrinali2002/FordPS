@@ -14,7 +14,7 @@ function Map(props) {
   const [ll5,change5] = useState([0,0]);
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
-    iconSize: [32, 32], // Adjust the icon size if necessary
+    iconSize: [12,12], // Adjust the icon size if necessary
   });
   const closeMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
@@ -89,7 +89,7 @@ function Map(props) {
       })
     }
     fetchInfo();
-  },[props.props])
+  },[props.props,latlong])
   return (
     <div>
     <MapContainer
