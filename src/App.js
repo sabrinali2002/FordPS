@@ -124,22 +124,6 @@ function App() {
         setQuery(val);
         setMessages((m) => [...m, { msg: val, author: "You" }]);
         setCalcButtons([]);
-        /*
-        if (calcStep === 4 && calcMode === 0) {
-            switch(val) {
-                case "Lease":
-                    setCalcMode(1);
-                    break;
-                case "Finance":
-                    setCalcMode(2);
-                    break;
-                case "Buy":
-                    setCalcMode(3);
-                    break;
-            }
-            blockQueries.current = false;
-        }
-        */
     }
     //extracts the zip code from the user input for map
     function extractFiveDigitString(inputString) {
@@ -300,9 +284,7 @@ function App() {
                         setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat" }]);
                         setCalcButtons(options.map(option => (<button className='calc-button' style={{fontSize:'14px'}} key={option} value={option} onClick={calcButtonHandler}>{option}</button>)));
                         blockQueries.current = false;
-                        //setCalcMode(0); LOOK HERE
                         setCalcStep(4);
-                        //setQuery(query);
                         break; 
                     case 4:
                         switch(calcMode){
