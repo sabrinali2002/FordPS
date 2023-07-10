@@ -78,6 +78,8 @@ function App() {
     // [1]down payment, [2]trade-in, [3]months, [4]annual %
     const [financeStep, setFinanceStep] = useState(1);
     const [calcButtons, setCalcButtons] = useState([]);
+    const [model, setModel] = useState('');
+    const [trim, setTrim] = useState('');
 
     const origButtons = (<div className = "buttons">
             <button onClick={() => handleUserInput('A')}>A. Learn more about our cars</button>
