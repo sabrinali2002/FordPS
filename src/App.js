@@ -14,9 +14,34 @@ import { Mic } from "react-bootstrap-icons";
 import data from './zipLocations.json';
 import EV from './EV.json';
 import trims from './trims.json';
+import trimToDealer from './trimToDealer';
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
 import { findLocations} from "./mapFunctions.js"
 import { setUncaughtExceptionCaptureCallback } from "process";
+
+const dict = {}
+for (let model in trimToDealer) {
+    for (let trim in model) {
+        for (let loc of model[trim]) {
+            if (loc in Object.keys(dict)) {
+                if (model in Object.keys(dict[loc])) {
+                    dict[loc][model].append(trim);
+                }
+                else {
+                    dict[loc][model] = [trim];
+                }
+            }
+            else {
+                dict[loc] = {model: [trim]};
+            }
+        }
+    }
+}
+
+let jsondata = JSON.stringify(dict);
+console.log(jsondata);
+
+
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
@@ -77,7 +102,7 @@ function App() {
     const [history, setHistory] = useState([]);
     const [response, setResponse] = useState('');
     const [recording, setRecording] = useState(false);
-    //accessibility  
+    // ACCESSIBILITY  
     const [textSize, setTextSize] = useState("small");
     const [darkMode, setDarkMode] = useState(false);
 
@@ -88,6 +113,9 @@ function App() {
       const toggleDarkMode = () => {
         setDarkMode((prevMode) => !prevMode);
       };
+
+    // PAYMENT CALCULATOR
+
     //which state the bot is in: closest dealership, calculator, etc.
     const [choice, changeChoice] = useState('');
 
@@ -142,7 +170,15 @@ function App() {
           const res = {latitude,longitude};
           return res;
         });
+    } 
+    // map icon hover handler
+    const mapIconHandler = (event) => {
+        console.log(event);
+        // access dealer
+        let dealer = "Sunny King Ford";
     }
+    
+    // payment calculator buttons handler
     const calcButtonHandler = (event) => {
         let val = event.target.getAttribute('value');
         setQuery(val);
@@ -581,7 +617,6 @@ function App() {
                             ),
                         }}
                     />
-
                 </form>
                 </div>
                 
