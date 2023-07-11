@@ -44,4 +44,25 @@ for (let model in trims) {
 let json_data = JSON.stringify(dict);
 console.log(json_data);
 
+
+
+let dict = {};
+for (let loc in data) {
+    dict[data[loc]["name"]] = {};
+}
+for (let model in trimToDealer) {
+    for (let trim in trimToDealer[model]) {
+        for (let loc of trimToDealer[model][trim]) {
+            if (model in dict[loc]) {
+                dict[loc][model].push(trim);
+            }
+            else {
+                dict[loc][model] = [trim];
+            }
+        }
+    }
+}
+
+let jsondata = JSON.stringify(dict);
+console.log(jsondata);
 */

@@ -21,21 +21,19 @@ import { findLocations} from "./mapFunctions.js";
 import QuestionButton from './components/QuestionButton';
 import { setUncaughtExceptionCaptureCallback } from "process";
 
-
-const dict = {}
+let dict = {};
+for (let loc in data) {
+    dict[data[loc]["name"]] = {};
+}
 for (let model in trimToDealer) {
-    for (let trim in model) {
-        for (let loc of model[trim]) {
-            if (loc in Object.keys(dict)) {
-                if (model in Object.keys(dict[loc])) {
-                    dict[loc][model].append(trim);
-                }
-                else {
-                    dict[loc][model] = [trim];
-                }
+    for (let trim in trimToDealer[model]) {
+        for (let loc of trimToDealer[model][trim]) {
+            if (model in dict[loc]) {
+                console.log(dict[loc][model]);
+                dict[loc][model].push(trim);
             }
             else {
-                dict[loc] = {model: [trim]};
+                dict[loc][model] = [trim];
             }
         }
     }
@@ -244,11 +242,11 @@ function App() {
     // Outputs a response to based on input user selects
     switch (option) {
       case 'A':
-        setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat", line:true, line:true }]);
+        setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat", line:true}]);
         changeChoice('A');
         break;
       case 'B':
-        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line:true, line:true }]);
+        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line:true}]);
         changeChoice('B');
         break;
       case 'C':
