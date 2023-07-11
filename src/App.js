@@ -254,7 +254,6 @@ function App() {
                 {
                 if(zipMode != ""){
                     findLocations(zipCode,query).then(loc=>{
-                        console.log(query);
                         const places = loc.split('..');
                         for(let i = 0; i < places.length-1; i++){
                             if(i === 0){
@@ -282,7 +281,6 @@ function App() {
                 {
                     if(zipMode != ""){
                         findLocations(zipCode,query).then(loc=>{
-                            console.log(query);
                             const places = loc.split('..');
                             for(let i = 0; i < places.length-1; i++){
                                 if(i === 0){

@@ -35,9 +35,10 @@ function Map({zip,dist}) {
     for(let i = 0; i < closestLocations.length; i++){
       const arr = closestLocations[i][0].split(", ");
       const location = arr[arr.length-1].split(" ");
-      topLatLongs.push([location[1],location[2]]);
+      let address = (arr.length===3) ? arr[0] + arr[1] : arr[0];
+      topLatLongs.push([address, location[1],location[2]]);
     }
-    //array: [[lat,long]]
+
     return topLatLongs;
   }
   function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -99,7 +100,7 @@ function Map({zip,dist}) {
         attribution="Map data &copy; OpenStreetMap contributors"
       />
       {locations.map((d)=>{
-        return <Marker position={[d[0],d[1]]} icon = {customMarkerIcon} id = "mark"/>
+        return <Marker position={[d[1],d[2]]} icon = {customMarkerIcon} id = {d[0]}/>
       })}
     </MapContainer>
 

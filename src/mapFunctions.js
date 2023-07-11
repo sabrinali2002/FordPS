@@ -52,7 +52,6 @@ export const findLocations = async (query, distance) => {
           distances[address] = distance;
         }
         const sortedLocations = Object.entries(distances).sort((a,b)=>a[1]-b[1]);
-        console.log(sortedLocations.slice(0,20));
         let count = 0;
         while(true){
           if(sortedLocations[count][1] > distance){

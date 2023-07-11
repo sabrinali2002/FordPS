@@ -43,7 +43,6 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
         color: (darkMode ? "#ffffff" : "#999"),
       };
     const [isSpeaking, toggleIsSpeaking] = useState(false);
-    console.log(zip)
     return(<div>{author==="Ford Chat." && <Map zip = {zip.zipcode} dist = {zip.dist}></Map>}<Fragment>
         <p className={author.toLowerCase().replace(" ", "-")} style={authorStyle}>{author}</p>
         <div style={{display: 'flex', flexDirection: 'row'}}>
