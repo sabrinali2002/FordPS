@@ -18,8 +18,11 @@ import trims from './trims.json';
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material"
 import Navbar from './components/Navbar.js'
 import { extractFiveDigitString, findLocations} from "./mapFunctions"
+import trimToDealer from './trimToDealer';
+import dealerToTrim from './dealerToTrim';
 import QuestionButton from './components/QuestionButton';
 import { setUncaughtExceptionCaptureCallback } from "process";
+
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
@@ -80,7 +83,7 @@ function App() {
     const [history, setHistory] = useState([]);
     const [response, setResponse] = useState('');
     const [recording, setRecording] = useState(false);
-    //accessibility  
+    // ACCESSIBILITY  
     const [textSize, setTextSize] = useState("small");
     const [darkMode, setDarkMode] = useState(false);
     const [zipCode, setZipCode] = useState("");
@@ -91,6 +94,9 @@ function App() {
       const toggleDarkMode = () => {
         setDarkMode((prevMode) => !prevMode);
       };
+
+    // PAYMENT CALCULATOR
+
     //homepage control
     const [showApp, setShowApp] = useState(false);
     const handleClick = () => {
@@ -123,6 +129,23 @@ function App() {
     //map functions -------------------------------------------------------->
 
     //finds the longitude and latitude of the user
+    const findLatLong = (zip) => {
+      const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
+      return fetch(s).then((response)=>response.json()).then((data) => {
+          let latitude = data.location.lat;
+          let longitude = data.location.lon;
+          const res = {latitude,longitude};
+          return res;
+        });
+    }
+    
+    // map icon hover handler
+    const mapIconHandler = (event) => {
+        console.log(event);
+        // access dealer
+        let dealer = "Sunny King Ford";
+    }
+
     const calcButtonHandler = (event) => {
         let val = event.target.getAttribute('value');
         setQuery(val);
@@ -529,7 +552,6 @@ function App() {
                             ),
                         }}
                     />
-
                 </form>
                 </div>
         <div className="bottom">
