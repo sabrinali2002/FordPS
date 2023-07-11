@@ -102,6 +102,7 @@
 }
 
 .calc-button {
+<<<<<<< HEAD
   background-color: rgb(255,255,255);
   height: 55px;
   width: 70px;
@@ -118,9 +119,32 @@
 .calc-button:hover {
   background-color: rgb(190, 188, 188);
 }
+=======
+  width: 70px;
+  height: 55px;
+  background-color: rgb(255,255,255);
+  color: rgb(0,0,0);
+  border-color: rgb(0,0,0);
+  border-radius: 1;
+  box-shadow: none;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1;
+  margin-right: 2px;
+}
+
+.calc-button:hover {
+  background-color: rgb(121, 118, 119);
+}
+
+>>>>>>> 884edc82ac16a8d2f4cd72c1271476d5f76e8feb
 .ButtonContainer {
   position: fixed;
   bottom: 20px;
   left: 20px;
   z-index: 9999;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 884edc82ac16a8d2f4cd72c1271476d5f76e8feb
