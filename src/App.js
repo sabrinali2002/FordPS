@@ -12,7 +12,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import data from './zipLocations.json';
 import trims from './trims.json';
-import { IconButton } from "@mui/material";
+import { IconButton} from "@mui/material";
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
 
 async function sendBotResponse(query, history) {
@@ -93,6 +93,9 @@ function App() {
     // [1]down payment, [2]trade-in, [3]months, [4]annual %
     const [financeStep, setFinanceStep] = useState(0);
     const [calcButtons, setCalcButtons] = useState('');
+    const [selectedModel, setSelectedModel] = useState("");
+    const [selectedTrim, setSelectedTrim] = useState("");
+    const [carInfoData, setCarInfoData] = useState([]);
 
     //map functions -------------------------------------------------------->
     //finding the distance between user input and dealerships
@@ -172,13 +175,56 @@ function App() {
       }
       catch(err){
         return "Invalid zip";
-      }
     }
-    // --------------------------------------------------------------------->
-    //handler for button user clicks
+}
+    //Car Info functions  -------------------------------------------------------------
+    const handleModelChange = (event) => {
+        setSelectedModel(event.target.value);
+    };
+
+    const handleTrimChange = (event) => {
+        setSelectedTrim(event.target.value);
+    };
+    
+    let modelOptions = Object.keys(trims).map(model => ({value: model, label: model}));
+    modelOptions.unshift({value: "no model", label: "Select Model"});
+
+    let trimOptions = (selectedModel === "" || selectedModel === "no model") ? ([{value: "no trim", label: "Select A Model First"}]) : trims[selectedModel].map(trim => ({value: trim, label: trim}))
+
+    const handleCarInfoButton = async () => {
+        let sqlQuery = "";
+        if(selectedModel !== "no model") {
+            sqlQuery += `SELECT * FROM car_info WHERE model = "${selectedModel}" `;
+        }
+        if(selectedTrim !== "no trim") {
+                sqlQuery += `AND trim = "${selectedTrim}"`;
+        }
+        console.log(sqlQuery);
+        let data = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            return res.json();
+        })
+        console.log(data);
+        setCarInfoData(data);
+    }
+        
+    const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton]
+
+// --------------------------------------------------------------------->
+//handler for button user clicks
   const handleUserInput = (option) => {
     // Outputs a response to based on input user selects
     switch (option) {
+      case 'I':
+        setMessages((m) => [...m, { msg: "What specific car do you want information about?", author: "Ford Chat", line:true, zip:"" }]);
+        setMessages((m) => [...m, { msg: "", author: "DropDown", line : false, zip : ""}]);
+        setMessages((m) => [...m, { msg: "", author: "Table", line : false, zip : ""}]);
+        changeChoice('I');
+        break;
       case 'A':
         setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat", line:true, zip:"" }]);
         changeChoice('A');
@@ -203,8 +249,6 @@ function App() {
     }
   };
     const blockQueries = useRef(false);
-
-    // const blockQueries = useRef(false);
     const recognition = useRef(null);
 
     useEffect(() => {
@@ -245,8 +289,10 @@ function App() {
         blockQueries.current = !blockQueries.current;
     };
 
+
+
     useEffect(() => {
-      if(query.toLowerCase() === 'a' || query.toLowerCase() === 'b' || query.toLowerCase() === 'c' || query.toLowerCase() === 'd'){
+      if(query.toLowerCase() === 'a' || query.toLowerCase() === 'b' || query.toLowerCase() === 'c' || query.toLowerCase() === 'd' || query.toLocaleLowerCase() === 'i'){
         handleUserInput(query.toUpperCase());
       }
 
@@ -254,6 +300,10 @@ function App() {
         if (!blockQueries.current && query.length > 0) {
           blockQueries.current = true;
           switch(choice){
+            case 'I':
+                //Car info dialogues
+
+                break;
             case 'A':
               setQuery("");
               sendBotResponse(query, history).then((res) => {
@@ -416,9 +466,9 @@ function App() {
                     visible={blockQueries.current}
                 />
                 <div className="MessagesArea">
-                <div>
-      <p>{response}</p>
-    </div>
+                    <div>
+                        <p>{response}</p>
+                    </div>
                     {messages.map((message) => {
                         return (
                             <ChatItem
@@ -428,6 +478,8 @@ function App() {
                                 darkMode={darkMode}
                                 textSize={textSize}
                                 zip = {message.zip}
+                                dropDownOptions={dropDownOptions}
+                                carInfoData={carInfoData}
                             />
                         );
                     })}
@@ -447,7 +499,8 @@ function App() {
             </div>
             <div>
             <div className = "buttons">
-        <button onClick={() => handleUserInput('A') } className = "menu">A. Learn more about our cars</button>
+        <button onClick={() => handleUserInput('I') } className = "menu">I. Get info about our cars</button>
+        <button onClick={() => handleUserInput('A') } className = "menu">A. Learn more about us</button>
         <button onClick={() => handleUserInput('B')} className = "menu">B. Find the closest dealerships near me</button>
         <button onClick={() => handleUserInput('C')} className = "menu">C. Schedule a test drive</button>
         <button onClick={() => handleUserInput('D')} className = "menu">D. Cost estimate</button>
