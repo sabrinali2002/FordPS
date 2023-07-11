@@ -472,7 +472,7 @@ function App() {
                 </Card>
             </div>
             <div>
-            {mainButtons}
+            {menuButtons}
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
