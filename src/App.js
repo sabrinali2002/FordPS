@@ -21,6 +21,7 @@ import { findLocations} from "./mapFunctions.js";
 import QuestionButton from './components/QuestionButton';
 import { setUncaughtExceptionCaptureCallback } from "process";
 
+
 const dict = {}
 for (let model in trimToDealer) {
     for (let trim in model) {
@@ -42,6 +43,7 @@ for (let model in trimToDealer) {
 
 let jsondata = JSON.stringify(dict);
 console.log(jsondata);
+
 
 
 
@@ -115,17 +117,14 @@ function App() {
       const toggleDarkMode = () => {
         setDarkMode((prevMode) => !prevMode);
       };
-<<<<<<< HEAD
 
     // PAYMENT CALCULATOR
 
-=======
     //homepage control
     const [showApp, setShowApp] = useState(false);
     const handleClick = () => {
           setShowApp(true);
     };
->>>>>>> dbb88c738d1f799ddf8e32b82c38f3dff579e88d
     //which state the bot is in: closest dealership, calculator, etc.
     const [choice, changeChoice] = useState('');
 
@@ -180,15 +179,15 @@ function App() {
           const res = {latitude,longitude};
           return res;
         });
-    } 
+    }
+    
     // map icon hover handler
     const mapIconHandler = (event) => {
         console.log(event);
         // access dealer
         let dealer = "Sunny King Ford";
     }
-    
-    // payment calculator buttons handler
+
     const calcButtonHandler = (event) => {
         let val = event.target.getAttribute('value');
         setQuery(val);
