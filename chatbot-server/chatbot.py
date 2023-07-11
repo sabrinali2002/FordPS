@@ -1,11 +1,7 @@
 from flask import Flask, request, jsonify
-<<<<<<< HEAD
 from llama_index import VectorStoreIndex, SimpleDirectoryReader, GPTListIndex, StorageContext, load_index_from_storage, Prompt, SQLDatabase
 from llama_index.indices.struct_store.sql_query import NLSQLTableQueryEngine
 from sqlalchemy import URL, create_engine
-=======
-from llama_index import VectorStoreIndex, SimpleDirectoryReader, GPTListIndex, StorageContext, load_index_from_storage, Prompt
->>>>>>> main
 
 import os
 from flask_cors import CORS, cross_origin 

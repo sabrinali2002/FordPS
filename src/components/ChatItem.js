@@ -36,7 +36,8 @@ function dictate(message, toggleIsSpeaking){
     speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author, darkMode, textSize}){
+
+export default function ChatItem({message, author, line, darkMode, textSize}){
     const authorStyle = {
         fontSize: textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem"),
         color: (darkMode ? "#ffffff" : "#999"),
@@ -53,6 +54,6 @@ export default function ChatItem({message, author, darkMode, textSize}){
             }
             />}
         </div>
-        <hr style={{width: '90vw', borderColor: author.toLowerCase()==='you'?'#999':'rgb(49, 135, 255)'}}/>
+        {line && <hr style={{width: '90vw', borderColor: author.toLowerCase()==='you'?'#999':'rgb(49, 135, 255)'}}/>}
     </Fragment>)
 }
