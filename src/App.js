@@ -14,7 +14,7 @@ import trims from './trims.json';
 import { IconButton } from "@mui/material";
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
 import Navbar from './components/Navbar.js'
-import { extractFiveDigitString, calculateDistance, findLatLong, findLocations} from "./mapFunctions"
+import { extractFiveDigitString, findLocations} from "./mapFunctions"
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
@@ -76,6 +76,7 @@ function App() {
     //accessibility  
     const [textSize, setTextSize] = useState("small");
     const [darkMode, setDarkMode] = useState(false);
+    const [zipCode, setZipCode] = useState("");
     const toggleTextSize = () => {
         setTextSize((prevSize) => (prevSize === "small" ? "medium" : (prevSize === "medium" ? "large" : "small")));
       };
@@ -94,6 +95,7 @@ function App() {
     // [1]down payment, [2]trade-in, [3]months, [4]annual %
     const [financeStep, setFinanceStep] = useState(0);
     const [calcButtons, setCalcButtons] = useState('');
+    const [zipMode,setZipMode] = useState('');
 
     //map functions -------------------------------------------------------->
 
@@ -110,15 +112,15 @@ function App() {
     // Outputs a response to based on input user selects
     switch (option) {
       case 'A':
-        setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat", line:true, zip:"" }]);
+        setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat", line:true, zip:{} }]);
         changeChoice('A');
         break;
       case 'B':
-        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line:true,zip:"" }]);
+        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line:true,zip:{} }]);
         changeChoice('B');
         break;
       case 'C':
-        setMessages((m) => [...m, { msg: "Please input the name of the car you would like to test and your current zip so we can find the location best for you", author: "Ford Chat", line:true,zip:""  }]);
+        setMessages((m) => [...m, { msg: "Please input the name of the car you would like to test and your current zip so we can find the location best for you", author: "Ford Chat", line:true,zip:{}  }]);
         changeChoice('C');
         break;
       case 'D':
@@ -187,45 +189,57 @@ function App() {
             case 'A':
               setQuery("");
               sendBotResponse(query, history).then((res) => {
-                setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true,zip:""  }]);
+                setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true,zip:{}}]);
                 setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
                 blockQueries.current = false;
               })
               break;
             case 'B':
-              findLocations(query).then(loc=>{
-                const places = loc.split('..');
-                for(let i = 0; i < places.length-1; i++){
-                    if(i === 0){
-                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip:extractFiveDigitString(query) }]);
-                    }
-                    else if(i === places.length-2){
-                        setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:"" }]);
-                    }
-                    else{
-                        setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:""  }]);
-                    }
+                {
+                if(zipMode != ""){
+                    findLocations(zipCode,query).then(loc=>{
+                        console.log(query);
+                        const places = loc.split('..');
+                        for(let i = 0; i < places.length-1; i++){
+                            if(i === 0){
+                                setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
+                            }
+                            else if(i === places.length-2){
+                                setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+                            }
+                            else{
+                                setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+                            }
+                        }
+                        setZipMode("");
+                })
+                }
+                else{
+                    setZipCode(query)
+                    setMessages((m)=>[...m,{msg: "Select the radius of dealerships you would like to look for in miles", author: "Ford Chat", line:true,zip:""}]);
+                    setZipMode("query");
                 }
                 blockQueries.current = false;
-              });
+              }
             break;
             case 'C':
+        
             findLocations(query).then(loc=>{
               const places = loc.split('..');
               if(places.length > 3){
               setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat.", line : false, zip:extractFiveDigitString(query)}]);
               for(let i = 0; i < places.length-1; i++){
                 if(i === places.length-2){
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:"" }]);
+                    setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
                 }
                 else{
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:""  }]);
+                    setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
                 }
               }
-              setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "", line:true,zip:"" }]);
+              setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "", line:true,zip:{} }]);
             }
             else{
-                setMessages((m) => [...m, { msg: places[0], author: "Ford Chat", line : true,zip:""  }]);
+                setMessages((m) => [...m, { msg: places[0], author: "Ford Chat", line : true,zip:{} }]);
             }
               blockQueries.current = false;
             })
