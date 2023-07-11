@@ -15,10 +15,10 @@ import { Mic } from "react-bootstrap-icons";
 import data from './zipLocations.json';
 import EV from './EV.json';
 import trims from './trims.json';
-import trimToDealer from './trimToDealer';
-import dealerToTrim from './dealerToTrim';
+import trimToDealer from './trimToDealer.json';
+import dealerToTrim from './dealerToTrim.json';
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
-import { findLocations} from "./mapFunctions.js";
+import { findLocations } from "./mapFunctions.js";
 import QuestionButton from './components/QuestionButton';
 import { setUncaughtExceptionCaptureCallback } from "process";
 
@@ -88,18 +88,18 @@ function App() {
 
     const toggleTextSize = () => {
         setTextSize((prevSize) => (prevSize === "small" ? "medium" : (prevSize === "medium" ? "large" : "small")));
-      };
-    
-      const toggleDarkMode = () => {
+    };
+
+    const toggleDarkMode = () => {
         setDarkMode((prevMode) => !prevMode);
-      };
+    };
 
     // PAYMENT CALCULATOR
 
     //homepage control
     const [showApp, setShowApp] = useState(false);
     const handleClick = () => {
-          setShowApp(true);
+        setShowApp(true);
     };
     //which state the bot is in: closest dealership, calculator, etc.
     const [choice, changeChoice] = useState('');
@@ -113,56 +113,78 @@ function App() {
     // [1]down payment, [2]trade-in, [3]months, [4]annual %
     const [financeStep, setFinanceStep] = useState(0);
     const [calcButtons, setCalcButtons] = useState('');
-    
+
     const [model, setModel] = useState('');
     const [trim, setTrim] = useState('');
 
-    const origButtons = (<div className = "buttons">
-        <button onClick={() => handleUserInput('A') } className = "menu">A. Learn more about our cars</button>
-        <button onClick={() => handleUserInput('B')} className = "menu">B. Find the closest dealerships near me</button>
-        <button onClick={() => handleUserInput('C')} className = "menu">C. Schedule a test drive</button>
-        <button onClick={() => handleUserInput('D')} className = "menu">D. Payment calculator</button>
-        </div>)
+    const origButtons = (<div className="buttons">
+        <button onClick={() => handleUserInput('A')} className="menu">A. Learn more about our cars</button>
+        <button onClick={() => handleUserInput('B')} className="menu">B. Find the closest dealerships near me</button>
+        <button onClick={() => handleUserInput('C')} className="menu">C. Schedule a test drive</button>
+        <button onClick={() => handleUserInput('D')} className="menu">D. Payment calculator</button>
+    </div>)
     const [menuButtons, setMenuButtons] = useState(origButtons);
 
 
     //map functions -------------------------------------------------------->
     //finding the distance between user input and dealerships
     function calculateDistance(lat1, lon1, lat2, lon2) {
-      function toRadians(degrees) {
-        return degrees * (Math.PI / 180);
-      }
-      const R = 6371; // Radius of the Earth in kilometers
-      const dLat = toRadians(lat2 - lat1);
-      const dLon = toRadians(lon2 - lon1);
-    
-      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRadians(lat1)) *
-          Math.cos(toRadians(lat2)) *
-          Math.sin(dLon / 2) *
-          Math.sin(dLon / 2);
-    
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    
-      const distance = R * c;
-      return distance;
+        function toRadians(degrees) {
+            return degrees * (Math.PI / 180);
+        }
+        const R = 6371; // Radius of the Earth in kilometers
+        const dLat = toRadians(lat2 - lat1);
+        const dLon = toRadians(lon2 - lon1);
+
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRadians(lat1)) *
+            Math.cos(toRadians(lat2)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        const distance = R * c;
+        return distance;
     }
     //finds the longitude and latitude of the user
     const findLatLong = (zip) => {
-      const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
-      return fetch(s).then((response)=>response.json()).then((data) => {
-          let latitude = data.location.lat;
-          let longitude = data.location.lon;
-          const res = {latitude,longitude};
-          return res;
+        const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q=" + zip;
+        return fetch(s).then((response) => response.json()).then((data) => {
+            let latitude = data.location.lat;
+            let longitude = data.location.lon;
+            const res = { latitude, longitude };
+            return res;
         });
     }
-    
-    // map icon hover handler
-    const mapIconHandler = (event) => {
-        console.log(event);
+
+    const [mapPopupText, setMapPopupText] = useState('');
+
+    const [isHoveredMap, setIsHoveredMap] = useState(false);
+
+    const handleMouseEnterMap = () => {
+        setIsHoveredMap(true);
         // access dealer
         let dealer = "Sunny King Ford";
-    }
+        let models = Object.keys(dealerToTrim[dealer]);
+        if (models.length > 5) {
+            models = models.slice(0, 5);
+        }
+        let str = '';
+        for (let model of models) {
+            str = str + model + ', ';
+        }
+        let title1 = 'Available models: ';
+        let title2 = 'Available dates: ';
+        let str1 = str.slice(0, str.length - 2);
+        let str2 = "dates";
+        setMapPopupText(<p style={{fontSize:'10px'}}><span style={{fontWeight:'bold'}}>{dealer}</span><br />
+                            <span style={{fontWeight:'bold'}}>{title1}</span>{str1}<br />
+                            <span style={{fontWeight:'bold'}}>{title2}</span>{str2}</p>);
+    };
+
+    const handleMouseLeaveMap = () => {
+        setIsHoveredMap(false);
+    };
 
     const calcButtonHandler = (event) => {
         let val = event.target.getAttribute('value');
@@ -172,89 +194,89 @@ function App() {
     }
     //extracts the zip code from the user input for map
     function extractFiveDigitString(inputString) {
-      const regex = /\b\d{5}\b/g;
-      const matches = inputString.match(regex);
-      if (matches && matches.length > 0) {
-        return matches[0];
-      }
-      return null;
+        const regex = /\b\d{5}\b/g;
+        const matches = inputString.match(regex);
+        if (matches && matches.length > 0) {
+            return matches[0];
+        }
+        return null;
     }
     const findLocations = async () => {
-      const zip = extractFiveDigitString(query);
-      try{
-        const result = await findLatLong(zip);
-        const distances = {}
-      const l = [result.latitude,result.longitude];
-      for (const coords in data){
-        const [lat,lon] = coords.split(" ");
-        const address = data[coords].name + ": " + data[coords].address + ", " + data[coords].city + " " + lat + " " + lon;
-        const distance = calculateDistance(l[0],l[1],parseFloat(lat),parseFloat(lon));
-        distances[address] = distance;
-      }
-      const sortedLocations = Object.entries(distances).sort((a,b)=>a[1]-b[1]);
-      const closestLocations = sortedLocations.slice(0,5);
-      let string = ""
-      for(let i = 0; i < closestLocations.length; i++){
-        const arr = closestLocations[i][0].split(", ");
-        console.log(arr);
-        let shortStr = ""
-        for(let i = 0; i < arr.length-1; i++){
-            console.log(arr[i]);
-            shortStr += arr[i] + ", ";
+        const zip = extractFiveDigitString(query);
+        try {
+            const result = await findLatLong(zip);
+            const distances = {}
+            const l = [result.latitude, result.longitude];
+            for (const coords in data) {
+                const [lat, lon] = coords.split(" ");
+                const address = data[coords].name + ": " + data[coords].address + ", " + data[coords].city + " " + lat + " " + lon;
+                const distance = calculateDistance(l[0], l[1], parseFloat(lat), parseFloat(lon));
+                distances[address] = distance;
+            }
+            const sortedLocations = Object.entries(distances).sort((a, b) => a[1] - b[1]);
+            const closestLocations = sortedLocations.slice(0, 5);
+            let string = ""
+            for (let i = 0; i < closestLocations.length; i++) {
+                const arr = closestLocations[i][0].split(", ");
+                console.log(arr);
+                let shortStr = ""
+                for (let i = 0; i < arr.length - 1; i++) {
+                    console.log(arr[i]);
+                    shortStr += arr[i] + ", ";
+                }
+                console.log(shortStr);
+                string += shortStr + "..";
+                // const location = arr[arr.length-1].split(" ");
+                // topLatLongs.push([location[1],location[2]]);
+            }
+            console.log("string: " + string);
+            return string;
         }
-        console.log(shortStr);
-        string += shortStr + "..";
-        // const location = arr[arr.length-1].split(" ");
-        // topLatLongs.push([location[1],location[2]]);
-      }
-      console.log("string: " + string);
-      return string;
-      }
-      catch(err){
-        return "Invalid zip";
-      }
+        catch (err) {
+            return "Invalid zip";
+        }
     }
     // --------------------------------------------------------------------->
     //handler for button user clicks
-  const handleUserInput = (option) => {
-    // Outputs a response to based on input user selects
-    switch (option) {
-      case 'A':
-        setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat", line:true}]);
-        changeChoice('A');
-        break;
-      case 'B':
-        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line:true}]);
-        changeChoice('B');
-        break;
-      case 'C':
-        setMessages((m) => [...m, { msg: "Please input the name of the car you would like to test and your current zip so we can find the location best for you", author: "Ford Chat", line:true }]);
-        changeChoice('C');
-        break;
-      case 'D':
-        if (model === '') {
-            setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat" }]);
-            setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={calcButtonHandler}>{model}</button>)));
-            setCalcStep(1);
+    const handleUserInput = (option) => {
+        // Outputs a response to based on input user selects
+        switch (option) {
+            case 'A':
+                setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat", line: true }]);
+                changeChoice('A');
+                break;
+            case 'B':
+                setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line: true }]);
+                changeChoice('B');
+                break;
+            case 'C':
+                setMessages((m) => [...m, { msg: "Please input the name of the car you would like to test and your current zip so we can find the location best for you", author: "Ford Chat", line: true }]);
+                changeChoice('C');
+                break;
+            case 'D':
+                if (model === '') {
+                    setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat" }]);
+                    setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={calcButtonHandler}>{model}</button>)));
+                    setCalcStep(1);
+                }
+                else if (trim === '') {
+                    setQuery(model);
+                    setCalcStep(1);
+                    blockQueries.current = false;
+                }
+                else {
+                    setQuery(trim);
+                    setCalcStep(2);
+                    blockQueries.current = false;
+                }
+                changeChoice('D');
+                setMenuButtons([]);
+                break;
+            default:
+                setResponse('Invalid input. Please select one of the options (A, B, C, or D).');
+                break;
         }
-        else if (trim === '') {
-            setQuery(model);
-            setCalcStep(1);
-            blockQueries.current = false;
-        }
-        else {
-            setQuery(trim);
-            setCalcStep(2);
-            blockQueries.current = false;
-        }
-        changeChoice('D');
-        setMenuButtons([]);
-        break;
-      default:
-        setResponse('Invalid input. Please select one of the options (A, B, C, or D).');
-        break;
-    }
-  };
+    };
     const blockQueries = useRef(false);
 
     // const blockQueries = useRef(false);
@@ -299,344 +321,346 @@ function App() {
     };
 
     useEffect(() => {
-      if(query.toLowerCase() === 'a' || query.toLowerCase() === 'b' || query.toLowerCase() === 'c' || query.toLowerCase() === 'd'){
-        handleUserInput(query.toUpperCase());
-        console.log("reached");
-      }
+        if (query.toLowerCase() === 'a' || query.toLowerCase() === 'b' || query.toLowerCase() === 'c' || query.toLowerCase() === 'd') {
+            handleUserInput(query.toUpperCase());
+            console.log("reached");
+        }
 
 
-      else{
-        if (!blockQueries.current && query.length > 0) {
-          blockQueries.current = true;
-          switch(choice){
-            case 'A', '':
-              setQuery("");
-              sendBotResponse(query, history).then((res) => {
-                setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true, line : true }]);
-                setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
-                blockQueries.current = false;
-              })
-              break;
-            case 'B':
-              findLocations(query).then(loc=>{
-                const places = loc.split('..');
-                console.log(places);
-                for(let i = 0; i < places.length-1; i++){
-                    if(i === 0){
-                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat", line : false}]);
-                    }
-                    else if(i === places.length-2){
-                        setMessages((m) => [...m, { msg: places[i], author: "", line : true}]);
-                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat", line : false}]);
-                    }
-                    else if(i === places.length-2){
-                        setMessages((m) => [...m, { msg: places[i], author: "", line : true}]);
-                    }
-                    else{
-                        setMessages((m) => [...m, { msg: places[i], author: "", line : false, line : false }]);
-                    }
-                }
-                blockQueries.current = false;
-              });
-            break;
-            break;
-            case 'C':
-            findLocations(query).then(loc=>{
-              const places = loc.split('..');
-              if(places.length > 3){
-              setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat", line : true}]);
-              for(let i = 0; i < places.length-1; i++){
-                if(i === places.length-2){
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : true}]);
-                }
-                else{
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : false }]);
-                }
-              }
-              setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "", line:true }]);
-            }
-            else{
-                setMessages((m) => [...m, { msg: places[0], author: "Ford Chat", line : true }]);
-            }
-            findLocations(query).then(loc=>{
-              const places = loc.split('..');
-              if(places.length > 3){
-              setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat", line : true}]);
-              for(let i = 0; i < places.length-1; i++){
-                if(i === places.length-2){
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : true}]);
-                }
-                else{
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : false }]);
-                }
-              }
-              setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "", line:true }]);
-            }
-            else{
-                setMessages((m) => [...m, { msg: places[0], author: "Ford Chat", line : true }]);
-            }
-              blockQueries.current = false;
-            })
-            })
-              break;
-            case 'D':
-                setQuery("");
-                switch(calcStep){
-                    case 1: //trim 
-                        if (model === '') {
-                            setModel(query);
-                        }
-                        setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat" }]);
-                        setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
-                        blockQueries.current = false;
-                        setCalcStep(2);
-                        break;   
-                    case 2: //lease,finance,buy
-                        if (trim === '') {
-                            setTrim(query);
-                        }
-                        const options = ['Lease','Finance','Buy'];
-                        setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat" }]);
-                        setCalcButtons(options.map(option => (<button className='calc-button' style={{fontSize:'14px'}} key={option} value={option} onClick={calcButtonHandler}>{option}</button>)));
-                        blockQueries.current = false;
-                        setCalcStep(3);
-                        break; 
-                    case 3:
-                        switch(calcMode){
-                            case 0:
-                                if (query === "Lease") {
-                                    setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
-                                    setCalcMode(1);
-                                    setLeaseStep(1);
+        else {
+            if (!blockQueries.current && query.length > 0) {
+                blockQueries.current = true;
+                switch (choice) {
+                    case 'A', '':
+                        setQuery("");
+                        sendBotResponse(query, history).then((res) => {
+                            setMessages((m) => [...m, { msg: res, author: "Ford Chat", line: true, line: true }]);
+                            setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+                            blockQueries.current = false;
+                        })
+                        break;
+                    case 'B':
+                        findLocations(query).then(loc => {
+                            const places = loc.split('..');
+                            console.log(places);
+                            for (let i = 0; i < places.length - 1; i++) {
+                                if (i === 0) {
+                                    setMessages((m) => [...m, { msg: places[i], author: "Ford Chat", line: false }]);
                                 }
-                                else if (query === "Finance") {
-                                    setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
-                                    setCalcMode(2);
-                                    setFinanceStep(1);
+                                else if (i === places.length - 2) {
+                                    setMessages((m) => [...m, { msg: places[i], author: "", line: true }]);
+                                    setMessages((m) => [...m, { msg: places[i], author: "Ford Chat", line: false }]);
                                 }
-                                else if (query === "Buy") {
-                                    setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
-                                    setCalcStep(4);
-                                } 
+                                else if (i === places.length - 2) {
+                                    setMessages((m) => [...m, { msg: places[i], author: "", line: true }]);
+                                }
+                                else {
+                                    setMessages((m) => [...m, { msg: places[i], author: "", line: false, line: false }]);
+                                }
+                            }
+                            blockQueries.current = false;
+                        });
+                        break;
+                        break;
+                    case 'C':
+                        findLocations(query).then(loc => {
+                            const places = loc.split('..');
+                            if (places.length > 3) {
+                                setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat", line: true }]);
+                                for (let i = 0; i < places.length - 1; i++) {
+                                    if (i === places.length - 2) {
+                                        setMessages((m) => [...m, { msg: places[i], author: "", line: true }]);
+                                    }
+                                    else {
+                                        setMessages((m) => [...m, { msg: places[i], author: "", line: false }]);
+                                    }
+                                }
+                                setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "", line: true }]);
+                            }
+                            else {
+                                setMessages((m) => [...m, { msg: places[0], author: "Ford Chat", line: true }]);
+                            }
+                            findLocations(query).then(loc => {
+                                const places = loc.split('..');
+                                if (places.length > 3) {
+                                    setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat", line: true }]);
+                                    for (let i = 0; i < places.length - 1; i++) {
+                                        if (i === places.length - 2) {
+                                            setMessages((m) => [...m, { msg: places[i], author: "", line: true }]);
+                                        }
+                                        else {
+                                            setMessages((m) => [...m, { msg: places[i], author: "", line: false }]);
+                                        }
+                                    }
+                                    setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "", line: true }]);
+                                }
+                                else {
+                                    setMessages((m) => [...m, { msg: places[0], author: "Ford Chat", line: true }]);
+                                }
                                 blockQueries.current = false;
-                                break;
-                            case 1: // lease
-                                switch(leaseStep) {
-                                    case 1: // trade-in
-                                        setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
-                                        blockQueries.current = false;
-                                        setLeaseStep(2);
-                                        break; 
-                                    case 2: // months
-                                        let durations = [24,36,39,48];
-                                        setMessages((m) => [...m, { msg: "Please enter the desired duration of the lease, in months", author: "Ford Chat" }]);
-                                        setCalcButtons(durations.map(dur => (<button className='calc-button' style={{fontSize:'14px'}} key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
-                                        blockQueries.current = false;
-                                        setLeaseStep(3);
-                                        break; 
-                                    case 3: // miles
-                                        setMessages((m) => [...m, { msg: "Please enter the expected miles driven annually", author: "Ford Chat" }]);
-                                        blockQueries.current = false;
-                                        setLeaseStep(0);
-                                        setCalcStep(4);
-                                        break; 
+                            })
+                        })
+                        break;
+                    case 'D':
+                        setQuery("");
+                        switch (calcStep) {
+                            case 1: //trim 
+                                if (model === '') {
+                                    setModel(query);
                                 }
+                                setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat" }]);
+                                setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
+                                blockQueries.current = false;
+                                setCalcStep(2);
                                 break;
-                            case 2: // finance
-                                switch(financeStep){
-                                    case 1: // trade-in
-                                        setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
+                            case 2: //lease,finance,buy
+                                if (trim === '') {
+                                    setTrim(query);
+                                }
+                                const options = ['Lease', 'Finance', 'Buy'];
+                                setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat" }]);
+                                setCalcButtons(options.map(option => (<button className='calc-button' style={{ fontSize: '14px' }} key={option} value={option} onClick={calcButtonHandler}>{option}</button>)));
+                                blockQueries.current = false;
+                                setCalcStep(3);
+                                break;
+                            case 3:
+                                switch (calcMode) {
+                                    case 0:
+                                        if (query === "Lease") {
+                                            setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
+                                            setCalcMode(1);
+                                            setLeaseStep(1);
+                                        }
+                                        else if (query === "Finance") {
+                                            setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat" }]);
+                                            setCalcMode(2);
+                                            setFinanceStep(1);
+                                        }
+                                        else if (query === "Buy") {
+                                            setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
+                                            setCalcStep(4);
+                                        }
                                         blockQueries.current = false;
-                                        setFinanceStep(2);
-                                        break; 
-                                    case 2: // months
-                                        let durations = [36,48,60,72,84];
-                                        setMessages((m) => [...m, { msg: "Please enter the desired duration of the loan, in months", author: "Ford Chat" }]);
-                                        setCalcButtons(durations.map(dur => (<button className='calc-button' style={{fontSize:'14px'}} key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
-                                        blockQueries.current = false;
-                                        setFinanceStep(3);
-                                        break; 
-                                    case 3: // percentage
-                                        setMessages((m) => [...m, { msg: "Please enter the desired annual percentage rate", author: "Ford Chat" }]);
-                                        blockQueries.current = false;
-                                        setFinanceStep(0);
-                                        setCalcStep(4);
+                                        break;
+                                    case 1: // lease
+                                        switch (leaseStep) {
+                                            case 1: // trade-in
+                                                setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
+                                                blockQueries.current = false;
+                                                setLeaseStep(2);
+                                                break;
+                                            case 2: // months
+                                                let durations = [24, 36, 39, 48];
+                                                setMessages((m) => [...m, { msg: "Please enter the desired duration of the lease, in months", author: "Ford Chat" }]);
+                                                setCalcButtons(durations.map(dur => (<button className='calc-button' style={{ fontSize: '14px' }} key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
+                                                blockQueries.current = false;
+                                                setLeaseStep(3);
+                                                break;
+                                            case 3: // miles
+                                                setMessages((m) => [...m, { msg: "Please enter the expected miles driven annually", author: "Ford Chat" }]);
+                                                blockQueries.current = false;
+                                                setLeaseStep(0);
+                                                setCalcStep(4);
+                                                break;
+                                        }
+                                        break;
+                                    case 2: // finance
+                                        switch (financeStep) {
+                                            case 1: // trade-in
+                                                setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat" }]);
+                                                blockQueries.current = false;
+                                                setFinanceStep(2);
+                                                break;
+                                            case 2: // months
+                                                let durations = [36, 48, 60, 72, 84];
+                                                setMessages((m) => [...m, { msg: "Please enter the desired duration of the loan, in months", author: "Ford Chat" }]);
+                                                setCalcButtons(durations.map(dur => (<button className='calc-button' style={{ fontSize: '14px' }} key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
+                                                blockQueries.current = false;
+                                                setFinanceStep(3);
+                                                break;
+                                            case 3: // percentage
+                                                setMessages((m) => [...m, { msg: "Please enter the desired annual percentage rate", author: "Ford Chat" }]);
+                                                blockQueries.current = false;
+                                                setFinanceStep(0);
+                                                setCalcStep(4);
+                                                break;
+                                        }
                                         break;
                                 }
                                 break;
+                            case 4:
+                                let payment = 10;
+                                setMessages((m) => [...m, { msg: `Your expected monthly payment is ${payment}`, author: "Ford Chat" }]);
+                                blockQueries.current = false;
+                                setCalcStep(5);
+                            case 5:
+                                if (model in Object.keys(EV)) {
+                                    if (trim in EV[model]) {
+                                        setMessages((m) => [...m, { msg: "Would you like car delivery or pickup?", author: "Ford Chat" }]);
+                                    }
+                                }
+                                setCalcStep(6);
+                                blockQueries.current = false;
+                            case 6: // go to dealership finder
+                                setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line: true }]);
+                                changeChoice('B');
+                                blockQueries.current = false;
+                                setCalcStep(0);
+                                setCalcMode(0);
+                                //changeChoice('A');
+                                break;
+
                         }
-                        break;
-                    case 4:
-                        let payment = 10;
-                        setMessages((m) => [...m, { msg: `Your expected monthly payment is ${payment}`, author: "Ford Chat" }]);
-                        blockQueries.current = false;
-                        setCalcStep(5);
-                    case 5:
-                        console.log("here");
-                        //console.log(json_data);
-                        if (model in Object.keys(EV)) {
-                            if (trim in EV[model]) {
-                                setMessages((m) => [...m, { msg: "Would you like car delivery or pickup?", author: "Ford Chat" }]);
-                            }
-                        }
-                        setCalcStep(6);
-                        blockQueries.current = false;
-                    case 6: // go to dealership finder
-                        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line:true }]);
-                        changeChoice('B');
-                        blockQueries.current = false;
-                        setCalcStep(0);
-                        setCalcMode(0);
-                        //changeChoice('A');
-                        break; 
-                      
                 }
-          }
-      }
-      }
+            }
+        }
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
     return (
-        showApp ? 
-        (<div className="ButtonContainer">
-        
-        <div className="App"
-         style={{
-            backgroundColor: darkMode ? "#000080" : "#f4f3f3",
-            color: darkMode ? "#ffffff" : "#000000",
-            fontSize: textSize === "large" ? "22px" : (textSize === "small" ? "16px" : "19px"),
-          }}
-        >
-            <QuestionButton />
-            <div className="ChatArea">
-                <ThreeDots
-                    height="50"
-                    width="50"
-                    radius="7"
-                    color="#8080ff"
-                    ariaLabel="three-dots-loading"
-                    wrapperStyle={{ marginLeft: "5vw" }}
-                    wrapperClassName=""
-                    visible={blockQueries.current}
-                />
-                <div className="MessagesArea">
-                <div>
-      <p>{response}</p>
-    </div>
-                    {messages.map((message) => {
-                        return (
-                            <ChatItem
-                                message={message.msg}
-                                author={message.author}
-                                line = {message.line}
-                                darkMode={darkMode}
-                                textSize={textSize}
-                            />
-                        );
-                    })}
-                </div>
-                <Card
-                    variant="outlined"
-                    className="CardOutline"
-                    style={{
-                        maxWidth: "45%",
-                        flex: "none",
-                        marginBottom: "3%",
-                        alignSelf: "center",
-                        textSize: {textSize}
-                    }}
-                >
-                    {introCardContent}
-                </Card>
-            </div>
-            <div>
-            {menuButtons}
-                <form
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        if (queryText.length > 0 && !blockQueries.current) {
-                            setQuery(queryText);
-                            setMessages((m) => [
-                                ...m,
-                                { msg: queryText, author: "You", line:true },
-                            ]);
-                            setQueryText("");
-                        }
-                    }}
-                >
-                    <div style={{display:'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        {calcButtons}
-                    </div>
-                    <TextField
-                        value={queryText}
-                        error={blockQueries.current}
-                        onChange={(e) => {
-                            setQueryText(e.target.value);
-                        }}
-                        style={{
-                            accentColor: "white",
-                            width: "90%",
-                            marginTop: "1%",
-                            marginLeft: "5%",
-                            textSize: {textSize}
-                        }}
-                        label={"Enter your query here..."}
-                        helperText={
-                            blockQueries.current
-                                ? "Please wait!"
-                                : "Press enter to send."
-                        }
-                        InputProps={{
-                            endAdornment: recording ? (
-                                <div
-                                    className="pulsing-blob"
-                                    onClick={() => {
-                                        toggleRecording();
-                                    }}
-                                ></div>
-                            ) : (
-                                <InputAdornment position="end">
-                                    <Mic
-                                        className="mic-icon"
-                                        size="2rem"
-                                        onClick={() => {
-                                            toggleRecording();
-                                        }}
-                                    />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                </form>
-                </div>
-        <div className="bottom">
-        <IconButton
-          onClick={toggleTextSize}
-          color="blue"
-          aria-label="Toggle Text Size"
-        >
-          {textSize === "medium" ? (
-            <TextFieldsOutlined />
-          ) : (
-            <TextFields />
-          )}
-        </IconButton>
-        <IconButton
-          onClick={toggleDarkMode}
-          color="blue"
-          aria-label="Toggle Dark Mode"
-        >
-          {darkMode ? <Brightness7 /> : <Brightness4 />}
-        </IconButton>
-        <QuestionButton />
-        </div>     
+        showApp ?
+            (<div className="ButtonContainer">
 
-      </div>
-            
-        </div>
-    ) : (
-        <Homepage handleClick={handleClick} />
-      ));
+                <div className="App"
+                    style={{
+                        backgroundColor: darkMode ? "#000080" : "#f4f3f3",
+                        color: darkMode ? "#ffffff" : "#000000",
+                        fontSize: textSize === "large" ? "22px" : (textSize === "small" ? "16px" : "19px"),
+                    }}
+                >
+                    <QuestionButton />
+                    <div className="ChatArea">
+                        <ThreeDots
+                            height="50"
+                            width="50"
+                            radius="7"
+                            color="#8080ff"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{ marginLeft: "5vw" }}
+                            wrapperClassName=""
+                            visible={blockQueries.current}
+                        />
+                        <div className="MessagesArea">
+                            <div>
+                                <p>{response}</p>
+                            </div>
+                            {messages.map((message) => {
+                                return (
+                                    <ChatItem
+                                        message={message.msg}
+                                        author={message.author}
+                                        line={message.line}
+                                        darkMode={darkMode}
+                                        textSize={textSize}
+                                    />
+                                );
+                            })}
+                        </div>
+                        <Card
+                            variant="outlined"
+                            className="CardOutline"
+                            style={{
+                                maxWidth: "45%",
+                                flex: "none",
+                                marginBottom: "3%",
+                                alignSelf: "center",
+                                textSize: { textSize }
+                            }}
+                        >
+                            {introCardContent}
+                        </Card>
+                    </div>
+                    <div>
+                        <div onMouseEnter={handleMouseEnterMap} onMouseLeave={handleMouseLeaveMap}>
+                            <button>Hover here</button>
+                            {isHoveredMap && <div className="map-popup">{mapPopupText}</div>}
+                        </div>
+                        {menuButtons}
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                if (queryText.length > 0 && !blockQueries.current) {
+                                    setQuery(queryText);
+                                    setMessages((m) => [
+                                        ...m,
+                                        { msg: queryText, author: "You", line: true },
+                                    ]);
+                                    setQueryText("");
+                                }
+                            }}
+                        >
+                            <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+                                {calcButtons}
+                            </div>
+                            <TextField
+                                value={queryText}
+                                error={blockQueries.current}
+                                onChange={(e) => {
+                                    setQueryText(e.target.value);
+                                }}
+                                style={{
+                                    accentColor: "white",
+                                    width: "90%",
+                                    marginTop: "1%",
+                                    marginLeft: "5%",
+                                    textSize: { textSize }
+                                }}
+                                label={"Enter your query here..."}
+                                helperText={
+                                    blockQueries.current
+                                        ? "Please wait!"
+                                        : "Press enter to send."
+                                }
+                                InputProps={{
+                                    endAdornment: recording ? (
+                                        <div
+                                            className="pulsing-blob"
+                                            onClick={() => {
+                                                toggleRecording();
+                                            }}
+                                        ></div>
+                                    ) : (
+                                        <InputAdornment position="end">
+                                            <Mic
+                                                className="mic-icon"
+                                                size="2rem"
+                                                onClick={() => {
+                                                    toggleRecording();
+                                                }}
+                                            />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </form>
+                    </div>
+                    <div className="bottom">
+                        <IconButton
+                            onClick={toggleTextSize}
+                            color="blue"
+                            aria-label="Toggle Text Size"
+                        >
+                            {textSize === "medium" ? (
+                                <TextFieldsOutlined />
+                            ) : (
+                                <TextFields />
+                            )}
+                        </IconButton>
+                        <IconButton
+                            onClick={toggleDarkMode}
+                            color="blue"
+                            aria-label="Toggle Dark Mode"
+                        >
+                            {darkMode ? <Brightness7 /> : <Brightness4 />}
+                        </IconButton>
+                        <QuestionButton />
+                    </div>
+
+                </div>
+
+            </div>
+            ) : (
+                <Homepage handleClick={handleClick} />
+            ));
 }
 
 export default App;
