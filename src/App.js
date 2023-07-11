@@ -297,7 +297,7 @@ function App() {
               })
               break;
             case 'B':
-              findLocations(queryquery).then(loc=>{
+              findLocations(query).then(loc=>{
                 const places = loc.split('..');
                 console.log(places);
                 for(let i = 0; i < places.length-1; i++){
@@ -525,7 +525,7 @@ function App() {
                 </Card>
             </div>
             <div>
-            {mainButtons}
+            {menuButtons}
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
