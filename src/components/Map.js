@@ -7,11 +7,7 @@ import './Map.css';
 
 function Map({zip,dist}) {
   const [latlong,changeLatLong] = useState([39,-98]);
-  const [ll1,change1] = useState([0,0]);
-  const [ll2,change2] = useState([0,0]);
-  const [ll3,change3] = useState([0,0]);
-  const [ll4,change4] = useState([0,0]);
-  const [ll5,change5] = useState([0,0]);
+  const [locations, changeLocations] = useState([])
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
     iconSize: [12,12], // Adjust the icon size if necessary
@@ -46,6 +42,7 @@ function Map({zip,dist}) {
       topLatLongs.push([location[1],location[2]]);
     }
     //array: [[lat,long]]
+    console.log(topLatLongs)
     return topLatLongs;
   }
   function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -86,12 +83,9 @@ function Map({zip,dist}) {
     async function fetchInfo(){
       findLatLong(zip).then((res)=>{
         changeLatLong([res.latitude, res.longitude])
-        findLocations(dist).then((locations)=>{
-          change1(locations[0]);
-          change2(locations[1]);
-          change3(locations[2]);
-          change4(locations[3]);
-          change5(locations[4]);
+        findLocations(dist).then((locas)=>{
+          changeLocations(locas);
+          //output the locations [location1, location2, location3, etc.]
         })
       })
     }
@@ -109,11 +103,9 @@ function Map({zip,dist}) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="Map data &copy; OpenStreetMap contributors"
       />
-      <Marker position={[ll1[0],ll1[1]]} icon={customMarkerIcon} id = "mark"/>
-      {/* <Marker position={[ll2[0],ll2[1]]} icon={customMarkerIcon} id = "mark"/>
-      <Marker position={[ll3[0],ll3[1]]} icon={customMarkerIcon} id = "mark"/>
-      <Marker position={[ll4[0],ll4[1]]} icon={customMarkerIcon} id = "mark"/>
-      <Marker position={[ll5[0],ll5[1]]} icon={customMarkerIcon} id = "mark"/> */}
+      {locations.map((d)=>{
+        return <Marker position={[d[0],d[1]]} icon = {customMarkerIcon} id = "mark"/>
+      })}
     </MapContainer>
 
   </div>
