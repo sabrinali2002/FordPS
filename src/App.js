@@ -119,10 +119,10 @@ function App() {
     const [trim, setTrim] = useState('');
 
     const origButtons = (<div className = "buttons">
-        <button onClick={() => handleUserInput('A') } className = "menu">A. Learn more about our cars</button>
-        <button onClick={() => handleUserInput('B')} className = "menu">B. Find the closest dealerships near me</button>
-        <button onClick={() => handleUserInput('C')} className = "menu">C. Schedule a test drive</button>
-        <button onClick={() => handleUserInput('D')} className = "menu">D. Payment calculator</button>
+        <button onClick={() => handleUserInput('A') } className = "menu">Learn more about our cars</button>
+        <button onClick={() => handleUserInput('B')} className = "menu">Find the closest dealerships near me</button>
+        <button onClick={() => handleUserInput('C')} className = "menu">Schedule a test drive</button>
+        <button onClick={() => handleUserInput('D')} className = "menu">Payment calculator</button>
         </div>)
     const [menuButtons, setMenuButtons] = useState(origButtons);
 
