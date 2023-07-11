@@ -16,33 +16,11 @@ import data from './zipLocations.json';
 import EV from './EV.json';
 import trims from './trims.json';
 import trimToDealer from './trimToDealer';
+import dealerToTrim from './dealerToTrim';
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
 import { findLocations} from "./mapFunctions.js";
 import QuestionButton from './components/QuestionButton';
 import { setUncaughtExceptionCaptureCallback } from "process";
-
-let dict = {};
-for (let loc in data) {
-    dict[data[loc]["name"]] = {};
-}
-for (let model in trimToDealer) {
-    for (let trim in trimToDealer[model]) {
-        for (let loc of trimToDealer[model][trim]) {
-            if (model in dict[loc]) {
-                console.log(dict[loc][model]);
-                dict[loc][model].push(trim);
-            }
-            else {
-                dict[loc][model] = [trim];
-            }
-        }
-    }
-}
-
-let jsondata = JSON.stringify(dict);
-console.log(jsondata);
-
-
 
 
 async function sendBotResponse(query, history) {
