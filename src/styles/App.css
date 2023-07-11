@@ -1,7 +1,7 @@
 .App {
   background-color: rgb(244, 243, 243);
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .ChatArea {
@@ -101,9 +101,3 @@
 	}
 }
 
-.ButtonContainer {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 9999;
-}

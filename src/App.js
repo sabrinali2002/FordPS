@@ -217,7 +217,6 @@ function App() {
     }, [query, history]);
 
     return (
-        <div className="ButtonContainer">
         <div className="App"
          style={{
             backgroundColor: darkMode ? "#000080" : "#f4f3f3",
@@ -267,11 +266,11 @@ function App() {
             </div>
             <div>
             <div className = "buttons">
-        <button onClick={() => handleUserInput('A') } className = "menu">A. Learn more about our cars</button>
-        <button onClick={() => handleUserInput('B')} className = "menu">B. Find the closest dealerships near me</button>
-        <button onClick={() => handleUserInput('C')} className = "menu">C. Schedule a test drive</button>
-        <button onClick={() => handleUserInput('D')} className = "menu">D. Cost estimate</button>
-        </div>
+            <button onClick={() => handleUserInput('A') } className = "menu">A. Learn more about our cars</button>
+            <button onClick={() => handleUserInput('B')} className = "menu">B. Find the closest dealerships near me</button>
+            <button onClick={() => handleUserInput('C')} className = "menu">C. Schedule a test drive</button>
+            <button onClick={() => handleUserInput('D')} className = "menu">D. Cost estimate</button>
+            </div>
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
@@ -297,7 +296,7 @@ function App() {
                             marginTop: "1%",
                             marginLeft: "5%",
                         }}
-                        label={"Enter your query here..."}
+                        label={"Ask me anything..."}
                         helperText={
                             blockQueries.current
                                 ? "Please wait!"
@@ -347,8 +346,6 @@ function App() {
           {darkMode ? <Brightness7 /> : <Brightness4 />}
         </IconButton>
       </div>
-            
-        </div>
     );
 }
 
