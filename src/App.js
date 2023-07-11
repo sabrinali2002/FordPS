@@ -282,7 +282,6 @@ function App() {
                 blockQueries.current = false;
               }
             break;
-            break;
             case 'C':
         
             findLocations(query).then(loc=>{
