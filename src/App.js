@@ -8,12 +8,14 @@ import {
 } from "@mui/material";
 import { Fragment, useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
+import Homepage from "./components/Homepage";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import data from './zipLocations.json';
 import { IconButton } from "@mui/material";
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
-import { findLocations} from "./mapFunctions.js"
+import { findLocations} from "./mapFunctions.js";
+import QuestionButton from './components/QuestionButton';
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
@@ -46,10 +48,10 @@ async function sendBotResponse(query, history) {
 const introCardContent = (
     <Fragment>
         <CardContent>
-            <Typography variant="h5" component="div">
+            <Typography variant="h5" component="div" className="welcome">
                 Welcome to Ford Chat! 👋
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body2" className="introduction">
                 I am a chatbot that can answer any questions you have about Ford
                 vehicles. I can help you with the following:
                 <br />
@@ -81,6 +83,11 @@ function App() {
       const toggleDarkMode = () => {
         setDarkMode((prevMode) => !prevMode);
       };
+    //homepage control
+    const [showApp, setShowApp] = useState(false);
+    const handleClick = () => {
+          setShowApp(true);
+    };
     //which state the bot is in: closest dealership, calculator, etc.
     const [choice, changeChoice] = useState('');
     const [recording, setRecording] = useState(false);
@@ -210,7 +217,9 @@ function App() {
     }, [query, history]);
 
     return (
-        <div className="ButtonContainer">
+        showApp ? 
+        (<div className="ButtonContainer">
+        
         <div className="App"
          style={{
             backgroundColor: darkMode ? "#000080" : "#f4f3f3",
@@ -218,6 +227,7 @@ function App() {
             fontSize: textSize === "large" ? "22px" : (textSize === "small" ? "16px" : "19px"),
           }}
         >
+            <QuestionButton />
             <div className="ChatArea">
                 <ThreeDots
                     height="50"
@@ -252,6 +262,7 @@ function App() {
                         flex: "none",
                         marginBottom: "3%",
                         alignSelf: "center",
+                        textSize: {textSize}
                     }}
                 >
                     {introCardContent}
@@ -288,6 +299,7 @@ function App() {
                             width: "90%",
                             marginTop: "1%",
                             marginLeft: "5%",
+                            textSize: {textSize}
                         }}
                         label={"Enter your query here..."}
                         helperText={
@@ -319,10 +331,10 @@ function App() {
 
                 </form>
                 </div>
-                
+        <div className="bottom">
         <IconButton
           onClick={toggleTextSize}
-          color="primary"
+          color="blue"
           aria-label="Toggle Text Size"
         >
           {textSize === "medium" ? (
@@ -333,15 +345,20 @@ function App() {
         </IconButton>
         <IconButton
           onClick={toggleDarkMode}
-          color="primary"
+          color="blue"
           aria-label="Toggle Dark Mode"
         >
           {darkMode ? <Brightness7 /> : <Brightness4 />}
         </IconButton>
+        <QuestionButton />
+        </div>     
+
       </div>
             
         </div>
-    );
+    ) : (
+        <Homepage handleClick={handleClick} />
+      ));
 }
 
 export default App;

@@ -1,0 +1,68 @@
+@font-face {
+    font-family: 'Manrope';
+    src: url('fonts/Manrope-Regular.ttf') format('truetype');
+}
+
+.question-button-container {
+    position: relative;
+    font-family: 'Manrope', sans-serif;
+    z-index: 9999;
+  }
+  
+  .question-button {
+    padding-top: 8px;
+    background-color: transparent;
+    border: none;
+    color: rgb(138, 138, 147);
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .explanation-container {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 300px;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    transform: translateY(-50%);
+  }
+  
+  .learn-more-button {
+    background-color: #322964;
+    color: white;
+    border: none;
+    padding: 2px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .learn-more-button:hover {
+    background-color: #322964;
+  }
+  
+  .explanation-container .close-button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: white;
+    border: none;
+    color: #322964;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .extra-information {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 600px;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    transform: translateY(-50%);
+  }
+  
