@@ -10,12 +10,8 @@ function Map({zip,dist}) {
   const [locations, changeLocations] = useState([])
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
-    iconSize: [12,12], // Adjust the icon size if necessary
+    iconSize: [20,20], // Adjust the icon size if necessary
   });
-  const closeMarkerIcon = L.icon({
-    iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
-    iconSize: [20, 20], 
-  })
   const findLocations = async (distance) => {
     const result = await findLatLong(zip);
     const distances = {}
@@ -42,7 +38,6 @@ function Map({zip,dist}) {
       topLatLongs.push([location[1],location[2]]);
     }
     //array: [[lat,long]]
-    console.log(topLatLongs)
     return topLatLongs;
   }
   function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -59,7 +54,7 @@ function Map({zip,dist}) {
   
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   
-    const distance = R * c;
+    const distance = R * c  / 1.609;
     return distance;
   }
   function toRadians(degrees) {
@@ -75,6 +70,7 @@ function Map({zip,dist}) {
         let latitude = data.location.lat;
         let longitude = data.location.lon;
         const res = {latitude,longitude};
+        changeLatLong([res.latitude, res.longitude]);
         return res;
         //{latitude, longitude}
       });
@@ -82,7 +78,6 @@ function Map({zip,dist}) {
   useEffect(()=>{
     async function fetchInfo(){
       findLatLong(zip).then((res)=>{
-        changeLatLong([res.latitude, res.longitude])
         findLocations(dist).then((locas)=>{
           changeLocations(locas);
           //output the locations [location1, location2, location3, etc.]
@@ -94,7 +89,7 @@ function Map({zip,dist}) {
   return (
     <div>
     <MapContainer
-      center={[latlong[0],latlong[1]]}
+      center={latlong}
       zoom={3}
       style={{ height: '400px', width: '30%' , display:"flex",float:"left", marginRight:"20px"}}
       id = {"map"}
@@ -111,6 +106,5 @@ function Map({zip,dist}) {
   </div>
   );
 }
-
 export default Map;
 
