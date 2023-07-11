@@ -7,19 +7,11 @@ import './Map.css';
 
 function Map({zip,dist}) {
   const [latlong,changeLatLong] = useState([39,-98]);
-  const [ll1,change1] = useState([0,0]);
-  const [ll2,change2] = useState([0,0]);
-  const [ll3,change3] = useState([0,0]);
-  const [ll4,change4] = useState([0,0]);
-  const [ll5,change5] = useState([0,0]);
+  const [locations, changeLocations] = useState([])
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
-    iconSize: [12,12], // Adjust the icon size if necessary
+    iconSize: [20,20], // Adjust the icon size if necessary
   });
-  const closeMarkerIcon = L.icon({
-    iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
-    iconSize: [20, 20], 
-  })
   const findLocations = async (distance) => {
     const result = await findLatLong(zip);
     const distances = {}
@@ -62,7 +54,7 @@ function Map({zip,dist}) {
   
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   
-    const distance = R * c;
+    const distance = R * c  / 1.609;
     return distance;
   }
   function toRadians(degrees) {
@@ -78,6 +70,7 @@ function Map({zip,dist}) {
         let latitude = data.location.lat;
         let longitude = data.location.lon;
         const res = {latitude,longitude};
+        changeLatLong([res.latitude, res.longitude]);
         return res;
         //{latitude, longitude}
       });
@@ -85,13 +78,9 @@ function Map({zip,dist}) {
   useEffect(()=>{
     async function fetchInfo(){
       findLatLong(zip).then((res)=>{
-        changeLatLong([res.latitude, res.longitude])
-        findLocations(dist).then((locations)=>{
-          change1(locations[0]);
-          change2(locations[1]);
-          change3(locations[2]);
-          change4(locations[3]);
-          change5(locations[4]);
+        findLocations(dist).then((locas)=>{
+          changeLocations(locas);
+          //output the locations [location1, location2, location3, etc.]
         })
       })
     }
@@ -100,7 +89,7 @@ function Map({zip,dist}) {
   return (
     <div>
     <MapContainer
-      center={[latlong[0],latlong[1]]}
+      center={latlong}
       zoom={3}
       style={{ height: '400px', width: '30%' , display:"flex",float:"left", marginRight:"20px"}}
       id = {"map"}
@@ -109,16 +98,13 @@ function Map({zip,dist}) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="Map data &copy; OpenStreetMap contributors"
       />
-      <Marker position={[ll1[0],ll1[1]]} icon={customMarkerIcon} id = "mark"/>
-      {/* <Marker position={[ll2[0],ll2[1]]} icon={customMarkerIcon} id = "mark"/>
-      <Marker position={[ll3[0],ll3[1]]} icon={customMarkerIcon} id = "mark"/>
-      <Marker position={[ll4[0],ll4[1]]} icon={customMarkerIcon} id = "mark"/>
-      <Marker position={[ll5[0],ll5[1]]} icon={customMarkerIcon} id = "mark"/> */}
+      {locations.map((d)=>{
+        return <Marker position={[d[0],d[1]]} icon = {customMarkerIcon} id = "mark"/>
+      })}
     </MapContainer>
 
   </div>
   );
 }
-
 export default Map;
 
