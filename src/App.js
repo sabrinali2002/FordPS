@@ -12,16 +12,12 @@ import ChatItem from "./components/ChatItem";
 import Homepage from "./components/Homepage";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
-import data from './zipLocations.json';
 import EV from './EV.json';
 import trims from './trims.json';
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material"
 import Navbar from './components/Navbar.js'
 import { extractFiveDigitString, findLocations} from "./mapFunctions"
-import trimToDealer from './trimToDealer';
-import dealerToTrim from './dealerToTrim';
 import QuestionButton from './components/QuestionButton';
-import { setUncaughtExceptionCaptureCallback } from "process";
 
 
 async function sendBotResponse(query, history) {
