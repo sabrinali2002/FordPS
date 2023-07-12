@@ -196,6 +196,7 @@ function App() {
             sqlQuery += `AND trim = "${selectedTrim}"`;
         }
         console.log(sqlQuery);
+        let dataArr = []
         let data = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
             method: "GET",
             headers: {
@@ -204,8 +205,22 @@ function App() {
         }).then((res) => {
             return res.json();
         });
-        console.log(data);
-        setCarInfoData(data);
+        //compare car data
+        let data2 = [];
+        if(carInfoMode === "compare") {
+            sqlQuery = `SELECT * FROM car_info WHERE model = "${compareModel}" AND trim = "${compareTrim}"`
+            data2 = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            }).then((res) => {
+                return res.json();
+            });
+        }
+        dataArr = [data, data2]
+        console.log(dataArr);
+        setCarInfoData(dataArr);
     };
 
     const handleCarInfoCompareButton = () => {
