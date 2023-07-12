@@ -23,7 +23,7 @@ import Navbar from "./components/Navbar.js";
 import { extractFiveDigitString, findLocations } from "./mapFunctions";
 import QuestionButton from "./components/QuestionButton";
 
-async function sendBotResponse(query, history) {
+async function sendBotResponse(query, history, mode) {
   console.log(JSON.stringify({ debug: true, quer: query }));
   let newQuery = "Here's our conversation before:\n";
   history.forEach((h) => {
@@ -36,7 +36,7 @@ async function sendBotResponse(query, history) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ mode: "recommend", quer: newQuery }),
+    body: JSON.stringify({ mode: mode, quer: newQuery }),
   })
     .then((res) => {
       return res.json();
@@ -127,7 +127,7 @@ function App() {
     <div className="buttons">
     <button onClick={() => handleUserInput('I') } className = "menu">Get info about our cars</button>
       <button onClick={() => handleUserInput("A")} className="menu">
-        Learn more about our cars
+        Help me buy a car
       </button>
       <button onClick={() => handleUserInput("B")} className="menu">
         Find the closest dealerships near me
@@ -246,7 +246,7 @@ function App() {
         setMessages((m) => [
           ...m,
           {
-            msg: "Ask a question to know more about our cars",
+            msg: "Happy to help! What kind of car are you looking for?",
             author: "Ford Chat",
             line: true,
             zip: {},
@@ -370,6 +370,17 @@ function App() {
                 //Car info dialogues
 
             break;
+        case 'A':
+            setQuery("");
+            sendBotResponse(query, history, "recommend").then((res) => {
+              setMessages((m) => [
+                ...m,
+                { msg: res, author: "Ford Chat", line: true, zip: {} },
+              ]);
+              setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+              blockQueries.current = false;
+            });
+        break;
           case "B":
             {
               if (zipMode != "") {
@@ -747,7 +758,7 @@ function App() {
             break;
           default:
             setQuery("");
-            sendBotResponse(query, history).then((res) => {
+            sendBotResponse(query, history, "chat").then((res) => {
               setMessages((m) => [
                 ...m,
                 { msg: res, author: "Ford Chat", line: true, zip: {} },
