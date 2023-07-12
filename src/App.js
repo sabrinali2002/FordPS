@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { Fragment, useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
-import Homepage from "./components/Homepage";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import EV from './EV.json';
@@ -93,11 +92,7 @@ function App() {
 
     // PAYMENT CALCULATOR
 
-    //homepage control
-    const [showApp, setShowApp] = useState(false);
-    const handleClick = () => {
-          setShowApp(true);
-    };
+
     //which state the bot is in: closest dealership, calculator, etc.
     const [choice, changeChoice] = useState('');
 
@@ -436,8 +431,7 @@ function App() {
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
     return (
-        showApp ? 
-        (<div className="ButtonContainer">
+        <div className="ButtonContainer">
         <Navbar></Navbar>
         <div className="App"
          style={{
@@ -574,9 +568,7 @@ function App() {
       </div>
             
         </div>
-    ) : (
-        <Homepage handleClick={handleClick} />
-      ));
+    );
 }
 
 export default App;

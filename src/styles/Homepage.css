@@ -38,9 +38,9 @@
 }
 
 .enter {
-    width: 20%;
-    height: 50px;
-    font-size: 1.5 rem;
+    max-width: 40%;
+    height: auto;
+    font-size: 1.2 rem;
     color: navy;
     font-family: 'Manrope', sans-serif;
     font-weight: 300;
@@ -50,7 +50,7 @@
 }
 
 .welcome {
-    width: 60%; 
+    align-self: center;
     font-family: 'Manrope', sans-serif;
     font-size: 2rem;
     font-weight: 400;
