@@ -179,7 +179,7 @@ function App() {
         let str2 = "dates";
         let addr = ' ' + addresses[dealer];
         let str3 = '000-000-0000';
-        setMapPopupText(<p style={{fontSize:'10px'}}><span style={{fontWeight:'bold'}}>{dealer}</span>{addr}<br />
+        setMapPopupText(<p style={{fontSize:'11px'}}><span style={{fontWeight:'bold'}}>{dealer}</span>{addr}<br />
                             <span style={{fontWeight:'bold'}}>{title1}</span>{str1}<br />
                             <span style={{fontWeight:'bold'}}>{title2}</span>{str2}<br />
                             {str3}</p>);
@@ -198,7 +198,7 @@ function App() {
             if (Object.values(dealerToTrim[dealer][model]).includes(trim)) {
                 str = `${model} ${trim} is at this location`;
                 if (dealerToTrim[dealer][model].length > 1) {
-                    str = `${str}, plus `;
+                    str = `${str}, plus ${model} `;
                 }
                 let i = 0;
                 for (let trims of dealerToTrim[dealer][model]) {
@@ -314,11 +314,11 @@ function App() {
         }
         let num = '000-000-0000';
         str = str;
-        let str1 = `Next 5 appointments: `;
+        let str1 = `Upcoming appointments: `;
         let str2 = `Phone number: ${num}`;
         setMessages((m) => [...m, { msg: `${str}`, author: "Ford Chat", line: false }]);
-        setMessages((m) => [...m, { msg: `${str1}`, author: "Ford Chat", line: false }]);
-        setMessages((m) => [...m, { msg: `${str2}`, author: "Ford Chat", line: false }]);
+        setMessages((m) => [...m, { msg: `${str1}`, author: "", line: false }]);
+        setMessages((m) => [...m, { msg: `${str2}`, author: "", line: false }]);
     }
 
     const calcButtonHandler = (event) => {
