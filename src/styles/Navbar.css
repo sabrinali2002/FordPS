@@ -19,8 +19,8 @@ Sidebar navigation
     border: none;
   }
   .menu-nav {
-    right: 30px;
-    top: 50px;
+    right: 0px;
+    top: 40px;
     list-style: none;
     position: absolute;
     background: #fff;
@@ -31,7 +31,8 @@ Sidebar navigation
     box-shadow: 0 10px 15px -3px rgb(46 41 51 / 8%), 0 4px 6px -2px rgb(71 63 79 / 16%);
     transform: translateX(100px);
     transition: transform ease-in-out 0.2s;
-    background-color:#F2F2F2
+    background-color:#bccce8;
+    padding:10px;
     /* transition: width ease 0.2s; */
   }
   .menu-nav.show-menu {

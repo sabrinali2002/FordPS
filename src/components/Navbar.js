@@ -46,9 +46,9 @@ const Navbar = () => {
     <FiMenu style={{width: '32px',height: '32px',}}/>
   )}
 </button>
-  <ul className={`menu-nav${navbarOpen ? ' show-menu' : ''}`} style = {{paddingLeft:"0px"}}>
+  <ul className={`menu-nav${navbarOpen ? ' show-menu' : ''}`} >
   <button className="toggle" onClick={() => setNavbarOpen((prev) => !prev)}>
-  <MdClose style={{ width: '32px', height: '32px', position: 'relative', top:'-25px'}} />
+  <MdClose style={{ width: '32px', height: '32px', position: 'relative', top:'-28px', right:'-5px'}} />
   </button>
     <li className = "title"><strong>HenrAI Menu</strong></li>
     <li><a href = "#" onClick = {buyListener}><strong>Buying a Ford</strong></a></li>
