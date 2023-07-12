@@ -260,7 +260,7 @@ function App() {
                         const places = loc.split('..');
                         for(let i = 0; i < places.length-1; i++){
                             if(i === 0){
-                                setMessages((m) => [...m, { msg: places[i], author: "Ford Chat", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
+                                setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
                             }
                             else if(i === places.length-2){
                                 setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
@@ -287,17 +287,17 @@ function App() {
                             findLocations(zipCode,query).then(loc=>{
                                 const places = loc.split('..');
                                 setMessages((m) => [...m, {msg:"", author: "Ford Chat..", line:false, zip:{zipcode:"", dist:""}, locs: places.slice(0,places.length-1)}]);
-                                // for(let i = 0; i < places.length-1; i++){
-                                //     if(i === 0){
-                                //         setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
-                                //     }
-                                //     else if(i === places.length-2){
-                                //         setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
-                                //     }
-                                //     else{
-                                //         setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
-                                //     }
-                                // }
+                                for(let i = 0; i < places.length-1; i++){
+                                    if(i === 0){
+                                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
+                                    }
+                                    else if(i === places.length-2){
+                                        setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+                                    }
+                                    else{
+                                        setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+                                    }
+                                }
                                 setZipMode("");
                         })
                         }
