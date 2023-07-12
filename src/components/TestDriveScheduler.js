@@ -38,23 +38,31 @@ const TestDriveScheduler = ({ onExit, loc }) => {
 
   if (confirmationMessage !== "") {
     return (
-      <div style={styles.container}>
-        <div style={styles.form}>
-          <button
-            style={styles.closeButton}
-            onClick={onExit} // When clicked, invoke the `onExit` prop
-          >
-            X
-          </button>
-          <h2>Appointment Confirmed</h2>
+      //<div style={styles.container}>
+      <div style={styles.form}>
+        <button
+          style={styles.closeButton}
+          onClick={onExit} // When clicked, invoke the `onExit` prop
+        >
+          X
+        </button>
+        <h2>Appointment Confirmed</h2>
+        <div
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            paddingLeft: 20,
+          }}
+        >
           <p>{`Name: ${customerInfo}`}</p>
           <p>{`Contact Information: ${email}`}</p>
           <p>{`Phone number: ${phone}`}</p>
-          <p>{`Location: ford...`}</p>
+          <p>{`Location: ${loc}`}</p>
           <p>{`Time: ${format(selectedDate, "MMMM d, h aa")}`}</p>
           <p>{`Models: ${models}`}</p>
         </div>
       </div>
+      //</div>
     );
   }
 
@@ -67,8 +75,9 @@ const TestDriveScheduler = ({ onExit, loc }) => {
         >
           X
         </button>
-        <h2>{loc}</h2>
+
         <h2>Schedule a Test Drive</h2>
+        <h4>{`Location: ${loc}`}</h4>
         <div style={styles.dateContainer}></div>
         <div style={styles.infoContainer}>
           <label>Date: </label>
@@ -139,7 +148,12 @@ const styles = {
     width: "350px",
   },
   form: {
+    flexDirection: "column",
+    display: "flex",
     width: "300px",
+    height: "500px",
+    justifyContent: "center",
+    alignItems: "center",
     background: "#fff",
     borderRadius: "15px",
     padding: "20px",
