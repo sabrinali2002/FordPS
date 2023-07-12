@@ -13,13 +13,12 @@ import Homepage from "./components/Homepage";
 import FordSite from "./components/FordSite";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
-import data from './zipLocations.json';
 import EV from './EV.json';
 import trims from './trims.json';
-import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
-import { findLocations} from "./mapFunctions.js";
+import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material"
+import { extractFiveDigitString, findLocations} from "./mapFunctions"
 import QuestionButton from './components/QuestionButton';
-import { setUncaughtExceptionCaptureCallback } from "process";
+import HamburgerMenu from './components/Navbar.js'
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
@@ -80,9 +79,10 @@ function App() {
     const [history, setHistory] = useState([]);
     const [response, setResponse] = useState('');
     const [recording, setRecording] = useState(false);
-    //accessibility  
+    // ACCESSIBILITY  
     const [textSize, setTextSize] = useState("small");
     const [darkMode, setDarkMode] = useState(false);
+    const [zipCode, setZipCode] = useState("");
 
     const toggleTextSize = () => {
         setTextSize((prevSize) => (prevSize === "small" ? "medium" : (prevSize === "medium" ? "large" : "small")));
@@ -91,6 +91,9 @@ function App() {
       const toggleDarkMode = () => {
         setDarkMode((prevMode) => !prevMode);
       };
+
+    // PAYMENT CALCULATOR
+
     //homepage control
     const [showApp, setShowApp] = useState(false);
     const [showHomepage, setShowHomepage] = useState(false);
@@ -116,39 +119,23 @@ function App() {
     // [1]down payment, [2]trade-in, [3]months, [4]annual %
     const [financeStep, setFinanceStep] = useState(0);
     const [calcButtons, setCalcButtons] = useState('');
-    
+    const [zipMode,setZipMode] = useState('');  
     const [model, setModel] = useState('');
     const [trim, setTrim] = useState('');
-
+    const categories = [
+    { name: "Category 1", subcategories: ["Subcategory 1.1", "Subcategory 1.2"] },
+    { name: "Category 2", subcategories: ["Subcategory 2.1", "Subcategory 2.2"] },
+  ];
     const origButtons = (<div className = "buttons">
-        <button onClick={() => handleUserInput('A') } className = "menu">A. Learn more about our cars</button>
-        <button onClick={() => handleUserInput('B')} className = "menu">B. Find the closest dealerships near me</button>
-        <button onClick={() => handleUserInput('C')} className = "menu">C. Schedule a test drive</button>
-        <button onClick={() => handleUserInput('D')} className = "menu">D. Payment calculator</button>
+        <button onClick={() => handleUserInput('A') } className = "menu">Learn more about our cars</button>
+        <button onClick={() => handleUserInput('B')} className = "menu">Find the closest dealerships near me</button>
+        <button onClick={() => handleUserInput('C')} className = "menu">Schedule a test drive</button>
+        <button onClick={() => handleUserInput('D')} className = "menu">Payment calculator</button>
         </div>)
     const [menuButtons, setMenuButtons] = useState(origButtons);
 
-
     //map functions -------------------------------------------------------->
-    //finding the distance between user input and dealerships
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-      function toRadians(degrees) {
-        return degrees * (Math.PI / 180);
-      }
-      const R = 6371; // Radius of the Earth in kilometers
-      const dLat = toRadians(lat2 - lat1);
-      const dLon = toRadians(lon2 - lon1);
-    
-      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRadians(lat1)) *
-          Math.cos(toRadians(lat2)) *
-          Math.sin(dLon / 2) *
-          Math.sin(dLon / 2);
-    
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    
-      const distance = R * c;
-      return distance;
-    }
+
     //finds the longitude and latitude of the user
     const findLatLong = (zip) => {
       const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
@@ -159,55 +146,19 @@ function App() {
           return res;
         });
     }
+    
+    // map icon hover handler
+    const mapIconHandler = (event) => {
+        console.log(event);
+        // access dealer
+        let dealer = "Sunny King Ford";
+    }
+
     const calcButtonHandler = (event) => {
         let val = event.target.getAttribute('value');
         setQuery(val);
         setMessages((m) => [...m, { msg: val, author: "You" }]);
         setCalcButtons([]);
-    }
-    //extracts the zip code from the user input for map
-    function extractFiveDigitString(inputString) {
-      const regex = /\b\d{5}\b/g;
-      const matches = inputString.match(regex);
-      if (matches && matches.length > 0) {
-        return matches[0];
-      }
-      return null;
-    }
-    const findLocations = async () => {
-      const zip = extractFiveDigitString(query);
-      try{
-        const result = await findLatLong(zip);
-        const distances = {}
-      const l = [result.latitude,result.longitude];
-      for (const coords in data){
-        const [lat,lon] = coords.split(" ");
-        const address = data[coords].name + ": " + data[coords].address + ", " + data[coords].city + " " + lat + " " + lon;
-        const distance = calculateDistance(l[0],l[1],parseFloat(lat),parseFloat(lon));
-        distances[address] = distance;
-      }
-      const sortedLocations = Object.entries(distances).sort((a,b)=>a[1]-b[1]);
-      const closestLocations = sortedLocations.slice(0,5);
-      let string = ""
-      for(let i = 0; i < closestLocations.length; i++){
-        const arr = closestLocations[i][0].split(", ");
-        console.log(arr);
-        let shortStr = ""
-        for(let i = 0; i < arr.length-1; i++){
-            console.log(arr[i]);
-            shortStr += arr[i] + ", ";
-        }
-        console.log(shortStr);
-        string += shortStr + "..";
-        // const location = arr[arr.length-1].split(" ");
-        // topLatLongs.push([location[1],location[2]]);
-      }
-      console.log("string: " + string);
-      return string;
-      }
-      catch(err){
-        return "Invalid zip";
-      }
     }
     // --------------------------------------------------------------------->
     //handler for button user clicks
@@ -215,15 +166,15 @@ function App() {
     // Outputs a response to based on input user selects
     switch (option) {
       case 'A':
-        setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat", line:true, line:true }]);
+        setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat", line:true, zip:{} }]);
         changeChoice('A');
         break;
       case 'B':
-        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line:true, line:true }]);
+        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line:true,zip:{} }]);
         changeChoice('B');
         break;
       case 'C':
-        setMessages((m) => [...m, { msg: "Please input the name of the car you would like to test and your current zip so we can find the location best for you", author: "Ford Chat", line:true }]);
+        setMessages((m) => [...m, { msg: "Type in your zip code so we can help you find the nearest dealership!", author: "Ford Chat", line:true,zip:{}  }]);
         changeChoice('C');
         break;
       case 'D':
@@ -296,7 +247,6 @@ function App() {
     useEffect(() => {
       if(query.toLowerCase() === 'a' || query.toLowerCase() === 'b' || query.toLowerCase() === 'c' || query.toLowerCase() === 'd'){
         handleUserInput(query.toUpperCase());
-        console.log("reached");
       }
 
 
@@ -304,75 +254,70 @@ function App() {
         if (!blockQueries.current && query.length > 0) {
           blockQueries.current = true;
           switch(choice){
-            case 'A', '':
+            case 'A':
               setQuery("");
               sendBotResponse(query, history).then((res) => {
-                setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true, line : true }]);
+                setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true,zip:{}}]);
                 setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
                 blockQueries.current = false;
               })
               break;
             case 'B':
-              findLocations(query).then(loc=>{
-                const places = loc.split('..');
-                console.log(places);
-                for(let i = 0; i < places.length-1; i++){
-                    if(i === 0){
-                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat", line : false}]);
-                    }
-                    else if(i === places.length-2){
-                        setMessages((m) => [...m, { msg: places[i], author: "", line : true}]);
-                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat", line : false}]);
-                    }
-                    else if(i === places.length-2){
-                        setMessages((m) => [...m, { msg: places[i], author: "", line : true}]);
-                    }
-                    else{
-                        setMessages((m) => [...m, { msg: places[i], author: "", line : false, line : false }]);
-                    }
+                {
+                if(zipMode != ""){
+                    findLocations(zipCode,query).then(loc=>{
+                        const places = loc.split('..');
+                        for(let i = 0; i < places.length-1; i++){
+                            if(i === 0){
+                                setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
+                            }
+                            else if(i === places.length-2){
+                                setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+                            }
+                            else{
+                                setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+                            }
+                        }
+                        setZipMode("");
+                })
+                }
+                else{
+                    setZipCode(query)
+                    setMessages((m)=>[...m,{msg: "Select the radius of dealerships you would like to look for in miles", author: "Ford Chat", line:true,zip:""}]);
+                    setZipMode("query");
                 }
                 blockQueries.current = false;
-              });
-            break;
+              })
             break;
             case 'C':
-            findLocations(query).then(loc=>{
-              const places = loc.split('..');
-              if(places.length > 3){
-              setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat", line : true}]);
-              for(let i = 0; i < places.length-1; i++){
-                if(i === places.length-2){
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : true}]);
-                }
-                else{
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : false }]);
-                }
-              }
-              setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "", line:true }]);
-            }
-            else{
-                setMessages((m) => [...m, { msg: places[0], author: "Ford Chat", line : true }]);
-            }
-            findLocations(query).then(loc=>{
-              const places = loc.split('..');
-              if(places.length > 3){
-              setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat", line : true}]);
-              for(let i = 0; i < places.length-1; i++){
-                if(i === places.length-2){
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : true}]);
-                }
-                else{
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : false }]);
-                }
-              }
-              setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "", line:true }]);
-            }
-            else{
-                setMessages((m) => [...m, { msg: places[0], author: "Ford Chat", line : true }]);
-            }
-              blockQueries.current = false;
-            })
-            })
+                {
+                    {
+                        if(zipMode != ""){
+                            findLocations(zipCode,query).then(loc=>{
+                                const places = loc.split('..');
+                                setMessages((m) => [...m, {msg:"", author: "Ford Chat..", line:false, zip:{zipcode:"", dist:""}, locs: places.slice(0,places.length-1)}]);
+                                for(let i = 0; i < places.length-1; i++){
+                                    if(i === 0){
+                                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
+                                    }
+                                    else if(i === places.length-2){
+                                        setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+                                    }
+                                    else{
+                                        setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+                                    }
+                                }
+                                setZipMode("");
+                        })
+                        }
+                        else{
+                            setZipCode(query)
+                            setMessages((m)=>[...m,{msg: "Select the radius of dealerships you would like to look for in miles", author: "Ford Chat", line:true,zip:""}]);
+                            setZipMode("query");
+                        }
+                        blockQueries.current = false;
+                      }
+                  }
               break;
             case 'D':
                 setQuery("");
@@ -486,7 +431,17 @@ function App() {
                         break; 
                       
                 }
+                default:
+                    setQuery("");
+              sendBotResponse(query, history).then((res) => {
+                setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true,zip:{}}]);
+                setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+                blockQueries.current = false;
+              })
+              break;
+
           }
+
       }
       }
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
@@ -494,7 +449,7 @@ function App() {
     return (
         showApp ? 
         (<div className="ButtonContainer">
-        
+        <HamburgerMenu categories={categories} />
         <div className="App"
          style={{
             backgroundColor: darkMode ? "#000080" : "#f4f3f3",
@@ -525,6 +480,8 @@ function App() {
                                 line = {message.line}
                                 darkMode={darkMode}
                                 textSize={textSize}
+                                zip = {message.zip}
+                                locs = {message.locs}
                             />
                         );
                     })}
@@ -601,7 +558,6 @@ function App() {
                             ),
                         }}
                     />
-
                 </form>
                 </div>
         <div className="bottom">
