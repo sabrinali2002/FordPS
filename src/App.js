@@ -162,7 +162,7 @@ function App() {
         changeChoice('B');
         break;
       case 'C':
-        setMessages((m) => [...m, { msg: "Please input the name of the car you would like to test and your current zip so we can find the location best for you", author: "Ford Chat", line:true,zip:{}  }]);
+        setMessages((m) => [...m, { msg: "Type in your zip code so we can help you find the nearest dealership!", author: "Ford Chat", line:true,zip:{}  }]);
         changeChoice('C');
         break;
       case 'D':
@@ -279,44 +279,32 @@ function App() {
               }
             break;
             case 'C':
-        
-            findLocations(query).then(loc=>{
-              const places = loc.split('..');
-              if(places.length > 3){
-              setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat.", line : false, zip:extractFiveDigitString(query)}]);
-              for(let i = 0; i < places.length-1; i++){
-                if(i === places.length-2){
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
-                }
-                else{
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
-                }
-              }
-              setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "", line:true,zip:{} }]);
-            }
-            else{
-                setMessages((m) => [...m, { msg: places[0], author: "Ford Chat", line : true,zip:{} }]);
-            }
-            findLocations(query).then(loc=>{
-              const places = loc.split('..');
-              if(places.length > 3){
-              setMessages((m) => [...m, { msg: "This car is available in the following locations: ", author: "Ford Chat", line : true}]);
-              for(let i = 0; i < places.length-1; i++){
-                if(i === places.length-2){
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : true}]);
-                }
-                else{
-                    setMessages((m) => [...m, { msg: places[i], author: "", line : false }]);
-                }
-              }
-              setMessages((m) => [...m, { msg: "Please select the dealership most convenient for you", author: "", line:true }]);
-            }
-            else{
-                setMessages((m) => [...m, { msg: places[0], author: "Ford Chat", line : true }]);
-            }
-              blockQueries.current = false;
-            })
-            })
+                {
+                    if(zipMode != ""){
+                        findLocations(zipCode,query).then(loc=>{
+                            console.log(query);
+                            const places = loc.split('..');
+                            for(let i = 0; i < places.length-1; i++){
+                                if(i === 0){
+                                    setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
+                                }
+                                else if(i === places.length-2){
+                                    setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+                                }
+                                else{
+                                    setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+                                }
+                            }
+                            setZipMode("");
+                    })
+                    }
+                    else{
+                        setZipCode(query)
+                        setMessages((m)=>[...m,{msg: "Select the radius of dealerships you would like to look for in miles", author: "Ford Chat", line:true,zip:""}]);
+                        setZipMode("query");
+                    }
+                    blockQueries.current = false;
+                  }
               break;
             case 'D':
                 setQuery("");
