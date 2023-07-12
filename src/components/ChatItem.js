@@ -58,6 +58,7 @@ export default function ChatItem({
   darkMode,
   textSize,
   zip,
+  locs
 }) {
   const authorStyle = {
     fontSize:
@@ -71,6 +72,7 @@ export default function ChatItem({
   const [isSpeaking, toggleIsSpeaking] = useState(false);
   return (
     <div>
+        {author === "Ford Chat.." && <Table loc = {locs}></Table>}
       {author === "Ford Chat." && <Map zip={zip.zipcode} dist={zip.dist}></Map>}
       <Fragment>
         <p
