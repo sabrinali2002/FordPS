@@ -6,6 +6,9 @@ import { FiMenu } from 'react-icons/fi';
 const Navbar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const ref = useRef();
+  function addListener(){
+
+  }
   useEffect(() => {
     const handler = (event) => {
       if (
@@ -22,6 +25,7 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handler);
     };
   }, [navbarOpen]);
+  //add new list when u click things yay
   return (
     <nav ref={ref} className="navbar">
         <button className="toggle" onClick={() => setNavbarOpen((prev) => !prev)}>
@@ -30,11 +34,11 @@ const Navbar = () => {
   )}
 </button>
   <ul className={`menu-nav${navbarOpen ? ' show-menu' : ''}`}>
-    <li><a href = "#"><strong>Existing Owner</strong></a></li>
-    <li><a href = "#"><strong>Buying a Ford</strong></a></li>
-    <li><a href = "#"><strong>Info about Ford</strong></a></li>
-    <li><a href = "#"><strong>Negotiation Assistance</strong></a></li>
-    <li><a href = "#"><strong>Accessibility</strong></a></li>
+    <li><a href = "#" onClick = {addListener}><strong>Existing Owner</strong></a></li>
+    <li><a href = "#" onClick = {addListener}><strong>Buying a Ford</strong></a></li>
+    <li><a href = "#" onClick = {addListener}><strong>Info about Ford</strong></a></li>
+    <li><a href = "#" onClick = {addListener}><strong>Negotiation Assistance</strong></a></li>
+    <li><a href = "#" onClick = {addListener}><strong>Accessibility</strong></a></li>
   </ul>
 </nav>
   );
