@@ -17,11 +17,11 @@ import EV from './EV.json';
 import trims from './trims.json';
 import trimToDealer from './trimToDealer.json';
 import dealerToTrim from './dealerToTrim.json';
+import addresses from './dealerToAddress.json';
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
 import { findLocations } from "./mapFunctions.js";
 import QuestionButton from './components/QuestionButton';
 import { setUncaughtExceptionCaptureCallback } from "process";
-
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
@@ -114,8 +114,8 @@ function App() {
     const [financeStep, setFinanceStep] = useState(0);
     const [calcButtons, setCalcButtons] = useState('');
 
-    const [model, setModel] = useState('');
-    const [trim, setTrim] = useState('');
+    const [model, setModel] = useState('Bronco');
+    const [trim, setTrim] = useState('Badlands');
 
     const origButtons = (<div className="buttons">
         <button onClick={() => handleUserInput('A')} className="menu">A. Learn more about our cars</button>
@@ -177,14 +177,149 @@ function App() {
         let title2 = 'Available dates: ';
         let str1 = str.slice(0, str.length - 2);
         let str2 = "dates";
-        setMapPopupText(<p style={{fontSize:'10px'}}><span style={{fontWeight:'bold'}}>{dealer}</span><br />
+        let addr = ' ' + addresses[dealer];
+        let str3 = '000-000-0000';
+        setMapPopupText(<p style={{fontSize:'10px'}}><span style={{fontWeight:'bold'}}>{dealer}</span>{addr}<br />
                             <span style={{fontWeight:'bold'}}>{title1}</span>{str1}<br />
-                            <span style={{fontWeight:'bold'}}>{title2}</span>{str2}</p>);
+                            <span style={{fontWeight:'bold'}}>{title2}</span>{str2}<br />
+                            {str3}</p>);
     };
 
     const handleMouseLeaveMap = () => {
         setIsHoveredMap(false);
     };
+
+    const handleMouseClickMap = () => {
+        let dealer = 'Sunny King Ford';
+        let str = '';
+        setMessages((m) => [...m, { msg: `${dealer}`, author: "You" }]);
+        setIsHoveredMap(false);
+        if (model !== '' && trim !== '') {
+            if (Object.values(dealerToTrim[dealer][model]).includes(trim)) {
+                str = `${model} ${trim} is at this location`;
+                if (dealerToTrim[dealer][model].length > 1) {
+                    str = `${str}, plus `;
+                }
+                let i = 0;
+                for (let trims of dealerToTrim[dealer][model]) {
+                    if (trims !== trim && i < 4) {
+                        if (i === 3 || i === dealerToTrim[dealer][model].length-2) {
+                            str = `${str.slice(0,str.length-2)} and ${trims}, `;
+                        }
+                        else {
+                            str = `${str} ${trims}, `;
+                        }                        
+                        i = i + 1;
+                    }
+                }
+                str = str.slice(0,str.length-2);
+            }
+            else {
+                if (dealerToTrim[dealer][model].length > 0) {
+                    str = `There are no ${model} ${trim} at this location, but there are ${model} `;
+                    let i = 0;
+                    for (let trims of dealerToTrim[dealer][model]) {
+                        if (i < 4) {
+                            if (i === 3 && dealerToTrim[dealer][model].length === 4) {
+                                str = `${str} and ${trims}, `;
+                            }
+                            else {
+                                str = `${str} ${trims}, `;
+                            }
+                            i = i + 1;
+                        }
+                    }
+                    str = str.slice(0,str.length-2);
+                    if (dealerToTrim[dealer][model].length > 4) {
+                        str = `${str} and ${(dealerToTrim[dealer][model].length - 4).toString()} other trim`;
+                        if (dealerToTrim[dealer][model].length > 5) {
+                            str = `${str}s`;
+                        }
+                    }
+                }
+                else { 
+                    str = `There are no ${model}s at this location, but there are `;
+                    let i = 0;
+                    for (let models of Object.keys(dealerToTrim[dealer])) {
+                        if (i < 4) {
+                            let num = dealerToTrim[dealer][models].length;
+                            if (i === 3) {
+                                str = `${str} and ${num.toString()} ${models} trims, `;
+                            }
+                            else {
+                                str = `${str} ${num.toString()} ${models} trims, `;
+                            }                            
+                            i = i + 1;
+                        }
+                    }
+                    str = str.slice(0,str.length-2);
+                }
+            }
+        }
+        else if (model !== '') {
+            if (dealerToTrim[dealer][model].length > 0) {
+                str = `${model} trims at ${dealer} include `;
+                let i = 0;
+                for (let trims of dealerToTrim[dealer][model]) {
+                    if (i < 4) {
+                        if ((i === 3 || i === dealerToTrim[dealer][model].length-1) && dealerToTrim[dealer][model].length < 5) {
+                            str = `${str.slice(0,str.length-2)} and ${trims}, `;
+                        }
+                        else {
+                            str = `${str} ${trims}, `;
+                        }
+                        i = i + 1;
+                    }
+                }
+                str = str.slice(0,str.length-2);
+                if (dealerToTrim[dealer][model].length > 4) {
+                    str = `${str} and ${(dealerToTrim[dealer][model].length - 4).toString()} more`;
+                }
+            }
+            else {
+                str = `There are no ${model} trims at ${dealer}, but there are `;
+                let i = 0;
+                for (let models of Object.keys(dealerToTrim[dealer])) {
+                    if (i < 4) {
+                        let num = dealerToTrim[dealer][models].length;
+                        if (i === 3) {
+                            str = str + `and ${num.toString()} ${models} trims, `;
+                        }
+                        else {
+                            str = str + `${num.toString()} ${models} trims, `;
+                        }                        
+                        i = i + 1;
+                    }
+                }
+                str = str.slice(0,str.length-2);
+            }
+        }
+        else {
+            str = 'There are ';
+            let i = 0;
+            for (let models of Object.keys(dealerToTrim[dealer])) {
+                if (i < 4) {
+                    let num = dealerToTrim[dealer][models].length;
+                    if (i === 3) {
+                        str = str + `and ${num.toString()} ${models} trims, `
+                    }
+                    else {
+                        str = str + `${num.toString()} ${models} trims, `;
+                    }
+                    i = i + 1;
+                }
+            }
+            str = str.slice(0,str.length-2);
+            str = str + ` at ${dealer}`;
+        }
+        let num = '000-000-0000';
+        str = str;
+        let str1 = `Next 5 appointments: `;
+        let str2 = `Phone number: ${num}`;
+        setMessages((m) => [...m, { msg: `${str}`, author: "Ford Chat", line: false }]);
+        setMessages((m) => [...m, { msg: `${str1}`, author: "Ford Chat", line: false }]);
+        setMessages((m) => [...m, { msg: `${str2}`, author: "Ford Chat", line: false }]);
+    }
 
     const calcButtonHandler = (event) => {
         let val = event.target.getAttribute('value');
@@ -502,13 +637,22 @@ function App() {
                                 setCalcStep(6);
                                 blockQueries.current = false;
                             case 6: // go to dealership finder
-                                setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line: true }]);
-                                changeChoice('B');
+                                if (query.contains('pickup')) {
+                                    setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line: true }]);
+                                    changeChoice('B');
+                                    setCalcStep(0);
+                                }
+                                else if (query.contains('deliver')) {
+                                    setMessages((m) => [...m, { msg: "Please enter your address", author: "Ford Chat", line: true }]);
+                                    setCalcStep(7);
+                                }
                                 blockQueries.current = false;
-                                setCalcStep(0);
                                 setCalcMode(0);
                                 //changeChoice('A');
                                 break;
+                            case 7: // delivery
+                                setMessages((m) => [...m, { msg: "You will now be re-directed to the payment page", author: "Ford Chat", line: true }]);
+                                setCalcStep(0);
 
                         }
                 }
@@ -570,7 +714,7 @@ function App() {
                         </Card>
                     </div>
                     <div>
-                        <div onMouseEnter={handleMouseEnterMap} onMouseLeave={handleMouseLeaveMap}>
+                        <div onClick={handleMouseClickMap} onMouseEnter={handleMouseEnterMap} onMouseLeave={handleMouseLeaveMap}>
                             <button>Hover here</button>
                             {isHoveredMap && <div className="map-popup">{mapPopupText}</div>}
                         </div>
