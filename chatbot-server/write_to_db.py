@@ -45,4 +45,4 @@ for row in rows:
     stmt = insert(ford_stats_table).values(**info)
     with engine.connect() as connection:
         cursor = connection.execute(stmt)
-        connection.commit()
+        connection.commit() 
