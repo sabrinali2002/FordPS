@@ -5,7 +5,7 @@ import Map from './Map'
 import DropDown from "./DropDown";
 import {Button} from 'react-bootstrap';
 import CarInfoTable from "./CarInfoTable";
-import CarInfoDropdownSection from "./CarInfoSection";
+import CarInfoDropdownSection from "./CarInfoDropdownSection";
 function extractLinkFromText(messageText, author, darkMode){
     const wordsArray = messageText.split(" ")
     const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
