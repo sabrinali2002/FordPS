@@ -287,7 +287,7 @@ function App() {
                     setZipMode("query");
                 }
                 blockQueries.current = false;
-              })
+              }
             break;
             case 'C':
                 {
