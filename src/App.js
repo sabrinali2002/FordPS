@@ -15,10 +15,9 @@ import { Mic } from "react-bootstrap-icons";
 import EV from './EV.json';
 import trims from './trims.json';
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material"
-import Navbar from './components/Navbar.js'
 import { extractFiveDigitString, findLocations} from "./mapFunctions"
 import QuestionButton from './components/QuestionButton';
-
+import HamburgerMenu from './components/Navbar.js'
 
 async function sendBotResponse(query, history) {
     console.log(JSON.stringify({ debug: true, quer: query }));
@@ -83,6 +82,7 @@ function App() {
     const [textSize, setTextSize] = useState("small");
     const [darkMode, setDarkMode] = useState(false);
     const [zipCode, setZipCode] = useState("");
+
     const toggleTextSize = () => {
         setTextSize((prevSize) => (prevSize === "small" ? "medium" : (prevSize === "medium" ? "large" : "small")));
       };
@@ -113,7 +113,10 @@ function App() {
     const [zipMode,setZipMode] = useState('');  
     const [model, setModel] = useState('');
     const [trim, setTrim] = useState('');
-
+    const categories = [
+    { name: "Category 1", subcategories: ["Subcategory 1.1", "Subcategory 1.2"] },
+    { name: "Category 2", subcategories: ["Subcategory 2.1", "Subcategory 2.2"] },
+  ];
     const origButtons = (<div className = "buttons">
         <button onClick={() => handleUserInput('A') } className = "menu">Learn more about our cars</button>
         <button onClick={() => handleUserInput('B')} className = "menu">Find the closest dealerships near me</button>
@@ -279,29 +282,32 @@ function App() {
             break;
             case 'C':
                 {
-                    if(zipMode != ""){
-                        findLocations(zipCode,query).then(loc=>{
-                            const places = loc.split('..');
-                            for(let i = 0; i < places.length-1; i++){
-                                if(i === 0){
-                                    setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
+                    {
+                        if(zipMode != ""){
+                            findLocations(zipCode,query).then(loc=>{
+                                const places = loc.split('..');
+                                setMessages((m) => [...m, {msg:"", author: "Ford Chat..", line:false, zip:{zipcode:"", dist:""}, locs: places.slice(0,places.length-1)}]);
+                                for(let i = 0; i < places.length-1; i++){
+                                    if(i === 0){
+                                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
+                                    }
+                                    else if(i === places.length-2){
+                                        setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+                                    }
+                                    else{
+                                        setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+                                    }
                                 }
-                                else if(i === places.length-2){
-                                    setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
-                                }
-                                else{
-                                    setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
-                                }
-                            }
-                            setZipMode("");
-                    })
-                    }
-                    else{
-                        setZipCode(query)
-                        setMessages((m)=>[...m,{msg: "Select the radius of dealerships you would like to look for in miles", author: "Ford Chat", line:true,zip:""}]);
-                        setZipMode("query");
-                    }
-                    blockQueries.current = false;
+                                setZipMode("");
+                        })
+                        }
+                        else{
+                            setZipCode(query)
+                            setMessages((m)=>[...m,{msg: "Select the radius of dealerships you would like to look for in miles", author: "Ford Chat", line:true,zip:""}]);
+                            setZipMode("query");
+                        }
+                        blockQueries.current = false;
+                      }
                   }
               break;
             case 'D':
@@ -416,7 +422,17 @@ function App() {
                         break; 
                       
                 }
+                default:
+                    setQuery("");
+              sendBotResponse(query, history).then((res) => {
+                setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true,zip:{}}]);
+                setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+                blockQueries.current = false;
+              })
+              break;
+
           }
+
       }
       }
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
@@ -424,7 +440,7 @@ function App() {
     return (
         showApp ? 
         (<div className="ButtonContainer">
-        <Navbar></Navbar>
+        <HamburgerMenu categories={categories} />
         <div className="App"
          style={{
             backgroundColor: darkMode ? "#000080" : "#f4f3f3",
@@ -457,6 +473,7 @@ function App() {
                                 darkMode={darkMode}
                                 textSize={textSize}
                                 zip = {message.zip}
+                                locs = {message.locs}
                             />
                         );
                     })}
