@@ -4,6 +4,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import data from "../zipLocations.json";
 import "./Map.css";
+import Modal from "react-modal";
 import TestDriveScheduler from "./TestDriveScheduler";
 
 function Map({ zip, dist }) {
@@ -107,7 +108,7 @@ function Map({ zip, dist }) {
     fetchInfo();
   }, [zip, latlong]);
   return (
-    <div>
+    <div style={{ position: "relative" }}>
       <MapContainer
         center={latlong}
         zoom={3}
@@ -117,6 +118,7 @@ function Map({ zip, dist }) {
           display: "flex",
           float: "left",
           marginRight: "20px",
+          marginBottom: "60px",
         }}
         id={"map"}
       >
@@ -144,4 +146,5 @@ function Map({ zip, dist }) {
     </div>
   );
 }
+
 export default Map;
