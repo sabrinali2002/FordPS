@@ -93,9 +93,13 @@ function App() {
     // [1]down payment, [2]trade-in, [3]months, [4]annual %
     const [financeStep, setFinanceStep] = useState(0);
     const [calcButtons, setCalcButtons] = useState('');
+    // Car Info states
     const [selectedModel, setSelectedModel] = useState("");
     const [selectedTrim, setSelectedTrim] = useState("");
+    const [compareModel, setCompareModel] = useState("");
+    const [compareTrim, setCompareTrim] = useState("");
     const [carInfoData, setCarInfoData] = useState([]);
+    const [carInfoMode, setCarInfoMode] = useState("single");
 
     //map functions -------------------------------------------------------->
     //finding the distance between user input and dealerships
@@ -179,24 +183,41 @@ function App() {
 }
     //Car Info functions  -------------------------------------------------------------
     const handleModelChange = (event) => {
-        setSelectedModel(event.target.value);
+        const id = event.target.parentNode.id;
+        if(id === "firstCar") {
+            setSelectedModel(event.target.value);
+            setSelectedTrim("");
+        }
+        if(id === "secondCar") {
+            setCompareModel(event.target.value);
+            setCompareTrim("");
+        }
     };
 
     const handleTrimChange = (event) => {
-        setSelectedTrim(event.target.value);
+        const id = event.target.parentNode.id;
+        if(id === "first") {
+            setSelectedTrim(event.target.value);
+        }
+        if(id === "secondCar") {
+            setCompareTrim(event.target.value);
+        }
     };
     
     let modelOptions = Object.keys(trims).map(model => ({value: model, label: model}));
     modelOptions.unshift({value: "no model", label: "Select Model"});
 
     let trimOptions = (selectedModel === "" || selectedModel === "no model") ? ([{value: "no trim", label: "Select A Model First"}]) : trims[selectedModel].map(trim => ({value: trim, label: trim}))
+    if(trimOptions[0].value !== "no trim") {
+        trimOptions.unshift({value: "all trim", label: "View All Trims"})
+    }
 
     const handleCarInfoButton = async () => {
         let sqlQuery = "";
         if(selectedModel !== "no model") {
             sqlQuery += `SELECT * FROM car_info WHERE model = "${selectedModel}" `;
         }
-        if(selectedTrim !== "no trim") {
+        if(selectedTrim !== "no trim" && selectedTrim !== "all trim" && selectedTrim !== "") {
                 sqlQuery += `AND trim = "${selectedTrim}"`;
         }
         console.log(sqlQuery);
@@ -211,8 +232,13 @@ function App() {
         console.log(data);
         setCarInfoData(data);
     }
+
+    const handleCarInfoCompareButton = () => {
+        setCarInfoMode("compare");
+        console.log("compare");
+    }
         
-    const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton]
+    const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton, handleCarInfoCompareButton]
 
 // --------------------------------------------------------------------->
 //handler for button user clicks
@@ -480,6 +506,7 @@ function App() {
                                 zip = {message.zip}
                                 dropDownOptions={dropDownOptions}
                                 carInfoData={carInfoData}
+                                carInfoMode={carInfoMode}
                             />
                         );
                     })}

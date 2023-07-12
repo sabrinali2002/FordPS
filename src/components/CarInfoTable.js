@@ -1,69 +1,129 @@
-import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import React from "react";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { tableCellClasses } from "@mui/material/TableCell";
 
-const CarInfoTable = ({data}) => {
+//Style functions -----------------------------------------------------
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: "#2a6bac",
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
 
-  return (
-    
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Model</TableCell>
-            <TableCell>Trim</TableCell>
-            <TableCell>Year</TableCell>
-            <TableCell>MSRP</TableCell>
-            <TableCell>Body Size</TableCell>
-            <TableCell>Body Style</TableCell>
-            <TableCell>Cylinders</TableCell>
-            <TableCell>Engine Aspiration</TableCell>
-            <TableCell>Drivetrain</TableCell>
-            <TableCell>Transmission</TableCell>
-            <TableCell>Horsepower(hp)</TableCell>
-            <TableCell>Torque(ft-lbs)</TableCell>
-            <TableCell>Seating Capacity</TableCell>
-            <TableCell>Range</TableCell>
-            <TableCell>Vehicle Length</TableCell>
-            <TableCell>Combined Fuel Economy</TableCell>
-            <TableCell>Curb Weight</TableCell>
-            <TableCell>Ground Clearance</TableCell>
-            <TableCell>Payload Capacity</TableCell>
-            <TableCell>Towing Capacity</TableCell>
-            <TableCell>Max Cargo Capacity</TableCell>
-            <TableCell>Full Recharge Time(EV)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{item.model}</TableCell>
-              <TableCell>{item.trim}</TableCell>
-              <TableCell>{item.year}</TableCell>
-              <TableCell>{item.msrp}</TableCell>
-              <TableCell>{item.body_size}</TableCell>
-              <TableCell>{item.body_style}</TableCell>
-              <TableCell>{item.cylinders}</TableCell>
-              <TableCell>{item.engine_aspiration}</TableCell>
-              <TableCell>{item.drivetrain}</TableCell>
-              <TableCell>{item.transmission}</TableCell>
-              <TableCell>{item.horsepower}</TableCell>
-              <TableCell>{item.torque}</TableCell>
-              <TableCell>{item.seating_capacity}</TableCell>
-              <TableCell>{item.range}</TableCell>
-              <TableCell>{item.vehicle_length}</TableCell>
-              <TableCell>{item.combined_fuel_economy}</TableCell>
-              <TableCell>{item.curb_weight}</TableCell>
-              <TableCell>{item.ground_clearance}</TableCell>
-              <TableCell>{item.payload_capacity}</TableCell>
-              <TableCell>{item.towing_capacity}</TableCell>
-              <TableCell>{item.max_cargo_capacity}</TableCell>
-              <TableCell>{item.full_recharge_time}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+        border: 0,
+    },
+}));
+
+//Sorting functions -------------------------------------------------
+function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+        return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+        return 1;
+    }
+    return 0;
+}
+
+function getComparator(order, orderBy) {
+    return order === "desc" ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) {
+        return order;
+      }
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
+
+const CarInfoTable = ({ data }) => {
+    return (
+        data.length !== 0 && (
+            <TableContainer component={Paper} className="mt-2">
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell>Model</StyledTableCell>
+                            <StyledTableCell>Trim</StyledTableCell>
+                            <StyledTableCell>Year</StyledTableCell>
+                            <StyledTableCell>MSRP</StyledTableCell>
+                            <StyledTableCell>Body Size</StyledTableCell>
+                            <StyledTableCell>Body Style</StyledTableCell>
+                            <StyledTableCell>Cylinders</StyledTableCell>
+                            <StyledTableCell>Engine Aspiration</StyledTableCell>
+                            <StyledTableCell>Drivetrain</StyledTableCell>
+                            <StyledTableCell>Transmission</StyledTableCell>
+                            <StyledTableCell>Horsepower(hp)</StyledTableCell>
+                            <StyledTableCell>Torque(ft-lbs)</StyledTableCell>
+                            <StyledTableCell>Seating Capacity</StyledTableCell>
+                            <StyledTableCell>Range</StyledTableCell>
+                            <StyledTableCell>Vehicle Length</StyledTableCell>
+                            <StyledTableCell>Combined Fuel Economy</StyledTableCell>
+                            <StyledTableCell>Curb Weight</StyledTableCell>
+                            <StyledTableCell>Ground Clearance</StyledTableCell>
+                            <StyledTableCell>Payload Capacity</StyledTableCell>
+                            <StyledTableCell>Towing Capacity</StyledTableCell>
+                            <StyledTableCell>Max Cargo Capacity</StyledTableCell>
+                            <StyledTableCell>Full Recharge Time(EV)</StyledTableCell>
+                            <StyledTableCell>Electric Range</StyledTableCell>
+                            <StyledTableCell>Android Auto</StyledTableCell>
+                            <StyledTableCell>Apple CarPlay</StyledTableCell>
+                            <StyledTableCell>Basic Warranty Length</StyledTableCell>
+                            <StyledTableCell>Basic Warranty Range</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {data.map((item) => (
+                            <StyledTableRow key={item.id}>
+                                <StyledTableCell>{item.model}</StyledTableCell>
+                                <StyledTableCell>{item.trim}</StyledTableCell>
+                                <StyledTableCell>{item.year}</StyledTableCell>
+                                <StyledTableCell>{item.msrp}</StyledTableCell>
+                                <StyledTableCell>{item.body_size}</StyledTableCell>
+                                <StyledTableCell>{item.body_style}</StyledTableCell>
+                                <StyledTableCell>{item.cylinders}</StyledTableCell>
+                                <StyledTableCell>{item.engine_aspiration}</StyledTableCell>
+                                <StyledTableCell>{item.drivetrain}</StyledTableCell>
+                                <StyledTableCell>{item.transmission}</StyledTableCell>
+                                <StyledTableCell>{item.horsepower}</StyledTableCell>
+                                <StyledTableCell>{item.torque}</StyledTableCell>
+                                <StyledTableCell>{item.seating_capacity}</StyledTableCell>
+                                <StyledTableCell>{item.range}</StyledTableCell>
+                                <StyledTableCell>{item.vehicle_length}</StyledTableCell>
+                                <StyledTableCell>{item.combined_fuel_economy}</StyledTableCell>
+                                <StyledTableCell>{item.curb_weight}</StyledTableCell>
+                                <StyledTableCell>{item.ground_clearance}</StyledTableCell>
+                                <StyledTableCell>{item.payload_capacity}</StyledTableCell>
+                                <StyledTableCell>{item.towing_capacity}</StyledTableCell>
+                                <StyledTableCell>{item.max_cargo_capacity}</StyledTableCell>
+                                <StyledTableCell>{item.full_recharge_time}</StyledTableCell>
+                                <StyledTableCell>{item.electric_range}</StyledTableCell>
+                                <StyledTableCell>{item.android_auto}</StyledTableCell>
+                                <StyledTableCell>{item.apple_carplay}</StyledTableCell>
+                                <StyledTableCell>{item.basic_years}</StyledTableCell>
+                                <StyledTableCell>{item.basic_miles}</StyledTableCell>
+                            </StyledTableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        )
+    );
 };
 
 export default CarInfoTable;

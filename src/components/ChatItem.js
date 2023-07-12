@@ -5,6 +5,7 @@ import Map from './Map'
 import DropDown from "./DropDown";
 import {Button} from 'react-bootstrap';
 import CarInfoTable from "./CarInfoTable";
+import CarInfoDropdownSection from "./CarInfoSection";
 function extractLinkFromText(messageText, author, darkMode){
     const wordsArray = messageText.split(" ")
     const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
@@ -40,18 +41,18 @@ function dictate(message, toggleIsSpeaking){
 }
 
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip, dropDownOptions, carInfoData}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, dropDownOptions, carInfoData, carInfoMode}){
     const authorStyle = {
         fontSize: textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem"),
         color: (darkMode ? "#ffffff" : "#999"),
       };
     const [isSpeaking, toggleIsSpeaking] = useState(false);
     return(
-    <div>
+        <div>
         {author==="Ford Chat." && <Map props = {zip}></Map>}
-        {author==="DropDown" && <div><h6>Model:</h6><DropDown  onChange={(event)=>{dropDownOptions[0](event)}} options={dropDownOptions[2]}/></div>}
-        {author==="DropDown" && <div><h6>Trim:</h6><DropDown  onChange={(event)=>{dropDownOptions[1](event)}} options={dropDownOptions[3]}/></div>}
-        {author==="DropDown" && <Button onClick={dropDownOptions[4]} className="mb-2">Check it out</Button>}
+        {author==="DropDown" && 
+            <CarInfoDropdownSection dropDownOptions={dropDownOptions} carInfoData={carInfoData} carInfoMode={carInfoMode}/>
+        }
         {author==="Table" && <CarInfoTable data={carInfoData}/>}
         {(author!=="DropDown" && author!=="Table") && <Fragment>
             <p className={author.toLowerCase().replace(" ", "-")} style={authorStyle}>{author}</p>
