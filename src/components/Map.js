@@ -6,26 +6,22 @@ import data from "../zipLocations.json";
 import "./Map.css";
 import Modal from "react-modal";
 import TestDriveScheduler from "./TestDriveScheduler";
+import dealerToTrim from '../dealerToTrim.json';
+import addresses from '../dealerToAddress.json';
 
 function Map({ zip, dist }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
   const [pickedLoc, setPickedLoc] = useState("");
+  const [mapPopupText, setMapPopupText] = useState('');
+  const [isHoveredMap, setIsHoveredMap] = useState(false);
 
   const handleButtonClick = (loc) => {
     setPickedLoc(loc);
     setIsSchedulerVisible(true);
     console.log(pickedLoc);
-  };
-import dealerToTrim from '../dealerToTrim.json';
-import addresses from '../dealerToAddress.json';
-
-function Map({zip,dist}) {
-  const [latlong,changeLatLong] = useState([39,-98]);
-  const [locations, changeLocations] = useState([]);
-  const [mapPopupText, setMapPopupText] = useState('');
-  const [isHoveredMap, setIsHoveredMap] = useState(false);
+  }
 
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
