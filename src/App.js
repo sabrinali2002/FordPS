@@ -187,7 +187,7 @@ function App() {
 
     const handleTrimChange = (event) => {
         const id = event.target.parentNode.id;
-        if(id === "first") {
+        if(id === "firstCar") {
             setSelectedTrim(event.target.value);
         }
         if(id === "secondCar") {
@@ -202,6 +202,8 @@ function App() {
     if(trimOptions[0].value !== "no trim") {
         trimOptions.unshift({value: "all trim", label: "View All Trims"})
     }
+
+    let compareTrimOptions = (compareModel === "" || compareModel === "no model") ? ([{value: "no trim", label: "Select A Model First"}]) : trims[compareModel].map(trim => ({value: trim, label: trim}))
 
     const handleCarInfoButton = async () => {
         let sqlQuery = "";
@@ -225,11 +227,18 @@ function App() {
     }
 
     const handleCarInfoCompareButton = () => {
-        setCarInfoMode("compare");
-        console.log("compare");
+        if(carInfoMode === "single") {
+            setCarInfoMode("compare");
+            setSelectedModel("");
+            setSelectedTrim("");
+        } else {
+            setCarInfoMode("single");
+            setSelectedModel("");
+            setSelectedTrim("");
+        }
     }
         
-    const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton, handleCarInfoCompareButton]
+    const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton, handleCarInfoCompareButton, compareTrimOptions]
 
   // --------------------------------------------------------------------->
   //handler for button user clicks
