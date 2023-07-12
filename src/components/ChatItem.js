@@ -2,6 +2,10 @@ import { Fragment, useState } from "react";
 import '../styles/ChatItem.css'
 import { VolumeUp } from "react-bootstrap-icons";
 import Map from './Map'
+import DropDown from "./DropDown";
+import {Button} from 'react-bootstrap';
+import CarInfoTable from "./CarInfoTable";
+import CarInfoDropdownSection from "./CarInfoSection";
 function extractLinkFromText(messageText, author, darkMode){
     const wordsArray = messageText.split(" ")
     const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
@@ -37,24 +41,31 @@ function dictate(message, toggleIsSpeaking){
 }
 
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, dropDownOptions, carInfoData, carInfoMode}){
     const authorStyle = {
         fontSize: textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem"),
         color: (darkMode ? "#ffffff" : "#999"),
       };
     const [isSpeaking, toggleIsSpeaking] = useState(false);
-    console.log(zip)
-    return(<div>{author==="Ford Chat." && <Map zip = {zip.zipcode} dist = {zip.dist}></Map>}<Fragment>
-        <p className={author.toLowerCase().replace(" ", "-")} style={authorStyle}>{author}</p>
-        <div style={{display: 'flex', flexDirection: 'row'}}>
-            {extractLinkFromText(message, author, darkMode)}
-            {author.toLowerCase()!=='you' && <VolumeUp color={darkMode ? (isSpeaking?"#ffffff":"#e4e4ed") : (isSpeaking?"blue":"black")} size={textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem")} onClick={()=>{
-                if(!isSpeaking)
-                    dictate(message, toggleIsSpeaking)
+    return(
+        <div>
+        {author==="Ford Chat." && <Map props = {zip}></Map>}
+        {author==="DropDown" && 
+            <CarInfoDropdownSection dropDownOptions={dropDownOptions} carInfoData={carInfoData} carInfoMode={carInfoMode}/>
+        }
+        {author==="Table" && <CarInfoTable data={carInfoData}/>}
+        {(author!=="DropDown" && author!=="Table") && <Fragment>
+            <p className={author.toLowerCase().replace(" ", "-")} style={authorStyle}>{author}</p>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
+                {extractLinkFromText(message, author, darkMode)}
+                {author.toLowerCase()!=='you' && <VolumeUp color={darkMode ? (isSpeaking?"#ffffff":"#e4e4ed") : (isSpeaking?"blue":"black")} size={textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem")} onClick={()=>{
+                    if(!isSpeaking)
+                        dictate(message, toggleIsSpeaking)
+                    }
                 }
-            }
-            />}
-        </div>
-        {line && <hr style={{width: '90vw', borderColor: author.toLowerCase()==='you'?'#999':'rgb(49, 135, 255)'}}/>}
-    </Fragment></div>)
+                />}
+            </div>
+            {line && <hr style={{width: '90vw', borderColor: author.toLowerCase()==='you'?'#999':'rgb(49, 135, 255)'}}/>}
+        </Fragment>}
+    </div>)
 }

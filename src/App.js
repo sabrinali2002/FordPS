@@ -114,8 +114,18 @@ function App() {
   const [model, setModel] = useState("");
   const [trim, setTrim] = useState("");
 
+    // Car Info states
+    const [selectedModel, setSelectedModel] = useState("");
+    const [selectedTrim, setSelectedTrim] = useState("");
+    const [compareModel, setCompareModel] = useState("");
+    const [compareTrim, setCompareTrim] = useState("");
+    const [carInfoData, setCarInfoData] = useState([]);
+    const [carInfoMode, setCarInfoMode] = useState("single");
+        //map functions -------------------------------------------------------->
+
   const origButtons = (
     <div className="buttons">
+    <button onClick={() => handleUserInput('I') } className = "menu">Get info about our cars</button>
       <button onClick={() => handleUserInput("A")} className="menu">
         Learn more about our cars
       </button>
@@ -162,11 +172,76 @@ function App() {
     setMessages((m) => [...m, { msg: val, author: "You" }]);
     setCalcButtons([]);
   };
+    //Car Info functions  -------------------------------------------------------------
+    const handleModelChange = (event) => {
+        const id = event.target.parentNode.id;
+        if(id === "firstCar") {
+            setSelectedModel(event.target.value);
+            setSelectedTrim("");
+        }
+        if(id === "secondCar") {
+            setCompareModel(event.target.value);
+            setCompareTrim("");
+        }
+    };
+
+    const handleTrimChange = (event) => {
+        const id = event.target.parentNode.id;
+        if(id === "first") {
+            setSelectedTrim(event.target.value);
+        }
+        if(id === "secondCar") {
+            setCompareTrim(event.target.value);
+        }
+    };
+    
+    let modelOptions = Object.keys(trims).map(model => ({value: model, label: model}));
+    modelOptions.unshift({value: "no model", label: "Select Model"});
+
+    let trimOptions = (selectedModel === "" || selectedModel === "no model") ? ([{value: "no trim", label: "Select A Model First"}]) : trims[selectedModel].map(trim => ({value: trim, label: trim}))
+    if(trimOptions[0].value !== "no trim") {
+        trimOptions.unshift({value: "all trim", label: "View All Trims"})
+    }
+
+    const handleCarInfoButton = async () => {
+        let sqlQuery = "";
+        if(selectedModel !== "no model") {
+            sqlQuery += `SELECT * FROM car_info WHERE model = "${selectedModel}" `;
+        }
+        if(selectedTrim !== "no trim" && selectedTrim !== "all trim" && selectedTrim !== "") {
+                sqlQuery += `AND trim = "${selectedTrim}"`;
+        }
+        console.log(sqlQuery);
+        let data = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            return res.json();
+        })
+        console.log(data);
+        setCarInfoData(data);
+    }
+
+    const handleCarInfoCompareButton = () => {
+        setCarInfoMode("compare");
+        console.log("compare");
+    }
+        
+    const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton, handleCarInfoCompareButton]
+
   // --------------------------------------------------------------------->
   //handler for button user clicks
   const handleUserInput = (option) => {
     // Outputs a response to based on input user selects
     switch (option) {
+        case 'I':
+            setMessages((m) => [...m, { msg: "What specific car do you want information about?", author: "Ford Chat", line:true, zip:"" }]);
+            setMessages((m) => [...m, { msg: "", author: "DropDown", line : false, zip : ""}]);
+            setMessages((m) => [...m, { msg: "", author: "Table", line : false, zip : ""}]);
+            changeChoice('I');
+            break;
       case "A":
         setMessages((m) => [
           ...m,
@@ -241,10 +316,8 @@ function App() {
         break;
     }
   };
-  const blockQueries = useRef(false);
-
-  // const blockQueries = useRef(false);
-  const recognition = useRef(null);
+    const blockQueries = useRef(false);
+    const recognition = useRef(null);
 
   useEffect(() => {
     // Check if speech recognition is supported
@@ -293,6 +366,10 @@ function App() {
       if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
         switch (choice) {
+            case 'I':
+                //Car info dialogues
+
+            break;
           case "B":
             {
               if (zipMode != "") {
@@ -729,13 +806,16 @@ function App() {
             {messages.map((message) => {
               return (
                 <ChatItem
-                  message={message.msg}
-                  author={message.author}
-                  line={message.line}
-                  darkMode={darkMode}
-                  textSize={textSize}
-                  zip={message.zip}
-                />
+                message={message.msg}
+                author={message.author}
+                line = {message.line}
+                darkMode={darkMode}
+                textSize={textSize}
+                zip = {message.zip}
+                dropDownOptions={dropDownOptions}
+                carInfoData={carInfoData}
+                carInfoMode={carInfoMode}
+            />
               );
             })}
           </div>
