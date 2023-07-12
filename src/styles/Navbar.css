@@ -1,0 +1,47 @@
+/*==========================
+Sidebar navigation
+========================*/
+.navbar {
+    position: relative;
+  }
+  button {
+    cursor: pointer;
+    background: transparent;;
+    border: none;
+    font-size: 20px;
+  }
+  .navbar .toggle {
+    position: fixed;
+    right: 30px;
+    top: 40px;
+    cursor: pointer;
+    background: transparent;;
+    border: none;
+  }
+  .menu-nav {
+    list-style: none;
+    position: absolute;
+    background: #fff;
+    width: 0;
+    right: 30px;
+    top: 120px;
+    overflow: hidden;
+    max-width: 150px;
+    z-index: 9;
+    font-size: 18px;
+    box-shadow: 0 10px 15px -3px rgb(46 41 51 / 8%), 0 4px 6px -2px rgb(71 63 79 / 16%);
+    transform: translateX(100px);
+    transition: transform ease-in-out 0.2s;
+    /* transition: width ease 0.2s; */
+  }
+  .menu-nav.show-menu {
+    width: 100%;
+    transform: translateX(-30px);
+  }
+  .menu-nav li a, .menu-nav li span {
+    display: block;
+    padding: .5rem;
+    text-decoration:none;
+    color:black;
+  }
+  

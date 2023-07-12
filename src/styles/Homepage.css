@@ -1,0 +1,61 @@
+@font-face {
+    font-family: 'Manrope';
+    src: url('fonts/Manrope-Bold.ttf') format('truetype');
+}
+
+.homepage-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: 300% 300%;
+    animation: gradientAnimation 10s infinite linear;
+  }
+  
+  @keyframes gradientAnimation {
+    0% {
+      background-color: white;
+    }
+    30% {
+      background-color: rgb(221, 213, 236);
+    }
+    60% {
+      background-color: rgb(210, 210, 248);
+    }
+    100% {
+        background-color: white;
+    }
+  }
+  
+
+.center {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    padding-top: 5%;
+}
+
+.enter {
+    max-width: 40%;
+    height: auto;
+    font-size: 1.2 rem;
+    color: navy;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    border-radius: 50%;
+    border: 3px solid navy;
+    background-color: white;
+}
+
+.welcome {
+    align-self: center;
+    font-family: 'Manrope', sans-serif;
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.henrai {
+    width: 12%
+}
