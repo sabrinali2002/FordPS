@@ -10,6 +10,7 @@ import {
 import { Fragment, useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
 import Homepage from "./components/Homepage";
+import FordSite from "./components/FordSite";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import EV from './jsons/EV.json';
@@ -95,8 +96,16 @@ function App() {
 
     //homepage control
     const [showApp, setShowApp] = useState(false);
+    const [showHomepage, setShowHomepage] = useState(false);
     const handleClick = () => {
-          setShowApp(true);
+        if (!showHomepage) {
+            setShowHomepage(true);
+            setShowApp(false);
+        } else {
+            setShowApp(true);
+            setShowHomepage(false);
+        }
+          
     };
     //which state the bot is in: closest dealership, calculator, etc.
     const [choice, changeChoice] = useState('');
@@ -438,7 +447,6 @@ function App() {
             fontSize: textSize === "large" ? "22px" : (textSize === "small" ? "16px" : "19px"),
           }}
         >
-            <QuestionButton />
             <div className="ChatArea">
                 <ThreeDots
                     height="50"
@@ -567,8 +575,10 @@ function App() {
       </div>
             
         </div>
-    ) : (
+    ) : showHomepage ? (
         <Homepage handleClick={handleClick} />
+      ) : (
+        <FordSite handleClick={handleClick}/>
       ));
 }
 

@@ -28,6 +28,7 @@
     "react-icons": "^4.10.1",
     "react-leaflet": "^4.2.1",
     "react-loader-spinner": "^5.3.4",
+    "react-modifier": "^4.2.9",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
