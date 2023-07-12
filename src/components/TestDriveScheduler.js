@@ -4,6 +4,7 @@ import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 //import "./index.css";
+import Modal from "react-modal";
 import { format } from "date-fns";
 
 const carModels = [
@@ -13,7 +14,7 @@ const carModels = [
   { value: "Model4", label: "Model4" },
 ];
 
-const TestDriveScheduler = () => {
+const TestDriveScheduler = ({ onExit, loc }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [customerInfo, setCustomerInfo] = useState("");
   const [email, setEmail] = useState("");
@@ -39,6 +40,12 @@ const TestDriveScheduler = () => {
     return (
       <div style={styles.container}>
         <div style={styles.form}>
+          <button
+            style={styles.closeButton}
+            onClick={onExit} // When clicked, invoke the `onExit` prop
+          >
+            X
+          </button>
           <h2>Appointment Confirmed</h2>
           <p>{`Name: ${customerInfo}`}</p>
           <p>{`Contact Information: ${email}`}</p>
@@ -54,6 +61,13 @@ const TestDriveScheduler = () => {
   return (
     <div style={styles.container}>
       <form onSubmit={handleSubmit} style={styles.form}>
+        <button
+          style={styles.closeButton}
+          onClick={onExit} // When clicked, invoke the `onExit` prop
+        >
+          X
+        </button>
+        <h2>{loc}</h2>
         <h2>Schedule a Test Drive</h2>
         <div style={styles.dateContainer}></div>
         <div style={styles.infoContainer}>
@@ -120,8 +134,9 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "100vh",
+    height: "500px",
     background: "#f8f9fa",
+    width: "350px",
   },
   form: {
     width: "300px",
@@ -165,6 +180,21 @@ const styles = {
   },
   inputStyle: {
     width: "500px",
+  },
+  closeButton: {
+    position: "relative", // Position the button absolutely...
+    top: "0px", // ...20px from the top...
+    right: "-270px", // ...and 20px from the right of its nearest positioned ancestor (in this case, the container div)
+    // Add some more styling to make it look like a close button
+    background: "#ccc",
+    color: "white",
+    border: "none",
+    borderRadius: "50%", // Make it circular
+    width: "30px",
+    height: "30px",
+    textAlign: "center",
+    lineHeight: "30px", // Vertically center the "X"
+    cursor: "pointer",
   },
 };
 

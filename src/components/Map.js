@@ -9,10 +9,13 @@ import TestDriveScheduler from "./TestDriveScheduler";
 function Map({ zip, dist }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
-  const [isSchedulerVisible, setIsSchedulerVisible] = useState(true);
+  const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
+  const [pickedLoc, setPickedLoc] = useState("");
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (loc) => {
+    setPickedLoc(loc);
     setIsSchedulerVisible(true);
+    console.log(pickedLoc);
   };
 
   const customMarkerIcon = L.icon({
@@ -127,12 +130,17 @@ function Map({ zip, dist }) {
               position={[d[1], d[2]]}
               icon={customMarkerIcon}
               id={d[0]}
-              eventHandlers={{ click: { handleButtonClick } }}
+              eventHandlers={{ click: () => handleButtonClick(d[0]) }}
             />
           );
         })}
       </MapContainer>
-      {isSchedulerVisible && <TestDriveScheduler />}
+      {isSchedulerVisible && (
+        <TestDriveScheduler
+          onExit={() => setIsSchedulerVisible(false)}
+          loc={pickedLoc}
+        />
+      )}
     </div>
   );
 }
