@@ -54,26 +54,26 @@ const Navbar = () => {
     <li><a href = "#" onClick = {buyListener}><strong>Buying a Ford</strong></a></li>
     {
       (buyOpen && <div className = "sub" style = {{backgroundColor:"white"}}>
-        <li><a href = "#" style = {{backgroundColor:"white",color:"black"}}>Info on a specific car</a></li>
-        <li><a href = "#" style = {{backgroundColor:"white",color:"black"}}>Car recommendation</a></li>
-        <li><a href = "#" style = {{backgroundColor:"white",color:"black"}}>Car pricing estimator</a></li>
-        <li><a href = "#" style = {{backgroundColor:"white",color:"black"}}>Find a dealership</a></li>
+        <li><a href = "#" style = {{backgroundColor:"white",color:"black", marginBottom: "0px"}}>Info on a specific car</a></li>
+        <li><a href = "#" style = {{backgroundColor:"white",color:"black", marginBottom: "0px"}}>Car recommendation</a></li>
+        <li><a href = "#" style = {{backgroundColor:"white",color:"black", marginBottom: "0px"}}>Car pricing estimator</a></li>
+        <li><a href = "#" style = {{backgroundColor:"white",color:"black", marginBottom: "0px"}}>Find a dealership</a></li>
       </div>
       )
     }
     <li><a href = "#" onClick = {existListener}><strong>Existing Owner</strong></a></li>
     {
       (existOpen && <div className = "sub" style = {{backgroundColor:"white"}}>
-        <li><a href = "#" style = {{backgroundColor:"white",color:"black"}}>Maintenance Request</a></li>
-        <li><a href = "#" style = {{backgroundColor:"white",color:"black"}}>Car resale</a></li>
-        <li><a href = "#" style = {{backgroundColor:"white",color:"black"}}>Owner service center</a></li>
+        <li><a href = "#" style = {{backgroundColor:"white",color:"black", marginBottom: "0px"}}>Maintenance Request</a></li>
+        <li><a href = "#" style = {{backgroundColor:"white",color:"black", marginBottom: "0px"}}>Car resale</a></li>
+        <li><a href = "#" style = {{backgroundColor:"white",color:"black", marginBottom: "0px"}}>Owner service center</a></li>
       </div>
       )
     }
     <li><a href = "#" onClick = {infoListener}><strong>Info about Ford</strong></a></li>
     {
       (infoOpen && <div className = "sub" style = {{backgroundColor:"white"}}>
-        <li><a href = "#" style = {{backgroundColor:"white",color:"black"}}>Innovation and Sustainability</a></li>
+        <li><a href = "#" style = {{backgroundColor:"white",color:"black", marginBottom: "0px"}}>Innovation and Sustainability</a></li>
       </div>)
     }
     <li><a href = "#" onClick = {knowListener}><strong>Know my car's price</strong></a></li>

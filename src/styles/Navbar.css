@@ -50,6 +50,10 @@ Sidebar navigation
   .sub > li {
     border-style:groove;
     border-radius: 5px;
+    margin-bottom: 0px;
+  }
+  .sub > a{
+    margin-bottom:0px;
   }
   .title{
     display: block;
