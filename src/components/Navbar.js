@@ -38,7 +38,6 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handler);
     };
   }, [navbarOpen]);
-  //add new list when u click things yay
   return (
     <nav ref={ref} className="navbar">
         <button className="toggle" onClick={() => setNavbarOpen((prev) => !prev)}>

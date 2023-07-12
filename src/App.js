@@ -260,7 +260,7 @@ function App() {
                         const places = loc.split('..');
                         for(let i = 0; i < places.length-1; i++){
                             if(i === 0){
-                                setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
+                                setMessages((m) => [...m, { msg: places[i], author: "Ford Chat", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
                             }
                             else if(i === places.length-2){
                                 setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
@@ -286,17 +286,18 @@ function App() {
                         if(zipMode != ""){
                             findLocations(zipCode,query).then(loc=>{
                                 const places = loc.split('..');
-                                for(let i = 0; i < places.length-1; i++){
-                                    if(i === 0){
-                                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
-                                    }
-                                    else if(i === places.length-2){
-                                        setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
-                                    }
-                                    else{
-                                        setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
-                                    }
-                                }
+                                setMessages((m) => [...m, {msg:"", author: "Ford Chat..", line:false, zip:{zipcode:"", dist:""}, locs: places.slice(0,places.length-1)}]);
+                                // for(let i = 0; i < places.length-1; i++){
+                                //     if(i === 0){
+                                //         setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
+                                //     }
+                                //     else if(i === places.length-2){
+                                //         setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+                                //     }
+                                //     else{
+                                //         setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+                                //     }
+                                // }
                                 setZipMode("");
                         })
                         }
@@ -421,7 +422,17 @@ function App() {
                         break; 
                       
                 }
+                default:
+                    setQuery("");
+              sendBotResponse(query, history).then((res) => {
+                setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true,zip:{}}]);
+                setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+                blockQueries.current = false;
+              })
+              break;
+
           }
+
       }
       }
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
@@ -462,6 +473,7 @@ function App() {
                                 darkMode={darkMode}
                                 textSize={textSize}
                                 zip = {message.zip}
+                                locs = {message.locs}
                             />
                         );
                     })}

@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import '../styles/ChatItem.css'
 import { VolumeUp } from "react-bootstrap-icons";
 import Map from './Map'
+import Table from "./Table"
 function extractLinkFromText(messageText, author, darkMode){
     const wordsArray = messageText.split(" ")
     const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
@@ -37,13 +38,14 @@ function dictate(message, toggleIsSpeaking){
 }
 
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, locs}){
     const authorStyle = {
         fontSize: textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem"),
         color: (darkMode ? "#ffffff" : "#999"),
       };
     const [isSpeaking, toggleIsSpeaking] = useState(false);
-    return(<div>{author==="Ford Chat." && <Map zip = {zip.zipcode} dist = {zip.dist}></Map>}<Fragment>
+    return(<div>{author==="Ford Chat." && <Map zip = {zip.zipcode} dist = {zip.dist}></Map>}
+    {author==="Ford Chat.." && <Table locations = {locs}></Table>}<Fragment>
         <p className={author.toLowerCase().replace(" ", "-")} style={authorStyle}>{author}</p>
         <div style={{display: 'flex', flexDirection: 'row'}}>
             {extractLinkFromText(message, author, darkMode)}
