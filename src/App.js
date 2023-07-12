@@ -10,6 +10,7 @@ import {
 import { Fragment, useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
 import Homepage from "./components/Homepage";
+import FordSite from "./components/FordSite";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import data from './zipLocations.json';
@@ -92,8 +93,16 @@ function App() {
       };
     //homepage control
     const [showApp, setShowApp] = useState(false);
+    const [showHomepage, setShowHomepage] = useState(false);
     const handleClick = () => {
-          setShowApp(true);
+        if (!showHomepage) {
+            setShowHomepage(true);
+            setShowApp(false);
+        } else {
+            setShowApp(true);
+            setShowHomepage(false);
+        }
+          
     };
     //which state the bot is in: closest dealership, calculator, etc.
     const [choice, changeChoice] = useState('');
@@ -304,7 +313,7 @@ function App() {
               })
               break;
             case 'B':
-              findLocations(queryquery).then(loc=>{
+              findLocations(query).then(loc=>{
                 const places = loc.split('..');
                 console.log(places);
                 for(let i = 0; i < places.length-1; i++){
@@ -493,7 +502,6 @@ function App() {
             fontSize: textSize === "large" ? "22px" : (textSize === "small" ? "16px" : "19px"),
           }}
         >
-            <QuestionButton />
             <div className="ChatArea">
                 <ThreeDots
                     height="50"
@@ -536,7 +544,7 @@ function App() {
                 </Card>
             </div>
             <div>
-            {mainButtons}
+            {menuButtons}
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
@@ -621,8 +629,10 @@ function App() {
       </div>
             
         </div>
-    ) : (
+    ) : showHomepage ? (
         <Homepage handleClick={handleClick} />
+      ) : (
+        <FordSite handleClick={handleClick}/>
       ));
 }
 

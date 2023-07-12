@@ -25,6 +25,8 @@
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
     "react-loader-spinner": "^5.3.4",
+    "react-magnifier": "^3.0.4",
+    "react-modifier": "^4.2.9",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
