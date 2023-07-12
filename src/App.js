@@ -14,6 +14,8 @@ import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import EV from './EV.json';
 import trims from './trims.json';
+import dealerToTrim from './dealerToTrim.json';
+import addresses from './dealerToAddress.json';
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material"
 import { extractFiveDigitString, findLocations} from "./mapFunctions"
 import QuestionButton from './components/QuestionButton';

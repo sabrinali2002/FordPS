@@ -4,14 +4,49 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import data from '../zipLocations.json'
 import './Map.css';
+import dealerToTrim from '../dealerToTrim.json';
+import addresses from '../dealerToAddress.json';
 
 function Map({zip,dist}) {
   const [latlong,changeLatLong] = useState([39,-98]);
-  const [locations, changeLocations] = useState([])
+  const [locations, changeLocations] = useState([]);
+  const [mapPopupText, setMapPopupText] = useState('');
+  const [isHoveredMap, setIsHoveredMap] = useState(false);
+
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
     iconSize: [20,20], // Adjust the icon size if necessary
   });
+
+  const handleMouseEnterMap = () => {
+    console.log('here');
+    setIsHoveredMap(true);
+    // access dealer
+    let dealer = 'Sunny King Ford';
+    let models = Object.keys(dealerToTrim[dealer]);
+    if (models.length > 5) {
+        models = models.slice(0, 5);
+    }
+    let str = '';
+    for (let model of models) {
+        str = str + model + ', ';
+    }
+    let title1 = 'Available models: ';
+    let title2 = 'Available dates: ';
+    let str1 = str.slice(0, str.length - 2);
+    let str2 = "dates";
+    let addr = ' ' + addresses[dealer];
+    let str3 = '000-000-0000';
+    setMapPopupText(<p style={{fontSize:'11px'}}><span style={{fontWeight:'bold'}}>{dealer}</span>{addr}<br />
+                        <span style={{fontWeight:'bold'}}>{title1}</span>{str1}<br />
+                        <span style={{fontWeight:'bold'}}>{title2}</span>{str2}<br />
+                        {str3}</p>);
+  };
+
+  const handleMouseLeaveMap = () => {
+      setIsHoveredMap(false);
+  };
+
   const findLocations = async (distance) => {
     const result = await findLatLong(zip);
     const distances = {}
@@ -100,7 +135,10 @@ function Map({zip,dist}) {
         attribution="Map data &copy; OpenStreetMap contributors"
       />
       {locations.map((d)=>{
-        return <Marker position={[d[1],d[2]]} icon = {customMarkerIcon} id = {d[0]}/>
+        return <Marker position={[d[1],d[2]]} icon = {customMarkerIcon} id = {d[0]} onClick={handleMouseEnterMap} onMouseLeave={handleMouseLeaveMap}/>
+      })}
+      {locations.map((d)=>{
+        return (isHoveredMap && <div className="map-popup">{mapPopupText}</div>)
       })}
     </MapContainer>
 
