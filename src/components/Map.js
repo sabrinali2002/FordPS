@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import data from '../zipLocations.json'
+import data from '../jsons/zipLocations.json'
 import './Map.css';
 
 function Map({zip,dist}) {

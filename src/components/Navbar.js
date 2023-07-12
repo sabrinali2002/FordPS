@@ -50,7 +50,7 @@ const Navbar = () => {
   <MdClose style={{ width: '32px', height: '32px', position: 'relative', top:'-28px', right:'-5px'}} />
   </button>
     <li className = "title"><strong>HenrAI Menu</strong></li>
-    <li><a href = "#" onClick = {buyListener}><strong>Buying a Ford</strong></a></li>
+    <li><a href = "google.com" onClick = {buyListener}><strong>Buying a Ford</strong></a></li>
     {
       (buyOpen && <div className = "sub" style = {{backgroundColor:"white"}}>
         <li><a href = "#" style = {{backgroundColor:"white",color:"black", marginBottom: "0px"}}>Info on a specific car</a></li>

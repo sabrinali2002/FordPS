@@ -1,9 +1,10 @@
 import React from 'react';
+import '../styles/Table.css'
 
 const Table = (locs) => {
   return (
-    <table style = {{border: "1px solid"}}>
-      <thead style = {{border: "1px solid"}}>
+    <table>
+      <thead>
         <tr>
           <th>Dealership Name</th>
           <th>Address</th>

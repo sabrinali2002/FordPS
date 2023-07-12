@@ -1,4 +1,4 @@
-import data from './zipLocations.json';
+import data from './jsons/zipLocations.json';
 //finds the longitude and latitude of the user
 const findLatLong = (zip) => {
     const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
