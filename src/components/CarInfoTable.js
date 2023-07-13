@@ -51,9 +51,11 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
   }
 
-const CarInfoTable = ({ data }) => {
+const CarInfoTable = ({ data, intro }) => {
     return (
         data.length !== 0 && (
+            <div>
+                {intro.length>0 && <p>{intro}</p>}
             <TableContainer component={Paper} className="mt-2">
                 <Table>
                     <TableHead>
@@ -122,6 +124,7 @@ const CarInfoTable = ({ data }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </div>
         )
     );
 };

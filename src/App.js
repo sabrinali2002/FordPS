@@ -23,6 +23,8 @@ import Navbar from "./components/Navbar.js";
 import { extractFiveDigitString, findLocations } from "./mapFunctions";
 import QuestionButton from "./components/QuestionButton";
 
+import { createRecommendTable } from "./models/recommend";
+
 async function sendBotResponse(query, history, mode) {
   console.log(JSON.stringify({ debug: true, quer: query }));
   let newQuery = "Here's our conversation before:\n";
@@ -100,7 +102,7 @@ function App() {
 
   //which state the bot is in: closest dealership, calculator, etc.
   const [choice, changeChoice] = useState("");
-
+  const [forceUpdate, setForceUpdate] = useState(true)
   // which step of the payment calculator the bot is in: [1]model,[2]trim,[3]lease/finance/buy,[4]price
   const [calcStep, setCalcStep] = useState(0);
   // [1]lease, [2]finance, [3]buy
@@ -119,7 +121,7 @@ function App() {
     const [selectedTrim, setSelectedTrim] = useState("");
     const [compareModel, setCompareModel] = useState("");
     const [compareTrim, setCompareTrim] = useState("");
-    const [carInfoData, setCarInfoData] = useState([]);
+    const [carInfoData, setCarInfoData] = useState({});
     const [carInfoMode, setCarInfoMode] = useState("single");
         //map functions -------------------------------------------------------->
 
@@ -222,8 +224,11 @@ function App() {
         }).then((res) => {
             return res.json();
         })
-        console.log(data);
-        setCarInfoData(data);
+        let carInfoCopy=carInfoData
+        carInfoCopy[""+(messages.length-1)]=data
+        setCarInfoData(carInfoCopy);
+        setForceUpdate(!forceUpdate)
+        console.log(messages.length-1, carInfoCopy[""+(messages.length-1)])
     }
 
     const handleCarInfoCompareButton = () => {
@@ -382,11 +387,37 @@ function App() {
         case 'A':
             setQuery("");
             sendBotResponse(query, history, "recommend").then((res) => {
-              setMessages((m) => [
-                ...m,
-                { msg: res, author: "Ford Chat", line: true, zip: {} },
-              ]);
-              setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+              if(res.includes("RECOMMEND_TABLE")){
+                let finalTableData=[]
+                let promises=[]
+                createRecommendTable(res).forEach(car=>{
+                  const query=`SELECT * FROM car_info WHERE model = \"${car.model}\" AND trim = \"${car.trim}\"`
+                  promises.push(fetch(`http://fordchat.franklinyin.com/data?query=${query}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                  }).then((res) => {
+                      return res.json();
+                  }).then(data=>{
+                    finalTableData=[...finalTableData, ...data]
+                  }))
+                })
+                Promise.all(promises).then(()=>{
+                  let carInfoCopy=carInfoData
+                  carInfoCopy[""+messages.length]=finalTableData
+                  setCarInfoData(carInfoCopy);
+                  setMessages((m) => [...m, { msg: "Sure! Here are some cars I recommend for you. Feel free to ask for more info about any of these cars, or why I recommended them.", author: "Table", line : false, zip : ""}]);
+                  setForceUpdate(!forceUpdate)
+                })
+              }
+              else{
+                setMessages((m) => [
+                  ...m,
+                  { msg: res, author: "Ford Chat", line: true, zip: {} }
+                ]);
+                setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+              }
               blockQueries.current = false;
             });
         break;
@@ -823,7 +854,8 @@ function App() {
             <div>
               <p>{response}</p>
             </div>
-            {messages.map((message) => {
+            {messages.map((message, index) => {
+              console.log(index, message.msg)
               return (
                 <ChatItem
                 message={message.msg}
@@ -833,7 +865,7 @@ function App() {
                 textSize={textSize}
                 zip = {message.zip}
                 dropDownOptions={dropDownOptions}
-                carInfoData={carInfoData}
+                carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[]}
                 carInfoMode={carInfoMode}
             />
               );
