@@ -148,29 +148,37 @@ function Map({ zip, dist, loc }) {
           );
         })}
       </MapContainer>
-      <div style={{ marginLeft: "50px" }}>
-        <h3
+      <div style={{ marginLeft: "50px", alignItems: "center" }}>
+        <div
           style={{
-            marginTop: "0",
-            marginBottom: "15px",
-            fontSize: "24px",
-            color: "#00095B",
+            alignItems: "center",
+            justifyContent: "center",
+            alignContent: "center",
+            display: "flex",
           }}
         >
-          Dealerships ....
-        </h3>
+          <h3
+            style={{
+              marginTop: "0",
+              marginBottom: "15px",
+              fontSize: "24px",
+              color: "#00095B",
+            }}
+          >
+            {`Dealerships ${dist} miles within ${zip}`}
+          </h3>
+        </div>
         <div
           style={{
             overflowY: "scroll",
             maxHeight: "345px",
           }}
         >
-          {locations.map((e) => {
+          {locations.map((e, index) => {
             return (
               <button
                 style={{
                   color: "#00095B",
-
                   backgroundColor: "white",
                   padding: "10px",
                   borderRadius: "15px",
@@ -179,9 +187,18 @@ function Map({ zip, dist, loc }) {
                   width: "512px",
                 }}
               >
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <div style={{ padding: "10px" }}>1</div>
-                  <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "space-around",
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <div style={{ padding: "0px", marginRight: "0px" }}>
+                    {index + 1}
+                  </div>
+                  <div style={{ marginRight: "25px" }}>
                     <div>{e[2]}</div>
                     {e[0]}
                   </div>
