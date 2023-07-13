@@ -21,11 +21,15 @@ import { createRecommendTable } from "./models/recommend";
 
 async function sendBotResponse(query, history, mode) {
   console.log(JSON.stringify({ debug: true, quer: query }));
-  let newQuery = "Here's our conversation before:\n";
-  history.forEach((h) => {
-    newQuery += `Q: ${h.q}\nA: ${h.a}\n`;
-  });
-  newQuery += `Here's my new question: ${query}`;
+  let newQuery=""
+  if(mode!=="recommend"){
+    newQuery += "Here's our conversation before:\n";
+    history.forEach((h) => {
+      newQuery += `Q: ${h.q}\nA: ${h.a}\n`;
+    });
+    newQuery += `Here's my new question: ${query}`;
+  } else
+    newQuery=query
   console.log(newQuery);
   const response = await fetch("http://fordchat.franklinyin.com/quer", {
     method: "POST",
@@ -224,7 +228,7 @@ function App() {
                 return res.json();
             });
         }
-        
+        console.log("compare trim:" + compareTrim);
         dataArr = [data, data2]
         let carInfoCopy=carInfoData
         carInfoCopy[""+(messages.length-1)]=dataArr;
@@ -398,7 +402,8 @@ function App() {
                 let finalTableData=[]
                 let promises=[]
                 createRecommendTable(res).forEach(car=>{
-                  const query=`SELECT * FROM car_info WHERE model = \"${car.model}\" AND trim = \"${car.trim}\"`
+                  console.log(car.model, car.trim)
+                  const query=`SELECT * FROM car_info WHERE model = \"${car.model}\" AND trim = \"${car.trim}\" LIMIT 2`
                   promises.push(fetch(`http://fordchat.franklinyin.com/data?query=${query}`, {
                     method: "GET",
                     headers: {
