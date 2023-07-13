@@ -16,7 +16,7 @@ function Map({ zip, dist, loc }) {
   const handleButtonClick = (loc) => {
     setPickedLoc(loc);
     setIsSchedulerVisible(true);
-    console.log(pickedLoc);
+    console.log();
   };
 
   const customMarkerIcon = L.icon({
@@ -31,6 +31,7 @@ function Map({ zip, dist, loc }) {
       const [lat, lon] = coords.split(" ");
       const address =
         data[coords].address + " " + data[coords].city + " " + lat + " " + lon;
+
       const distance = calculateDistance(
         l[0],
         l[1],
@@ -191,15 +192,39 @@ function Map({ zip, dist, loc }) {
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    alignItems: "space-around",
-                    justifyContent: "space-around",
+                    alignItems: "space-between",
+                    justifyContent: "space-between",
                   }}
                 >
-                  <div style={{ padding: "0px", marginRight: "0px" }}>
+                  <div
+                    style={{
+                      padding: "0px",
+                      marginRight: "0px",
+                      marginLeft: "20px",
+                    }}
+                  >
                     {index + 1}
                   </div>
-                  <div style={{ marginRight: "25px" }}>
-                    <div>{e[2]}</div>
+                  <div
+                    style={{
+                      marginRight: "25px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      alignContent: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <div
+                      style={{
+                        marginBottom: "15px",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        alignContent: "center",
+                      }}
+                    >
+                      {e[2]}
+                    </div>
                     {e[0]}
                   </div>
                 </div>
