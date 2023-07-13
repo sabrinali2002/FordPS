@@ -1,13 +1,5 @@
 import "./styles/App.css";
-import OptionButton from "./components/OptionButton";
-import {
-  Card,
-  CardContent,
-  Typography,
-  TextField,
-  InputAdornment,
-  IconButton,
-} from "@mui/material";
+import { Card, CardContent, Typography, TextField, InputAdornment, IconButton } from "@mui/material";
 import { Fragment, useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
 import { ThreeDots } from "react-loader-spinner";
@@ -56,51 +48,44 @@ async function sendBotResponse(query, history, mode) {
 }
 
 const introCardContent = (
-  <Fragment>
-    <CardContent>
-      <Typography variant="h5" component="div" className="welcome">
-        Welcome to Ford Chat! 👋
-      </Typography>
-      <Typography variant="body2" className="introduction">
-        I am a chatbot that can answer any questions you have about Ford
-        vehicles. I can help you with the following:
-        <br />
-        <ul>
-          <li>Get information about a specific model</li>
-          <li>Find nearby dealerships to schedule a test drive</li>
-          <li>Get redirected to a relevant payments estimator</li>
-        </ul>
-      </Typography>
-    </CardContent>
-  </Fragment>
+    <Fragment>
+        <CardContent>
+            <Typography variant="h5" component="div" className="welcome">
+                Welcome to Ford Chat! 👋
+            </Typography>
+            <Typography variant="body2" className="introduction">
+                I am a chatbot that can answer any questions you have about Ford vehicles. I can help you with the following:
+                <br />
+                <ul>
+                    <li>Get information about a specific model</li>
+                    <li>Find nearby dealerships to schedule a test drive</li>
+                    <li>Get redirected to a relevant payments estimator</li>
+                </ul>
+            </Typography>
+        </CardContent>
+    </Fragment>
 );
 
 function App() {
-  const [query, setQuery] = useState("");
-  const [queryText, setQueryText] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [history, setHistory] = useState([]);
-  const [response, setResponse] = useState("");
-  const [recording, setRecording] = useState(false);
-  // ACCESSIBILITY
-  const [textSize, setTextSize] = useState("small");
-  const [darkMode, setDarkMode] = useState(false);
-  const [zipCode, setZipCode] = useState("");
-  const toggleTextSize = () => {
-    setTextSize((prevSize) =>
-      prevSize === "small"
-        ? "medium"
-        : prevSize === "medium"
-        ? "large"
-        : "small"
-    );
-  };
+    const [query, setQuery] = useState("");
+    const [queryText, setQueryText] = useState("");
+    const [messages, setMessages] = useState([]);
+    const [history, setHistory] = useState([]);
+    const [response, setResponse] = useState("");
+    const [recording, setRecording] = useState(false);
+    // ACCESSIBILITY
+    const [textSize, setTextSize] = useState("small");
+    const [darkMode, setDarkMode] = useState(false);
+    const [zipCode, setZipCode] = useState("");
+    const toggleTextSize = () => {
+        setTextSize((prevSize) => (prevSize === "small" ? "medium" : prevSize === "medium" ? "large" : "small"));
+    };
 
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => !prevMode);
-  };
+    const toggleDarkMode = () => {
+        setDarkMode((prevMode) => !prevMode);
+    };
 
-  // PAYMENT CALCULATOR
+    // PAYMENT CALCULATOR
 
   //which state the bot is in: closest dealership, calculator, etc.
   const [choice, changeChoice] = useState("");
@@ -125,7 +110,7 @@ function App() {
     const [compareTrim, setCompareTrim] = useState("");
     const [carInfoData, setCarInfoData] = useState({});
     const [carInfoMode, setCarInfoMode] = useState("single");
-        //map functions -------------------------------------------------------->
+    //map functions -------------------------------------------------------->
 
   const origButtons = (
     <div className="buttons">
@@ -146,44 +131,42 @@ function App() {
   );
   const [menuButtons, setMenuButtons] = useState(origButtons);
 
-  //map functions -------------------------------------------------------->
+    //map functions -------------------------------------------------------->
 
-  //finds the longitude and latitude of the user
-  const findLatLong = (zip) => {
-    const s =
-      "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q=" +
-      zip;
-    return fetch(s)
-      .then((response) => response.json())
-      .then((data) => {
-        let latitude = data.location.lat;
-        let longitude = data.location.lon;
-        const res = { latitude, longitude };
-        return res;
-      });
-  };
+    //finds the longitude and latitude of the user
+    const findLatLong = (zip) => {
+        const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q=" + zip;
+        return fetch(s)
+            .then((response) => response.json())
+            .then((data) => {
+                let latitude = data.location.lat;
+                let longitude = data.location.lon;
+                const res = { latitude, longitude };
+                return res;
+            });
+    };
 
-  // map icon hover handler
-  const mapIconHandler = (event) => {
-    console.log(event);
-    // access dealer
-    let dealer = "Sunny King Ford";
-  };
+    // map icon hover handler
+    const mapIconHandler = (event) => {
+        console.log(event);
+        // access dealer
+        let dealer = "Sunny King Ford";
+    };
 
-  const calcButtonHandler = (event) => {
-    let val = event.target.getAttribute("value");
-    setQuery(val);
-    setMessages((m) => [...m, { msg: val, author: "You" }]);
-    setCalcButtons([]);
-  };
+    const calcButtonHandler = (event) => {
+        let val = event.target.getAttribute("value");
+        setQuery(val);
+        setMessages((m) => [...m, { msg: val, author: "You" }]);
+        setCalcButtons([]);
+    };
     //Car Info functions  -------------------------------------------------------------
     const handleModelChange = (event) => {
         const id = event.target.parentNode.id;
-        if(id === "firstCar") {
+        if (id === "firstCar") {
             setSelectedModel(event.target.value);
             setSelectedTrim("");
         }
-        if(id === "secondCar") {
+        if (id === "secondCar") {
             setCompareModel(event.target.value);
             setCompareTrim("");
         }
@@ -191,34 +174,35 @@ function App() {
 
     const handleTrimChange = (event) => {
         const id = event.target.parentNode.id;
-        if(id === "firstCar") {
+        if (id === "firstCar") {
             setSelectedTrim(event.target.value);
         }
-        if(id === "secondCar") {
+        if (id === "secondCar") {
             setCompareTrim(event.target.value);
         }
     };
-    
-    let modelOptions = Object.keys(trims).map(model => ({value: model, label: model}));
-    modelOptions.unshift({value: "no model", label: "Select Model"});
 
-    let trimOptions = (selectedModel === "" || selectedModel === "no model") ? ([{value: "no trim", label: "Select A Model First"}]) : trims[selectedModel].map(trim => ({value: trim, label: trim}))
-    if(trimOptions[0].value !== "no trim") {
-        trimOptions.unshift({value: "all trim", label: "View All Trims"})
+    let modelOptions = Object.keys(trims).map((model) => ({ value: model, label: model }));
+    modelOptions.unshift({ value: "no model", label: "Select Model" });
+
+    let trimOptions = selectedModel === "" || selectedModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[selectedModel].map((trim) => ({ value: trim, label: trim }));
+    if (trimOptions[0].value !== "no trim") {
+        trimOptions.unshift({ value: "all trim", label: "View All Trims" });
     }
 
-
-    let compareTrimOptions = (compareModel === "" || compareModel === "no model") ? ([{value: "no trim", label: "Select A Model First"}]) : trims[compareModel].map(trim => ({value: trim, label: trim}))
+    let compareTrimOptions =
+        compareModel === "" || compareModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[compareModel].map((trim) => ({ value: trim, label: trim }));
 
     const handleCarInfoButton = async () => {
         let sqlQuery = "";
-        if(selectedModel !== "no model") {
+        if (selectedModel !== "no model") {
             sqlQuery += `SELECT * FROM car_info WHERE model = "${selectedModel}" `;
         }
-        if(selectedTrim !== "no trim" && selectedTrim !== "all trim" && selectedTrim !== "") {
-                sqlQuery += `AND trim = "${selectedTrim}"`;
+        if (selectedTrim !== "no trim" && selectedTrim !== "all trim" && selectedTrim !== "") {
+            sqlQuery += `AND trim = "${selectedTrim}"`;
         }
         console.log(sqlQuery);
+        let dataArr = []
         let data = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
             method: "GET",
             headers: {
@@ -227,15 +211,31 @@ function App() {
         }).then((res) => {
             return res.json();
         })
+        
+        let data2 = [];
+        if(carInfoMode === "compare") {
+            sqlQuery = `SELECT * FROM car_info WHERE model = "${compareModel}" AND trim = "${compareTrim}"`
+            data2 = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then((res) => {
+                return res.json();
+            });
+        }
+        
+        dataArr = [data, data2]
         let carInfoCopy=carInfoData
-        carInfoCopy[""+(messages.length-1)]=data
+        carInfoCopy[""+(messages.length-1)]=dataArr;
+        console.log(messages.length-1, carInfoCopy[""+(messages.length-1)])
+        console.log(dataArr);
         setCarInfoData(carInfoCopy);
         setForceUpdate(!forceUpdate)
-        console.log(messages.length-1, carInfoCopy[""+(messages.length-1)])
     }
 
     const handleCarInfoCompareButton = () => {
-        if(carInfoMode === "single") {
+        if (carInfoMode === "single") {
             setCarInfoMode("compare");
             setSelectedModel("");
             setSelectedTrim("");
@@ -244,9 +244,9 @@ function App() {
             setSelectedModel("");
             setSelectedTrim("");
         }
-    }
-        
-    const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton, handleCarInfoCompareButton, compareTrimOptions]
+    };
+
+    const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton, handleCarInfoCompareButton, compareTrimOptions];
 
   const categories = [
     {
@@ -347,55 +347,48 @@ function App() {
     const blockQueries = useRef(false);
     const recognition = useRef(null);
 
-  useEffect(() => {
-    // Check if speech recognition is supported
-    if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
-      const recognitionInstance = new (window.SpeechRecognition ||
-        window.webkitSpeechRecognition)();
-      recognitionInstance.continuous = true;
-      recognitionInstance.lang = "en-US";
+    useEffect(() => {
+        // Check if speech recognition is supported
+        if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
+            const recognitionInstance = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognitionInstance.continuous = true;
+            recognitionInstance.lang = "en-US";
 
-      recognitionInstance.onresult = function (event) {
-        const recognizedText =
-          event.results[event.results.length - 1][0].transcript;
-        setQueryText(recognizedText);
-      };
+            recognitionInstance.onresult = function (event) {
+                const recognizedText = event.results[event.results.length - 1][0].transcript;
+                setQueryText(recognizedText);
+            };
 
-      recognitionInstance.onerror = function (event) {
-        console.error("Speech recognition error:", event.error);
-      };
+            recognitionInstance.onerror = function (event) {
+                console.error("Speech recognition error:", event.error);
+            };
 
-      recognition.current = recognitionInstance;
-    } else {
-      console.error("Speech recognition not supported in this browser.");
-    }
-  }, []);
+            recognition.current = recognitionInstance;
+        } else {
+            console.error("Speech recognition not supported in this browser.");
+        }
+    }, []);
 
-  const toggleRecording = () => {
-    if (blockQueries.current) {
-      recognition.current.stop();
-      setRecording(false);
-    } else {
-      recognition.current.start();
-      setRecording(true);
-    }
-    blockQueries.current = !blockQueries.current;
-  };
+    const toggleRecording = () => {
+        if (blockQueries.current) {
+            recognition.current.stop();
+            setRecording(false);
+        } else {
+            recognition.current.start();
+            setRecording(true);
+        }
+        blockQueries.current = !blockQueries.current;
+    };
 
-  useEffect(() => {
-    if (
-      query.toLowerCase() === "a" ||
-      query.toLowerCase() === "b" ||
-      query.toLowerCase() === "c" ||
-      query.toLowerCase() === "d"
-    ) {
-      handleUserInput(query.toUpperCase());
-    } else {
-      if (!blockQueries.current && query.length > 0) {
-        blockQueries.current = true;
-        switch (choice) {
-            case 'I':
-                //Car info dialogues
+    useEffect(() => {
+        if (query.toLowerCase() === "a" || query.toLowerCase() === "b" || query.toLowerCase() === "c" || query.toLowerCase() === "d") {
+            handleUserInput(query.toUpperCase());
+        } else {
+            if (!blockQueries.current && query.length > 0) {
+                blockQueries.current = true;
+                switch (choice) {
+                    case "I":
+                        //Car info dialogues
 
             break;
         case 'A':
@@ -419,7 +412,7 @@ function App() {
                 })
                 Promise.all(promises).then(()=>{
                   let carInfoCopy=carInfoData
-                  carInfoCopy[""+messages.length]=finalTableData
+                  carInfoCopy[""+messages.length]=[finalTableData,[]]
                   setCarInfoData(carInfoCopy);
                   setMessages((m) => [...m, { msg: "Sure! Here are some cars I recommend for you. Feel free to ask for more info about any of these cars, or why I recommended them.", author: "Table", line : false, zip : ""}]);
                   setForceUpdate(!forceUpdate)
@@ -864,7 +857,7 @@ function App() {
                 zip = {message.zip}
                 locs={message.locs}
                 dropDownOptions={dropDownOptions}
-                carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[]}
+                carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[[],[]]}
                 carInfoMode={carInfoMode}
             />
               );

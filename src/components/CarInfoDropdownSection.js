@@ -21,7 +21,7 @@ const CarInfoDropdownSection = ({dropDownOptions, carInfoMode}) => {
                     <h6>Model 1:</h6>
                         <DropDown onChange={(event)=>{dropDownOptions[0](event)}} options={dropDownOptions[2]} car={"firstCar"}/>
                         <h6>Trim 1:</h6>
-                        <DropDown  onChange={(event)=>{dropDownOptions[1](event)}} options={dropDownOptions[3]} car={"secondCar"}/>
+                        <DropDown  onChange={(event)=>{dropDownOptions[1](event)}} options={dropDownOptions[3]} car={"firstCar"}/>
                     </div>
                     <div style={{width: "50%"}}>
                         <h6>Model 2:</h6>
