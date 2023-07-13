@@ -31,13 +31,13 @@ function Map({ zip, dist }) {
       const [lat, lon] = coords.split(" ");
       const address =
         data[coords].address + " " + data[coords].city + " " + lat + " " + lon;
-      const distance = calculateDistance(
+      const dist = calculateDistance(
         l[0],
         l[1],
         parseFloat(lat),
         parseFloat(lon)
       );
-      distances[address] = distance;
+      distances[data[coords].name + "----" + address] = dist;
     }
     const sortedLocations = Object.entries(distances).sort(
       (a, b) => a[1] - b[1]
@@ -55,7 +55,8 @@ function Map({ zip, dist }) {
       const arr = closestLocations[i][0].split(", ");
       const location = arr[arr.length - 1].split(" ");
       let address = arr.length === 3 ? arr[0] + arr[1] : arr[0];
-      topLatLongs.push([address, location[1], location[2]]);
+      let name = address.split("----");
+      topLatLongs.push([name[0],name[1], location[1], location[2]]);
     }
 
     return topLatLongs;
@@ -129,10 +130,10 @@ function Map({ zip, dist }) {
         {locations.map((d) => {
           return (
             <Marker
-              position={[d[1], d[2]]}
+              position={[d[2], d[3]]}
               icon={customMarkerIcon}
               id={d[0]}
-              eventHandlers={{ click: () => handleButtonClick(d[0]) }}
+              eventHandlers={{ click: () => handleButtonClick(d[1]) }}
             />
           );
         })}

@@ -14,7 +14,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import EV from './jsons/EV.json';
 import trims from './jsons/trims.json';
-import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material"
+import { Brightness4, Brightness7, SocialDistanceOutlined, TextFields, TextFieldsOutlined } from "@mui/icons-material"
 import { extractFiveDigitString, findLocations} from "./mapFunctions"
 import QuestionButton from './components/QuestionButton';
 import HamburgerMenu from './components/Navbar.js'
@@ -110,9 +110,13 @@ function App() {
     // [1]down payment, [2]trade-in, [3]months, [4]annual %
     const [financeStep, setFinanceStep] = useState(0);
     const [calcButtons, setCalcButtons] = useState('');
-    const [zipMode,setZipMode] = useState('');  
+    const [zipMode,setZipMode] = useState(0);  
     const [model, setModel] = useState('');
     const [trim, setTrim] = useState('');
+    const [distance, setDistance] = useState('10');
+    const [findMode, setFind] = useState(0);
+    const [selectMode, setSelect] = useState(false);
+    const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
     const categories = [
     { name: "Category 1", subcategories: ["Subcategory 1.1", "Subcategory 1.2"] },
     { name: "Category 2", subcategories: ["Subcategory 2.1", "Subcategory 2.2"] },
@@ -134,12 +138,27 @@ function App() {
         // access dealer
         let dealer = "Sunny King Ford";
     }
-
+    const changeFind = () => {
+        setFind(0);
+        setSelect(false);
+        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
+    }
+    const appendSelect = (event) => {
+        let val = event.target.getAttribute('value');
+        
+    }
     const calcButtonHandler = (event) => {
         let val = event.target.getAttribute('value');
         setQuery(val);
         setMessages((m) => [...m, { msg: val, author: "You" }]);
         setCalcButtons([]);
+    }
+    const selectHandler = (event) => {
+        let val = event.target.getAttribute('value');
+        setQuery(val);
+        setSelect(val);
+        setCalcButtons([]);
+        setFind(1);
     }
     // --------------------------------------------------------------------->
     //handler for button user clicks
@@ -151,7 +170,7 @@ function App() {
         changeChoice('A');
         break;
       case 'B':
-        setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line:true,zip:{} }]);
+        setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
         changeChoice('B');
         break;
       case 'C':
@@ -229,8 +248,6 @@ function App() {
       if(query.toLowerCase() === 'a' || query.toLowerCase() === 'b' || query.toLowerCase() === 'c' || query.toLowerCase() === 'd'){
         handleUserInput(query.toUpperCase());
       }
-
-
       else{
         if (!blockQueries.current && query.length > 0) {
           blockQueries.current = true;
@@ -245,35 +262,67 @@ function App() {
               break;
             case 'B':
                 {
-                if(zipMode != ""){
-                    findLocations(zipCode,query).then(loc=>{
-                        const places = loc.split('..');
-                        for(let i = 0; i < places.length-1; i++){
-                            if(i === 0){
-                                setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
-                            }
-                            else if(i === places.length-2){
-                                setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+                    switch(zipMode){
+                        case 0: {
+                            setZipCode(query)
+                            setMessages((m)=>[...m,{msg: "Thank you - I will look for dealerships in the "+extractFiveDigitString(query) + " area", author: "Ford Chat", line:false,zip:""}]);
+                            setMessages((m)=>[...m,{msg: "Please enter your preferred radius to find a dealership, or NONE", author: "", line:true,zip:""}]);
+                            setZipMode(1);
+                            break;
+                        }
+                        case 1:{
+                            setMessages((m)=>[...m,{msg: "Thank you. Do you want to check availability for a specific model or just locate a dealership near you?", author: "Ford Chat", line:true,zip:""}]);
+                            setDistance((query === "NONE") ? 10 : query)
+                            let arr = {'Specific Model': "", 'Just a Dealership': ""};
+                            setCalcButtons(Object.keys(arr).map(model => (<button className='calc-button' key={model} value={model} onClick={calcButtonHandler}>{model}</button>)));
+                            setZipMode(2);
+                            break;
+                        }
+                        case 2:{
+                            if(query === "Specific Model"){
+                                setMessages((m)=>[...m,{msg: "Thank you. Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
+                                setZipMode(3);
                             }
                             else{
-                                setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+                                findLocations(zipCode,distance).then(loc=>{
+                                    const places = loc.split('..');
+                                    console.log("places: ")
+                                    console.log(places);
+                                    for(let i = 0; i < places.length-1; i++){
+                                        if(i === 0){
+                                            setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance}}]);
+                                        }
+                                        else if(i === places.length-2){
+                                            setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+                                        }
+                                        else{
+                                            setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+                                        }
+                                    }
+                                    setZipMode(0);
+                            })
+                            break; 
                             }
                         }
-                        setZipMode("");
-                })
-                }
-                else{
-                    setZipCode(query)
-                    setMessages((m)=>[...m,{msg: "Select the radius of dealerships you would like to look for in miles", author: "Ford Chat", line:true,zip:""}]);
-                    setZipMode("query");
+                        case 3:{
+                            if(findMode === 0){
+                                setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
+                                setFind(1);
+                            }
+                            else{
+                                setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick = {appendSelect}>{trim}</button>)));
+                                setSelect(true);
+                            }
+                        }
+                        break;
                 }
                 blockQueries.current = false;
-              }
-            break;
+                break;
+            }
             case 'C':
                 {
                     {
-                        if(zipMode != ""){
+                        if(zipMode != 0){
                             findLocations(zipCode,query).then(loc=>{
                                 const places = loc.split('..');
                                 setMessages((m) => [...m, {msg:"", author: "Ford Chat..", line:false, zip:{zipcode:"", dist:""}, locs: places.slice(0,places.length-1)}]);
@@ -288,13 +337,13 @@ function App() {
                                         setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
                                     }
                                 }
-                                setZipMode("");
+                                setZipMode(0);
                         })
                         }
                         else{
                             setZipCode(query)
                             setMessages((m)=>[...m,{msg: "Select the radius of dealerships you would like to look for in miles", author: "Ford Chat", line:true,zip:""}]);
-                            setZipMode("query");
+                            setZipMode(1);
                         }
                         blockQueries.current = false;
                       }
@@ -498,7 +547,13 @@ function App() {
                     }}
                 >
                     <div style={{display:'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        {
+                            selectMode && <button onClick= {changeFind}>back</button>
+                        }
                         {calcButtons}
+                        {
+                            selectMode && <button>Locate my nearest dealerships</button>
+                        }
                     </div>
                     <TextField
                         value={queryText}
