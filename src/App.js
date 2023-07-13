@@ -148,14 +148,6 @@ function App() {
             return res;
         });
     }
-    
-    // map icon hover handler
-    const mapIconHandler = (event) => {
-        console.log(event);
-        // access dealer
-        let dealer = "Sunny King Ford";
-    }
-
 
     const [mapPopupText, setMapPopupText] = useState('');
 
@@ -313,7 +305,6 @@ function App() {
             str = str + ` at ${dealer}`;
         }
         let num = '000-000-0000';
-        str = str;
         let str1 = `Upcoming appointments: `;
         let str2 = `Phone number: ${num}`;
         setMessages((m) => [...m, { msg: `${str}`, author: "Ford Chat", line: false }]);
@@ -335,14 +326,17 @@ function App() {
       case 'A':
         setMessages((m) => [...m, { msg: "Ask a question to know more about our cars", author: "Ford Chat", line:true, zip:{} }]);
         changeChoice('A');
+        setMenuButtons([]);
         break;
       case 'B':
         setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line:true,zip:{} }]);
         changeChoice('B');
+        setMenuButtons([]);
         break;
       case 'C':
         setMessages((m) => [...m, { msg: "Type in your zip code so we can help you find the nearest dealership!", author: "Ford Chat", line:true,zip:{}  }]);
         changeChoice('C');
+        setMenuButtons([]);
         break;
       case 'D':
         if (model === '') {
@@ -670,10 +664,6 @@ function App() {
                 </Card>
             </div>
             <div>
-            <div onClick={handleMouseClickMap} onMouseEnter={handleMouseEnterMap} onMouseLeave={handleMouseLeaveMap}>
-                            <button>Hover here</button>
-                            {isHoveredMap && <div className="map-popup">{mapPopupText}</div>}
-                        </div>
             {menuButtons}
                 <form
                     onSubmit={(e) => {

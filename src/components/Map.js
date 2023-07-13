@@ -8,32 +8,143 @@ import Modal from "react-modal";
 import TestDriveScheduler from "./TestDriveScheduler";
 import dealerToTrim from '../dealerToTrim.json';
 import addresses from '../dealerToAddress.json';
+import { FaLocationArrow } from 'react-icons/fa';
+import { BsTelephoneFill, BsLink} from 'react-icons/bs';
+import { AiFillClockCircle } from 'react-icons/ai';
+import { FiLink2 } from 'react-icons/fi';
+import { MdOutlineArrowForwardIos } from 'react-icons/md';
 
 function Map({ zip, dist }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
   const [pickedLoc, setPickedLoc] = useState("");
-  const [mapPopupText, setMapPopupText] = useState('');
-  const [isHoveredMap, setIsHoveredMap] = useState(false);
+  const [specific, setSpecific] = useState(false);
+  const [model, setModel] = useState('');
+  const [trim, setTrim] = useState('');
+  const [showWindow, setShowWindow] = useState(false);
+  const [windowText, setWindowText] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupText, setPopupText] = useState('');
+  const [popupPos,setPopupPos] = useState([]);
+  const [blockPopup, setBlockPopup] = useState(false);
 
   const handleButtonClick = (loc) => {
     setPickedLoc(loc);
     setIsSchedulerVisible(true);
     console.log(pickedLoc);
   }
-
+  
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
     iconSize: [20, 20], // Adjust the icon size if necessary
   });
 
-  const handleMouseEnterMap = () => {
-    console.log('here');
-    setIsHoveredMap(true);
-    // access dealer
-    let dealer = 'Sunny King Ford';
-    let models = Object.keys(dealerToTrim[dealer]);
+  const popupHoverOff = () => {
+    setShowPopup(false);
+    setPopupText('');
+    setBlockPopup(false);
+  };
+
+  const markerHoverOver = (d) => {
+    if (blockPopup) {
+      return;
+    }
+    let dealer = data[d[1].toString() + ' ' + d[2].toString()]["name"];
+    let models = [];
+    if (model != '' && trim != '') { // know model & trim
+      if (Object.values(dealerToTrim[dealer][model]).includes(trim)) {
+        models.push([model, trim]);
+        for (let trims of dealerToTrim[dealer][model]) {
+          if (trims != trim) {
+            models.push([model, trims]);
+            break;
+          }
+        }
+      }
+      else { // trim unavailable
+        for (let trims of dealerToTrim[dealer][model]) {
+          if (models.length < 2) {
+            models.push([model, trims]);
+          } 
+        }
+        while (models.length < 2) { // not enough trims of model
+          let x = 0;
+          // append first trim of similar model
+        }
+      }
+    }
+    else if (models != '') { // know model, not trim
+      for (let trims of dealerToTrim[dealer][model]) {
+        if (models.length < 2) {
+          models.push([model, trims]);
+        }
+      }
+      while (models.length < 2) { // not enough trims of model
+        let x = 0;
+        // append first trim of similar model
+      }
+    }
+    else { // know neither
+      for (let currmodel of Object.keys(dealerToTrim[dealer])) {
+        if (models.length < 2) {
+          if (dealerToTrim[dealer][currmodel].length != 0) {
+            models.push([currmodel, dealerToTrim[dealer][currmodel][0]]);
+          }
+          else {
+            continue;
+          }
+        }
+      }
+    }
+    let addr = addresses[dealer];
+    let phone = '000-000-0000';
+    let link = 'www.com';
+    let today = new Date();
+    let currHr = today.getHours();
+    let currDay = today.getDay();
+    let hours = '';
+    let text = (<p className='hover-content'>
+        <span style={{color:'#322964',paddingTop:'20px',fontSize:'30px',fontWeight:'bold'}}>{dealer}</span><br/>
+        <span style={{fontSize:'17px'}}><FaLocationArrow/><span style={{paddingLeft:'8px'}}>{addr}</span><br/>
+        <BsTelephoneFill/><span style={{paddingLeft:'8px'}}>{phone}</span><br/>
+        <FiLink2/><span style={{paddingLeft:'8px'}}>{link}</span><br/>
+        <AiFillClockCircle/><span style={{paddingLeft:'8px'}}>{hours}</span><br/>
+        </span>
+        <div style={{display:'flex'}}>
+          <span style={{width:'50%'}}>
+            <span style={{color:'#322964',fontSize:'14px',textDecoration:'underline'}}>
+              Available Models/Trims </span>
+              <span style={{paddingLeft:'20px'}}><MdOutlineArrowForwardIos/></span>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(3, auto)',gridGap: '10px'}}>
+              {models.map(model => (<div className='model-preview'>{`${model[0]} ${model[1]}`}</div>))}
+            </div>
+          </span>
+          <span style={{width:'50%',right:'-40%'}}>
+            <span style={{color:'#322964',fontSize:'14px',textDecoration:'underline'}}>
+              Available Appointments
+          </span>
+          <span style={{paddingLeft:'20px'}}><MdOutlineArrowForwardIos/></span>
+              <div>
+                here
+              </div>
+          </span>
+        </div>
+      </p>)
+    setShowPopup(true);
+    setPopupText(text);
+    setBlockPopup(true); 
+    //setShowPopup(false);
+  }
+
+  const onExit = () => {
+    setShowWindow(false);
+    setBlockPopup(false);
+  };
+
+  const handleLocClick = (d) => {
+    let dealer = data[d[1].toString() + ' ' + d[2].toString()]["name"];
+    let models = Object.keys(dealerToTrim[dealer]) 
     if (models.length > 5) {
         models = models.slice(0, 5);
     }
@@ -45,16 +156,18 @@ function Map({ zip, dist }) {
     let title2 = 'Available dates: ';
     let str1 = str.slice(0, str.length - 2);
     let str2 = "dates";
-    let addr = ' ' + addresses[dealer];
+    let addr = ' ' + d[0];
     let str3 = '000-000-0000';
-    setMapPopupText(<p style={{fontSize:'11px'}}><span style={{fontWeight:'bold'}}>{dealer}</span>{addr}<br />
-                        <span style={{fontWeight:'bold'}}>{title1}</span>{str1}<br />
-                        <span style={{fontWeight:'bold'}}>{title2}</span>{str2}<br />
-                        {str3}</p>);
-  };
-
-  const handleMouseLeaveMap = () => {
-      setIsHoveredMap(false);
+    let text = (<p>
+          <span>
+            <span style={{textAlign: 'center', fontSize:'20px', fontWeight:'bold'}}>{dealer}</span><br />
+            {addr}
+          </span><br />
+          <span style={{textAlign:'left', fontSize:'14px'}}><span style={{fontWeight:'bold'}}>{title1}</span>{str1}<br />
+        <span style={{fontWeight:'bold'}}>{title2}</span>{str2}<br />
+        {str3}</span></p>);
+    setShowWindow(true);
+    setWindowText(text);
   };
 
   const findLocations = async (distance) => {
@@ -141,18 +254,30 @@ function Map({ zip, dist }) {
     }
     fetchInfo();
   }, [zip, latlong]);
+
   return (
-    <div style={{ position: "relative" }}>
+    <div
+      style={{
+        position: "relative",
+        backgroundColor: "#113B7A1A",
+        width: "1112px",
+        height: "435px",
+        borderRadius: "15px",
+        padding: "25px",
+      }}
+    >
       <MapContainer
         center={latlong}
         zoom={3}
         style={{
           height: "400px",
-          width: "30%",
+          width: "50%", // Increase width to desired value
           display: "flex",
           float: "left",
           marginRight: "20px",
-          marginBottom: "60px",
+          marginBottom: "0px",
+          borderRadius: "15px", // Add this for rounded corners
+          overflow: "hidden", // Add this to apply border radius to inner layers
         }}
         id={"map"}
       >
@@ -166,20 +291,61 @@ function Map({ zip, dist }) {
               position={[d[1], d[2]]}
               icon={customMarkerIcon}
               id={d[0]}
-              eventHandlers={{ click: () => handleButtonClick(d[0]) }}
-             onClick={handleMouseEnterMap} onMouseLeave={handleMouseLeaveMap}/>
+              eventHandlers={{mouseover: () => markerHoverOver(d)}}
+            />
           );
         })}
-      {locations.map((d)=>{
-        return (isHoveredMap && <div className="map-popup">{mapPopupText}</div>)
-      })}
       </MapContainer>
-      {isSchedulerVisible && (
-        <TestDriveScheduler
-          onExit={() => setIsSchedulerVisible(false)}
-          loc={pickedLoc}
-        />
-      )}
+      {showPopup && <div className="hover-popup" onMouseLeave={popupHoverOff} style={{position: {popupPos}}}>{popupText}</div>}
+      {showWindow && (<div className='click-popup'>
+          <button className='close-button' onClick={onExit}>
+            x
+          </button>
+          {windowText}
+          </div>)}
+      <div style={{ marginLeft: "50px" }}>
+        <h3
+          style={{
+            marginTop: "0",
+            marginBottom: "15px",
+            fontSize: "24px",
+            color: "#00095B",
+          }}
+        >
+          Dealerships ....
+        </h3>
+        <div
+          style={{
+            overflowY: "scroll",
+            maxHeight: "345px",
+          }}
+        >
+          {locations.map((e) => {
+            return (
+              <button
+                style={{
+                  color: "#00095B",
+                  backgroundColor: "white",
+                  padding: "10px",
+                  borderRadius: "15px",
+                  marginBottom: "15px",
+                  height: "101px",
+                  width: "512px",
+                }}
+                onClick={() => handleLocClick(e)}
+              >
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div style={{ padding: "10px" }}>1</div>
+                  <div>
+                    <div>{e[2]}</div>
+                    {e[0]}
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
