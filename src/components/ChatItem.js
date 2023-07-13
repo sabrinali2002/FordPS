@@ -53,7 +53,11 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
         {author==="DropDown" && 
             <CarInfoDropdownSection dropDownOptions={dropDownOptions} carInfoMode={carInfoMode}/>
         }
+<<<<<<< HEAD
         {author==="Table" && <CarInfoTable data={carInfoData} mode={carInfoMode}/>}
+=======
+        {author==="Table" && <CarInfoTable data={carInfoData} intro={message}/>}
+>>>>>>> ae51aa6fb2599bce4b450e39b3a0d32d776e71d8
         {(author!=="DropDown" && author!=="Table") && <Fragment>
             <p className={author.toLowerCase().replace(" ", "-")} style={authorStyle}>{author}</p>
             <div style={{display: 'flex', flexDirection: 'row'}}>
