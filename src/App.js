@@ -126,10 +126,6 @@ function App() {
     const [findMode, setFind] = useState(0);
     const [selectMode, setSelect] = useState(false);
     const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
-    const categories = [
-    { name: "Category 1", subcategories: ["Subcategory 1.1", "Subcategory 1.2"] },
-    { name: "Category 2", subcategories: ["Subcategory 2.1", "Subcategory 2.2"] },
-  ];
     const origButtons = (<div className = "buttons">
         <button onClick={() => handleUserInput('A') } className = "menu">Learn more about our cars</button>
         <button onClick={() => handleUserInput('B')} className = "menu">Find the closest dealerships near me</button>
@@ -147,6 +143,33 @@ function App() {
         // access dealer
         let dealer = "Sunny King Ford";
     }
+    const locateDealerships = () => {
+        //go through the dealerships that have the cars we want
+        //pass in the list of dealership names
+        const dealers = new Set();
+        for(const model in selected){
+            for(const t in selected[model]){
+                
+            }
+        }
+        findLocations(zipCode,distance).then(loc=>{
+            const places = loc.split('..');
+            console.log("places: ")
+            console.log(places);
+            for(let i = 0; i < places.length-1; i++){
+                if(i === 0){
+                    setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance}}]);
+                }
+                else if(i === places.length-2){
+                    setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+                }
+                else{
+                    setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+                }
+            }
+            setZipMode(0);
+    })
+    }
     const changeFind = () => {
         setFind(0);
         setSelect(false);
@@ -154,7 +177,25 @@ function App() {
     }
     const appendSelect = (event) => {
         let val = event.target.getAttribute('value');
-        
+        console.log(val);
+        console.log(selected[model]);
+        if(val in selected[model]){
+            let copy = selected[model]
+            delete copy[val];
+            let copy2 = selected
+            delete copy2[model]
+            copy2[model] = copy
+            changeSelected(copy2);
+        }
+        else{
+            let copy = selected[model]
+            copy.push(val)
+            let copy2 = selected
+            delete copy2[model]
+            copy2[model] = copy
+            changeSelected(copy2)
+        }
+        console.log(selected);
     }
     const calcButtonHandler = (event) => {
         let val = event.target.getAttribute('value');
@@ -165,7 +206,7 @@ function App() {
     const selectHandler = (event) => {
         let val = event.target.getAttribute('value');
         setQuery(val);
-        setSelect(val);
+        setModel(val);
         setCalcButtons([]);
         setFind(1);
     }
@@ -183,7 +224,8 @@ function App() {
         changeChoice('B');
         break;
       case 'C':
-        setMessages((m) => [...m, { msg: "Type in your zip code so we can help you find the nearest dealership!", author: "Ford Chat", line:true,zip:{}  }]);
+        setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
+        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
         changeChoice('C');
         break;
       case 'D':
@@ -314,13 +356,15 @@ function App() {
                             }
                         }
                         case 3:{
-                            if(findMode === 0){
-                                setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
-                                setFind(1);
-                            }
-                            else{
-                                setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick = {appendSelect}>{trim}</button>)));
-                                setSelect(true);
+                            {
+                                if(findMode === 0){
+                                    setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
+                                    setFind(1);
+                                }
+                                else{
+                                    setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick = {appendSelect}>{trim}</button>)));
+                                    setSelect(true);
+                                }
                             }
                         }
                         break;
@@ -330,33 +374,17 @@ function App() {
             }
             case 'C':
                 {
-                    {
-                        if(zipMode != 0){
-                            findLocations(zipCode,query).then(loc=>{
-                                const places = loc.split('..');
-                                setMessages((m) => [...m, {msg:"", author: "Ford Chat..", line:false, zip:{zipcode:"", dist:""}, locs: places.slice(0,places.length-1)}]);
-                                for(let i = 0; i < places.length-1; i++){
-                                    if(i === 0){
-                                        setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:query}}]);
-                                    }
-                                    else if(i === places.length-2){
-                                        setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
-                                    }
-                                    else{
-                                        setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
-                                    }
-                                }
-                                setZipMode(0);
-                        })
-                        }
-                        else{
-                            setZipCode(query)
-                            setMessages((m)=>[...m,{msg: "Select the radius of dealerships you would like to look for in miles", author: "Ford Chat", line:true,zip:""}]);
-                            setZipMode(1);
-                        }
-                        blockQueries.current = false;
-                      }
-                  }
+                    if(findMode === 0){
+                        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
+                        setFind(1);
+                    }
+                    else{
+                        setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick = {appendSelect}>{trim}</button>)));
+                        setSelect(true);
+                    }
+                    blockQueries.current = false;
+                    break;
+                }
               break;
             case 'D':
                 setQuery("");
@@ -488,7 +516,7 @@ function App() {
     return (
         showApp ? 
         (<div className="ButtonContainer">
-        <HamburgerMenu categories={categories} />
+        <HamburgerMenu />
         <div className="App"
          style={{
             backgroundColor: darkMode ? "#000080" : "#f4f3f3",
@@ -560,7 +588,7 @@ function App() {
                         }
                         {calcButtons}
                         {
-                            selectMode && <button>Locate my nearest dealerships</button>
+                            selectMode && <button onClick = {locateDealerships}>Locate my nearest dealerships</button>
                         }
                     </div>
                     <TextField
