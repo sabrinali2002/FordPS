@@ -7,7 +7,7 @@ import "./Map.css";
 import Modal from "react-modal";
 import TestDriveScheduler from "./TestDriveScheduler";
 
-function Map({ zip, dist }) {
+function Map({ zip, dist, loc }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
@@ -108,17 +108,28 @@ function Map({ zip, dist }) {
     fetchInfo();
   }, [zip, latlong]);
   return (
-    <div style={{ position: "relative" }}>
+    <div
+      style={{
+        position: "relative",
+        backgroundColor: "#113B7A1A",
+        width: "1112px",
+        height: "435px",
+        borderRadius: "15px",
+        padding: "25px",
+      }}
+    >
       <MapContainer
         center={latlong}
         zoom={3}
         style={{
           height: "400px",
-          width: "30%",
+          width: "50%", // Increase width to desired value
           display: "flex",
           float: "left",
           marginRight: "20px",
-          marginBottom: "60px",
+          marginBottom: "0px",
+          borderRadius: "15px", // Add this for rounded corners
+          overflow: "hidden", // Add this to apply border radius to inner layers
         }}
         id={"map"}
       >
@@ -137,12 +148,49 @@ function Map({ zip, dist }) {
           );
         })}
       </MapContainer>
-      {isSchedulerVisible && (
-        <TestDriveScheduler
-          onExit={() => setIsSchedulerVisible(false)}
-          loc={pickedLoc}
-        />
-      )}
+      <div style={{ marginLeft: "50px" }}>
+        <h3
+          style={{
+            marginTop: "0",
+            marginBottom: "15px",
+            fontSize: "24px",
+            color: "#00095B",
+          }}
+        >
+          Dealerships ....
+        </h3>
+        <div
+          style={{
+            overflowY: "scroll",
+            maxHeight: "345px",
+          }}
+        >
+          {locations.map((e) => {
+            return (
+              <button
+                style={{
+                  color: "#00095B",
+
+                  backgroundColor: "white",
+                  padding: "10px",
+                  borderRadius: "15px",
+                  marginBottom: "15px",
+                  height: "101px",
+                  width: "512px",
+                }}
+              >
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div style={{ padding: "10px" }}>1</div>
+                  <div>
+                    <div>{e[2]}</div>
+                    {e[0]}
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
