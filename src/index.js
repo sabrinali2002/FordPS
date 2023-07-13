@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 
 import './index.css';
 import App from './App';
-import Homepage from './components/Homepage';
 import Login from './components/Login';
 
 import reportWebVitals from './reportWebVitals';
@@ -11,11 +10,12 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import FordSite from './components/FordSite';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Homepage/>,
+    element: <FordSite/>,
   },
   {
     path: "chat",

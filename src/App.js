@@ -1,4 +1,5 @@
 import "./styles/App.css";
+import OptionButton from "./components/OptionButton";
 import {
   Card,
   CardContent,
@@ -11,8 +12,8 @@ import { Fragment, useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
-import EV from "./EV.json";
-import trims from "./trims.json";
+import EV from "./jsons/EV.json";
+import trims from "./jsons/trims.json";
 import {
   Brightness4,
   Brightness7,
@@ -22,6 +23,7 @@ import {
 import Navbar from "./components/Navbar.js";
 import { extractFiveDigitString, findLocations } from "./mapFunctions";
 import QuestionButton from "./components/QuestionButton";
+import HamburgerMenu from "./components/Navbar.js";
 
 import { createRecommendTable } from "./models/recommend";
 
@@ -205,6 +207,7 @@ function App() {
         trimOptions.unshift({value: "all trim", label: "View All Trims"})
     }
 
+
     let compareTrimOptions = (compareModel === "" || compareModel === "no model") ? ([{value: "no trim", label: "Select A Model First"}]) : trims[compareModel].map(trim => ({value: trim, label: trim}))
 
     const handleCarInfoButton = async () => {
@@ -245,6 +248,17 @@ function App() {
         
     const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton, handleCarInfoCompareButton, compareTrimOptions]
 
+  const categories = [
+    {
+      name: "Category 1",
+      subcategories: ["Subcategory 1.1", "Subcategory 1.2"],
+    },
+    {
+      name: "Category 2",
+      subcategories: ["Subcategory 2.1", "Subcategory 2.2"],
+    },
+  ];
+
   // --------------------------------------------------------------------->
   //handler for button user clicks
   const handleUserInput = (option) => {
@@ -272,7 +286,7 @@ function App() {
         setMessages((m) => [
           ...m,
           {
-            msg: "Type in your zip code to find the nearest dealership",
+            msg: "Please enter your zipcode below:",
             author: "Ford Chat",
             line: true,
             zip: {},
@@ -284,7 +298,7 @@ function App() {
         setMessages((m) => [
           ...m,
           {
-            msg: "Please input the name of the car you would like to test and your current zip so we can find the location best for you",
+            msg: "Please enter your zipcode below:",
             author: "Ford Chat",
             line: true,
             zip: {},
@@ -425,7 +439,6 @@ function App() {
             {
               if (zipMode != "") {
                 findLocations(zipCode, query).then((loc) => {
-                  console.log(query);
                   const places = loc.split("..");
                   for (let i = 0; i < places.length - 1; i++) {
                     if (i === 0) {
@@ -472,87 +485,71 @@ function App() {
             }
             break;
           case "C":
-            findLocations(query).then((loc) => {
-              const places = loc.split("..");
-              if (places.length > 3) {
-                setMessages((m) => [
-                  ...m,
-                  {
-                    msg: "This car is available in the following locations: ",
-                    author: "Ford Chat.",
-                    line: false,
-                    zip: extractFiveDigitString(query),
-                  },
-                ]);
-                for (let i = 0; i < places.length - 1; i++) {
-                  if (i === places.length - 2) {
+            {
+              {
+                if (zipMode != "") {
+                  findLocations(zipCode, query).then((loc) => {
+                    const places = loc.split("..");
                     setMessages((m) => [
                       ...m,
-                      { msg: places[i], author: "", line: true, zip: {} },
+                      {
+                        msg: "",
+                        author: "Ford Chat..",
+                        line: false,
+                        zip: { zipcode: "", dist: "" },
+                        locs: places.slice(0, places.length - 1),
+                      },
                     ]);
-                  } else {
-                    setMessages((m) => [
-                      ...m,
-                      { msg: places[i], author: "", line: false, zip: {} },
-                    ]);
-                  }
-                }
-                setMessages((m) => [
-                  ...m,
-                  {
-                    msg: "Please select the dealership most convenient for you",
-                    author: "",
-                    line: true,
-                    zip: {},
-                  },
-                ]);
-              } else {
-                setMessages((m) => [
-                  ...m,
-                  { msg: places[0], author: "Ford Chat", line: true, zip: {} },
-                ]);
-              }
-              findLocations(query).then((loc) => {
-                const places = loc.split("..");
-                if (places.length > 3) {
+                    for (let i = 0; i < places.length - 1; i++) {
+                      if (i === 0) {
+                        setMessages((m) => [
+                          ...m,
+                          {
+                            msg: places[i],
+                            author: "Ford Chat.",
+                            line: false,
+                            zip: {
+                              zipcode: extractFiveDigitString(zipCode),
+                              dist: query,
+                            },
+                          },
+                        ]);
+                      } else if (i === places.length - 2) {
+                        setMessages((m) => [
+                          ...m,
+                          { msg: places[i], author: "", line: true, zip: {} },
+                        ]);
+                      } else {
+                        setMessages((m) => [
+                          ...m,
+                          { msg: places[i], author: "", line: false, zip: {} },
+                        ]);
+                      }
+                    }
+                    setZipMode("");
+                  });
+                } else {
+                  setZipCode(query);
                   setMessages((m) => [
                     ...m,
                     {
-                      msg: "This car is available in the following locations: ",
+                      msg: "Thank you - I will look for dealerships in the area",
                       author: "Ford Chat",
                       line: true,
+                      zip: "",
                     },
-                  ]);
-                  for (let i = 0; i < places.length - 1; i++) {
-                    if (i === places.length - 2) {
-                      setMessages((m) => [
-                        ...m,
-                        { msg: places[i], author: "", line: true },
-                      ]);
-                    } else {
-                      setMessages((m) => [
-                        ...m,
-                        { msg: places[i], author: "", line: false },
-                      ]);
-                    }
-                  }
-                  setMessages((m) => [
-                    ...m,
                     {
-                      msg: "Please select the dealership most convenient for you",
-                      author: "",
+                      msg: "Please enter your preferred radius to find a dealership.",
+                      author: "Ford Chat",
                       line: true,
+                      zip: "",
                     },
                   ]);
-                } else {
-                  setMessages((m) => [
-                    ...m,
-                    { msg: places[0], author: "Ford Chat", line: true },
-                  ]);
+                  setZipMode("query");
                 }
                 blockQueries.current = false;
-              });
-            });
+              }
+            }
             break;
           case "D":
             setQuery("");
@@ -806,6 +803,7 @@ function App() {
               setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
               blockQueries.current = false;
             });
+            break;
         }
       }
     }
@@ -824,7 +822,7 @@ function App() {
 
   return (
     <div className="ButtonContainer">
-      <Navbar></Navbar>
+      <HamburgerMenu categories={categories} />
       <div
         className="App"
         style={{
@@ -864,6 +862,7 @@ function App() {
                 darkMode={darkMode}
                 textSize={textSize}
                 zip = {message.zip}
+                locs={message.locs}
                 dropDownOptions={dropDownOptions}
                 carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[]}
                 carInfoMode={carInfoMode}
@@ -967,8 +966,7 @@ function App() {
           <QuestionButton />
         </div>
       </div>
-    </div>
-  );
+    </div>)
 }
 
 export default App;
