@@ -51,7 +51,6 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-<<<<<<< HEAD
 const specList = [
     "Model",
     "Trim",
@@ -185,83 +184,6 @@ const CarInfoTable = ({ data, mode }) => {
                 </TableContainer>
             )}
         </Fragment>
-=======
-const CarInfoTable = ({ data, intro }) => {
-    return (
-        data.length !== 0 && (
-            <div>
-                {intro.length>0 && <p>{intro}</p>}
-            <TableContainer component={Paper} className="mt-2">
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Model</StyledTableCell>
-                            <StyledTableCell>Trim</StyledTableCell>
-                            <StyledTableCell>Year</StyledTableCell>
-                            <StyledTableCell>MSRP</StyledTableCell>
-                            <StyledTableCell>Body Size</StyledTableCell>
-                            <StyledTableCell>Body Style</StyledTableCell>
-                            <StyledTableCell>Cylinders</StyledTableCell>
-                            <StyledTableCell>Engine Aspiration</StyledTableCell>
-                            <StyledTableCell>Drivetrain</StyledTableCell>
-                            <StyledTableCell>Transmission</StyledTableCell>
-                            <StyledTableCell>Horsepower(hp)</StyledTableCell>
-                            <StyledTableCell>Torque(ft-lbs)</StyledTableCell>
-                            <StyledTableCell>Seating Capacity</StyledTableCell>
-                            <StyledTableCell>Range</StyledTableCell>
-                            <StyledTableCell>Vehicle Length</StyledTableCell>
-                            <StyledTableCell>Combined Fuel Economy</StyledTableCell>
-                            <StyledTableCell>Curb Weight</StyledTableCell>
-                            <StyledTableCell>Ground Clearance</StyledTableCell>
-                            <StyledTableCell>Payload Capacity</StyledTableCell>
-                            <StyledTableCell>Towing Capacity</StyledTableCell>
-                            <StyledTableCell>Max Cargo Capacity</StyledTableCell>
-                            <StyledTableCell>Full Recharge Time(EV)</StyledTableCell>
-                            <StyledTableCell>Electric Range</StyledTableCell>
-                            <StyledTableCell>Android Auto</StyledTableCell>
-                            <StyledTableCell>Apple CarPlay</StyledTableCell>
-                            <StyledTableCell>Basic Warranty Length</StyledTableCell>
-                            <StyledTableCell>Basic Warranty Range</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data.map((item) => (
-                            <StyledTableRow key={item.id}>
-                                <StyledTableCell>{item.model}</StyledTableCell>
-                                <StyledTableCell>{item.trim}</StyledTableCell>
-                                <StyledTableCell>{item.year}</StyledTableCell>
-                                <StyledTableCell>{item.msrp}</StyledTableCell>
-                                <StyledTableCell>{item.body_size}</StyledTableCell>
-                                <StyledTableCell>{item.body_style}</StyledTableCell>
-                                <StyledTableCell>{item.cylinders}</StyledTableCell>
-                                <StyledTableCell>{item.engine_aspiration}</StyledTableCell>
-                                <StyledTableCell>{item.drivetrain}</StyledTableCell>
-                                <StyledTableCell>{item.transmission}</StyledTableCell>
-                                <StyledTableCell>{item.horsepower}</StyledTableCell>
-                                <StyledTableCell>{item.torque}</StyledTableCell>
-                                <StyledTableCell>{item.seating_capacity}</StyledTableCell>
-                                <StyledTableCell>{item.range}</StyledTableCell>
-                                <StyledTableCell>{item.vehicle_length}</StyledTableCell>
-                                <StyledTableCell>{item.combined_fuel_economy}</StyledTableCell>
-                                <StyledTableCell>{item.curb_weight}</StyledTableCell>
-                                <StyledTableCell>{item.ground_clearance}</StyledTableCell>
-                                <StyledTableCell>{item.payload_capacity}</StyledTableCell>
-                                <StyledTableCell>{item.towing_capacity}</StyledTableCell>
-                                <StyledTableCell>{item.max_cargo_capacity}</StyledTableCell>
-                                <StyledTableCell>{item.full_recharge_time}</StyledTableCell>
-                                <StyledTableCell>{item.electric_range}</StyledTableCell>
-                                <StyledTableCell>{item.android_auto}</StyledTableCell>
-                                <StyledTableCell>{item.apple_carplay}</StyledTableCell>
-                                <StyledTableCell>{item.basic_years}</StyledTableCell>
-                                <StyledTableCell>{item.basic_miles}</StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            </div>
-        )
->>>>>>> ae51aa6fb2599bce4b450e39b3a0d32d776e71d8
     );
 };
 
