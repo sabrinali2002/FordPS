@@ -33,6 +33,7 @@ Sidebar navigation
     transition: transform ease-in-out 0.2s;
     background-color:#bccce8;
     padding:10px;
+    border-radius: 5px;
     /* transition: width ease 0.2s; */
   }
   .menu-nav.show-menu {

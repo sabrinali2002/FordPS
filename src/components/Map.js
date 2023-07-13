@@ -6,6 +6,7 @@ import data from "../jsons/zipLocations.json";
 import "./Map.css";
 import Modal from "react-modal";
 import TestDriveScheduler from "./TestDriveScheduler";
+import close from "../images/close.svg";
 
 function Map({ zip, dist, loc }) {
   const [latlong, changeLatLong] = useState([39, -98]);
@@ -31,14 +32,13 @@ function Map({ zip, dist, loc }) {
       const [lat, lon] = coords.split(" ");
       const address =
         data[coords].address + " " + data[coords].city + " " + lat + " " + lon;
-
-      const distance = calculateDistance(
+      const dist = calculateDistance(
         l[0],
         l[1],
         parseFloat(lat),
         parseFloat(lon)
       );
-      distances[address] = distance;
+      distances[data[coords].name + "----" + address] = dist;
     }
     const sortedLocations = Object.entries(distances).sort(
       (a, b) => a[1] - b[1]
@@ -56,7 +56,8 @@ function Map({ zip, dist, loc }) {
       const arr = closestLocations[i][0].split(", ");
       const location = arr[arr.length - 1].split(" ");
       let address = arr.length === 3 ? arr[0] + arr[1] : arr[0];
-      topLatLongs.push([address, location[1], location[2]]);
+      let name = address.split("----");
+      topLatLongs.push([name[0], name[1], location[1], location[2]]);
     }
 
     return topLatLongs;
@@ -117,6 +118,7 @@ function Map({ zip, dist, loc }) {
         height: "435px",
         borderRadius: "15px",
         padding: "25px",
+        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
       }}
     >
       <MapContainer
@@ -141,21 +143,24 @@ function Map({ zip, dist, loc }) {
         {locations.map((d) => {
           return (
             <Marker
-              position={[d[1], d[2]]}
+              position={[d[2], d[3]]}
               icon={customMarkerIcon}
               id={d[0]}
-              eventHandlers={{ click: () => handleButtonClick(d[0]) }}
+              eventHandlers={{ click: () => handleButtonClick(d[1]) }}
             />
           );
         })}
       </MapContainer>
-      <div style={{ marginLeft: "50px", alignItems: "center" }}>
+      <div
+        style={{ marginLeft: "50px", alignItems: "center", marginTop: "10px" }}
+      >
         <div
           style={{
             alignItems: "center",
             justifyContent: "center",
             alignContent: "center",
             display: "flex",
+            marginBottom: "8px",
           }}
         >
           <h3
@@ -163,18 +168,14 @@ function Map({ zip, dist, loc }) {
               marginTop: "0",
               marginBottom: "15px",
               fontSize: "24px",
+
               color: "#00095B",
             }}
           >
             {`Dealerships ${dist} miles within ${zip}`}
           </h3>
         </div>
-        <div
-          style={{
-            overflowY: "scroll",
-            maxHeight: "345px",
-          }}
-        >
+        <div className="custom-scrollbar">
           {locations.map((e, index) => {
             return (
               <button
@@ -186,46 +187,46 @@ function Map({ zip, dist, loc }) {
                   marginBottom: "15px",
                   height: "101px",
                   width: "512px",
+                  boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 }}
               >
                 <div
                   style={{
                     display: "flex",
+                    position: "relative",
                     flexDirection: "row",
-                    alignItems: "space-between",
-                    justifyContent: "space-between",
                   }}
                 >
                   <div
                     style={{
+                      display: "flex",
                       padding: "0px",
                       marginRight: "0px",
                       marginLeft: "20px",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#00095B",
                     }}
                   >
                     {index + 1}
                   </div>
                   <div
                     style={{
-                      marginRight: "25px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      alignContent: "center",
-                      flexDirection: "column",
+                      position: "relative",
+                      marginLeft: "60px",
                     }}
                   >
                     <div
                       style={{
+                        display: "flex",
                         marginBottom: "15px",
                         alignItems: "center",
                         justifyContent: "center",
-                        alignContent: "center",
                       }}
                     >
-                      {e[2]}
+                      {e[0]}
                     </div>
-                    {e[0]}
+                    {e[1]}
                   </div>
                 </div>
               </button>
@@ -233,6 +234,16 @@ function Map({ zip, dist, loc }) {
           })}
         </div>
       </div>
+      <img
+        src={close}
+        alt="Close button"
+        style={{
+          cursor: "pointer",
+          top: "25px",
+          position: "absolute",
+          right: "25px",
+        }} // This changes the cursor to a hand when hovering over the image
+      />
     </div>
   );
 }
