@@ -77,21 +77,23 @@ const specList = [
     "Electric Range",
     "Android Auto",
     "Apple CarPlay",
-    "Basic Warranty Length",
-    "Basic Warranty Range",
+    "Basic Years",
+    "Basic Miles",
 ];
 
 const specListSQL = specList.map((spec) => spec.toLowerCase().replace(/ /g, "_"));
 
-const CarInfoTable = ({ data, mode }) => {
+const CarInfoTable = ({ data, mode, intro }) => {
     let car1data, car2data;
     if (data[0] !== undefined) {
         car1data = data[0][0];
     }
     if (data[1] !== undefined) car2data = data[1][0];
+    console.log(data);
     return (
         <Fragment>
-            {data.length !== 0 && mode === "single" && (
+            {intro !== undefined && <p>{intro}</p>}
+            {data[0].length !== 0 && mode === "single" && (
                 <TableContainer component={Paper} className="mt-2">
                     <Table>
                         <TableHead>
@@ -173,7 +175,7 @@ const CarInfoTable = ({ data, mode }) => {
                         </TableHead>
                         <TableBody>
                             {specList.map((spec, index) => (
-                                <StyledTableRow>
+                                <StyledTableRow key={spec}>
                                     <StyledTableCell>{spec}</StyledTableCell>
                                     <StyledTableCell>{car1data[`${specListSQL[index]}`]}</StyledTableCell>
                                     <StyledTableCell>{car2data[`${specListSQL[index]}`]}</StyledTableCell>

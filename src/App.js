@@ -205,11 +205,27 @@ function App() {
         }).then((res) => {
             return res.json();
         })
+        
+        let data2 = [];
+        if(carInfoMode === "compare") {
+            sqlQuery = `SELECT * FROM car_info WHERE model = "${compareModel}" AND trim = "${compareTrim}"`
+            data2 = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then((res) => {
+                return res.json();
+            });
+        }
+        
+        dataArr = [data, data2]
         let carInfoCopy=carInfoData
-        carInfoCopy[""+(messages.length-1)]=data
+        carInfoCopy[""+(messages.length-1)]=dataArr;
+        console.log(messages.length-1, carInfoCopy[""+(messages.length-1)])
+        console.log(dataArr);
         setCarInfoData(carInfoCopy);
         setForceUpdate(!forceUpdate)
-        console.log(messages.length-1, carInfoCopy[""+(messages.length-1)])
     }
 
     const handleCarInfoCompareButton = () => {
@@ -379,7 +395,7 @@ function App() {
                 })
                 Promise.all(promises).then(()=>{
                   let carInfoCopy=carInfoData
-                  carInfoCopy[""+messages.length]=finalTableData
+                  carInfoCopy[""+messages.length]=[finalTableData,[]]
                   setCarInfoData(carInfoCopy);
                   setMessages((m) => [...m, { msg: "Sure! Here are some cars I recommend for you. Feel free to ask for more info about any of these cars, or why I recommended them.", author: "Table", line : false, zip : ""}]);
                   setForceUpdate(!forceUpdate)
@@ -839,7 +855,7 @@ function App() {
                 textSize={textSize}
                 zip = {message.zip}
                 dropDownOptions={dropDownOptions}
-                carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[]}
+                carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[[],[]]}
                 carInfoMode={carInfoMode}
             />
               );
