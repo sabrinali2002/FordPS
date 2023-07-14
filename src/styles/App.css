@@ -141,11 +141,3 @@
   display:flex;
   flex-direction:row;
 }
-
-.map-popup {
-  display: block;
-  position: absolute;
-  background-color: rgb(249,249,249);
-  border: 1px solid #ccc;
-  padding: 10px;
-}
