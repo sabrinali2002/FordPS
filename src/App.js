@@ -14,8 +14,8 @@ import Homepage from "./components/Homepage";
 import FordSite from "./components/FordSite";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
-import EV from './EV.json';
-import trims from './trims.json';
+import EV from './jsons/EV.json';
+import trims from './jsons/trims.json';
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material"
 import { extractFiveDigitString, findLocations} from "./mapFunctions"
 import QuestionButton from './components/QuestionButton';
