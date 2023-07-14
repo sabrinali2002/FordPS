@@ -6,6 +6,7 @@ import data from "../jsons/zipLocations.json";
 import "./Map.css";
 import Modal from "react-modal";
 import TestDriveScheduler from "./TestDriveScheduler";
+import close from "../images/close.svg";
 
 function Map({ zip, dist, loc, deal}) {
   const [latlong, changeLatLong] = useState([39, -98]);
@@ -16,7 +17,7 @@ function Map({ zip, dist, loc, deal}) {
   const handleButtonClick = (loc) => {
     setPickedLoc(loc);
     setIsSchedulerVisible(true);
-    console.log(pickedLoc);
+    console.log();
   };
 
   const customMarkerIcon = L.icon({
@@ -58,7 +59,7 @@ function Map({ zip, dist, loc, deal}) {
       const location = arr[arr.length - 1].split(" ");
       let address = arr.length === 3 ? arr[0] + arr[1] : arr[0];
       let name = address.split("----");
-      topLatLongs.push([name[0],name[1], location[1], location[2]]);
+      topLatLongs.push([name[0], name[1], location[1], location[2]]);
     }
 
     return topLatLongs;
@@ -119,6 +120,7 @@ function Map({ zip, dist, loc, deal}) {
         height: "435px",
         borderRadius: "15px",
         padding: "25px",
+        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
       }}
     >
       <MapContainer
@@ -151,42 +153,82 @@ function Map({ zip, dist, loc, deal}) {
           );
         })}
       </MapContainer>
-      <div style={{ marginLeft: "50px" }}>
-        <h3
-          style={{
-            marginTop: "0",
-            marginBottom: "15px",
-            fontSize: "24px",
-            color: "#00095B",
-          }}
-        >
-          Dealerships ....
-        </h3>
+      <div
+        style={{ marginLeft: "50px", alignItems: "center", marginTop: "10px" }}
+      >
         <div
           style={{
-            overflowY: "scroll",
-            maxHeight: "345px",
+            alignItems: "center",
+            justifyContent: "center",
+            alignContent: "center",
+            display: "flex",
+            marginBottom: "8px",
           }}
         >
-          {locations.map((e) => {
+          <h3
+            style={{
+              marginTop: "0",
+              marginBottom: "15px",
+              fontSize: "24px",
+
+              color: "#00095B",
+            }}
+          >
+            {`Dealerships ${dist} miles within ${zip}`}
+          </h3>
+        </div>
+        <div className="custom-scrollbar">
+          {locations.map((e, index) => {
             return (
               <button
                 style={{
                   color: "#00095B",
-
                   backgroundColor: "white",
                   padding: "10px",
                   borderRadius: "15px",
                   marginBottom: "15px",
                   height: "101px",
                   width: "512px",
+                  boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 }}
               >
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <div style={{ padding: "10px" }}>1</div>
-                  <div>
-                    <div>{e[2]}</div>
-                    {e[0]}
+                <div
+                  style={{
+                    display: "flex",
+                    position: "relative",
+                    flexDirection: "row",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      padding: "0px",
+                      marginRight: "0px",
+                      marginLeft: "20px",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#00095B",
+                    }}
+                  >
+                    {index + 1}
+                  </div>
+                  <div
+                    style={{
+                      position: "relative",
+                      marginLeft: "60px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        marginBottom: "15px",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {e[0]}
+                    </div>
+                    {e[1]}
                   </div>
                 </div>
               </button>
@@ -194,6 +236,16 @@ function Map({ zip, dist, loc, deal}) {
           })}
         </div>
       </div>
+      <img
+        src={close}
+        alt="Close button"
+        style={{
+          cursor: "pointer",
+          top: "25px",
+          position: "absolute",
+          right: "25px",
+        }} // This changes the cursor to a hand when hovering over the image
+      />
     </div>
   );
 }
