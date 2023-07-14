@@ -177,40 +177,35 @@ function App() {
     //go through the dealerships that have the cars we want
     //pass in the list of dealership names
     const dealers = new Set();
-    for (const model in selected) {
-      for (const t in selected[model]) {
-      }
-    }
-    findLocations(zipCode, distance).then((loc) => {
-      const places = loc.split("..");
-      console.log("places: ");
-      console.log(places);
-      for (let i = 0; i < places.length - 1; i++) {
-        if (i === 0) {
-          setMessages((m) => [
-            ...m,
-            {
-              msg: places[i],
-              author: "Ford Chat.",
-              line: false,
-              zip: { zipcode: extractFiveDigitString(zipCode), dist: distance },
-            },
-          ]);
-        } else if (i === places.length - 2) {
-          setMessages((m) => [
-            ...m,
-            { msg: places[i], author: "", line: true, zip: {} },
-          ]);
-        } else {
-          setMessages((m) => [
-            ...m,
-            { msg: places[i], author: "", line: false, zip: {} },
-          ]);
+    for(const m in selected){
+        if(selected[m].length!=0){
+            let cars = selected[m];
+            for(const i in cars){
+                for(const elements in trimToDealer[m][cars[i]]){
+                    dealers.add(trimToDealer[m][cars[i]][elements]);
+                }
+            }
         }
-      }
-      setZipMode(0);
-    });
-  };
+    }
+    setDealers(dealers);
+    findLocationsGiven(zipCode,distance, dealers).then(loc=>{
+        const places = loc.split('..');
+        for(let i = 0; i < places.length-1; i++){
+            if(i === 0){
+                setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers}}]);
+            }
+            else if(i === places.length-2){
+                setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+            }
+            else{
+                setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+            }
+        }
+        setZipMode(0);
+})
+setCalcButtons([]);
+setSelect(false);
+}
   const changeFind = () => {
     setFind(0);
     setSelect(false);
