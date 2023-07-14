@@ -16,13 +16,14 @@ import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import EV from "./jsons/EV.json";
 import trims from "./jsons/trims.json";
+import trimToDealer from './jsons/trimToDealer.json'
 import {
   Brightness4,
   Brightness7,
   TextFields,
   TextFieldsOutlined,
 } from "@mui/icons-material";
-import { extractFiveDigitString, findLocations } from "./mapFunctions";
+import { extractFiveDigitString, findLocations , findLocationsGiven} from "./mapFunctions";
 import QuestionButton from "./components/QuestionButton";
 import HamburgerMenu from "./components/Navbar.js";
 
@@ -132,6 +133,8 @@ function App() {
   const [distance, setDistance] = useState('10');
   const [findMode, setFind] = useState(0);
   const [selectMode, setSelect] = useState(false);
+  const s = new Set();
+  const [dealerList, setDealers] = useState(s);
   const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
   const origButtons = (
     <div className="buttons">
@@ -162,18 +165,22 @@ function App() {
         //go through the dealerships that have the cars we want
         //pass in the list of dealership names
         const dealers = new Set();
-        for(const model in selected){
-            for(const t in selected[model]){
-                
+        for(const m in selected){
+            if(selected[m].length!=0){
+                let cars = selected[m];
+                for(const i in cars){
+                    for(const elements in trimToDealer[m][cars[i]]){
+                        dealers.add(trimToDealer[m][cars[i]][elements]);
+                    }
+                }
             }
         }
-        findLocations(zipCode,distance).then(loc=>{
+        setDealers(dealers);
+        findLocationsGiven(zipCode,distance, dealers).then(loc=>{
             const places = loc.split('..');
-            console.log("places: ")
-            console.log(places);
             for(let i = 0; i < places.length-1; i++){
                 if(i === 0){
-                    setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance}}]);
+                    setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers}}]);
                 }
                 else if(i === places.length-2){
                     setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
@@ -184,6 +191,8 @@ function App() {
             }
             setZipMode(0);
     })
+    setCalcButtons([]);
+    setSelect(false);
     }
     const changeFind = () => {
         setFind(0);
@@ -192,8 +201,6 @@ function App() {
     }
     const appendSelect = (event) => {
         let val = event.target.getAttribute('value');
-        console.log(val);
-        console.log(selected[model]);
         if(val in selected[model]){
             let copy = selected[model]
             delete copy[val];
@@ -210,7 +217,6 @@ function App() {
             copy2[model] = copy
             changeSelected(copy2)
         }
-        console.log(selected);
     }
     const calcButtonHandler = (event) => {
         let val = event.target.getAttribute('value');
@@ -370,11 +376,9 @@ function App() {
                             else{
                                 findLocations(zipCode,distance).then(loc=>{
                                     const places = loc.split('..');
-                                    console.log("places: ")
-                                    console.log(places);
                                     for(let i = 0; i < places.length-1; i++){
                                         if(i === 0){
-                                            setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance}}]);
+                                            setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealerList}}]);
                                         }
                                         else if(i === places.length-2){
                                             setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
