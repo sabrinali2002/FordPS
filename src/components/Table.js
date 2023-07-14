@@ -1,9 +1,11 @@
 import React from 'react';
+import '../styles/Table.css'
 
 const Table = (locs) => {
+  console.log(locs)
   return (
-    <table style = {{border: "1px solid"}}>
-      <thead style = {{border: "1px solid"}}>
+    <table>
+      <thead>
         <tr>
           <th>Dealership Name</th>
           <th>Address</th>
@@ -12,7 +14,7 @@ const Table = (locs) => {
       </thead>
       <tbody>
         {
-            locs.locations.map((d)=>{
+            locs.loc.map((d)=>{
                 let x = d.split(':');
                 console.log(x);
                 let y = x[1].split(',');

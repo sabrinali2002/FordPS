@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import data from "../zipLocations.json";
+import data from "../jsons/zipLocations.json";
 import "./Map.css";
 import Modal from "react-modal";
 import TestDriveScheduler from "./TestDriveScheduler";
+import close from "../images/close.svg";
 
-function Map({ zip, dist }) {
+function Map({ zip, dist, loc }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
@@ -16,7 +17,7 @@ function Map({ zip, dist }) {
   const handleButtonClick = (loc) => {
     setPickedLoc(loc);
     setIsSchedulerVisible(true);
-    console.log(pickedLoc);
+    console.log();
   };
 
   const customMarkerIcon = L.icon({
@@ -31,13 +32,13 @@ function Map({ zip, dist }) {
       const [lat, lon] = coords.split(" ");
       const address =
         data[coords].address + " " + data[coords].city + " " + lat + " " + lon;
-      const distance = calculateDistance(
+      const dist = calculateDistance(
         l[0],
         l[1],
         parseFloat(lat),
         parseFloat(lon)
       );
-      distances[address] = distance;
+      distances[data[coords].name + "----" + address] = dist;
     }
     const sortedLocations = Object.entries(distances).sort(
       (a, b) => a[1] - b[1]
@@ -55,7 +56,8 @@ function Map({ zip, dist }) {
       const arr = closestLocations[i][0].split(", ");
       const location = arr[arr.length - 1].split(" ");
       let address = arr.length === 3 ? arr[0] + arr[1] : arr[0];
-      topLatLongs.push([address, location[1], location[2]]);
+      let name = address.split("----");
+      topLatLongs.push([name[0], name[1], location[1], location[2]]);
     }
 
     return topLatLongs;
@@ -108,17 +110,29 @@ function Map({ zip, dist }) {
     fetchInfo();
   }, [zip, latlong]);
   return (
-    <div style={{ position: "relative" }}>
+    <div
+      style={{
+        position: "relative",
+        backgroundColor: "#113B7A1A",
+        width: "1112px",
+        height: "435px",
+        borderRadius: "15px",
+        padding: "25px",
+        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+      }}
+    >
       <MapContainer
         center={latlong}
         zoom={3}
         style={{
           height: "400px",
-          width: "30%",
+          width: "50%", // Increase width to desired value
           display: "flex",
           float: "left",
           marginRight: "20px",
-          marginBottom: "60px",
+          marginBottom: "0px",
+          borderRadius: "15px", // Add this for rounded corners
+          overflow: "hidden", // Add this to apply border radius to inner layers
         }}
         id={"map"}
       >
@@ -129,20 +143,112 @@ function Map({ zip, dist }) {
         {locations.map((d) => {
           return (
             <Marker
-              position={[d[1], d[2]]}
+              position={[d[2], d[3]]}
               icon={customMarkerIcon}
               id={d[0]}
-              eventHandlers={{ click: () => handleButtonClick(d[0]) }}
+              eventHandlers={{ click: () => handleButtonClick(d[1]) }}
             />
           );
         })}
       </MapContainer>
-      {isSchedulerVisible && (
-        <TestDriveScheduler
-          onExit={() => setIsSchedulerVisible(false)}
-          loc={pickedLoc}
-        />
-      )}
+      <div
+        style={{ marginLeft: "50px", alignItems: "center", marginTop: "10px" }}
+      >
+        <div
+          style={{
+            alignItems: "flex-start",
+            justifyContent: "flex-start",
+            alignContent: "flex-start",
+            display: "flex",
+            marginBottom: "8px",
+          }}
+        >
+          <h3
+            style={{
+              marginTop: "0",
+              marginBottom: "15px",
+              fontSize: "24px",
+              textAlign: "left",
+
+              color: "#00095B",
+            }}
+          >
+            {`Dealerships ${dist} miles within ${zip}`}
+          </h3>
+        </div>
+        <div className="custom-scrollbar">
+          {locations.map((e, index) => {
+            return (
+              <button
+                style={{
+                  color: "#00095B",
+                  backgroundColor: "white",
+                  padding: "10px",
+                  borderRadius: "15px",
+                  marginBottom: "15px",
+                  height: "101px",
+                  width: "512px",
+                  boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    position: "relative",
+                    flexDirection: "row",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      padding: "0px",
+                      marginRight: "0px",
+                      marginLeft: "20px",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#00095B",
+                      fontSize: "24px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {index + 1}
+                  </div>
+                  <div
+                    style={{
+                      position: "relative",
+                      marginLeft: "60px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        marginBottom: "10px",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {e[0]}
+                    </div>
+                    <div style={{ fontSize: "18px" }}>{e[1]}</div>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      <img
+        src={close}
+        alt="Close button"
+        style={{
+          cursor: "pointer",
+          top: "25px",
+          position: "absolute",
+          right: "25px",
+        }} // This changes the cursor to a hand when hovering over the image
+      />
     </div>
   );
 }

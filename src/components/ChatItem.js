@@ -1,11 +1,12 @@
 import { Fragment, useState } from "react";
 import "../styles/ChatItem.css";
 import { VolumeUp } from "react-bootstrap-icons";
-import Map from './Map'
-import Table from "./Table"
-function extractLinkFromText(messageText, author, darkMode){
-    const wordsArray = messageText.split(" ")
-    const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
+import Map from "./Map";
+import Table from "./Table";
+import SelectModel from "./selectModel";
+function extractLinkFromText(messageText, author, darkMode) {
+  const wordsArray = messageText.split(" ");
+  const linkIndex = wordsArray.findIndex((str) => str.includes("https"));
 
   const beforeText =
     linkIndex >= 0 ? wordsArray.slice(0, linkIndex).join(" ") + " " : "";
@@ -58,6 +59,7 @@ export default function ChatItem({
   darkMode,
   textSize,
   zip,
+  locs,
 }) {
   const authorStyle = {
     fontSize:
@@ -71,7 +73,10 @@ export default function ChatItem({
   const [isSpeaking, toggleIsSpeaking] = useState(false);
   return (
     <div>
-      {author === "Ford Chat." && <Map zip={zip.zipcode} dist={zip.dist}></Map>}
+      {author === "Ford Chat.." && <Table loc={locs}></Table>}
+      {author === "Ford Chat." && (
+        <Map zip={zip.zipcode} dist={zip.dist} loc={locs}></Map>
+      )}
       <Fragment>
         <p
           className={author.toLowerCase().replace(" ", "-")}
