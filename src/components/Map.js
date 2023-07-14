@@ -156,9 +156,9 @@ function Map({ zip, dist, loc }) {
       >
         <div
           style={{
-            alignItems: "center",
-            justifyContent: "center",
-            alignContent: "center",
+            alignItems: "flex-start",
+            justifyContent: "flex-start",
+            alignContent: "flex-start",
             display: "flex",
             marginBottom: "8px",
           }}
@@ -168,6 +168,7 @@ function Map({ zip, dist, loc }) {
               marginTop: "0",
               marginBottom: "15px",
               fontSize: "24px",
+              textAlign: "left",
 
               color: "#00095B",
             }}
@@ -206,6 +207,8 @@ function Map({ zip, dist, loc }) {
                       alignItems: "center",
                       justifyContent: "center",
                       color: "#00095B",
+                      fontSize: "24px",
+                      fontWeight: "bold",
                     }}
                   >
                     {index + 1}
@@ -219,14 +222,16 @@ function Map({ zip, dist, loc }) {
                     <div
                       style={{
                         display: "flex",
-                        marginBottom: "15px",
+                        marginBottom: "10px",
                         alignItems: "center",
                         justifyContent: "center",
+                        fontSize: "24px",
+                        fontWeight: "bold",
                       }}
                     >
                       {e[0]}
                     </div>
-                    {e[1]}
+                    <div style={{ fontSize: "18px" }}>{e[1]}</div>
                   </div>
                 </div>
               </button>
