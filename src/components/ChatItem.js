@@ -1,18 +1,28 @@
 import { Fragment, useState } from "react";
 import '../styles/ChatItem.css'
 import { VolumeUp } from "react-bootstrap-icons";
+<<<<<<< HEAD
 import Map from './Map';
 import './Map.css';
 import Table from "./Table";
 function extractLinkFromText(messageText, author, darkMode){
     const wordsArray = messageText.split(" ")
     const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
+=======
+import Map from "./Map";
+import Table from "./Table";
+import SelectModel from "./selectModel";
+function extractLinkFromText(messageText, author, darkMode) {
+  const wordsArray = messageText.split(" ");
+  const linkIndex = wordsArray.findIndex((str) => str.includes("https"));
+>>>>>>> 7cf48b1a2dd1b303abd005354d4a2d96ce3801fd
 
     const beforeText=linkIndex>=0?wordsArray.slice(0, linkIndex).join(" ")+" ":""
     const link = wordsArray[linkIndex]
     const afterText=linkIndex===wordsArray.length-1?"":((link?" ":"")+wordsArray.slice(linkIndex+1, wordsArray.length).join(" "))
     
 
+<<<<<<< HEAD
     return (
         <p style={{textAlign: 'left', color:author.toLowerCase()==='you'?(darkMode ? "#e4e4ed" : "#999"):(darkMode ? "#ffffff" : "rgb(1, 36, 154)")}}>
         {
@@ -24,6 +34,74 @@ function extractLinkFromText(messageText, author, darkMode){
         {
             afterText
         }
+=======
+  return (
+    <p
+      style={{
+        textAlign: "left",
+        color:
+          author.toLowerCase() === "you"
+            ? darkMode
+              ? "#e4e4ed"
+              : "#999"
+            : darkMode
+            ? "#ffffff"
+            : "rgb(1, 36, 154)",
+      }}
+    >
+      {beforeText && beforeText}
+      {link && (
+        <a href={link} target="_blank" rel="noreferrer">
+          {link}
+        </a>
+      )}
+      {afterText}
+    </p>
+  );
+}
+
+function dictate(message, toggleIsSpeaking) {
+  toggleIsSpeaking(true);
+  let utterance = new SpeechSynthesisUtterance(message);
+  utterance.rate = 1.5;
+  utterance.addEventListener("end", () => {
+    toggleIsSpeaking(false);
+  });
+  speechSynthesis.speak(utterance);
+}
+
+export default function ChatItem({
+  message,
+  author,
+  line,
+  darkMode,
+  textSize,
+  zip,
+  locs,
+}) {
+  const authorStyle = {
+    fontSize:
+      textSize === "small"
+        ? "0.8rem"
+        : textSize === "medium"
+        ? "1.2rem"
+        : "1.4rem",
+    color: darkMode ? "#ffffff" : "#999",
+  };
+  const [isSpeaking, toggleIsSpeaking] = useState(false);
+  return (
+    <div>
+      {author === "Ford Chat.." && <Table loc={locs}></Table>}
+      {author === "Ford Chat." && (
+        <Map zip={zip.zipcode} dist={zip.dist} loc={locs}></Map>
+      )}
+      <Fragment>
+        <p
+          className={author.toLowerCase().replace(" ", "-")}
+          style={authorStyle}
+        >
+          {author}
+>>>>>>> 7cf48b1a2dd1b303abd005354d4a2d96ce3801fd
         </p>
     )
 }
