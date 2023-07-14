@@ -22,7 +22,7 @@ import { createRecommendTable } from "./models/recommend";
 async function sendBotResponse(query, history, mode) {
   console.log(JSON.stringify({ debug: true, quer: query }));
   let newQuery=""
-  if(mode!=="recommend"){
+  if(mode==="chat"){
     newQuery += "Here's our conversation before:\n";
     history.forEach((h) => {
       newQuery += `Q: ${h.q}\nA: ${h.a}\n`;
@@ -96,6 +96,7 @@ function App() {
   const [forceUpdate, setForceUpdate] = useState(true)
   // which step of the payment calculator the bot is in: [1]model,[2]trim,[3]lease/finance/buy,[4]price
   const [calcStep, setCalcStep] = useState(0);
+  const [questionnaireStep, setQuestionnaireStep] = useState(0)
   // [1]lease, [2]finance, [3]buy
   const [calcMode, setCalcMode] = useState(0);
   // [1]down payment, [2]trade-in, [3]months, [4]expected miles
@@ -114,6 +115,7 @@ function App() {
     const [compareTrim, setCompareTrim] = useState("");
     const [carInfoData, setCarInfoData] = useState({});
     const [carInfoMode, setCarInfoMode] = useState("single");
+    const [questionnaireAnswers, setQuestionnaireAnswers] = useState([])
     //map functions -------------------------------------------------------->
 
   const origButtons = (
@@ -133,6 +135,21 @@ function App() {
       </button>
     </div>
   );
+  const buyACarButtons = (
+    <div className="buttons">
+      <button className="menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
+        changeChoice("A");
+        setMenuButtons([])
+        }}>Ask my own questions</button>
+      <button className="menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
+        changeChoice("Q");
+        setMenuButtons([])
+        setQuestionnaireStep(1)
+      }}>Take questionnaire</button>
+    </div>
+  )
   const [menuButtons, setMenuButtons] = useState(origButtons);
 
     //map functions -------------------------------------------------------->
@@ -278,13 +295,13 @@ function App() {
         setMessages((m) => [
           ...m,
           {
-            msg: "Happy to help! What kind of car are you looking for?",
+            msg: "Happy to help! Do you have specific needs in mind, or would you like to fill out our questionnaire?",
             author: "Ford Chat",
             line: true,
             zip: {},
           },
         ]);
-        changeChoice("A");
+        setMenuButtons([buyACarButtons])
         break;
       case "B":
         setMessages((m) => [
@@ -350,7 +367,43 @@ function App() {
   };
     const blockQueries = useRef(false);
     const recognition = useRef(null);
-
+    const sendRecommendRequestToServer = (query)=>{
+      sendBotResponse(query, history, "recommend").then((res) => {
+        if(res.includes("RECOMMEND_TABLE")){
+          let finalTableData=[]
+          let promises=[]
+          createRecommendTable(res).forEach(car=>{
+            console.log(car.model, car.trim)
+            const query=`SELECT * FROM car_info WHERE model = \"${car.model}\" AND trim = \"${car.trim}\" AND msrp = \"${car.msrp}\" LIMIT 2`
+            promises.push(fetch(`http://fordchat.franklinyin.com/data?query=${query}`, {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+            }).then((res) => {
+                return res.json();
+            }).then(data=>{
+              finalTableData=[...finalTableData, ...data]
+            }))
+          })
+          Promise.all(promises).then(()=>{
+            let carInfoCopy=carInfoData
+            carInfoCopy[""+messages.length]=[finalTableData,[]]
+            setCarInfoData(carInfoCopy);
+            setMessages((m) => [...m, { msg: "Sure! Here are some cars I recommend for you. Feel free to ask for more info about any of these cars, or why I recommended them.", author: "Table", line : false, zip : ""}]);
+            setForceUpdate(!forceUpdate)
+          })
+        }
+        else{
+          setMessages((m) => [
+            ...m,
+            { msg: res, author: "Ford Chat", line: true, zip: {} }
+          ]);
+          setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+        }
+        blockQueries.current = false;
+      });
+    }
     useEffect(() => {
         // Check if speech recognition is supported
         if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
@@ -397,41 +450,7 @@ function App() {
             break;
         case 'A':
             setQuery("");
-            sendBotResponse(query, history, "recommend").then((res) => {
-              if(res.includes("RECOMMEND_TABLE")){
-                let finalTableData=[]
-                let promises=[]
-                createRecommendTable(res).forEach(car=>{
-                  console.log(car.model, car.trim)
-                  const query=`SELECT * FROM car_info WHERE model = \"${car.model}\" AND trim = \"${car.trim}\" LIMIT 2`
-                  promises.push(fetch(`http://fordchat.franklinyin.com/data?query=${query}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                  }).then((res) => {
-                      return res.json();
-                  }).then(data=>{
-                    finalTableData=[...finalTableData, ...data]
-                  }))
-                })
-                Promise.all(promises).then(()=>{
-                  let carInfoCopy=carInfoData
-                  carInfoCopy[""+messages.length]=[finalTableData,[]]
-                  setCarInfoData(carInfoCopy);
-                  setMessages((m) => [...m, { msg: "Sure! Here are some cars I recommend for you. Feel free to ask for more info about any of these cars, or why I recommended them.", author: "Table", line : false, zip : ""}]);
-                  setForceUpdate(!forceUpdate)
-                })
-              }
-              else{
-                setMessages((m) => [
-                  ...m,
-                  { msg: res, author: "Ford Chat", line: true, zip: {} }
-                ]);
-                setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
-              }
-              blockQueries.current = false;
-            });
+            sendRecommendRequestToServer(query)
         break;
           case "B":
             {
@@ -547,6 +566,34 @@ function App() {
                 }
                 blockQueries.current = false;
               }
+            }
+            break;
+          case "Q":
+            switch(questionnaireStep){
+              case 1:
+                setMessages(m=>[...m, {msg: "Are you interested in a specific type of vehicle, such as a cargo van, SUV, hatchback, or pickup truck?", author: "Ford Chat"}])
+                setQuestionnaireAnswers(q=>[...q, query])
+                setQuestionnaireStep(2)
+                blockQueries.current=false;
+                break;
+              case 2:
+                setMessages(m=>[...m, {msg: "How do you plan to use the car? Will it be primarily for commuting, family use, off-roading, or business purposes?", author: "Ford Chat"}])
+                setQuestionnaireAnswers(q=>[...q, query])
+                setQuestionnaireStep(3)
+                blockQueries.current=false;
+              break;
+              case 3:
+                setMessages(m=>[...m, {msg: "How many passengers do you need to accommodate regularly? ", author: "Ford Chat"}])
+              setQuestionnaireAnswers(q=>[...q, query])
+              setQuestionnaireStep(4)
+              blockQueries.current=false;
+              break;
+              case 4:
+                //setQuestionnaireAnswers(q=>[...q, query])
+                let questionnaireAnswersCopy=[...questionnaireAnswers, query]
+                setForceUpdate(!forceUpdate)
+                const ultimateQueryString="Here is my budget: "+questionnaireAnswersCopy[0]+". I am looking for a "+questionnaireAnswersCopy[1]+". I will primarily use it for the following: "+questionnaireAnswersCopy[2]+". I need a seating capacity of at least: "+questionnaireAnswersCopy[3]
+                sendRecommendRequestToServer(ultimateQueryString)
             }
             break;
           case "D":
@@ -758,6 +805,7 @@ function App() {
                 ]);
                 blockQueries.current = false;
                 setCalcStep(5);
+                break;
               case 5:
                 console.log("here");
                 //console.log(json_data);
@@ -774,6 +822,7 @@ function App() {
                 }
                 setCalcStep(6);
                 blockQueries.current = false;
+                break;
               case 6: // go to dealership finder
                 setMessages((m) => [
                   ...m,

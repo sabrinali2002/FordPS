@@ -69,9 +69,14 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
             <Map zip={zip.zipcode} dist={zip.dist} loc={locs}></Map>
         )}
         {author==="DropDown" && 
-            <CarInfoDropdownSection dropDownOptions={dropDownOptions} carInfoMode={carInfoMode}/>
+        <Fragment>
+          <CarInfoDropdownSection dropDownOptions={dropDownOptions} carInfoMode={carInfoMode}/>
+        </Fragment>
         }
-        {author==="Table" && <CarInfoTable data={carInfoData} mode={carInfoMode} info={message}/>}
+        {author==="Table" && <Fragment>
+        <p style={authorStyle}>Ford Chat</p>
+        <CarInfoTable data={carInfoData} mode={carInfoMode} intro={message}/>
+          </Fragment>}
         {(author!=="DropDown" && author!=="Table") && <Fragment>
             <p className={author.toLowerCase().replace(" ", "-")} style={authorStyle}>{author}</p>
             <div style={{display: 'flex', flexDirection: 'row'}}>
