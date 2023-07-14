@@ -3,11 +3,13 @@
 
 
 function checkIfElementAlreadyExists(array, element){
+    let dupe=false
     array.forEach(el=>{
+        console.log("COMPARE "+el.trim, element.trim+"; "+(el.trim===element.trim))
         if(el.model===element.model&&el.trim===element.trim)
-            return true
+            dupe=true
     })
-    return false
+    return dupe
 }
 
 module.exports.createRecommendTable = function(botResponseString){
@@ -20,5 +22,6 @@ module.exports.createRecommendTable = function(botResponseString){
                 recommendedCars.push({model: model, trim: trim})
         }
     });
+    console.log(recommendedCars)
     return recommendedCars
 }

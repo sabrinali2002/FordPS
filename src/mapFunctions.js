@@ -1,4 +1,4 @@
-import data from './zipLocations.json';
+import data from './jsons/zipLocations.json';
 //finds the longitude and latitude of the user
 const findLatLong = (zip) => {
     const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
@@ -52,7 +52,6 @@ export const findLocations = async (query, distance) => {
           distances[address] = distance;
         }
         const sortedLocations = Object.entries(distances).sort((a,b)=>a[1]-b[1]);
-        console.log(sortedLocations.slice(0,20));
         let count = 0;
         while(true){
           if(sortedLocations[count][1] > distance){
