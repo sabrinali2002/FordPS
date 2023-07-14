@@ -252,10 +252,18 @@ function App() {
                     );
                     setCalcStep(1);
                 } else if (trim === "") {
+                    setMessages((m) => [
+                        ...m,
+                        { msg: `Ford ${model}`, author: "You" },
+                    ]);
                     setQuery(model);
                     setCalcStep(1);
                     blockQueries.current = false;
                 } else {
+                    setMessages((m) => [
+                        ...m,
+                        { msg: `Ford ${model} ${trim}`, author: "You" },
+                    ]);
                     setQuery(trim);
                     setCalcStep(2);
                     blockQueries.current = false;
@@ -411,17 +419,17 @@ function App() {
                                 switch (calcMode) {
                                     case 0:
                                         if (query === "Lease") {
-                                            setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat", line: true }]);
+                                            setMessages((m) => [...m, { msg: "Please enter your down payment (enter 0 for none)", author: "Ford Chat", line: true }]);
                                             setCalcMode(1);
                                             setLeaseStep(1);
                                         }
                                         else if (query === "Finance") {
-                                            setMessages((m) => [...m, { msg: "Please enter your down payment, or 0", author: "Ford Chat", line: true }]);
+                                            setMessages((m) => [...m, { msg: "Please enter your down payment (enter 0 for none)", author: "Ford Chat", line: true }]);
                                             setCalcMode(2);
                                             setFinanceStep(1);
                                         }
                                         else if (query === "Buy") {
-                                            setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat", line: true }]);
+                                            setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true }]);
                                             setCalcStep(4);
                                             setCalcMode(3);
                                         }
@@ -431,14 +439,14 @@ function App() {
                                         switch (leaseStep) {
                                             case 1: // trade-in
                                                 setPayment(payment => {return (payment - query)});
-                                                setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat", line: true }]);
+                                                setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true }]);
                                                 blockQueries.current = false;
                                                 setLeaseStep(2);
                                                 break;
                                             case 2: // months
                                                 setPayment(payment => {return (payment - query)});
                                                 let durations = [24, 36, 39, 48];
-                                                setMessages((m) => [...m, { msg: "Please enter the desired duration of the lease, in months", author: "Ford Chat", line: true }]);
+                                                setMessages((m) => [...m, { msg: "Please select the desired lease duration, in months", author: "Ford Chat", line: true }]);
                                                 setCalcButtons(durations.map(dur => (<button className='calc-button' style={{ fontSize: '14px' }} key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
                                                 blockQueries.current = false;
                                                 setLeaseStep(3);
@@ -455,14 +463,14 @@ function App() {
                                         switch (financeStep) {
                                             case 1: // trade-in
                                                 setPayment(payment => {return (payment - query)});
-                                                setMessages((m) => [...m, { msg: "Please enter your trade-in value, or 0", author: "Ford Chat", line: true }]);
+                                                setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true }]);
                                                 blockQueries.current = false;
                                                 setFinanceStep(2);
                                                 break;
                                             case 2: // months
                                                 setPayment(payment => {return (payment - query)});
                                                 let durations = [36, 48, 60, 72, 84];
-                                                setMessages((m) => [...m, { msg: "Please enter the desired duration of the loan, in months", author: "Ford Chat", line: true }]);
+                                                setMessages((m) => [...m, { msg: "Please select the desired loan duration, in months", author: "Ford Chat", line: true }]);
                                                 setCalcButtons(durations.map(dur => (<button className='calc-button' style={{ fontSize: '14px' }} key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
                                                 blockQueries.current = false;
                                                 setFinanceStep(0);
@@ -489,7 +497,7 @@ function App() {
                                         final = payment - query;
                                         break;
                                 }
-                                setMessages((m) => [...m, { msg: `Your expected monthly payment is ${final}`, author: "Ford Chat", line: true }]);
+                                setMessages((m) => [...m, { msg: `Your expected monthly payment is ${Math.round(final)}`, author: "Ford Chat", line: true }]);
                                 blockQueries.current = false;
                                 setCalcStep(5);
                             case 5:
@@ -501,6 +509,8 @@ function App() {
                                 setCalcStep(6);
                                 blockQueries.current = false;
                             case 6: // go to dealership finder
+                                // maybe put menu buttons back up
+                                // setMenuButtons(origButtons);
                                 setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line: true }]);
                                 changeChoice('B');
                                 blockQueries.current = false;
