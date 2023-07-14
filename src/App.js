@@ -177,6 +177,7 @@ function App() {
         }
         setDealers(dealers);
         findLocationsGiven(zipCode,distance, dealers).then(loc=>{
+         // setMessages((m)=>[...m,{msg:"",author:"Ford Chat.", line:false, zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers}}]);
             const places = loc.split('..');
             for(let i = 0; i < places.length-1; i++){
                 if(i === 0){
