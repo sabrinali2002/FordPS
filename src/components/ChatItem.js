@@ -2,8 +2,6 @@ import { Fragment, useState } from "react";
 import '../styles/ChatItem.css'
 import { VolumeUp } from "react-bootstrap-icons";
 import Map from './Map'
-import DropDown from "./DropDown";
-import {Button} from 'react-bootstrap';
 import CarInfoTable from "./CarInfoTable";
 import CarInfoDropdownSection from "./CarInfoDropdownSection";
 function extractLinkFromText(messageText, author, darkMode){

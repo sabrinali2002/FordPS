@@ -60,6 +60,24 @@ const introCardContent = (
     </Fragment>
 );
 
+const fixTrimQueryQuotation = (model, query) => {
+    console.log("model: " + model, "original query: " + query);
+    if(model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van") {
+        return query;
+    }
+    let trimStartIndex = query.indexOf('trim = "') + 8;
+    if(trimStartIndex - 8 !== -1) {
+        query = query.slice(0, trimStartIndex) + '\\"' + query.slice(trimStartIndex);
+        trimStartIndex += 2;
+        let trimName = query.substring(trimStartIndex, query.length - 1);
+        let modified = trimName.replace(/"/g, '\\"\\"');
+        query = query.replace(trimName, modified);
+        query = query.slice(0,query.length - 1) + "\\" + query.slice(query.length - 1);
+        query += '"';
+    }
+    return query;
+}
+
 function App() {
     const [query, setQuery] = useState("");
     const [queryText, setQueryText] = useState("");
@@ -162,7 +180,8 @@ function App() {
         }
         if (id === "secondCar") {
             setCompareModel(event.target.value);
-            setCompareTrim("");
+            const firstTrim = trims[event.target.value][0]
+            setCompareTrim(firstTrim);
         }
     };
 
@@ -195,6 +214,7 @@ function App() {
         if (selectedTrim !== "no trim" && selectedTrim !== "all trim" && selectedTrim !== "") {
             sqlQuery += `AND trim = "${selectedTrim}"`;
         }
+        sqlQuery = fixTrimQueryQuotation(selectedModel, sqlQuery);
         console.log(sqlQuery);
         let dataArr = []
         let data = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
@@ -369,8 +389,8 @@ function App() {
         } else {
             if (!blockQueries.current && query.length > 0) {
                 blockQueries.current = true;
-                switch (choice) {
-                    case "I":
+        switch (choice) {
+            case "I":
                         //Car info dialogues
 
             break;
@@ -810,6 +830,12 @@ function App() {
     menuButtons,
     model,
     trim,
+    carInfoData,
+    handleUserInput,
+    forceUpdate,
+    messages.length,
+    zipCode,
+    zipMode
   ]);
 
   return (
