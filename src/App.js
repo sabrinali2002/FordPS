@@ -78,7 +78,9 @@ const introCardContent = (
 function App() {
   const [query, setQuery] = useState("");
   const [queryText, setQueryText] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    { msg: "What's your name?", author: "Bot" },
+  ]);
   const [history, setHistory] = useState([]);
   const [response, setResponse] = useState("");
   const [recording, setRecording] = useState(false);
@@ -130,7 +132,7 @@ function App() {
   const [zipMode, setZipMode] = useState(0);
   const [model, setModel] = useState("");
   const [trim, setTrim] = useState("");
-  const [distance, setDistance] = useState('10');
+  const [distance, setDistance] = useState("10");
   const [findMode, setFind] = useState(0);
   const [selectMode, setSelect] = useState(false);
   const s = new Set();
@@ -155,11 +157,19 @@ function App() {
   const [menuButtons, setMenuButtons] = useState(origButtons);
   //map functions -------------------------------------------------------->
 
-    // map icon hover handler
-    const mapIconHandler = (event) => {
-        console.log(event);
-        // access dealer
-        let dealer = "Sunny King Ford";
+  // map icon hover handler
+  const mapIconHandler = (event) => {
+    console.log(event);
+    // access dealer
+    let dealer = "Sunny King Ford";
+  };
+  const locateDealerships = () => {
+    //go through the dealerships that have the cars we want
+    //pass in the list of dealership names
+    const dealers = new Set();
+    for (const model in selected) {
+      for (const t in selected[model]) {
+      }
     }
     const locateDealerships = () => {
         //go through the dealerships that have the cars we want
@@ -231,6 +241,21 @@ function App() {
         setCalcButtons([]);
         setFind(1);
     }
+    console.log(selected);
+  };
+  const calcButtonHandler = (event) => {
+    let val = event.target.getAttribute("value");
+    setQuery(val);
+    setMessages((m) => [...m, { msg: val, author: "You" }]);
+    setCalcButtons([]);
+  };
+  const selectHandler = (event) => {
+    let val = event.target.getAttribute("value");
+    setQuery(val);
+    setModel(val);
+    setCalcButtons([]);
+    setFind(1);
+  };
 
   const handleUserInput = (option) => {
     // Outputs a response to based on input user selects
@@ -247,14 +272,41 @@ function App() {
         ]);
         changeChoice("A");
         break;
-      case 'B':
-        setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
-        changeChoice('B');
+      case "B":
+        setMessages((m) => [
+          ...m,
+          {
+            msg: "Please enter your zipcode below:",
+            author: "Ford Chat",
+            line: true,
+            zip: {},
+          },
+        ]);
+        changeChoice("B");
         break;
-      case 'C':
-        setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
-        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
-        changeChoice('C');
+      case "C":
+        setMessages((m) => [
+          ...m,
+          {
+            msg: "Please select 1-3 models/trims of the specific cars you are looking for.",
+            author: "Ford Chat",
+            line: true,
+            zip: "",
+          },
+        ]);
+        setCalcButtons(
+          Object.keys(trims).map((model) => (
+            <button
+              className="calc-button"
+              key={model}
+              value={model}
+              onClick={selectHandler}
+            >
+              {model}
+            </button>
+          ))
+        );
+        changeChoice("C");
         break;
       case "D":
         if (model === "") {
@@ -406,23 +458,45 @@ function App() {
                         }
                         break;
                 }
-                blockQueries.current = false;
                 break;
             }
-            case 'C':
-                {
-                    if(findMode === 0){
-                        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
-                        setFind(1);
-                    }
-                    else{
-                        setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick = {appendSelect}>{trim}</button>)));
-                        setSelect(true);
-                    }
-                    blockQueries.current = false;
-                    break;
-                }
+            blockQueries.current = false;
+            break;
+          case "C":
+            {
+              if (findMode === 0) {
+                setCalcButtons(
+                  Object.keys(trims).map((model) => (
+                    <button
+                      className="calc-button"
+                      key={model}
+                      value={model}
+                      onClick={selectHandler}
+                    >
+                      {model}
+                    </button>
+                  ))
+                );
+                setFind(1);
+              } else {
+                setCalcButtons(
+                  trims[query].map((trim) => (
+                    <button
+                      className="calc-button"
+                      key={trim}
+                      value={trim}
+                      onClick={appendSelect}
+                    >
+                      {trim}
+                    </button>
+                  ))
+                );
+                setSelect(true);
+              }
+              blockQueries.current = false;
               break;
+            }
+            break;
           case "D":
             setQuery("");
             switch (calcStep) {
@@ -693,7 +767,7 @@ function App() {
 
   return showApp ? (
     <div className="ButtonContainer">
-      <HamburgerMenu/>
+      <HamburgerMenu />
       <div
         className="App"
         style={{
@@ -772,13 +846,13 @@ function App() {
                 flexWrap: "wrap",
               }}
             >
-              {
-                selectMode && <button onClick= {changeFind}>back</button>
-            }
-            {calcButtons}
-            {
-                selectMode && <button onClick = {locateDealerships}>Locate my nearest dealerships</button>
-            }
+              {selectMode && <button onClick={changeFind}>back</button>}
+              {calcButtons}
+              {selectMode && (
+                <button onClick={locateDealerships}>
+                  Locate my nearest dealerships
+                </button>
+              )}
             </div>
 
             <TextField
