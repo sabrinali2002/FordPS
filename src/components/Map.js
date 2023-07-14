@@ -6,8 +6,8 @@ import data from "../jsons/zipLocations.json";
 import "./Map.css";
 import Modal from "react-modal";
 import TestDriveScheduler from "./TestDriveScheduler";
-import dealerToTrim from '../dealerToTrim.json';
-import addresses from '../dealerToAddress.json';
+import dealerToTrim from '../jsons/dealerToTrim.json';
+import addresses from '../jsons/dealerToAddress.json';
 import { FaLocationArrow } from 'react-icons/fa';
 import { BsTelephoneFill, BsLink} from 'react-icons/bs';
 import { AiFillClockCircle } from 'react-icons/ai';
@@ -51,6 +51,7 @@ function Map({ zip, dist, loc }) {
     if (blockPopup) {
       return;
     }
+    console.log(d);
     let dealer = data[d[1].toString() + ' ' + d[2].toString()]["name"];
     let models = [];
     if (model != '' && trim != '') { // know model & trim
