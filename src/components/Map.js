@@ -8,7 +8,7 @@ import Modal from "react-modal";
 import TestDriveScheduler from "./TestDriveScheduler";
 import close from "../images/close.svg";
 
-function Map({ zip, dist, loc, deal}) {
+function Map({ zip, dist, loc }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
@@ -29,8 +29,7 @@ function Map({ zip, dist, loc, deal}) {
     const distances = {};
     const l = [result.latitude, result.longitude];
     for (const coords in data) {
-      if(deal.size === 0 || deal.has(data[coords].name)){
-        const [lat, lon] = coords.split(" ");
+      const [lat, lon] = coords.split(" ");
       const address =
         data[coords].address + " " + data[coords].city + " " + lat + " " + lon;
       const dist = calculateDistance(
@@ -40,7 +39,6 @@ function Map({ zip, dist, loc, deal}) {
         parseFloat(lon)
       );
       distances[data[coords].name + "----" + address] = dist;
-      }
     }
     const sortedLocations = Object.entries(distances).sort(
       (a, b) => a[1] - b[1]

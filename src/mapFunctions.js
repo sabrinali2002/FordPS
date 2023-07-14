@@ -39,7 +39,6 @@ export const calculateDistance = (lat1, lon1, lat2, lon2) => {
     return distance;
   }
 export const findLocationsGiven = async (query, distance, dealers) => {
-  console.log(dealers);
   const zip = extractFiveDigitString(query);
     if(zip !=null){
       try{
