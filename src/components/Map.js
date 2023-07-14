@@ -51,8 +51,7 @@ function Map({ zip, dist, loc }) {
     if (blockPopup) {
       return;
     }
-    console.log(d);
-    let dealer = data[d[1].toString() + ' ' + d[2].toString()]["name"];
+    let dealer = d[0];
     let models = [];
     if (model != '' && trim != '') { // know model & trim
       if (Object.values(dealerToTrim[dealer][model]).includes(trim)) {
@@ -99,7 +98,7 @@ function Map({ zip, dist, loc }) {
         }
       }
     }
-    let addr = addresses[dealer];
+    let addr = d[1];
     let phone = '000-000-0000';
     let link = 'www.com';
     let today = new Date();
@@ -257,24 +256,24 @@ function Map({ zip, dist, loc }) {
     }
     fetchInfo();
   }, [zip, latlong]);
-
   return (
-    <div 
-    style={{
-      position: "relative",
-      backgroundColor: "#113B7A1A",
-      width: "1112px",
-      height: "435px",
-      borderRadius: "15px",
-      padding: "25px",
-      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-    }}>
+    <div
+      style={{
+        position: "relative",
+        backgroundColor: "#113B7A1A",
+        width: "1112px",
+        height: "435px",
+        borderRadius: "15px",
+        padding: "25px",
+        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+      }}
+    >
       <MapContainer
         center={latlong}
         zoom={3}
         style={{
           height: "400px",
-          width: "30%",
+          width: "50%", // Increase width to desired value
           display: "flex",
           float: "left",
           marginRight: "20px",
@@ -294,20 +293,16 @@ function Map({ zip, dist, loc }) {
               position={[d[2], d[3]]}
               icon={customMarkerIcon}
               id={d[0]}
-              eventHandlers={{mouseover: () => markerHoverOver(d)}}
+              eventHandlers={{ mouseover: () => markerHoverOver(d) }}
+
             />
           );
         })}
       </MapContainer>
       {showPopup && <div className="hover-popup" onMouseLeave={popupHoverOff} style={{position: {popupPos}}}>{popupText}</div>}
-      {showWindow && (<div className='click-popup'>
-          <button className='close-button' onClick={onExit}>
-            x
-          </button>
-          {windowText}
-          </div>)}
       <div
-        style={{ marginLeft: "50px", alignItems: "center", marginTop: "10px" }}>
+        style={{ marginLeft: "50px", alignItems: "center", marginTop: "10px" }}
+      >
         <div
           style={{
             alignItems: "flex-start",
@@ -323,7 +318,6 @@ function Map({ zip, dist, loc }) {
               marginBottom: "15px",
               fontSize: "24px",
               textAlign: "left",
-
               color: "#00095B",
             }}
           >
@@ -408,3 +402,12 @@ function Map({ zip, dist, loc }) {
 }
 
 export default Map;
+
+/*
+      {showWindow && (<div className='click-popup'>
+          <button className='close-button' onClick={onExit}>
+            x
+          </button>
+          {windowText}
+          </div>)}
+*/
