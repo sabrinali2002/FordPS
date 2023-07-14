@@ -4,9 +4,11 @@
 }
 
 .question-button-container {
-    position: relative;
+    position: absolute;
     font-family: 'Manrope', sans-serif;
     z-index: 9999;
+    margin-left:76px;
+    margin-top:2px;
   }
   
   .question-button {

@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'Manrope';
-    src: url('fonts/Manrope-Bold.ttf') format('truetype');
+  font-family: 'Antenna';
+  src: url('fonts/ford-antenna-medium-cnd-587bd97171cbd.ttf') format('truetype');
 }
 
 .body{
@@ -37,7 +37,7 @@
     min-height: 100vh;
     background: linear-gradient(to bottom right, #d1dfff, #f6f6ff);
     background-size: 400% 400%;
-    animation: gradient 20s ease infinite;
+    animation: gradient 10s ease infinite;
   }
 
 .center {
@@ -54,7 +54,7 @@
     width: 20%;
     font-size: 1rem;
     color: #ffffff;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Antenna', sans-serif;
     font-weight: 500;
     border-radius: 20px;
     border: none;
@@ -68,10 +68,11 @@
 
 .welcome {
     width: 60%; 
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Antenna', sans-serif;
     font-size: 1.5rem;
-    font-weight:550;
+    font-weight:300;
     padding:15px;
+    letter-spacing:0.8px;
 }
 
 .henrai {
