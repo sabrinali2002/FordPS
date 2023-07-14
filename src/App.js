@@ -16,13 +16,14 @@ import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import EV from "./jsons/EV.json";
 import trims from "./jsons/trims.json";
+import trimToDealer from './jsons/trimToDealer.json'
 import {
   Brightness4,
   Brightness7,
   TextFields,
   TextFieldsOutlined,
 } from "@mui/icons-material";
-import { extractFiveDigitString, findLocations } from "./mapFunctions";
+import { extractFiveDigitString, findLocations , findLocationsGiven} from "./mapFunctions";
 import QuestionButton from "./components/QuestionButton";
 import HamburgerMenu from "./components/Navbar.js";
 
@@ -77,9 +78,7 @@ const introCardContent = (
 function App() {
   const [query, setQuery] = useState("");
   const [queryText, setQueryText] = useState("");
-  const [messages, setMessages] = useState([
-    { msg: "What's your name?", author: "Bot" },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [history, setHistory] = useState([]);
   const [response, setResponse] = useState("");
   const [recording, setRecording] = useState(false);
@@ -131,23 +130,12 @@ function App() {
   const [zipMode, setZipMode] = useState(0);
   const [model, setModel] = useState("");
   const [trim, setTrim] = useState("");
-  const [distance, setDistance] = useState("10");
+  const [distance, setDistance] = useState('10');
   const [findMode, setFind] = useState(0);
   const [selectMode, setSelect] = useState(false);
-  const [selected, changeSelected] = useState({
-    Bronco: [],
-    "Bronco Sport": [],
-    "E-Transit Cargo Van": [],
-    Edge: [],
-    Escape: [],
-    Expedition: [],
-    Explorer: [],
-    "F-150": [],
-    "F-150 Lightning": [],
-    "Mustang Mach-E": [],
-    Ranger: [],
-    "Transit Cargo Van": [],
-  });
+  const s = new Set();
+  const [dealerList, setDealers] = useState(s);
+  const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
   const origButtons = (
     <div className="buttons">
       <button onClick={() => handleUserInput("A")} className="menu">
@@ -167,95 +155,84 @@ function App() {
   const [menuButtons, setMenuButtons] = useState(origButtons);
   //map functions -------------------------------------------------------->
 
-  // map icon hover handler
-  const mapIconHandler = (event) => {
-    console.log(event);
-    // access dealer
-    let dealer = "Sunny King Ford";
-  };
-  const locateDealerships = () => {
-    //go through the dealerships that have the cars we want
-    //pass in the list of dealership names
-    const dealers = new Set();
-    for(const m in selected){
-        if(selected[m].length!=0){
-            let cars = selected[m];
-            for(const i in cars){
-                for(const elements in trimToDealer[m][cars[i]]){
-                    dealers.add(trimToDealer[m][cars[i]][elements]);
+    // map icon hover handler
+    const mapIconHandler = (event) => {
+        console.log(event);
+        // access dealer
+        let dealer = "Sunny King Ford";
+    }
+    const locateDealerships = () => {
+        //go through the dealerships that have the cars we want
+        //pass in the list of dealership names
+        const dealers = new Set();
+        for(const m in selected){
+            if(selected[m].length!=0){
+                let cars = selected[m];
+                for(const i in cars){
+                    for(const elements in trimToDealer[m][cars[i]]){
+                        dealers.add(trimToDealer[m][cars[i]][elements]);
+                    }
                 }
             }
         }
-    }
-    setDealers(dealers);
-    findLocationsGiven(zipCode,distance, dealers).then(loc=>{
-        const places = loc.split('..');
-        for(let i = 0; i < places.length-1; i++){
-            if(i === 0){
-                setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers}}]);
+        setDealers(dealers);
+        findLocationsGiven(zipCode,distance, dealers).then(loc=>{
+            const places = loc.split('..');
+            for(let i = 0; i < places.length-1; i++){
+                if(i === 0){
+                    setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers}}]);
+                }
+                else if(i === places.length-2){
+                    setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+                }
+                else{
+                    setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+                }
             }
-            else if(i === places.length-2){
-                setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
-            }
-            else{
-                setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
-            }
-        }
-        setZipMode(0);
-})
-setCalcButtons([]);
-setSelect(false);
-}
-  const changeFind = () => {
-    setFind(0);
+            setZipMode(0);
+    })
+    setCalcButtons([]);
     setSelect(false);
-    setCalcButtons(
-      Object.keys(trims).map((model) => (
-        <button
-          className="calc-button"
-          key={model}
-          value={model}
-          onClick={selectHandler}
-        >
-          {model}
-        </button>
-      ))
-    );
-  };
-  const appendSelect = (event) => {
-    let val = event.target.getAttribute("value");
-    console.log(val);
-    console.log(selected[model]);
-    if (val in selected[model]) {
-      let copy = selected[model];
-      delete copy[val];
-      let copy2 = selected;
-      delete copy2[model];
-      copy2[model] = copy;
-      changeSelected(copy2);
-    } else {
-      let copy = selected[model];
-      copy.push(val);
-      let copy2 = selected;
-      delete copy2[model];
-      copy2[model] = copy;
-      changeSelected(copy2);
+    setFind(0);
+    changeSelected({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]});
     }
-    console.log(selected);
-  };
-  const calcButtonHandler = (event) => {
-    let val = event.target.getAttribute("value");
-    setQuery(val);
-    setMessages((m) => [...m, { msg: val, author: "You" }]);
-    setCalcButtons([]);
-  };
-  const selectHandler = (event) => {
-    let val = event.target.getAttribute("value");
-    setQuery(val);
-    setModel(val);
-    setCalcButtons([]);
-    setFind(1);
-  };
+    const changeFind = () => {
+        setFind(0);
+        setSelect(false);
+        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
+    }
+    const appendSelect = (event) => {
+        let val = event.target.getAttribute('value');
+        if(val in selected[model]){
+            let copy = selected[model]
+            delete copy[val];
+            let copy2 = selected
+            delete copy2[model]
+            copy2[model] = copy
+            changeSelected(copy2);
+        }
+        else{
+            let copy = selected[model]
+            copy.push(val)
+            let copy2 = selected
+            delete copy2[model]
+            copy2[model] = copy
+            changeSelected(copy2)
+        }
+    }
+    const calcButtonHandler = (event) => {
+        let val = event.target.getAttribute('value');
+        setQuery(val);
+        setMessages((m) => [...m, { msg: val, author: "You" }]);
+        setCalcButtons([]);
+    }
+    const selectHandler = (event) => {
+        let val = event.target.getAttribute('value');
+        setQuery(val);
+        setModel(val);
+        setCalcButtons([]);
+        setFind(1);
+    }
 
   const handleUserInput = (option) => {
     // Outputs a response to based on input user selects
@@ -272,41 +249,14 @@ setSelect(false);
         ]);
         changeChoice("A");
         break;
-      case "B":
-        setMessages((m) => [
-          ...m,
-          {
-            msg: "Please enter your zipcode below:",
-            author: "Ford Chat",
-            line: true,
-            zip: {},
-          },
-        ]);
-        changeChoice("B");
+      case 'B':
+        setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
+        changeChoice('B');
         break;
-      case "C":
-        setMessages((m) => [
-          ...m,
-          {
-            msg: "Please select 1-3 models/trims of the specific cars you are looking for.",
-            author: "Ford Chat",
-            line: true,
-            zip: "",
-          },
-        ]);
-        setCalcButtons(
-          Object.keys(trims).map((model) => (
-            <button
-              className="calc-button"
-              key={model}
-              value={model}
-              onClick={selectHandler}
-            >
-              {model}
-            </button>
-          ))
-        );
-        changeChoice("C");
+      case 'C':
+        setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
+        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
+        changeChoice('C');
         break;
       case "D":
         if (model === "") {
@@ -386,206 +336,95 @@ setSelect(false);
     blockQueries.current = !blockQueries.current;
   };
 
-  useEffect(() => {
-    if (
-      query.toLowerCase() === "a" ||
-      query.toLowerCase() === "b" ||
-      query.toLowerCase() === "c" ||
-      query.toLowerCase() === "d"
-    ) {
-      handleUserInput(query.toUpperCase());
-    } else {
-      if (!blockQueries.current && query.length > 0) {
-        blockQueries.current = true;
-        switch (choice) {
-          case "A":
-            setQuery("");
-            sendBotResponse(query, history).then((res) => {
-              setMessages((m) => [
-                ...m,
-                { msg: res, author: "Ford Chat", line: true, zip: {} },
-              ]);
-              setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
-              blockQueries.current = false;
-            });
-            break;
-          case "B": {
-            switch (zipMode) {
-              case 0: {
-                setZipCode(query);
-                setMessages((m) => [
-                  ...m,
-                  {
-                    msg:
-                      "Thank you - I will look for dealerships in the " +
-                      extractFiveDigitString(query) +
-                      " area",
-                    author: "Ford Chat",
-                    line: false,
-                    zip: "",
-                  },
-                ]);
-                setMessages((m) => [
-                  ...m,
-                  {
-                    msg: "Please enter your preferred radius to find a dealership, or NONE",
-                    author: "",
-                    line: true,
-                    zip: "",
-                  },
-                ]);
-                setZipMode(1);
-                break;
-              }
-              case 1: {
-                setMessages((m) => [
-                  ...m,
-                  {
-                    msg: "Thank you. Do you want to check availability for a specific model or just locate a dealership near you?",
-                    author: "Ford Chat",
-                    line: true,
-                    zip: "",
-                  },
-                ]);
-                setDistance(query === "NONE" ? 10 : query);
-                let arr = { "Specific Model": "", "Just a Dealership": "" };
-                setCalcButtons(
-                  Object.keys(arr).map((model) => (
-                    <button
-                      className="calc-button"
-                      key={model}
-                      value={model}
-                      onClick={calcButtonHandler}
-                    >
-                      {model}
-                    </button>
-                  ))
-                );
-                setZipMode(2);
-                break;
-              }
-              case 2: {
-                if (query === "Specific Model") {
-                  setMessages((m) => [
-                    ...m,
-                    {
-                      msg: "Thank you. Please select 1-3 models/trims of the specific cars you are looking for.",
-                      author: "Ford Chat",
-                      line: true,
-                      zip: "",
-                    },
-                  ]);
-                  setZipMode(3);
-                } else {
-                  findLocations(zipCode, distance).then((loc) => {
-                    const places = loc.split("..");
-                    console.log("places: ");
-                    console.log(places);
-                    for (let i = 0; i < places.length - 1; i++) {
-                      if (i === 0) {
-                        setMessages((m) => [
-                          ...m,
-                          {
-                            msg: places[i],
-                            author: "Ford Chat.",
-                            line: false,
-                            zip: {
-                              zipcode: extractFiveDigitString(zipCode),
-                              dist: distance,
-                            },
-                          },
-                        ]);
-                      } else if (i === places.length - 2) {
-                        setMessages((m) => [
-                          ...m,
-                          { msg: places[i], author: "", line: true, zip: {} },
-                        ]);
-                      } else {
-                        setMessages((m) => [
-                          ...m,
-                          { msg: places[i], author: "", line: false, zip: {} },
-                        ]);
-                      }
-                    }
-                    setZipMode(0);
-                  });
-                  break;
-                }
-              }
-              case 3:
-                {
-                  {
-                    if (findMode === 0) {
-                      setCalcButtons(
-                        Object.keys(trims).map((model) => (
-                          <button
-                            className="calc-button"
-                            key={model}
-                            value={model}
-                            onClick={selectHandler}
-                          >
-                            {model}
-                          </button>
-                        ))
-                      );
-                      setFind(1);
-                    } else {
-                      setCalcButtons(
-                        trims[query].map((trim) => (
-                          <button
-                            className="calc-button"
-                            key={trim}
-                            value={trim}
-                            onClick={appendSelect}
-                          >
-                            {trim}
-                          </button>
-                        ))
-                      );
-                      setSelect(true);
-                    }
-                  }
-                }
-                break;
-            }
-            blockQueries.current = false;
-            break;
-          }
-          case "C":
-            {
-              if (findMode === 0) {
-                setCalcButtons(
-                  Object.keys(trims).map((model) => (
-                    <button
-                      className="calc-button"
-                      key={model}
-                      value={model}
-                      onClick={selectHandler}
-                    >
-                      {model}
-                    </button>
-                  ))
-                );
-                setFind(1);
-              } else {
-                setCalcButtons(
-                  trims[query].map((trim) => (
-                    <button
-                      className="calc-button"
-                      key={trim}
-                      value={trim}
-                      onClick={appendSelect}
-                    >
-                      {trim}
-                    </button>
-                  ))
-                );
-                setSelect(true);
-              }
-              blockQueries.current = false;
+    useEffect(() => {
+      if(query.toLowerCase() === 'a' || query.toLowerCase() === 'b' || query.toLowerCase() === 'c' || query.toLowerCase() === 'd'){
+        handleUserInput(query.toUpperCase());
+      }
+      else{
+        if (!blockQueries.current && query.length > 0) {
+          blockQueries.current = true;
+          switch(choice){
+            case 'A':
+              setQuery("");
+              sendBotResponse(query, history).then((res) => {
+                setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true,zip:{}}]);
+                setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+                blockQueries.current = false;
+              })
               break;
+            case 'B':
+                {
+                    switch(zipMode){
+                        case 0: {
+                            setZipCode(query)
+                            setMessages((m)=>[...m,{msg: "Thank you - I will look for dealerships in the "+extractFiveDigitString(query) + " area", author: "Ford Chat", line:false,zip:""}]);
+                            setMessages((m)=>[...m,{msg: "Please enter your preferred radius to find a dealership, or NONE", author: "", line:true,zip:""}]);
+                            setZipMode(1);
+                            break;
+                        }
+                        case 1:{
+                            setMessages((m)=>[...m,{msg: "Thank you. Do you want to check availability for a specific model or just locate a dealership near you?", author: "Ford Chat", line:true,zip:""}]);
+                            setDistance((query === "NONE") ? 10 : query)
+                            let arr = {'Specific Model': "", 'Just a Dealership': ""};
+                            setCalcButtons(Object.keys(arr).map(model => (<button className='calc-button' key={model} value={model} onClick={calcButtonHandler}>{model}</button>)));
+                            setZipMode(2);
+                            break;
+                        }
+                        case 2:{
+                            if(query === "Specific Model"){
+                                setMessages((m)=>[...m,{msg: "Thank you. Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
+                                setZipMode(3);
+                            }
+                            else{
+                                findLocations(zipCode,distance).then(loc=>{
+                                    const places = loc.split('..');
+                                    for(let i = 0; i < places.length-1; i++){
+                                        if(i === 0){
+                                            setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealerList}}]);
+                                        }
+                                        else if(i === places.length-2){
+                                            setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+                                        }
+                                        else{
+                                            setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+                                        }
+                                    }
+                                    setZipMode(0);
+                            })
+                            break; 
+                            }
+                        }
+                        case 3:{
+                            {
+                                if(findMode === 0){
+                                    setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
+                                    setFind(1);
+                                }
+                                else{
+                                    setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick = {appendSelect}>{trim}</button>)));
+                                    setSelect(true);
+                                }
+                            }
+                        }
+                        break;
+                }
+                blockQueries.current = false;
+                break;
             }
-            break;
+            case 'C':
+                {
+                    if(findMode === 0){
+                        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
+                        setFind(1);
+                    }
+                    else{
+                        setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick = {appendSelect}>{trim}</button>)));
+                        setSelect(true);
+                    }
+                    blockQueries.current = false;
+                    break;
+                }
+              break;
           case "D":
             setQuery("");
             switch (calcStep) {
@@ -856,7 +695,7 @@ setSelect(false);
 
   return showApp ? (
     <div className="ButtonContainer">
-      <HamburgerMenu />
+      <HamburgerMenu/>
       <div
         className="App"
         style={{
@@ -935,13 +774,13 @@ setSelect(false);
                 flexWrap: "wrap",
               }}
             >
-              {selectMode && <button onClick={changeFind}>back</button>}
-              {calcButtons}
-              {selectMode && (
-                <button onClick={locateDealerships}>
-                  Locate my nearest dealerships
-                </button>
-              )}
+              {
+                selectMode && <button onClick= {changeFind}>back</button>
+            }
+            {calcButtons}
+            {
+                selectMode && <button onClick = {locateDealerships}>Locate my nearest dealerships</button>
+            }
             </div>
 
             <TextField
