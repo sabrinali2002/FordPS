@@ -74,7 +74,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
     };
   }
 
-  export function handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory) {
+  export function handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory) {
     if (query.toLowerCase() === "a" || query.toLowerCase() === "b" || query.toLowerCase() === "c" || query.toLowerCase() === "d") {
       handleUserInput(query.toUpperCase());
     } else {
@@ -86,7 +86,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             break;
           case 'A':
             setQuery("");
-            sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory);
+            sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
             break;
           case "B": {
             handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance);
@@ -133,7 +133,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
                 let questionnaireAnswersCopy = [...questionnaireAnswers, query];
                 setForceUpdate(!forceUpdate);
                 const ultimateQueryString = "Here is my budget: " + questionnaireAnswersCopy[0] + ". I am looking for a " + questionnaireAnswersCopy[1] + ". I will primarily use it for the following: " + questionnaireAnswersCopy[2] + ". I need a seating capacity of at least: " + questionnaireAnswersCopy[3];
-                sendRecommendRequestToServer(ultimateQueryString, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory);
+                sendRecommendRequestToServer(ultimateQueryString, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
             }
             break;
           case "D":
