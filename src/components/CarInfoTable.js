@@ -177,8 +177,8 @@ const CarInfoTable = ({ data, mode, intro }) => {
                             {specList.map((spec, index) => (
                                 <StyledTableRow key={spec}>
                                     <StyledTableCell>{spec}</StyledTableCell>
-                                    <StyledTableCell style={{fontWeight: "bold"}}>{car1data[`${specListSQL[index]}`]}</StyledTableCell>
-                                    <StyledTableCell>{car2data[`${specListSQL[index]}`]}</StyledTableCell>
+                                    <StyledTableCell >{car1data[`${specListSQL[index]}`]}</StyledTableCell>
+                                    <StyledTableCell >{car2data[`${specListSQL[index]}`]}</StyledTableCell>
                                 </StyledTableRow>
                             ))}
                         </TableBody>
