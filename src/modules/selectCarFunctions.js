@@ -1,5 +1,5 @@
 
-export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate) {
+export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation) {
     return async () => {
       let sqlQuery = "";
       if (selectedModel !== "no model") {
@@ -8,6 +8,7 @@ export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareM
       if (selectedTrim !== "no trim" && selectedTrim !== "all trim" && selectedTrim !== "") {
         sqlQuery += `AND trim = "${selectedTrim}"`;
       }
+      sqlQuery = fixTrimQueryQuotation(selectedModel, sqlQuery);
       console.log(sqlQuery);
       let dataArr = [];
       let data = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
@@ -22,6 +23,7 @@ export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareM
       let data2 = [];
       if (carInfoMode === "compare") {
         sqlQuery = `SELECT * FROM car_info WHERE model = "${compareModel}" AND trim = "${compareTrim}"`;
+        sqlQuery = fixTrimQueryQuotation(compareModel, sqlQuery);
         data2 = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
           method: "GET",
           headers: {
