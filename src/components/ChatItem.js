@@ -63,9 +63,9 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
     return(
         <div>
         {author === "Ford Chat.." && <Table loc={locs}></Table>}
-        {author === "Ford Chat." && (
-            <Map zip={zip.zipcode} dist={zip.dist} loc={locs}></Map>
-        )}
+      {author === "Ford Chat." && (
+        <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal}></Map>
+      )}
         {author==="DropDown" && 
         <Fragment>
           <CarInfoDropdownSection dropDownOptions={dropDownOptions} carInfoMode={carInfoMode}/>
