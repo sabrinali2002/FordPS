@@ -80,7 +80,14 @@ function App() {
   const [model, setModel] = useState("");
   const [trim, setTrim] = useState("");
   const [trimOptions, setTrimOptions] = useState([])
+  const messagesEndRef = useRef(null)
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
 
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages]);
     // Car Info states
     const [selectedModel, setSelectedModel] = useState("");
     const [selectedTrim, setSelectedTrim] = useState("");
@@ -102,6 +109,7 @@ function App() {
   const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
   const handleMenuClick = (parameter) => {
     handleUserInput(parameter);
+    if(parameter!=="A")
     setMenuButtons([]);
     // Perform any other logic or function in the parent component using the parameter
   };
@@ -238,11 +246,12 @@ function App() {
   ]);
 
   return (
-    <div className="ButtonContainer">
+    <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
       <HamburgerMenu onClick = {handleMenuClick}/>
       <div
-        className="App"
         style={{
+          width: '100%',
+          height: '100%',
           backgroundColor: darkMode ? "#000080" : "#f4f3f3",
           color: darkMode ? "#ffffff" : "#000000",
           fontSize:
@@ -253,19 +262,21 @@ function App() {
               : "19px",
         }}
       >
-        <QuestionButton />
-        <div className="ChatArea">
-          <ThreeDots
-            height="50"
-            width="50"
-            radius="7"
-            color="#8080ff"
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{ marginLeft: "5vw" }}
-            wrapperClassName=""
-            visible={blockQueries.current}
-          />
-          <div className="MessagesArea">
+<div className="ChatArea">
+        <Card
+            variant="outlined"
+            className="CardOutline"
+            style={{
+              maxWidth: "45%",
+              flex: "none",
+              marginBottom: "3%",
+              alignSelf: "center",
+              textSize: { textSize },
+            }}
+          >
+            {IntroCardContent}
+          </Card>
+        <div className="MessagesArea">
             <div>
               <p>{response}</p>
             </div>
@@ -287,19 +298,19 @@ function App() {
               );
             })}
           </div>
-          <Card
-            variant="outlined"
-            className="CardOutline"
-            style={{
-              maxWidth: "45%",
-              flex: "none",
-              marginBottom: "3%",
-              alignSelf: "center",
-              textSize: { textSize },
-            }}
-          >
-            {IntroCardContent}
-          </Card>
+          <ThreeDots
+            height="50"
+            width="50"
+            radius="7"
+            color="#8080ff"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{ marginLeft: "5vw" }}
+            wrapperClassName=""
+            visible={blockQueries.current}
+            style={{flex: 'none'}}
+          />
+          <p>.</p>
+          <div ref={messagesEndRef}/>
         </div>
         <div>
           {menuButtons}

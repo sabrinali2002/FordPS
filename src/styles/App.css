@@ -10,9 +10,9 @@
 
 .ChatArea {
   width: 100vw;
-  max-height: 80vh;
+  height: 70vh;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   justify-content: flex-start;
   overflow-y: auto;
 }
