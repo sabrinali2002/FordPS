@@ -9,9 +9,11 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons,buyA
       // Outputs a response to based on input user selects
       switch (option) {
         case 'I':
-          setMessages((m) => [...m, { msg: "What specific car do you want information about?", author: "Ford Chat", line: true, zip: "" }]);
-          setMessages((m) => [...m, { msg: "", author: "DropDown", line: false, zip: "" }]);
-          setMessages((m) => [...m, { msg: "", author: "Table", line: false, zip: "" }]);
+          setMessages((m) => [...m, { msg: "Info on a specific car", author: "You", line:true,zip:{} }]);
+          setMessages((m) => [...m, { msg: "Please select 1-3 models/trims of the specific cars you're looking for", author: "Ford Chat", line: true, zip: "" }]);
+          // setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={}>{model}</button>)));
+          // setMessages((m) => [...m, { msg: "", author: "DropDown", line: false, zip: "" }]);
+          // setMessages((m) => [...m, { msg: "", author: "Table", line: false, zip: "" }]);
           changeChoice('I');
           break;
         case "A":
