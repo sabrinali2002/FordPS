@@ -7,7 +7,7 @@ import "./Map.css";
 import Modal from "react-modal";
 import TestDriveScheduler from "./TestDriveScheduler";
 
-function Map({ zip, dist, loc, deal}) {
+function Map({ zip, dist, loc, deal, coords}) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
@@ -25,6 +25,7 @@ function Map({ zip, dist, loc, deal}) {
   });
   const findLocations = async (distance) => {
     const result = await findLatLong(zip);
+    // const result = coords === "" ? (await findLatLong(zip)) : coords;
     const distances = {};
     const l = [result.latitude, result.longitude];
     for (const coords in data) {

@@ -86,6 +86,8 @@ function App() {
   const [textSize, setTextSize] = useState("small");
   const [darkMode, setDarkMode] = useState(false);
   const [zipCode, setZipCode] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
 
   const toggleTextSize = () => {
     setTextSize((prevSize) =>
@@ -181,7 +183,7 @@ function App() {
             const places = loc.split('..');
             for(let i = 0; i < places.length-1; i++){
                 if(i === 0){
-                    setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers}}]);
+                    setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers, coordinates: [latitude,longitude]}}]);
                 }
                 else if(i === places.length-2){
                     setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
@@ -301,7 +303,21 @@ function App() {
 
   // const blockQueries = useRef(false);
   const recognition = useRef(null);
-
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+        },
+        (error) => {
+          console.log(error.message);
+        }
+      );
+    } else {
+      console.log('Geolocation is not supported by this browser.');
+    }
+  }, [selectMode]);
   useEffect(() => {
     // Check if speech recognition is supported
     if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
@@ -364,20 +380,8 @@ function App() {
                             break;
                         }
                         case 1:{
-                            setMessages((m)=>[...m,{msg: "Thank you. Do you want to check availability for a specific model or just locate a dealership near you?", author: "Ford Chat", line:true,zip:""}]);
                             setDistance((query === "NONE") ? 10 : query)
-                            let arr = {'Specific Model': "", 'Just a Dealership': ""};
-                            setCalcButtons(Object.keys(arr).map(model => (<button className='calc-button' key={model} value={model} onClick={calcButtonHandler}>{model}</button>)));
-                            setZipMode(2);
-                            break;
-                        }
-                        case 2:{
-                            if(query === "Specific Model"){
-                                setMessages((m)=>[...m,{msg: "Thank you. Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
-                                setZipMode(3);
-                            }
-                            else{
-                                findLocations(zipCode,distance).then(loc=>{
+                              findLocations(zipCode,distance).then(loc=>{
                                     const places = loc.split('..');
                                     for(let i = 0; i < places.length-1; i++){
                                         if(i === 0){
@@ -392,22 +396,8 @@ function App() {
                                     }
                                     setZipMode(0);
                             })
-                            break; 
-                            }
+                            break;
                         }
-                        case 3:{
-                            {
-                                if(findMode === 0){
-                                    setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
-                                    setFind(1);
-                                }
-                                else{
-                                    setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick = {appendSelect}>{trim}</button>)));
-                                    setSelect(true);
-                                }
-                            }
-                        }
-                        break;
                 }
                 blockQueries.current = false;
                 break;
