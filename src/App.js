@@ -1,17 +1,7 @@
 import "./styles/App.css";
-import OptionButton from "./components/OptionButton";
-import {
-  Card,
-  CardContent,
-  Typography,
-  TextField,
-  InputAdornment,
-  IconButton,
-} from "@mui/material";
+import { Card, CardContent, Typography, TextField, InputAdornment, IconButton } from "@mui/material";
 import { Fragment, useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
-import Homepage from "./components/Homepage";
-import FordSite from "./components/FordSite";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import EV from "./jsons/EV.json";
@@ -27,20 +17,26 @@ import { extractFiveDigitString, findLocations , findLocationsGiven} from "./map
 import QuestionButton from "./components/QuestionButton";
 import HamburgerMenu from "./components/Navbar.js";
 
-async function sendBotResponse(query, history) {
+import { createRecommendTable } from "./models/recommend";
+
+async function sendBotResponse(query, history, mode) {
   console.log(JSON.stringify({ debug: true, quer: query }));
-  let newQuery = "Here's our conversation before:\n";
-  history.forEach((h) => {
-    newQuery += `Q: ${h.q}\nA: ${h.a}\n`;
-  });
-  newQuery += `Here's my new question: ${query}`;
+  let newQuery=""
+  if(mode==="chat"){
+    newQuery += "Here's our conversation before:\n";
+    history.forEach((h) => {
+      newQuery += `Q: ${h.q}\nA: ${h.a}\n`;
+    });
+    newQuery += `Here's my new question: ${query}`;
+  } else
+    newQuery=query
   console.log(newQuery);
   const response = await fetch("http://fordchat.franklinyin.com/quer", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ debug: false, quer: newQuery }),
+    body: JSON.stringify({ mode: mode, quer: newQuery }),
   })
     .then((res) => {
       return res.json();
@@ -56,70 +52,53 @@ async function sendBotResponse(query, history) {
 }
 
 const introCardContent = (
-  <Fragment>
-    <CardContent>
-      <Typography variant="h5" component="div" className="welcome">
-        Welcome to Ford Chat! 👋
-      </Typography>
-      <Typography variant="body2" className="introduction">
-        I am a chatbot that can answer any questions you have about Ford
-        vehicles. I can help you with the following:
-        <br />
-        <ul>
-          <li>Get information about a specific model</li>
-          <li>Find nearby dealerships to schedule a test drive</li>
-          <li>Get redirected to a relevant payments estimator</li>
-        </ul>
-      </Typography>
-    </CardContent>
-  </Fragment>
+    <Fragment>
+        <CardContent>
+            <Typography variant="h5" component="div" className="welcome">
+                Welcome to Ford Chat! 👋
+            </Typography>
+            <Typography variant="body2" className="introduction">
+                I am a chatbot that can answer any questions you have about Ford vehicles. I can help you with the following:
+                <br />
+                <ul>
+                    <li>Get information about a specific model</li>
+                    <li>Find nearby dealerships to schedule a test drive</li>
+                    <li>Get redirected to a relevant payments estimator</li>
+                </ul>
+            </Typography>
+        </CardContent>
+    </Fragment>
 );
 
 function App() {
-  const [query, setQuery] = useState("");
-  const [queryText, setQueryText] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [history, setHistory] = useState([]);
-  const [response, setResponse] = useState("");
-  const [recording, setRecording] = useState(false);
-  // ACCESSIBILITY
-  const [textSize, setTextSize] = useState("small");
-  const [darkMode, setDarkMode] = useState(false);
-  const [zipCode, setZipCode] = useState("");
+    const [query, setQuery] = useState("");
+    const [queryText, setQueryText] = useState("");
+    const [messages, setMessages] = useState([
+      { msg: "What's your name?", author: "Bot" },
+    ]);
+    const [history, setHistory] = useState([]);
+    const [response, setResponse] = useState("");
+    const [recording, setRecording] = useState(false);
+    // ACCESSIBILITY
+    const [textSize, setTextSize] = useState("small");
+    const [darkMode, setDarkMode] = useState(false);
+    const [zipCode, setZipCode] = useState("");
+    const toggleTextSize = () => {
+        setTextSize((prevSize) => (prevSize === "small" ? "medium" : prevSize === "medium" ? "large" : "small"));
+    };
 
-  const toggleTextSize = () => {
-    setTextSize((prevSize) =>
-      prevSize === "small"
-        ? "medium"
-        : prevSize === "medium"
-        ? "large"
-        : "small"
-    );
-  };
+    const toggleDarkMode = () => {
+        setDarkMode((prevMode) => !prevMode);
+    };
 
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => !prevMode);
-  };
+    // PAYMENT CALCULATOR
 
-  // PAYMENT CALCULATOR
-
-  //homepage control
-  const [showApp, setShowApp] = useState(false);
-  const [showHomepage, setShowHomepage] = useState(false);
-  const handleClick = () => {
-    if (!showHomepage) {
-      setShowHomepage(true);
-      setShowApp(false);
-    } else {
-      setShowApp(true);
-      setShowHomepage(false);
-    }
-  };
   //which state the bot is in: closest dealership, calculator, etc.
   const [choice, changeChoice] = useState("");
-
+  const [forceUpdate, setForceUpdate] = useState(true)
   // which step of the payment calculator the bot is in: [1]model,[2]trim,[3]lease/finance/buy,[4]price
   const [calcStep, setCalcStep] = useState(0);
+  const [questionnaireStep, setQuestionnaireStep] = useState(0)
   // [1]lease, [2]finance, [3]buy
   const [calcMode, setCalcMode] = useState(0);
   // [1]down payment, [2]trade-in, [3]months, [4]expected miles
@@ -130,16 +109,95 @@ function App() {
   const [zipMode, setZipMode] = useState(0);
   const [model, setModel] = useState("");
   const [trim, setTrim] = useState("");
-  const [distance, setDistance] = useState('10');
+
+    // Car Info states
+    const [selectedModel, setSelectedModel] = useState("");
+    const [selectedTrim, setSelectedTrim] = useState("");
+    const [compareModel, setCompareModel] = useState("");
+    const [compareTrim, setCompareTrim] = useState("");
+    const [carInfoData, setCarInfoData] = useState({});
+    const [carInfoMode, setCarInfoMode] = useState("single");
+    const [questionnaireAnswers, setQuestionnaireAnswers] = useState([])
+    //map functions -------------------------------------------------------->
+
+  const [distance, setDistance] = useState("10");
   const [findMode, setFind] = useState(0);
   const [selectMode, setSelect] = useState(false);
   const s = new Set();
   const [dealerList, setDealers] = useState(s);
   const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
+  const handleUserInput = (option) => {
+    // Outputs a response to based on input user selects
+    switch (option) {
+        case 'I':
+            setMessages((m) => [...m, { msg: "What specific car do you want information about?", author: "Ford Chat", line:true, zip:"" }]);
+            setMessages((m) => [...m, { msg: "", author: "DropDown", line : false, zip : ""}]);
+            setMessages((m) => [...m, { msg: "", author: "Table", line : false, zip : ""}]);
+            changeChoice('I');
+            break;
+      case "A":
+        setMessages((m) => [
+          ...m,
+          {
+            msg: "Happy to help! Do you have specific needs in mind, or would you like to fill out our questionnaire?",
+            author: "Ford Chat",
+            line: true,
+            zip: {},
+          },
+        ]);
+        setMenuButtons([buyACarButtons])
+        break;
+      case 'B':
+        setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
+        changeChoice('B');
+        break;
+      case 'C':
+        setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
+        changeChoice('C');
+        break;
+      case "D":
+        if (model === "") {
+          setMessages((m) => [
+            ...m,
+            { msg: "What model are you interested in?", author: "Ford Chat" },
+          ]);
+          setCalcButtons(
+            Object.keys(trims).map((model) => (
+              <button
+                className="calc-button"
+                key={model}
+                value={model}
+                onClick={calcButtonHandler}
+              >
+                {model}
+              </button>
+            ))
+          );
+          setCalcStep(1);
+        } else if (trim === "") {
+          setQuery(model);
+          setCalcStep(1);
+          blockQueries.current = false;
+        } else {
+          setQuery(trim);
+          setCalcStep(2);
+          blockQueries.current = false;
+        }
+        changeChoice("D");
+        setMenuButtons([]);
+        break;
+      default:
+        setResponse(
+          "Invalid input. Please select one of the options (A, B, C, or D)."
+        );
+        break;
+    }
+  };
   const origButtons = (
     <div className="buttons">
+    <button onClick={() => handleUserInput('I') } className = "menu">Get info about our cars</button>
       <button onClick={() => handleUserInput("A")} className="menu">
-        Learn more about our cars
+        Help me buy a car
       </button>
       <button onClick={() => handleUserInput("B")} className="menu">
         Find the closest dealerships near me
@@ -152,15 +210,31 @@ function App() {
       </button>
     </div>
   );
+  const buyACarButtons = (
+    <div className="buttons">
+      <button className="menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
+        changeChoice("A");
+        setMenuButtons([])
+        }}>Ask my own questions</button>
+      <button className="menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
+        changeChoice("Q");
+        setMenuButtons([])
+        setQuestionnaireStep(1)
+      }}>Take questionnaire</button>
+    </div>
+  )
   const [menuButtons, setMenuButtons] = useState(origButtons);
-  //map functions -------------------------------------------------------->
+    //map functions -------------------------------------------------------->
+      const selectHandler = (event) => {
+    let val = event.target.getAttribute("value");
+    setQuery(val);
+    setModel(val);
+    setCalcButtons([]);
+    setFind(1);
+  };
 
-    // map icon hover handler
-    const mapIconHandler = (event) => {
-        console.log(event);
-        // access dealer
-        let dealer = "Sunny King Ford";
-    }
     const locateDealerships = () => {
         //go through the dealerships that have the cars we want
         //pass in the list of dealership names
@@ -222,135 +296,185 @@ function App() {
         }
     }
     const calcButtonHandler = (event) => {
-        let val = event.target.getAttribute('value');
+        let val = event.target.getAttribute("value");
         setQuery(val);
         setMessages((m) => [...m, { msg: val, author: "You" }]);
         setCalcButtons([]);
-    }
-    const selectHandler = (event) => {
-        let val = event.target.getAttribute('value');
-        setQuery(val);
-        setModel(val);
-        setCalcButtons([]);
-        setFind(1);
+    };
+    //Car Info functions  -------------------------------------------------------------
+    const handleModelChange = (event) => {
+        const id = event.target.parentNode.id;
+        if (id === "firstCar") {
+            setSelectedModel(event.target.value);
+            setSelectedTrim("");
+        }
+        if (id === "secondCar") {
+            setCompareModel(event.target.value);
+            setCompareTrim("");
+        }
+    };
+    const handleTrimChange = (event) => {
+        const id = event.target.parentNode.id;
+        if (id === "firstCar") {
+            setSelectedTrim(event.target.value);
+        }
+        if (id === "secondCar") {
+            setCompareTrim(event.target.value);
+        }
+    };
+
+    let modelOptions = Object.keys(trims).map((model) => ({ value: model, label: model }));
+    modelOptions.unshift({ value: "no model", label: "Select Model" });
+
+    let trimOptions = selectedModel === "" || selectedModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[selectedModel].map((trim) => ({ value: trim, label: trim }));
+    if (trimOptions[0].value !== "no trim") {
+        trimOptions.unshift({ value: "all trim", label: "View All Trims" });
     }
 
-  const handleUserInput = (option) => {
-    // Outputs a response to based on input user selects
-    switch (option) {
-      case "A":
-        setMessages((m) => [
-          ...m,
-          {
-            msg: "Ask a question to know more about our cars",
-            author: "Ford Chat",
-            line: true,
-            zip: {},
-          },
-        ]);
-        changeChoice("A");
-        break;
-      case 'B':
-        setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
-        changeChoice('B');
-        break;
-      case 'C':
-        setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
-        changeChoice('C');
-        break;
-      case "D":
-        if (model === "") {
+    let compareTrimOptions =
+        compareModel === "" || compareModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[compareModel].map((trim) => ({ value: trim, label: trim }));
+
+    const handleCarInfoButton = async () => {
+        let sqlQuery = "";
+        if (selectedModel !== "no model") {
+            sqlQuery += `SELECT * FROM car_info WHERE model = "${selectedModel}" `;
+        }
+        if (selectedTrim !== "no trim" && selectedTrim !== "all trim" && selectedTrim !== "") {
+            sqlQuery += `AND trim = "${selectedTrim}"`;
+        }
+        console.log(sqlQuery);
+        let dataArr = []
+        let data = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            return res.json();
+        })
+        
+        let data2 = [];
+        if(carInfoMode === "compare") {
+            sqlQuery = `SELECT * FROM car_info WHERE model = "${compareModel}" AND trim = "${compareTrim}"`
+            data2 = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then((res) => {
+                return res.json();
+            });
+        }
+        console.log("compare trim:" + compareTrim);
+        dataArr = [data, data2]
+        let carInfoCopy=carInfoData
+        carInfoCopy[""+(messages.length-1)]=dataArr;
+        console.log(messages.length-1, carInfoCopy[""+(messages.length-1)])
+        console.log(dataArr);
+        setCarInfoData(carInfoCopy);
+        setForceUpdate(!forceUpdate)
+    }
+
+    const handleCarInfoCompareButton = () => {
+        if (carInfoMode === "single") {
+            setCarInfoMode("compare");
+            setSelectedModel("");
+            setSelectedTrim("");
+        } else {
+            setCarInfoMode("single");
+            setSelectedModel("");
+            setSelectedTrim("");
+        }
+    };
+
+    const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton, handleCarInfoCompareButton, compareTrimOptions];
+  // --------------------------------------------------------------------->
+  //handler for button user clicks
+    const blockQueries = useRef(false);
+    const recognition = useRef(null);
+    const sendRecommendRequestToServer = (query)=>{
+      sendBotResponse(query, history, "recommend").then((res) => {
+        if(res.includes("RECOMMEND_TABLE")){
+          let finalTableData=[]
+          let promises=[]
+          createRecommendTable(res).forEach(car=>{
+            console.log(car.model, car.trim)
+            const query=`SELECT * FROM car_info WHERE model = \"${car.model}\" AND trim = \"${car.trim}\" AND msrp = \"${car.msrp}\" LIMIT 2`
+            promises.push(fetch(`http://fordchat.franklinyin.com/data?query=${query}`, {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+            }).then((res) => {
+                return res.json();
+            }).then(data=>{
+              finalTableData=[...finalTableData, ...data]
+            }))
+          })
+          Promise.all(promises).then(()=>{
+            let carInfoCopy=carInfoData
+            carInfoCopy[""+messages.length]=[finalTableData,[]]
+            setCarInfoData(carInfoCopy);
+            setMessages((m) => [...m, { msg: "Sure! Here are some cars I recommend for you. Feel free to ask for more info about any of these cars, or why I recommended them.", author: "Table", line : false, zip : ""}]);
+            setForceUpdate(!forceUpdate)
+          })
+        }
+        else{
           setMessages((m) => [
             ...m,
-            { msg: "What model are you interested in?", author: "Ford Chat" },
+            { msg: res, author: "Ford Chat", line: true, zip: {} }
           ]);
-          setCalcButtons(
-            Object.keys(trims).map((model) => (
-              <button
-                className="calc-button"
-                key={model}
-                value={model}
-                onClick={calcButtonHandler}
-              >
-                {model}
-              </button>
-            ))
-          );
-          setCalcStep(1);
-        } else if (trim === "") {
-          setQuery(model);
-          setCalcStep(1);
-          blockQueries.current = false;
-        } else {
-          setQuery(trim);
-          setCalcStep(2);
-          blockQueries.current = false;
+          setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
         }
-        changeChoice("D");
-        setMenuButtons([]);
-        break;
-      default:
-        setResponse(
-          "Invalid input. Please select one of the options (A, B, C, or D)."
-        );
-        break;
+        blockQueries.current = false;
+      });
     }
-  };
-  const blockQueries = useRef(false);
+    useEffect(() => {
+        // Check if speech recognition is supported
+        if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
+            const recognitionInstance = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognitionInstance.continuous = true;
+            recognitionInstance.lang = "en-US";
 
-  // const blockQueries = useRef(false);
-  const recognition = useRef(null);
+            recognitionInstance.onresult = function (event) {
+                const recognizedText = event.results[event.results.length - 1][0].transcript;
+                setQueryText(recognizedText);
+            };
 
-  useEffect(() => {
-    // Check if speech recognition is supported
-    if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
-      const recognitionInstance = new (window.SpeechRecognition ||
-        window.webkitSpeechRecognition)();
-      recognitionInstance.continuous = true;
-      recognitionInstance.lang = "en-US";
+            recognitionInstance.onerror = function (event) {
+                console.error("Speech recognition error:", event.error);
+            };
 
-      recognitionInstance.onresult = function (event) {
-        const recognizedText =
-          event.results[event.results.length - 1][0].transcript;
-        setQueryText(recognizedText);
-      };
+            recognition.current = recognitionInstance;
+        } else {
+            console.error("Speech recognition not supported in this browser.");
+        }
+    }, []);
 
-      recognitionInstance.onerror = function (event) {
-        console.error("Speech recognition error:", event.error);
-      };
-
-      recognition.current = recognitionInstance;
-    } else {
-      console.error("Speech recognition not supported in this browser.");
-    }
-  }, []);
-
-  const toggleRecording = () => {
-    if (blockQueries.current) {
-      recognition.current.stop();
-      setRecording(false);
-    } else {
-      recognition.current.start();
-      setRecording(true);
-    }
-    blockQueries.current = !blockQueries.current;
-  };
+    const toggleRecording = () => {
+        if (blockQueries.current) {
+            recognition.current.stop();
+            setRecording(false);
+        } else {
+            recognition.current.start();
+            setRecording(true);
+        }
+        blockQueries.current = !blockQueries.current;
+    };
 
     useEffect(() => {
-      if(query.toLowerCase() === 'a' || query.toLowerCase() === 'b' || query.toLowerCase() === 'c' || query.toLowerCase() === 'd'){
-        handleUserInput(query.toUpperCase());
-      }
-      else{
-        if (!blockQueries.current && query.length > 0) {
-          blockQueries.current = true;
-          switch(choice){
+        if (query.toLowerCase() === "a" || query.toLowerCase() === "b" || query.toLowerCase() === "c" || query.toLowerCase() === "d") {
+            handleUserInput(query.toUpperCase());
+        } else {
+            if (!blockQueries.current && query.length > 0) {
+                blockQueries.current = true;
+                switch (choice) {
+                    case "I":
+                        //Car info dialogues
+            break;
             case 'A':
               setQuery("");
-              sendBotResponse(query, history).then((res) => {
-                setMessages((m) => [...m, { msg: res, author: "Ford Chat", line : true,zip:{}}]);
-                setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
-                blockQueries.current = false;
-              })
+              sendRecommendRequestToServer(query)
               break;
             case 'B':
                 {
@@ -401,6 +525,34 @@ function App() {
                     break;
                 }
               break;
+          case "Q":
+            switch(questionnaireStep){
+              case 1:
+                setMessages(m=>[...m, {msg: "Are you interested in a specific type of vehicle, such as a cargo van, SUV, hatchback, or pickup truck?", author: "Ford Chat"}])
+                setQuestionnaireAnswers(q=>[...q, query])
+                setQuestionnaireStep(2)
+                blockQueries.current=false;
+                break;
+              case 2:
+                setMessages(m=>[...m, {msg: "How do you plan to use the car? Will it be primarily for commuting, family use, off-roading, or business purposes?", author: "Ford Chat"}])
+                setQuestionnaireAnswers(q=>[...q, query])
+                setQuestionnaireStep(3)
+                blockQueries.current=false;
+              break;
+              case 3:
+                setMessages(m=>[...m, {msg: "How many passengers do you need to accommodate regularly? ", author: "Ford Chat"}])
+              setQuestionnaireAnswers(q=>[...q, query])
+              setQuestionnaireStep(4)
+              blockQueries.current=false;
+              break;
+              case 4:
+                //setQuestionnaireAnswers(q=>[...q, query])
+                let questionnaireAnswersCopy=[...questionnaireAnswers, query]
+                setForceUpdate(!forceUpdate)
+                const ultimateQueryString="Here is my budget: "+questionnaireAnswersCopy[0]+". I am looking for a "+questionnaireAnswersCopy[1]+". I will primarily use it for the following: "+questionnaireAnswersCopy[2]+". I need a seating capacity of at least: "+questionnaireAnswersCopy[3]
+                sendRecommendRequestToServer(ultimateQueryString)
+            }
+            break;
           case "D":
             setQuery("");
             switch (calcStep) {
@@ -610,6 +762,7 @@ function App() {
                 ]);
                 blockQueries.current = false;
                 setCalcStep(5);
+                break;
               case 5:
                 console.log("here");
                 //console.log(json_data);
@@ -626,6 +779,7 @@ function App() {
                 }
                 setCalcStep(6);
                 blockQueries.current = false;
+                break;
               case 6: // go to dealership finder
                 setMessages((m) => [
                   ...m,
@@ -642,9 +796,10 @@ function App() {
                 //changeChoice('A');
                 break;
             }
+            break;
           default:
             setQuery("");
-            sendBotResponse(query, history).then((res) => {
+            sendBotResponse(query, history, "chat").then((res) => {
               setMessages((m) => [
                 ...m,
                 { msg: res, author: "Ford Chat", line: true, zip: {} },
@@ -669,7 +824,7 @@ function App() {
     trim,
   ]);
 
-  return showApp ? (
+  return (
     <div className="ButtonContainer">
       <HamburgerMenu/>
       <div
@@ -685,6 +840,7 @@ function App() {
               : "19px",
         }}
       >
+        <QuestionButton />
         <div className="ChatArea">
           <ThreeDots
             height="50"
@@ -700,17 +856,21 @@ function App() {
             <div>
               <p>{response}</p>
             </div>
-            {messages.map((message) => {
+            {messages.map((message, index) => {
+              console.log(index, message.msg)
               return (
                 <ChatItem
-                  message={message.msg}
-                  author={message.author}
-                  line={message.line}
-                  darkMode={darkMode}
-                  textSize={textSize}
-                  zip={message.zip}
-                  locs={message.locs}
-                />
+                message={message.msg}
+                author={message.author}
+                line = {message.line}
+                darkMode={darkMode}
+                textSize={textSize}
+                zip = {message.zip}
+                locs={message.locs}
+                dropDownOptions={dropDownOptions}
+                carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[[],[]]}
+                carInfoMode={carInfoMode}
+            />
               );
             })}
           </div>
@@ -758,7 +918,6 @@ function App() {
                 selectMode && <button onClick = {locateDealerships}>Locate my nearest dealerships</button>
             }
             </div>
-
             <TextField
               value={queryText}
               error={blockQueries.current}
@@ -772,7 +931,7 @@ function App() {
                 marginLeft: "5%",
                 textSize: { textSize },
               }}
-              label={"Enter your query here..."}
+              label={"Ask me anything..."}
               helperText={
                 blockQueries.current ? "Please wait!" : "Press enter to send."
               }
@@ -817,12 +976,6 @@ function App() {
           <QuestionButton />
         </div>
       </div>
-    </div>
-  ) : showHomepage ? (
-    <Homepage handleClick={handleClick} />
-  ) : (
-    <FordSite handleClick={handleClick} />
-  );
+    </div>)
 }
-
 export default App;
