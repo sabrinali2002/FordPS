@@ -75,7 +75,7 @@ function App() {
   const [leaseStep, setLeaseStep] = useState(0);
   // [1]down payment, [2]trade-in, [3]months, [4]annual %
   const [financeStep, setFinanceStep] = useState(0);
-  const [calcButtons, setCalcButtons] = useState("");
+  const [calcButtons, setCalcButtons] = useState([]);
   const [zipMode, setZipMode] = useState(0);
   const [model, setModel] = useState("");
   const [trim, setTrim] = useState("");
@@ -104,6 +104,15 @@ function App() {
   const s = new Set();
   const [dealerList, setDealers] = useState(s);
   const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
+  
+  const messagesEndRef = useRef(null)
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages]);
+  
   const handleMenuClick = (parameter) => {
     handleUserInput(parameter);
     setMenuButtons([]);
@@ -185,8 +194,7 @@ function App() {
 
   // --------------------------------------------------------------------->
   //handler for button user clicks
-  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse);
-    
+  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText);
     useEffect(() => {
         // Check if speech recognition is supported
         if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
@@ -236,13 +244,15 @@ function App() {
   ]);
 
   return (
-    <div className="ButtonContainer">
+    <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
       <HamburgerMenu onClick = {handleMenuClick}/>
       <div
         className="App"
         style={{
           backgroundColor: darkMode ? "#000080" : "#f4f3f3",
           color: darkMode ? "#ffffff" : "#000000",
+          width: '100%',
+          height: '100%',
           fontSize:
             textSize === "large"
               ? "22px"
@@ -251,18 +261,20 @@ function App() {
               : "19px",
         }}
       >
-        <QuestionButton />
         <div className="ChatArea">
-          <ThreeDots
-            height="50"
-            width="50"
-            radius="7"
-            color="#8080ff"
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{ marginLeft: "5vw" }}
-            wrapperClassName=""
-            visible={blockQueries.current}
-          />
+        <Card
+            variant="outlined"
+            className="CardOutline"
+            style={{
+              maxWidth: "45%",
+              flex: "none",
+              marginBottom: "3%",
+              alignSelf: "center",
+              textSize: { textSize },
+            }}
+          >
+            {IntroCardContent}
+          </Card>
           <div className="MessagesArea">
             <div>
               <p>{response}</p>
@@ -285,28 +297,28 @@ function App() {
               );
             })}
           </div>
-          <Card
-            variant="outlined"
-            className="CardOutline"
-            style={{
-              maxWidth: "45%",
-              flex: "none",
-              marginBottom: "3%",
-              alignSelf: "center",
-              textSize: { textSize },
-            }}
-          >
-            {IntroCardContent}
-          </Card>
+          <ThreeDots
+            height="50"
+            width="50"
+            radius="7"
+            color="#8080ff"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{ marginLeft: "5vw" }}
+            wrapperClassName=""
+            visible={blockQueries.current}
+            style={{flex: 'none'}}
+          />
+          <p>.</p>
+          <div ref={messagesEndRef}/>
         </div>
         <div>
           {menuButtons}
           <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
-                        {showCalcButtons && <div className='model-box'>
-                                <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
-                                <div className='button-container'>{calcButtons}</div>
-                            </div>}
-                        </div>
+                {showCalcButtons && <div className='model-box'>
+                    <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
+                    <div className='button-container'>{calcButtons}</div>
+                    </div>}
+                </div>
           <form
             onSubmit={(e) => {
               e.preventDefault();

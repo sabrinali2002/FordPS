@@ -1,16 +1,18 @@
 import trims from "../../jsons/trims.json";
 import EV from "../../jsons/EV.json";
+import carPrices from "../../jsons/carPrices.json"
 
 export default function handlePaymentFlow(calcStep, model, setModel, query, setMessages, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment) {
+  const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
   switch (calcStep) {
     case 1: //trim 
         if (model === '') {
             setModel(query);
         }
-        setCalcHeadingText('Choose specific trim');
+        setCalcHeadingText("Choose specific trim");
         setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true }]);
         setShowCalcButtons(true);
-        setCalcButtons(trims[query].map(trim => (<button className='model-button' style={{width:'140px',height:'100px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}} key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
+        setCalcButtons(trims[query].map(trim => (<button className='model-button' style={{width:'140px',height:'100px'}} key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
         blockQueries.current = false;
         setCalcStep(2);
         break;
@@ -116,6 +118,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setM
         setMessages((m) => [...m, { msg: `Your expected monthly payment is ${Math.round(final)}`, author: "Ford Chat", line: true }]);
         blockQueries.current = false;
         setCalcStep(5);
+        break;
     case 5:
         if (model in Object.keys(EV)) {
             if (trim in EV[model]) {
@@ -128,6 +131,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setM
             // send to negotiation assistance
         }
         blockQueries.current = false;
+        break;
     case 6:
         if (query.includes('deliver')) {
             setMessages((m) => [...m, { msg: "Enter your delivery address", author: "Ford Chat", line: true }]);

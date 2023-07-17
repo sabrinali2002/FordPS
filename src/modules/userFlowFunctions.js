@@ -4,7 +4,7 @@ import { sendBotResponse, sendRecommendRequestToServer } from "./botResponseFunc
 import handleDealerFlow from "./user_flows/handleDealerFlow";
 import handlePaymentFlow from "./user_flows/handlePaymentFlow";
 
-export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse) {
+export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText) {
     return (option) => {
       // Outputs a response to based on input user selects
       switch (option) {
@@ -40,11 +40,14 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               ...m,
               { msg: "What model are you interested in?", author: "Ford Chat" },
             ]);
+            console.log(Object.keys(trims));
+            setCalcHeadingText("Choose specific model");
+            setShowCalcButtons(true);
             setCalcButtons(
               Object.keys(trims).map((model) => (
                 <button
                   className="model-button"
-                  style={{width:'140px',height:'100px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}}
+                  style={{width:'150px',height:'110px',textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}}
                   key={model}
                   value={model}
                   onClick={calcButtonHandler}
@@ -99,11 +102,11 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               if(findMode === 0){
                 setZipCode(query)
                 setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
-                setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' style={{width:'140px',height:'100px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}} key={model} value={model} onClick={selectHandler}>{model}</button>)));
+                setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' style={{width:'150px',height:'110px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}} key={model} value={model} onClick={selectHandler}>{model}</button>)));
                 setFind(1);
               }
               else if(findMode === 1){
-                  setCalcButtons(trims[query].map(trim => (<button className='model-button' style={{width:'140px',height:'100px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}} key={trim} value={trim} onClick={appendSelect}>{trim}</button>)));
+                  setCalcButtons(trims[query].map(trim => (<button className='model-button' style={{width:'150px',height:'110px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}} key={trim} value={trim} onClick={appendSelect}>{trim}</button>)));
                   setSelect(true);
               }
               blockQueries.current = false;
