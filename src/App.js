@@ -303,6 +303,14 @@ function App() {
             />
               );
             })}
+                      <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
+                {showCalcButtons && <div className='model-box'>
+                    <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
+                    <div className='button-container'>{calcButtons}</div>
+                    </div>}
+                </div>
+
+
           </div>
           <ThreeDots
             height="50"
@@ -320,12 +328,6 @@ function App() {
         </div>
         <div>
           {menuButtons}
-          <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
-                {showCalcButtons && <div className='model-box'>
-                    <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
-                    <div className='button-container'>{calcButtons}</div>
-                    </div>}
-                </div>
           <form
             onSubmit={(e) => {
               e.preventDefault();
