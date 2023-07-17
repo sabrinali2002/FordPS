@@ -121,12 +121,19 @@ function App() {
   const origButtons = (
     <div className="buttons">
       <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You"}]})
         setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]})
         setMenuButtons(buyingFordButtons)
         }}>Buying a Ford</button>
-      <button className = "menu">I'm an Existing Owner</button>
-      <button className = "menu">Info about Ford</button>
-      <button className = "menu">Negotiation Assistance</button>
+      <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]})
+        }}>I'm an Existing Owner</button>
+      <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
+        }}>Info about Ford</button>
+      <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You"}]})
+        }}>Negotiation Assistance</button>
     </div>
   );
   const buyingFordButtons = (

@@ -27,10 +27,12 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
           setMenuButtons([buyACarButtons]);
           break;
           case 'B':
+            setMessages((m) => [...m, { msg: "Find a dealership", author: "You", line:true,zip:{} }]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
             changeChoice('B');
             break;
           case 'C':
+            setMessages((m) => [...m, { msg: "Car recommendation", author: "You", line:true,zip:{} }]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
             changeChoice('C');
             break;
@@ -40,7 +42,6 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               ...m,
               { msg: "What model are you interested in?", author: "Ford Chat" },
             ]);
-            console.log(Object.keys(trims));
             setCalcHeadingText("Choose specific model");
             setShowCalcButtons(true);
             setCalcButtons(
@@ -79,10 +80,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
   }
 
   export function handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment) {
-    if (query.toLowerCase() === "a" || query.toLowerCase() === "b" || query.toLowerCase() === "c" || query.toLowerCase() === "d") {
-      handleUserInput(query.toUpperCase());
-    } else {
-      if (!blockQueries.current && query.length > 0) {
+    if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
         switch (choice) {
           case "I":
@@ -156,6 +154,5 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             });
             break;
         }
-      }
     }
   }
