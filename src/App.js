@@ -524,7 +524,6 @@ function App() {
                     blockQueries.current = false;
                     break;
                 }
-              break;
           case "Q":
             switch(questionnaireStep){
               case 1:
