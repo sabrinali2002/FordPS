@@ -18,8 +18,8 @@ const TopBar = ({ handleClick }) => {
   return (
     <div className="top">
       <div className="leftbuttons">
-        <button className="btn">Vehicles</button>
-        <button className="btn">Shop</button>
+        <button className="btnn">Vehicles</button>
+        <button className="btnn">Shop</button>
         <button className="support">Support and Service</button>
         </div>
         <div className="fordlogo">
