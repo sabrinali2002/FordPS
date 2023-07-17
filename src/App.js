@@ -841,13 +841,7 @@ function App() {
     choice,
     menuButtons,
     model,
-    trim,
-    carInfoData,
-    handleUserInput,
-    forceUpdate,
-    messages.length,
-    zipCode,
-    zipMode
+    trim
   ]);
 
   return (
