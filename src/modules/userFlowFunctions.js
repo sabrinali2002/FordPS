@@ -48,7 +48,6 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               Object.keys(trims).map((model) => (
                 <button
                   className="model-button"
-                  style={{width:'150px',height:'110px',textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}}
                   key={model}
                   value={model}
                   onClick={calcButtonHandler}
@@ -100,11 +99,11 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               if(findMode === 0){
                 setZipCode(query)
                 setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
-                setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' style={{width:'150px',height:'110px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}} key={model} value={model} onClick={selectHandler}>{model}</button>)));
+                setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
                 setFind(1);
               }
               else if(findMode === 1){
-                  setCalcButtons(trims[query].map(trim => (<button className='model-button' style={{width:'150px',height:'110px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}} key={trim} value={trim} onClick={appendSelect}>{trim}</button>)));
+                  setCalcButtons(trims[query].map(trim => (<button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>)));
                   setSelect(true);
               }
               blockQueries.current = false;

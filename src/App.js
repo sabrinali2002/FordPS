@@ -303,7 +303,7 @@ function App() {
             />
               );
             })}
-                      <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
+            <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
                 {showCalcButtons && <div className='model-box'>
                     <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
                     <div className='button-container'>{calcButtons}</div>

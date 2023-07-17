@@ -1,6 +1,7 @@
 import trims from "../../jsons/trims.json";
 import EV from "../../jsons/EV.json";
-import carPrices from "../../jsons/carPrices.json"
+import carPrices from "../../jsons/carPrices.json";
+import '../../styles/App.css';
 
 export default function handlePaymentFlow(calcStep, model, setModel, query, setMessages, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment) {
   const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
@@ -12,7 +13,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setM
         setCalcHeadingText("Choose specific trim");
         setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true }]);
         setShowCalcButtons(true);
-        setCalcButtons(trims[query].map(trim => (<button className='model-button' style={{width:'150px',height:'110px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}} key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
+        setCalcButtons(trims[query].map(trim => (<button className='model-button'  key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
         blockQueries.current = false;
         setCalcStep(2);
         break;

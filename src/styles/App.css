@@ -97,17 +97,19 @@
 }
 
 .calc-button {
-  width: 70px;
-  height: 55px;
+  width: 120px;
+  height: 100px;
   background-color: rgb(255,255,255);
   color: rgb(0,0,0);
   border-color: rgb(0,0,0);
-  border-radius: 1;
-  box-shadow: none;
+  border-radius: 10px;
+  box-shadow: 3px, rgb(86, 88, 86);
   text-align: center;
-  font-size: 10px;
+  font-size: 18px;
   line-height: 1;
-  margin-right: 2px;
+  margin: 10px;
+  margin-top: 15px;
+  font-weight: bold;
 }
 
 .calc-button:hover {
@@ -129,7 +131,7 @@
 
 .model-box {
   justify-content: center;
-  height: 225px;
+  height: 235px;
   width: 800px;
   background-color: rgb(205, 220, 232);
   border-radius: 15px;
@@ -138,10 +140,9 @@
 }
 
 .model-button {
-  height: 110px;
-  width: 150px;
+  height: 120px;
+  width: 180px;
   background-color: white;
-  box-shadow: 3px, rgb(86, 88, 86);
   font-size: 12px;
   font-weight: bold;
   border-radius: 10px;
@@ -149,7 +150,6 @@
   word-wrap:wrap;
   overflow-wrap:wrap;  
   margin: 10px;
-  box-sizing: border-box;
 }
 
 .model-button:hover {
@@ -158,9 +158,27 @@
 
 .button-container {
   justify-content: center;
-  height: 145px;
+  height: 160px;
   padding-left: 10px;
-  padding-top: 5px;
+  padding-top: 0;
   overflow-X: auto;
   white-space: nowrap;
+}
+
+.button-container::-webkit-scrollbar { /* For Chrome, Edge, and Safari */
+  width: 12px;
+  color: #c2c1c1;
+}
+
+.button-container::-webkit-scrollbar-track { /* For Chrome, Edge, and Safari */
+  background: #f5f5f5;
+}
+
+.button-container::-webkit-scrollbar-thumb { /* For Chrome, Edge, and Safari */
+  background: #888;
+  border-radius: 6px;
+}
+
+.button-container::-webkit-scrollbar-thumb:hover { /* For Chrome, Edge, and Safari */
+  background: #6c6c6c;
 }
