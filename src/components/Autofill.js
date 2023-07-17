@@ -3,6 +3,8 @@ import "../styles/Autofill.css";
 
 const Autofill = ({ lastWord , chars, setQuery, restOfString }) => {
 
+  console.log(restOfString);
+
 if(lastWord != null) lastWord.toString();
 if(restOfString != null)restOfString.toString();
 
@@ -22,9 +24,14 @@ const handleMouseEnter = () => {
   };
 
 
+const [currentPick, setCurrentPick] = useState('');
+
 const handleTakeRec = (rec) => {
-    setQuery(`${restOfString}${rec}`);
+    setQuery(`${restOfString} ${rec}`);
+    lastWord=" ";
 }
+
+const recommendations = [];
 
 const y=464;
 const x=68 + (7 * chars);
@@ -37,9 +44,9 @@ const x=68 + (7 * chars);
 
 //recommending the model 
 const fordModels = ['Fiesta', 'Focus', 'Mustang', 'Explorer', 'Escape', 'Bronco', 'EcoBoost',
- 'Shelby', 'Lariat', 'Platinum', 'Limited','Titanium', 'Edge', 'Vignale', 'Ranger'
+ 'Shelby', 'Lariat', 'Platinum', 'Limited','Titanium', 'Edge', 'Vignale', 'Ranger', 'Bronco2'
 ];
-  let recommendation = '';
+  let recTaken = '';
 
 //edit distance function 
 function calculateEditDistance(str1, str2) {
@@ -70,16 +77,15 @@ function calculateEditDistance(str1, str2) {
 }
 
   // Check if the word matches any Ford model
-  if (lastWord.length > 1) {
+  if (lastWord != null && lastWord.length > 1) {
     for (let i = 0; i < fordModels.length; i++) {
         const model = fordModels[i];
-        console.log(model);
+        // console.log(model);
         const start2 = (lastWord.substring(0, 2).toLowerCase() === model.substring(0, 2).toLowerCase()) && (lastWord.length < model.length);
         const closeEdit = (calculateEditDistance(model, lastWord) < 3) && !(model.toLowerCase() === lastWord.toLowerCase());
         if (start2 || closeEdit) {
-          recommendation = model;
-          console.log(recommendation);
-          break;
+          recommendations.push(model);
+          console.log(model);
         }
       }
   }
@@ -96,14 +102,15 @@ function calculateEditDistance(str1, str2) {
 {isHovered && (recOn ? (<p className="label">Autofill on</p>) : (<p className="label">Autofill off</p>))}
     </div>
     
-{recOn && recommendation && (
-    
+    {recOn && recommendations.length>0 &&
         <div style={style}>
-          <p className="fill" onClick={() => handleTakeRec(recommendation)}>{recommendation}</p>
+          <select className="fill" value={currentPick} onChange={(e) => handleTakeRec(e.target.value)} >
+          {recommendations.map((rec) => (
+              <option key={rec} value={rec}>{rec}</option>
+            ))}
+          </select>
         </div>
-
-      
-      )}
+      }
 </div>
   );
 };

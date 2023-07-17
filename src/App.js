@@ -19,6 +19,7 @@ import trims from './jsons/trims.json';
 import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material"
 import { extractFiveDigitString, findLocations} from "./mapFunctions"
 import QuestionButton from './components/QuestionButton';
+import Autofill from './components/Autofill';
 import HamburgerMenu from './components/Navbar.js'
 
 async function sendBotResponse(query, history) {
@@ -1000,6 +1001,11 @@ function App() {
             {darkMode ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
           <QuestionButton />
+          <Autofill             
+            lastWord={queryText.trim().split(' ').pop()}
+            chars={queryText.length}
+            setQuery={setQueryText}
+            restOfString={queryText.trim().split(' ').slice(0, -1).join(' ')}/>
         </div>
       </div>
     </div>
