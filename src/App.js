@@ -110,23 +110,45 @@ function App() {
     scrollToBottom()
   }, [messages]);
 
+  const handleMenuClick = (parameter) => {
+    handleUserInput(parameter);
+    setMenuButtons([]);
+    // Perform any other logic or function in the parent component using the parameter
+  };
   const origButtons = (
     <div className="buttons">
-    <button onClick={() => handleUserInput('I') } className = "menu">Get info about our cars</button>
-      <button onClick={() => handleUserInput("A")} className="menu">
-        Help me buy a car
-      </button>
-      <button onClick={() => handleUserInput("B")} className="menu">
-        Find the closest dealerships near me
-      </button>
-      <button onClick={() => handleUserInput("C")} className="menu">
-        Schedule a test drive
-      </button>
-      <button onClick={() => handleUserInput("D")} className="menu">
-        Payment calculator
-      </button>
+      <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]})
+        setMenuButtons(buyingFordButtons)
+        }}>Buying a Ford</button>
+      <button className = "menu">I'm an Existing Owner</button>
+      <button className = "menu">Info about Ford</button>
+      <button className = "menu">Negotiation Assistance</button>
     </div>
   );
+  const buyingFordButtons = (
+    <div className = "buttons">
+       <button className = "menu" onClick={() => {
+        handleUserInput('I');
+        setMenuButtons([]);
+        }}>Info about a specific car</button>
+      <button className = "menu" onClick={() => {
+        handleUserInput('A');
+        }}>Car recommendation</button>
+      <button className = "menu" onClick={() => {
+        handleUserInput('D');
+        setMenuButtons([]);
+        }}>Car pricing estimator</button>
+      <button className = "menu" onClick={() => {
+        handleUserInput('B');
+        setMenuButtons([]);
+        }}>Find a dealership</button>
+      <button className = "menu" onClick={() => {
+        handleUserInput('C');
+        setMenuButtons([]);
+        }}>Schedule a test drive</button>
+    </div>
+  )
   const buyACarButtons = (
     <div className="buttons">
       <button className="menu" onClick={()=>{
@@ -154,7 +176,7 @@ function App() {
     let compareTrimOptions =
         compareModel === "" || compareModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[compareModel].map((trim) => ({ value: trim, label: trim }));
 
-    const handleCarInfoButton = handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate)
+    const handleCarInfoButton = handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation)
     const handleCarInfoCompareButton = handleCarComparison(carInfoMode, setCarInfoMode, setSelectedModel, setSelectedTrim);
     const handleModelChange = onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim);
     const handleTrimChange = onTrimChange(setSelectedTrim, setCompareTrim);
@@ -168,7 +190,7 @@ function App() {
 
   // --------------------------------------------------------------------->
   //handler for button user clicks
-  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse);
+  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse);
     
     useEffect(() => {
         // Check if speech recognition is supported

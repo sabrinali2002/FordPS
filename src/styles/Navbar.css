@@ -41,7 +41,7 @@ Sidebar navigation
     transform: translateX(-30px);
   }
   .menu-nav li a, .menu-nav li span {
-    display: block;
+    display: flex;
     padding: .5rem;
     text-decoration:none;
     color:white;
