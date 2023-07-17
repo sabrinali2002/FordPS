@@ -1,10 +1,11 @@
 import "./styles/App.css";
 import { Card, TextField, InputAdornment, IconButton } from "@mui/material";
-import { Fragment, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import trims from "./jsons/trims.json";
+
 import {
   Brightness4,
   Brightness7,
@@ -20,6 +21,24 @@ import { handleUserInputFn, handleUserFlow } from "./modules/userFlowFunctions";
 import QuestionButton from "./components/QuestionButton";
 import HamburgerMenu from "./components/Navbar.js";
 import { IntroCardContent } from "./components/IntroCardContent";
+
+const fixTrimQueryQuotation = (model, query) => {
+    console.log("model: " + model, "original query: " + query);
+    if(model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van") {
+        return query;
+    }
+    let trimStartIndex = query.indexOf('trim = "') + 8;
+    if(trimStartIndex - 8 !== -1) {
+        query = query.slice(0, trimStartIndex) + '\\"' + query.slice(trimStartIndex);
+        trimStartIndex += 2;
+        let trimName = query.substring(trimStartIndex, query.length - 1);
+        let modified = trimName.replace(/"/g, '\\"\\"');
+        query = query.replace(trimName, modified);
+        query = query.slice(0,query.length - 1) + "\\" + query.slice(query.length - 1);
+        query += '"';
+    }
+    return query;
+}
 
 function App() {
     const [query, setQuery] = useState("");
@@ -78,20 +97,10 @@ function App() {
   const [distance, setDistance] = useState("10");
   const [findMode, setFind] = useState(0);
   const [selectMode, setSelect] = useState(false);
-  const [selected, changeSelected] = useState({
-    Bronco: [],
-    "Bronco Sport": [],
-    "E-Transit Cargo Van": [],
-    Edge: [],
-    Escape: [],
-    Expedition: [],
-    Explorer: [],
-    "F-150": [],
-    "F-150 Lightning": [],
-    "Mustang Mach-E": [],
-    Ranger: [],
-    "Transit Cargo Van": [],
-  });
+  const s = new Set();
+  const [dealerList, setDealers] = useState(s);
+  const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
+ 
   const origButtons = (
     <div className="buttons">
     <button onClick={() => handleUserInput('I') } className = "menu">Get info about our cars</button>
@@ -125,10 +134,9 @@ function App() {
     </div>
   )
   const [menuButtons, setMenuButtons] = useState(origButtons);
-
     //map functions -------------------------------------------------------->
   const selectHandler = selectHandlerFn(setQuery, setModel, setCalcButtons, setFind);
-  const locateDealerships = locateDealershipsFn(selected, zipCode, distance, setMessages, setZipMode);
+  const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode);
   const changeFind = changeFindFn(setFind, setSelect, setCalcButtons, selectHandler);
   const appendSelect = appendSelectFn(selected, model, changeSelected);
   const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons);
@@ -151,7 +159,7 @@ function App() {
 
   // --------------------------------------------------------------------->
   //handler for button user clicks
-  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, selectHandler, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse);
+  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse);
     
     useEffect(() => {
         // Check if speech recognition is supported
@@ -187,7 +195,7 @@ function App() {
     };
 
     useEffect(() => {
-        handleUserFlow(query, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory);
+        handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory);
   }, [
     query,
     history,
@@ -198,12 +206,12 @@ function App() {
     choice,
     menuButtons,
     model,
-    trim,
+    trim
   ]);
 
   return (
     <div className="ButtonContainer">
-      <HamburgerMenu />
+      <HamburgerMenu/>
       <div
         className="App"
         style={{
@@ -287,13 +295,13 @@ function App() {
                 flexWrap: "wrap",
               }}
             >
-              {selectMode && <button onClick={changeFind}>back</button>}
-              {calcButtons}
-              {selectMode && (
-                <button onClick={locateDealerships}>
-                  Locate my nearest dealerships
-                </button>
-              )}
+              {
+                selectMode && <button onClick= {changeFind}>back</button>
+            }
+            {calcButtons}
+            {
+                selectMode && <button onClick = {locateDealerships}>Locate my nearest dealerships</button>
+            }
             </div>
             <TextField
               value={queryText}

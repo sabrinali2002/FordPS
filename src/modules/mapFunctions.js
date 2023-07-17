@@ -1,6 +1,51 @@
 import data from '../jsons/zipLocations.json';
 import trims from "../jsons/trims.json";
 
+import trimToDealer from '../jsons/trimToDealer.json'
+
+export const findLocationsGiven = async (query, distance, dealers) => {
+  console.log(dealers);
+  const zip = extractFiveDigitString(query);
+    if(zip !=null){
+      try{
+          const result = await findLatLong(zip);
+          const distances = {}
+        const l = [result.latitude,result.longitude];
+        for (const coords in data){
+          if(dealers.has(data[coords].name)){
+            const [lat,lon] = coords.split(" ");
+            const address = data[coords].name + ": " + data[coords].address + ", " + data[coords].city + " " + lat + " " + lon;
+            const distance = calculateDistance(l[0],l[1],parseFloat(lat),parseFloat(lon));
+            distances[address] = distance;
+          }
+        }
+        const sortedLocations = Object.entries(distances).sort((a,b)=>a[1]-b[1]);
+        let count = 0;
+        while(true){
+          if(sortedLocations[count][1] > distance){
+            break;
+          }
+          count += 1
+        }
+        const closestLocations = sortedLocations.slice(0,count);
+        let string = ""
+        for(let i = 0; i < closestLocations.length; i++){
+          const arr = closestLocations[i][0].split(", ");
+          let shortStr = ""
+          for(let i = 0; i < arr.length-1; i++){
+              shortStr += arr[i] + ", ";
+          }
+          string += shortStr + "..";
+        }
+        console.log(string);
+        return string;
+        }
+        catch(err){
+          return "Invalid zip";
+        }
+    }
+    return "Please enter a valid zipcode.."
+}
 //finds the longitude and latitude of the user
 const findLatLong = (zip) => {
     const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
@@ -88,45 +133,43 @@ export const findLocations = async (query, distance) => {
       setFind(1);
     };
   }
-  export const locateDealershipsFn=function(selected, zipCode, distance, setMessages, setZipMode) {
+  export const locateDealershipsFn=function(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode) {
     return () => {
       //go through the dealerships that have the cars we want
       //pass in the list of dealership names
       const dealers = new Set();
-      for (const model in selected) {
-        for (const t in selected[model]) {
-        }
-      }
-      findLocations(zipCode, distance).then((loc) => {
-        const places = loc.split("..");
-        console.log("places: ");
-        console.log(places);
-        for (let i = 0; i < places.length - 1; i++) {
-          if (i === 0) {
-            setMessages((m) => [
-              ...m,
-              {
-                msg: places[i],
-                author: "Ford Chat.",
-                line: false,
-                zip: { zipcode: extractFiveDigitString(zipCode), dist: distance },
-              },
-            ]);
-          } else if (i === places.length - 2) {
-            setMessages((m) => [
-              ...m,
-              { msg: places[i], author: "", line: true, zip: {} },
-            ]);
-          } else {
-            setMessages((m) => [
-              ...m,
-              { msg: places[i], author: "", line: false, zip: {} },
-            ]);
+      for(const m in selected){
+          if(selected[m].length!=0){
+              let cars = selected[m];
+              for(const i in cars){
+                  for(const elements in trimToDealer[m][cars[i]]){
+                      dealers.add(trimToDealer[m][cars[i]][elements]);
+                  }
+              }
           }
-        }
-        setZipMode(0);
-      });
-    };
+      }
+      setDealers(dealers);
+      findLocationsGiven(zipCode,distance, dealers).then(loc=>{
+       // setMessages((m)=>[...m,{msg:"",author:"Ford Chat.", line:false, zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers}}]);
+          const places = loc.split('..');
+          for(let i = 0; i < places.length-1; i++){
+              if(i === 0){
+                  setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers}}]);
+              }
+              else if(i === places.length-2){
+                  setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
+              }
+              else{
+                  setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
+              }
+          }
+          setZipMode(0);
+  })
+  setCalcButtons([]);
+  setSelect(false);
+  setFind(0);
+  changeSelected({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]});
+  };
   }
 
   export const calcButtonHandlerFn = function(setQuery, setMessages, setCalcButtons) {

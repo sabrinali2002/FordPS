@@ -2,8 +2,6 @@ import { Fragment, useState } from "react";
 import "../styles/ChatItem.css";
 import { VolumeUp } from "react-bootstrap-icons";
 import Map from './Map'
-import DropDown from "./DropDown";
-import {Button} from 'react-bootstrap';
 import Table from "./Table";
 import SelectModel from "./selectModel";
 import CarInfoTable from "./CarInfoTable";
@@ -65,9 +63,9 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
     return(
         <div>
         {author === "Ford Chat.." && <Table loc={locs}></Table>}
-        {author === "Ford Chat." && (
-            <Map zip={zip.zipcode} dist={zip.dist} loc={locs}></Map>
-        )}
+      {author === "Ford Chat." && (
+        <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal} coords = {zip.coordinates}></Map>
+      )}
         {author==="DropDown" && 
         <Fragment>
           <CarInfoDropdownSection dropDownOptions={dropDownOptions} carInfoMode={carInfoMode}/>

@@ -4,7 +4,7 @@ import { sendBotResponse, sendRecommendRequestToServer } from "./botResponseFunc
 import handleDealerFlow from "./user_flows/handleDealerFlow";
 import handlePaymentFlow from "./user_flows/handlePaymentFlow";
 
-export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, selectHandler, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse) {
+export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse) {
     return (option) => {
       // Outputs a response to based on input user selects
       switch (option) {
@@ -26,42 +26,14 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
           ]);
           setMenuButtons([buyACarButtons]);
           break;
-        case "B":
-          setMessages((m) => [
-            ...m,
-            {
-              msg: "Please enter your zipcode below:",
-              author: "Ford Chat",
-              line: true,
-              zip: {},
-            },
-          ]);
-          changeChoice("B");
-          break;
-        case "C":
-          setMessages((m) => [
-            ...m,
-            {
-              msg: "Please select 1-3 models/trims of the specific cars you are looking for.",
-              author: "Ford Chat",
-              line: true,
-              zip: "",
-            },
-          ]);
-          setCalcButtons(
-            Object.keys(trims).map((model) => (
-              <button
-                className="calc-button"
-                key={model}
-                value={model}
-                onClick={selectHandler}
-              >
-                {model}
-              </button>
-            ))
-          );
-          changeChoice("C");
-          break;
+          case 'B':
+            setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
+            changeChoice('B');
+            break;
+          case 'C':
+            setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
+            changeChoice('C');
+            break;
         case "D":
           if (model === "") {
             setMessages((m) => [
@@ -102,7 +74,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
     };
   }
 
-  export function handleUserFlow(query, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory) {
+  export function handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory) {
     if (query.toLowerCase() === "a" || query.toLowerCase() === "b" || query.toLowerCase() === "c" || query.toLowerCase() === "d") {
       handleUserInput(query.toUpperCase());
     } else {
@@ -117,44 +89,25 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory);
             break;
           case "B": {
-            handleDealerFlow(zipMode, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, setCalcButtons, calcButtonHandler, findLocations, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect);
+            handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance);
             blockQueries.current = false;
             break;
           }
           case "C":
             {
-              if (findMode === 0) {
-                setCalcButtons(
-                  Object.keys(trims).map((model) => (
-                    <button
-                      className="calc-button"
-                      key={model}
-                      value={model}
-                      onClick={selectHandler}
-                    >
-                      {model}
-                    </button>
-                  ))
-                );
+              if(findMode === 0){
+                setZipCode(query)
+                setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
+                setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
                 setFind(1);
-              } else {
-                setCalcButtons(
-                  trims[query].map((trim) => (
-                    <button
-                      className="calc-button"
-                      key={trim}
-                      value={trim}
-                      onClick={appendSelect}
-                    >
-                      {trim}
-                    </button>
-                  ))
-                );
-                setSelect(true);
+              }
+              else if(findMode === 1){
+                  setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>)));
+                  setSelect(true);
               }
               blockQueries.current = false;
               break;
-            }
+          }
           case "Q":
             switch (questionnaireStep) {
               case 1:
