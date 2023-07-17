@@ -26,12 +26,14 @@ const handleMouseEnter = () => {
 
 const [currentPick, setCurrentPick] = useState('');
 
-const handleTakeRec = (rec) => {
-    setQuery(`${restOfString} ${rec}`);
-    lastWord=" ";
+const handleButtonPress = (rec) => {
+  setQuery(`${restOfString} ${rec}`);
+  lastWord=" ";
 }
 
-const recommendations = [];
+
+
+const recommendations = [" "];
 
 const y=464;
 const x=68 + (7 * chars);
@@ -102,17 +104,17 @@ function calculateEditDistance(str1, str2) {
 {isHovered && (recOn ? (<p className="label">Autofill on</p>) : (<p className="label">Autofill off</p>))}
     </div>
     
-    {recOn && recommendations.length>0 &&
-        <div style={style}>
-          <select className="fill" value={currentPick} onChange={(e) => handleTakeRec(e.target.value)} >
-          {recommendations.map((rec) => (
-              <option key={rec} value={rec}>{rec}</option>
-            ))}
-          </select>
-        </div>
+    {recOn && recommendations.length>1 &&
+    <div>
+    {recommendations.map((item, index) => (
+      <button key={index} onClick={() => handleButtonPress(item)}>
+        {item}
+      </button>
+    ))}
+  </div>
       }
 </div>
-  );
-};
+  )
+    };
 
 export default Autofill;
