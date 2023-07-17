@@ -100,24 +100,46 @@ function App() {
   const s = new Set();
   const [dealerList, setDealers] = useState(s);
   const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
- 
+  const handleMenuClick = (parameter) => {
+    handleUserInput(parameter);
+    setMenuButtons([]);
+    // Perform any other logic or function in the parent component using the parameter
+  };
   const origButtons = (
     <div className="buttons">
-    <button onClick={() => handleUserInput('I') } className = "menu">Get info about our cars</button>
-      <button onClick={() => handleUserInput("A")} className="menu">
-        Help me buy a car
-      </button>
-      <button onClick={() => handleUserInput("B")} className="menu">
-        Find the closest dealerships near me
-      </button>
-      <button onClick={() => handleUserInput("C")} className="menu">
-        Schedule a test drive
-      </button>
-      <button onClick={() => handleUserInput("D")} className="menu">
-        Payment calculator
-      </button>
+      <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]})
+        setMenuButtons(buyingFordButtons)
+        }}>Buying a Ford</button>
+      <button className = "menu">I'm an Existing Owner</button>
+      <button className = "menu">Info about Ford</button>
+      <button className = "menu">Negotiation Assistance</button>
     </div>
   );
+  const buyingFordButtons = (
+    <div className = "buttons">
+       <button className = "menu" onClick={() => {
+        handleUserInput('I');
+        setMenuButtons([]);
+        }}>Info about a specific car</button>
+      <button className = "menu" onClick={() => {
+        handleUserInput('A');
+        setMenuButtons([]);
+        }}>Car recommendation</button>
+      <button className = "menu" onClick={() => {
+        handleUserInput('D');
+        setMenuButtons([]);
+        }}>Car pricing estimator</button>
+      <button className = "menu" onClick={() => {
+        handleUserInput('B');
+        setMenuButtons([]);
+        }}>Find a dealership</button>
+      <button className = "menu" onClick={() => {
+        handleUserInput('C');
+        setMenuButtons([]);
+        }}>Schedule a test drive</button>
+    </div>
+  )
   const buyACarButtons = (
     <div className="buttons">
       <button className="menu" onClick={()=>{
@@ -159,7 +181,7 @@ function App() {
 
   // --------------------------------------------------------------------->
   //handler for button user clicks
-  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse);
+  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse);
     
     useEffect(() => {
         // Check if speech recognition is supported
@@ -211,7 +233,7 @@ function App() {
 
   return (
     <div className="ButtonContainer">
-      <HamburgerMenu/>
+      <HamburgerMenu onClick = {handleMenuClick}/>
       <div
         className="App"
         style={{

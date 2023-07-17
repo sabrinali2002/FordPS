@@ -3,7 +3,7 @@ import '../styles/Navbar.css';
 import { MdClose } from 'react-icons/md';
 import { FiMenu } from 'react-icons/fi';
 
-const Navbar = () => {
+const Navbar = ({onClick}) => {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const ref = useRef();
   const [existOpen, changeExist] = useState(false);
@@ -11,7 +11,21 @@ const Navbar = () => {
   const [infoOpen, changeInfo] = useState(false);
   const [knowOpen, changeKnow] = useState(false);
   const [maintainOpen, changeMaintain] = useState(false);
-
+  const handleInfoClick = () => {
+    onClick('I'); // Call the onClick function passed from the parent component with the parameter
+  };
+  const handleRecClick = () => {
+    onClick('A');
+  }
+  const handlePriceClick = () => {
+    onClick('D');
+  }
+  const handleDealerClick = () => {
+    onClick('B');
+  }
+  const handleScheduleClick = () => {
+    onClick('C');
+  }
   function existListener() {
     changeExist(!existOpen);
   }
@@ -73,23 +87,28 @@ const Navbar = () => {
         {buyOpen && (
           <div className="sub" style={{ backgroundColor: 'white' }}>
             <li>
-              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }}>
+              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }} onClick = {handleInfoClick}>
                 Info on a specific car
               </a>
             </li>
             <li>
-              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }}>
+              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }} onClick = {handleRecClick}>
                 Car recommendation
               </a>
             </li>
             <li>
-              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }}>
+              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }} onClick = {handlePriceClick}>
                 Car pricing estimator
               </a>
             </li>
             <li>
-              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }}>
+              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }} onClick = {handleDealerClick}>
                 Find a dealership
+              </a>
+            </li>
+            <li>
+              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }} onClick = {handleScheduleClick}>
+                Schedule a test drive
               </a>
             </li>
           </div>
