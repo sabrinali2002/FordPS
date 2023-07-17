@@ -22,7 +22,7 @@ import { createRecommendTable } from "./models/recommend";
 async function sendBotResponse(query, history, mode) {
   console.log(JSON.stringify({ debug: true, quer: query }));
   let newQuery=""
-  if(mode!=="recommend"){
+  if(mode==="chat"){
     newQuery += "Here's our conversation before:\n";
     history.forEach((h) => {
       newQuery += `Q: ${h.q}\nA: ${h.a}\n`;
@@ -91,7 +91,9 @@ const fixTrimQueryQuotation = (model, query) => {
 function App() {
     const [query, setQuery] = useState("");
     const [queryText, setQueryText] = useState("");
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState([
+      { msg: "What's your name?", author: "Bot" },
+    ]);
     const [history, setHistory] = useState([]);
     const [response, setResponse] = useState("");
     const [recording, setRecording] = useState(false);
@@ -114,6 +116,7 @@ function App() {
   const [forceUpdate, setForceUpdate] = useState(true)
   // which step of the payment calculator the bot is in: [1]model,[2]trim,[3]lease/finance/buy,[4]price
   const [calcStep, setCalcStep] = useState(0);
+  const [questionnaireStep, setQuestionnaireStep] = useState(0)
   // [1]lease, [2]finance, [3]buy
   const [calcMode, setCalcMode] = useState(0);
   // [1]down payment, [2]trade-in, [3]months, [4]expected miles
@@ -121,7 +124,7 @@ function App() {
   // [1]down payment, [2]trade-in, [3]months, [4]annual %
   const [financeStep, setFinanceStep] = useState(0);
   const [calcButtons, setCalcButtons] = useState("");
-  const [zipMode, setZipMode] = useState("");
+  const [zipMode, setZipMode] = useState(0);
   const [model, setModel] = useState("");
   const [trim, setTrim] = useState("");
 
@@ -132,8 +135,26 @@ function App() {
     const [compareTrim, setCompareTrim] = useState("");
     const [carInfoData, setCarInfoData] = useState({});
     const [carInfoMode, setCarInfoMode] = useState("single");
+    const [questionnaireAnswers, setQuestionnaireAnswers] = useState([])
     //map functions -------------------------------------------------------->
 
+  const [distance, setDistance] = useState("10");
+  const [findMode, setFind] = useState(0);
+  const [selectMode, setSelect] = useState(false);
+  const [selected, changeSelected] = useState({
+    Bronco: [],
+    "Bronco Sport": [],
+    "E-Transit Cargo Van": [],
+    Edge: [],
+    Escape: [],
+    Expedition: [],
+    Explorer: [],
+    "F-150": [],
+    "F-150 Lightning": [],
+    "Mustang Mach-E": [],
+    Ranger: [],
+    "Transit Cargo Van": [],
+  });
   const origButtons = (
     <div className="buttons">
     <button onClick={() => handleUserInput('I') } className = "menu">Get info about our cars</button>
@@ -151,30 +172,106 @@ function App() {
       </button>
     </div>
   );
+  const buyACarButtons = (
+    <div className="buttons">
+      <button className="menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
+        changeChoice("A");
+        setMenuButtons([])
+        }}>Ask my own questions</button>
+      <button className="menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
+        changeChoice("Q");
+        setMenuButtons([])
+        setQuestionnaireStep(1)
+      }}>Take questionnaire</button>
+    </div>
+  )
   const [menuButtons, setMenuButtons] = useState(origButtons);
 
     //map functions -------------------------------------------------------->
-
-    //finds the longitude and latitude of the user
-    const findLatLong = (zip) => {
-        const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q=" + zip;
-        return fetch(s)
-            .then((response) => response.json())
-            .then((data) => {
-                let latitude = data.location.lat;
-                let longitude = data.location.lon;
-                const res = { latitude, longitude };
-                return res;
-            });
-    };
-
-    // map icon hover handler
-    const mapIconHandler = (event) => {
-        console.log(event);
-        // access dealer
-        let dealer = "Sunny King Ford";
-    };
-
+      const selectHandler = (event) => {
+    let val = event.target.getAttribute("value");
+    setQuery(val);
+    setModel(val);
+    setCalcButtons([]);
+    setFind(1);
+  };
+  const locateDealerships = () => {
+    //go through the dealerships that have the cars we want
+    //pass in the list of dealership names
+    const dealers = new Set();
+    for (const model in selected) {
+      for (const t in selected[model]) {
+      }
+    }
+    findLocations(zipCode, distance).then((loc) => {
+      const places = loc.split("..");
+      console.log("places: ");
+      console.log(places);
+      for (let i = 0; i < places.length - 1; i++) {
+        if (i === 0) {
+          setMessages((m) => [
+            ...m,
+            {
+              msg: places[i],
+              author: "Ford Chat.",
+              line: false,
+              zip: { zipcode: extractFiveDigitString(zipCode), dist: distance },
+            },
+          ]);
+        } else if (i === places.length - 2) {
+          setMessages((m) => [
+            ...m,
+            { msg: places[i], author: "", line: true, zip: {} },
+          ]);
+        } else {
+          setMessages((m) => [
+            ...m,
+            { msg: places[i], author: "", line: false, zip: {} },
+          ]);
+        }
+      }
+      setZipMode(0);
+    });
+  };
+  const changeFind = () => {
+    setFind(0);
+    setSelect(false);
+    setCalcButtons(
+      Object.keys(trims).map((model) => (
+        <button
+          className="calc-button"
+          key={model}
+          value={model}
+          onClick={selectHandler}
+        >
+          {model}
+        </button>
+      ))
+    );
+  };
+  const appendSelect = (event) => {
+    let val = event.target.getAttribute("value");
+    console.log(val);
+    console.log(selected[model]);
+    if (val in selected[model]) {
+      let copy = selected[model];
+      delete copy[val];
+      let copy2 = selected;
+      delete copy2[model];
+      copy2[model] = copy;
+      changeSelected(copy2);
+    } else {
+      let copy = selected[model];
+      copy.push(val);
+      let copy2 = selected;
+      delete copy2[model];
+      copy2[model] = copy;
+      changeSelected(copy2);
+    }
+    console.log(selected);
+  };
     const calcButtonHandler = (event) => {
         let val = event.target.getAttribute("value");
         setQuery(val);
@@ -298,13 +395,13 @@ function App() {
         setMessages((m) => [
           ...m,
           {
-            msg: "Happy to help! What kind of car are you looking for?",
+            msg: "Happy to help! Do you have specific needs in mind, or would you like to fill out our questionnaire?",
             author: "Ford Chat",
             line: true,
             zip: {},
           },
         ]);
-        changeChoice("A");
+        setMenuButtons([buyACarButtons])
         break;
       case "B":
         setMessages((m) => [
@@ -322,12 +419,24 @@ function App() {
         setMessages((m) => [
           ...m,
           {
-            msg: "Please enter your zipcode below:",
+            msg: "Please select 1-3 models/trims of the specific cars you are looking for.",
             author: "Ford Chat",
             line: true,
-            zip: {},
+            zip: "",
           },
         ]);
+        setCalcButtons(
+          Object.keys(trims).map((model) => (
+            <button
+              className="calc-button"
+              key={model}
+              value={model}
+              onClick={selectHandler}
+            >
+              {model}
+            </button>
+          ))
+        );
         changeChoice("C");
         break;
       case "D":
@@ -370,7 +479,43 @@ function App() {
   };
     const blockQueries = useRef(false);
     const recognition = useRef(null);
-
+    const sendRecommendRequestToServer = (query)=>{
+      sendBotResponse(query, history, "recommend").then((res) => {
+        if(res.includes("RECOMMEND_TABLE")){
+          let finalTableData=[]
+          let promises=[]
+          createRecommendTable(res).forEach(car=>{
+            console.log(car.model, car.trim)
+            const query=`SELECT * FROM car_info WHERE model = \"${car.model}\" AND trim = \"${car.trim}\" AND msrp = \"${car.msrp}\" LIMIT 2`
+            promises.push(fetch(`http://fordchat.franklinyin.com/data?query=${query}`, {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+            }).then((res) => {
+                return res.json();
+            }).then(data=>{
+              finalTableData=[...finalTableData, ...data]
+            }))
+          })
+          Promise.all(promises).then(()=>{
+            let carInfoCopy=carInfoData
+            carInfoCopy[""+messages.length]=[finalTableData,[]]
+            setCarInfoData(carInfoCopy);
+            setMessages((m) => [...m, { msg: "Sure! Here are some cars I recommend for you. Feel free to ask for more info about any of these cars, or why I recommended them.", author: "Table", line : false, zip : ""}]);
+            setForceUpdate(!forceUpdate)
+          })
+        }
+        else{
+          setMessages((m) => [
+            ...m,
+            { msg: res, author: "Ford Chat", line: true, zip: {} }
+          ]);
+          setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+        }
+        blockQueries.current = false;
+      });
+    }
     useEffect(() => {
         // Check if speech recognition is supported
         if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
@@ -415,109 +560,81 @@ function App() {
                         //Car info dialogues
 
             break;
-        case 'A':
+            case 'A':
             setQuery("");
-            sendBotResponse(query, history, "recommend").then((res) => {
-              if(res.includes("RECOMMEND_TABLE")){
-                let finalTableData=[]
-                let promises=[]
-                createRecommendTable(res).forEach(car=>{
-                  console.log(car.model, car.trim)
-                  const query=`SELECT * FROM car_info WHERE model = \"${car.model}\" AND trim = \"${car.trim}\" LIMIT 2`
-                  promises.push(fetch(`http://fordchat.franklinyin.com/data?query=${query}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                  }).then((res) => {
-                      return res.json();
-                  }).then(data=>{
-                    finalTableData=[...finalTableData, ...data]
-                  }))
-                })
-                Promise.all(promises).then(()=>{
-                  let carInfoCopy=carInfoData
-                  carInfoCopy[""+messages.length]=[finalTableData,[]]
-                  setCarInfoData(carInfoCopy);
-                  setMessages((m) => [...m, { msg: "Sure! Here are some cars I recommend for you. Feel free to ask for more info about any of these cars, or why I recommended them.", author: "Table", line : false, zip : ""}]);
-                  setForceUpdate(!forceUpdate)
-                })
-              }
-              else{
-                setMessages((m) => [
-                  ...m,
-                  { msg: res, author: "Ford Chat", line: true, zip: {} }
-                ]);
-                setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
-              }
-              blockQueries.current = false;
-            });
-        break;
-          case "B":
-            {
-              if (zipMode != "") {
-                findLocations(zipCode, query).then((loc) => {
-                  const places = loc.split("..");
-                  for (let i = 0; i < places.length - 1; i++) {
-                    if (i === 0) {
-                      setMessages((m) => [
-                        ...m,
-                        {
-                          msg: places[i],
-                          author: "Ford Chat.",
-                          line: false,
-                          zip: {
-                            zipcode: extractFiveDigitString(zipCode),
-                            dist: query,
-                          },
-                        },
-                      ]);
-                    } else if (i === places.length - 2) {
-                      setMessages((m) => [
-                        ...m,
-                        { msg: places[i], author: "", line: true, zip: {} },
-                      ]);
-                    } else {
-                      setMessages((m) => [
-                        ...m,
-                        { msg: places[i], author: "", line: false, zip: {} },
-                      ]);
-                    }
-                  }
-                  setZipMode("");
-                });
-              } else {
+            sendRecommendRequestToServer(query)
+          case "B": {
+            switch (zipMode) {
+              case 0: {
                 setZipCode(query);
                 setMessages((m) => [
                   ...m,
                   {
-                    msg: "Select the radius of dealerships you would like to look for in miles",
+                    msg:
+                      "Thank you - I will look for dealerships in the " +
+                      extractFiveDigitString(query) +
+                      " area",
+                    author: "Ford Chat",
+                    line: false,
+                    zip: "",
+                  },
+                ]);
+                setMessages((m) => [
+                  ...m,
+                  {
+                    msg: "Please enter your preferred radius to find a dealership, or NONE",
+                    author: "",
+                    line: true,
+                    zip: "",
+                  },
+                ]);
+                setZipMode(1);
+                break;
+              }
+              case 1: {
+                setMessages((m) => [
+                  ...m,
+                  {
+                    msg: "Thank you. Do you want to check availability for a specific model or just locate a dealership near you?",
                     author: "Ford Chat",
                     line: true,
                     zip: "",
                   },
                 ]);
-                setZipMode("query");
+                setDistance(query === "NONE" ? 10 : query);
+                let arr = { "Specific Model": "", "Just a Dealership": "" };
+                setCalcButtons(
+                  Object.keys(arr).map((model) => (
+                    <button
+                      className="calc-button"
+                      key={model}
+                      value={model}
+                      onClick={calcButtonHandler}
+                    >
+                      {model}
+                    </button>
+                  ))
+                );
+                setZipMode(2);
+                break;
               }
-              blockQueries.current = false;
-            }
-            break;
-          case "C":
-            {
-              {
-                if (zipMode != "") {
-                  findLocations(zipCode, query).then((loc) => {
+              case 2: {
+                if (query === "Specific Model") {
+                  setMessages((m) => [
+                    ...m,
+                    {
+                      msg: "Thank you. Please select 1-3 models/trims of the specific cars you are looking for.",
+                      author: "Ford Chat",
+                      line: true,
+                      zip: "",
+                    },
+                  ]);
+                  setZipMode(3);
+                } else {
+                  findLocations(zipCode, distance).then((loc) => {
                     const places = loc.split("..");
-                    setMessages((m) => [
-                      ...m,
-                      {
-                        msg: "",
-                        author: "Ford Chat..",
-                        line: false,
-                        zip: { zipcode: "", dist: "" },
-                        locs: places.slice(0, places.length - 1),
-                      },
-                    ]);
+                    console.log("places: ");
+                    console.log(places);
                     for (let i = 0; i < places.length - 1; i++) {
                       if (i === 0) {
                         setMessages((m) => [
@@ -528,7 +645,7 @@ function App() {
                             line: false,
                             zip: {
                               zipcode: extractFiveDigitString(zipCode),
-                              dist: query,
+                              dist: distance,
                             },
                           },
                         ]);
@@ -544,29 +661,111 @@ function App() {
                         ]);
                       }
                     }
-                    setZipMode("");
+                    setZipMode(0);
                   });
-                } else {
-                  setZipCode(query);
-                  setMessages((m) => [
-                    ...m,
-                    {
-                      msg: "Thank you - I will look for dealerships in the area",
-                      author: "Ford Chat",
-                      line: true,
-                      zip: "",
-                    },
-                    {
-                      msg: "Please enter your preferred radius to find a dealership.",
-                      author: "Ford Chat",
-                      line: true,
-                      zip: "",
-                    },
-                  ]);
-                  setZipMode("query");
+                  break;
                 }
-                blockQueries.current = false;
               }
+              case 3:
+                {
+                  {
+                    if (findMode === 0) {
+                      setCalcButtons(
+                        Object.keys(trims).map((model) => (
+                          <button
+                            className="calc-button"
+                            key={model}
+                            value={model}
+                            onClick={selectHandler}
+                          >
+                            {model}
+                          </button>
+                        ))
+                      );
+                      setFind(1);
+                    } else {
+                      setCalcButtons(
+                        trims[query].map((trim) => (
+                          <button
+                            className="calc-button"
+                            key={trim}
+                            value={trim}
+                            onClick={appendSelect}
+                          >
+                            {trim}
+                          </button>
+                        ))
+                      );
+                      setSelect(true);
+                    }
+                  }
+                }
+                break;
+            }
+            blockQueries.current = false;
+            break;
+          }
+          case "C":
+            {
+              if (findMode === 0) {
+                setCalcButtons(
+                  Object.keys(trims).map((model) => (
+                    <button
+                      className="calc-button"
+                      key={model}
+                      value={model}
+                      onClick={selectHandler}
+                    >
+                      {model}
+                    </button>
+                  ))
+                );
+                setFind(1);
+              } else {
+                setCalcButtons(
+                  trims[query].map((trim) => (
+                    <button
+                      className="calc-button"
+                      key={trim}
+                      value={trim}
+                      onClick={appendSelect}
+                    >
+                      {trim}
+                    </button>
+                  ))
+                );
+                setSelect(true);
+              }
+              blockQueries.current = false;
+              break;
+            }
+            break;
+          case "Q":
+            switch(questionnaireStep){
+              case 1:
+                setMessages(m=>[...m, {msg: "Are you interested in a specific type of vehicle, such as a cargo van, SUV, hatchback, or pickup truck?", author: "Ford Chat"}])
+                setQuestionnaireAnswers(q=>[...q, query])
+                setQuestionnaireStep(2)
+                blockQueries.current=false;
+                break;
+              case 2:
+                setMessages(m=>[...m, {msg: "How do you plan to use the car? Will it be primarily for commuting, family use, off-roading, or business purposes?", author: "Ford Chat"}])
+                setQuestionnaireAnswers(q=>[...q, query])
+                setQuestionnaireStep(3)
+                blockQueries.current=false;
+              break;
+              case 3:
+                setMessages(m=>[...m, {msg: "How many passengers do you need to accommodate regularly? ", author: "Ford Chat"}])
+              setQuestionnaireAnswers(q=>[...q, query])
+              setQuestionnaireStep(4)
+              blockQueries.current=false;
+              break;
+              case 4:
+                //setQuestionnaireAnswers(q=>[...q, query])
+                let questionnaireAnswersCopy=[...questionnaireAnswers, query]
+                setForceUpdate(!forceUpdate)
+                const ultimateQueryString="Here is my budget: "+questionnaireAnswersCopy[0]+". I am looking for a "+questionnaireAnswersCopy[1]+". I will primarily use it for the following: "+questionnaireAnswersCopy[2]+". I need a seating capacity of at least: "+questionnaireAnswersCopy[3]
+                sendRecommendRequestToServer(ultimateQueryString)
             }
             break;
           case "D":
@@ -778,6 +977,7 @@ function App() {
                 ]);
                 blockQueries.current = false;
                 setCalcStep(5);
+                break;
               case 5:
                 console.log("here");
                 //console.log(json_data);
@@ -794,6 +994,7 @@ function App() {
                 }
                 setCalcStep(6);
                 blockQueries.current = false;
+                break;
               case 6: // go to dealership finder
                 setMessages((m) => [
                   ...m,
@@ -846,7 +1047,7 @@ function App() {
 
   return (
     <div className="ButtonContainer">
-      <HamburgerMenu categories={categories} />
+      <HamburgerMenu />
       <div
         className="App"
         style={{
@@ -930,7 +1131,13 @@ function App() {
                 flexWrap: "wrap",
               }}
             >
+              {selectMode && <button onClick={changeFind}>back</button>}
               {calcButtons}
+              {selectMode && (
+                <button onClick={locateDealerships}>
+                  Locate my nearest dealerships
+                </button>
+              )}
             </div>
             <TextField
               value={queryText}
