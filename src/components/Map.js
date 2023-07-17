@@ -7,10 +7,10 @@ import "./Map.css";
 import Modal from "react-modal";
 import TestDriveScheduler from "./TestDriveScheduler";
 import dealerToTrim from '../jsons/dealerToTrim.json';
-import addresses from '../jsons/dealerToAddress.json';
+import info from '../jsons/dealerInfo.json';
 import { FaLocationArrow } from 'react-icons/fa';
-import { BsTelephoneFill, BsLink} from 'react-icons/bs';
-import { AiFillClockCircle } from 'react-icons/ai';
+import { BsTelephoneFill, BsLink } from 'react-icons/bs';
+import { AiFillClockCircle, AiFillStar } from 'react-icons/ai';
 import { FiLink2 } from 'react-icons/fi';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import close from "../images/close.svg";
@@ -27,7 +27,7 @@ function Map({ zip, dist, loc }) {
   const [windowText, setWindowText] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [popupText, setPopupText] = useState('');
-  const [popupPos,setPopupPos] = useState([]);
+  const [popupPos, setPopupPos] = useState([]);
   const [blockPopup, setBlockPopup] = useState(false);
 
   const handleButtonClick = (loc) => {
@@ -35,7 +35,7 @@ function Map({ zip, dist, loc }) {
     setIsSchedulerVisible(true);
     console.log(pickedLoc);
   }
-  
+
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
     iconSize: [20, 20], // Adjust the icon size if necessary
@@ -67,7 +67,7 @@ function Map({ zip, dist, loc }) {
         for (let trims of dealerToTrim[dealer][model]) {
           if (models.length < 2) {
             models.push([model, trims]);
-          } 
+          }
         }
         while (models.length < 2) { // not enough trims of model
           let x = 0;
@@ -98,43 +98,48 @@ function Map({ zip, dist, loc }) {
         }
       }
     }
-    let addr = d[1];
-    let phone = '000-000-0000';
-    let link = 'www.com';
+    let addr = info[dealer]["address"];
+    let phone = info[dealer]["number"];
+    let rating = info[dealer]["rating"];
+    let link = `www.${dealer.replace(' ','').toLowerCase()}.com`;
     let today = new Date();
     let currHr = today.getHours();
+    let hrStr = 'Open - closes at 8pm';
+    if (currHr > 20) {
+      hrStr = 'Closed - opens at 8am';
+    }
     let currDay = today.getDay();
-    let hours = '';
     let text = (<p className='hover-content'>
-        <span style={{color:'#322964',paddingTop:'20px',fontSize:'30px',fontWeight:'bold'}}>{dealer}</span><br/>
-        <span style={{fontSize:'17px'}}><FaLocationArrow/><span style={{paddingLeft:'8px'}}>{addr}</span><br/>
-        <BsTelephoneFill/><span style={{paddingLeft:'8px'}}>{phone}</span><br/>
-        <FiLink2/><span style={{paddingLeft:'8px'}}>{link}</span><br/>
-        <AiFillClockCircle/><span style={{paddingLeft:'8px'}}>{hours}</span><br/>
+      <span style={{ color: '#322964', paddingTop: '20px', fontSize: '30px', fontWeight: 'bold' }}>{dealer}</span><br />
+      <span style={{ fontSize: '17px' }}><FaLocationArrow /><span style={{ paddingLeft: '8px' }}>{addr}</span><br />
+        <BsTelephoneFill /><span style={{ paddingLeft: '8px' }}>{phone}</span><br />
+        <FiLink2 /><span style={{ paddingLeft: '8px' }}>{link}</span><br />
+        <AiFillStar /><span style={{ paddingLeft: '8px' }}>{rating + ' stars'}</span><br />
+        <AiFillClockCircle /><span style={{ paddingLeft: '8px' }}>{hrStr}</span><br />
+      </span>
+      <div style={{ display: 'flex' }}>
+        <span style={{ width: '50%' }}>
+          <span style={{ color: '#322964', fontSize: '14px', textDecoration: 'underline' }}>
+            Available Models/Trims </span>
+          <span style={{ paddingLeft: '20px' }}><MdOutlineArrowForwardIos /></span>
+          <div style={{overflowX:'auto',whiteSpace:'nowrap'}}>
+            {models.map(model => (<div className='model-preview'>{`${model[0]} ${model[1]}`}</div>))}
+          </div>
         </span>
-        <div style={{display:'flex'}}>
-          <span style={{width:'50%'}}>
-            <span style={{color:'#322964',fontSize:'14px',textDecoration:'underline'}}>
-              Available Models/Trims </span>
-              <span style={{paddingLeft:'20px'}}><MdOutlineArrowForwardIos/></span>
-            <div style={{display:'grid',gridTemplateColumns:'repeat(3, auto)',gridGap: '10px'}}>
-              {models.map(model => (<div className='model-preview'>{`${model[0]} ${model[1]}`}</div>))}
-            </div>
+        <span style={{ width: '50%', right: '-40%' }}>
+          <span style={{ color: '#322964', fontSize: '14px', textDecoration: 'underline' }}>
+            Available Appointments
           </span>
-          <span style={{width:'50%',right:'-40%'}}>
-            <span style={{color:'#322964',fontSize:'14px',textDecoration:'underline'}}>
-              Available Appointments
-          </span>
-          <span style={{paddingLeft:'20px'}}><MdOutlineArrowForwardIos/></span>
-              <div>
-                here
-              </div>
-          </span>
-        </div>
-      </p>)
+          <span style={{ paddingLeft: '20px' }}><MdOutlineArrowForwardIos /></span>
+          <div>
+            here
+          </div>
+        </span>
+      </div>
+    </p>)
     setShowPopup(true);
     setPopupText(text);
-    setBlockPopup(true); 
+    setBlockPopup(true);
     //setShowPopup(false);
   }
 
@@ -145,13 +150,13 @@ function Map({ zip, dist, loc }) {
 
   const handleLocClick = (d) => {
     let dealer = data[d[1].toString() + ' ' + d[2].toString()]["name"];
-    let models = Object.keys(dealerToTrim[dealer]) 
+    let models = Object.keys(dealerToTrim[dealer])
     if (models.length > 5) {
-        models = models.slice(0, 5);
+      models = models.slice(0, 5);
     }
     let str = '';
     for (let model of models) {
-        str = str + model + ', ';
+      str = str + model + ', ';
     }
     let title1 = 'Available models: ';
     let title2 = 'Available dates: ';
@@ -160,12 +165,12 @@ function Map({ zip, dist, loc }) {
     let addr = ' ' + d[0];
     let str3 = '000-000-0000';
     let text = (<p>
-          <span>
-            <span style={{textAlign: 'center', fontSize:'20px', fontWeight:'bold'}}>{dealer}</span><br />
-            {addr}
-          </span><br />
-          <span style={{textAlign:'left', fontSize:'14px'}}><span style={{fontWeight:'bold'}}>{title1}</span>{str1}<br />
-        <span style={{fontWeight:'bold'}}>{title2}</span>{str2}<br />
+      <span>
+        <span style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>{dealer}</span><br />
+        {addr}
+      </span><br />
+      <span style={{ textAlign: 'left', fontSize: '14px' }}><span style={{ fontWeight: 'bold' }}>{title1}</span>{str1}<br />
+        <span style={{ fontWeight: 'bold' }}>{title2}</span>{str2}<br />
         {str3}</span></p>);
     setShowWindow(true);
     setWindowText(text);
@@ -217,9 +222,9 @@ function Map({ zip, dist, loc }) {
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(toRadians(lat1)) *
-        Math.cos(toRadians(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+      Math.cos(toRadians(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
@@ -299,7 +304,7 @@ function Map({ zip, dist, loc }) {
           );
         })}
       </MapContainer>
-      {showPopup && <div className="hover-popup" onMouseLeave={popupHoverOff} style={{position: {popupPos}}}>{popupText}</div>}
+      {showPopup && <div className="hover-popup" onMouseLeave={popupHoverOff} style={{ position: { popupPos } }}>{popupText}</div>}
       <div
         style={{ marginLeft: "50px", alignItems: "center", marginTop: "10px" }}
       >
@@ -321,7 +326,7 @@ function Map({ zip, dist, loc }) {
               color: "#00095B",
             }}
           >
-            {`Dealerships ${dist} miles within ${zip}`}
+            {`Dealerships within ${dist} miles of ${zip}`}
           </h3>
         </div>
         <div className="custom-scrollbar">
@@ -410,4 +415,6 @@ export default Map;
           </button>
           {windowText}
           </div>)}
+
+          {display: 'grid', gridTemplateColumns: 'repeat(2, auto)', gridGap: '2px' }
 */

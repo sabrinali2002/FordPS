@@ -105,17 +105,17 @@
 }
 
 .calc-button {
-  width: 70px;
-  height: 55px;
+  width: 90px;
+  height: 70px;
   background-color: rgb(255,255,255);
-  color: rgb(0,0,0);
-  border: 1px solid rgb(0,0,0);
   border-radius: 15px;
   box-shadow: none;
-  text-align: center;
-  font-size: 10px;
+  font-size: 18px;
   line-height: 1;
-  margin-right: 2px;
+  margin: 5px;
+  text-align:center;
+  color:#322964;
+  font-weight:bold;
 }
 
 .calc-button:hover {
@@ -140,4 +140,42 @@
 .bottom{
   display:flex;
   flex-direction:row;
+}
+
+.model-box {
+  justify-content: center;
+  height: 220px;
+  width: 800px;
+  background-color: rgb(205, 220, 232);
+  border-radius: 15px;
+  box-shadow: 3px, rgb(203,225,231);
+  margin-top: 10px;
+}
+
+.model-button {
+  height: 100px;
+  width: 140px;
+  background-color: white;
+  box-shadow: 3px, rgb(86, 88, 86);
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 10px;
+  text-align:center;
+  word-wrap:wrap;
+  overflow-wrap:wrap;  
+  margin: 10px;
+  box-sizing: border-box;
+}
+
+.model-button:hover {
+  background-color: rgb(121, 118, 119);
+}
+
+.button-container {
+  justify-content: center;
+  height: 137px;
+  padding-left: 10px;
+  padding-top: 5px;
+  overflow-X: auto;
+  white-space: nowrap;
 }

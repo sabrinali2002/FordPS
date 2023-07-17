@@ -17,10 +17,11 @@ import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import EV from './EV.json';
 import trims from './trims.json';
-import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material"
+import { Brightness4, Brightness7, QueueRounded, TextFields, TextFieldsOutlined } from "@mui/icons-material"
 import { extractFiveDigitString, findLocations } from "./mapFunctions"
 import QuestionButton from './components/QuestionButton';
-import HamburgerMenu from './components/Navbar.js'
+import HamburgerMenu from './components/Navbar.js';
+import data from './jsons/zipLocations.json';
 
 
 async function sendBotResponse(query, history) {
@@ -118,7 +119,9 @@ function App() {
     const [leaseStep, setLeaseStep] = useState(0);
     // [1]down payment, [2]trade-in, [3]months, [4]annual %
     const [financeStep, setFinanceStep] = useState(0);
-    const [calcButtons, setCalcButtons] = useState("");
+    const [calcButtons, setCalcButtons] = useState([]);
+    const [showCalcButtons, setShowCalcButtons] = useState(false);
+    const [calcHeadingText, setCalcHeadingText] = useState('');
     const [payment, setPayment] = useState(0);
     const [zipMode, setZipMode] = useState(0);
     const [model, setModel] = useState("");
@@ -134,7 +137,7 @@ function App() {
                 Learn more about our cars
             </button>
             <button onClick={() => handleUserInput("B")} className="menu">
-                Find the closest dealerships near me
+                Dealership finder
             </button>
             <button onClick={() => handleUserInput("C")} className="menu">
                 Schedule a test drive
@@ -176,7 +179,7 @@ function App() {
     const changeFind = () => {
         setFind(0);
         setSelect(false);
-        setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
+        setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' style={{width:'140px',height:'100px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}} key={model} value={model} onClick={selectHandler}>{model}</button>)));
     }
     const appendSelect = (event) => {
         let val = event.target.getAttribute('value');
@@ -205,12 +208,14 @@ function App() {
         setQuery(val);
         setMessages((m) => [...m, { msg: val, author: "You" }]);
         setCalcButtons([]);
+        setShowCalcButtons(false);
     }
     const selectHandler = (event) => {
         let val = event.target.getAttribute('value');
         setQuery(val);
         setModel(val);
         setCalcButtons([]);
+        setShowCalcButtons(false);
         setFind(1);
     }
 
@@ -228,7 +233,8 @@ function App() {
                 break;
             case 'C':
                 setMessages((m) => [...m, { msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line: true, zip: "" }]);
-                setCalcButtons(Object.keys(trims).map(model => (<button className='calc-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
+                setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' style={{width:'140px',height:'100px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}} key={model} value={model} onClick={selectHandler}>{model}</button>)));
+                setShowCalcButtons(true);
                 changeChoice('C');
                 setMenuButtons([]);
                 break;
@@ -238,10 +244,13 @@ function App() {
                         ...m,
                         { msg: "What model are you interested in?", author: "Ford Chat" },
                     ]);
+                    setCalcHeadingText('Choose specific model');
+                    setShowCalcButtons(true);
                     setCalcButtons(
                         Object.keys(trims).map((model) => (
                             <button
-                                className="calc-button"
+                                className="model-button"
+                                style={{width:'140px',height:'100px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}}
                                 key={model}
                                 value={model}
                                 onClick={calcButtonHandler}
@@ -398,8 +407,10 @@ function App() {
                                 if (model === '') {
                                     setModel(query);
                                 }
+                                setCalcHeadingText('Choose specific trim');
                                 setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true }]);
-                                setCalcButtons(trims[query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
+                                setShowCalcButtons(true);
+                                setCalcButtons(trims[query].map(trim => (<button className='model-button' style={{width:'140px',height:'100px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}} key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
                                 blockQueries.current = false;
                                 setCalcStep(2);
                                 break;
@@ -407,14 +418,15 @@ function App() {
                                 if (trim === '') {
                                     setTrim(query);
                                 }
+                                setCalcHeadingText('Choose purchase type');
                                 const options = ['Lease', 'Finance', 'Buy'];
                                 setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat", line: true }]);
-                                setCalcButtons(options.map(option => (<button className='calc-button' style={{ fontSize: '14px' }} key={option} value={option} onClick={calcButtonHandler}>{option}</button>)));
+                                setShowCalcButtons(true);
+                                setCalcButtons(options.map(option => (<button className='calc-button' key={option} value={option} onClick={calcButtonHandler}>{option}</button>)));
                                 blockQueries.current = false;
                                 setCalcStep(3);
                                 break;
                             case 3:
-                                console.log("msrp");
                                 setPayment(carPrices[model][trim]);
                                 switch (calcMode) {
                                     case 0:
@@ -446,8 +458,10 @@ function App() {
                                             case 2: // months
                                                 setPayment(payment => {return (payment - query)});
                                                 let durations = [24, 36, 39, 48];
+                                                setCalcHeadingText('Choose lease duration (months)');
                                                 setMessages((m) => [...m, { msg: "Please select the desired lease duration, in months", author: "Ford Chat", line: true }]);
-                                                setCalcButtons(durations.map(dur => (<button className='calc-button' style={{ fontSize: '14px' }} key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
+                                                setShowCalcButtons(true);
+                                                setCalcButtons(durations.map(dur => (<button className='calc-button' key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
                                                 blockQueries.current = false;
                                                 setLeaseStep(3);
                                                 break;
@@ -470,8 +484,10 @@ function App() {
                                             case 2: // months
                                                 setPayment(payment => {return (payment - query)});
                                                 let durations = [36, 48, 60, 72, 84];
+                                                setCalcHeadingText('Choose loan duration (months)');
                                                 setMessages((m) => [...m, { msg: "Please select the desired loan duration, in months", author: "Ford Chat", line: true }]);
-                                                setCalcButtons(durations.map(dur => (<button className='calc-button' style={{ fontSize: '14px' }} key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
+                                                setShowCalcButtons(true);
+                                                setCalcButtons(durations.map(dur => (<button className='calc-button' key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
                                                 blockQueries.current = false;
                                                 setFinanceStep(0);
                                                 setCalcStep(4);
@@ -504,21 +520,26 @@ function App() {
                                 if (model in Object.keys(EV)) {
                                     if (trim in EV[model]) {
                                         setMessages((m) => [...m, { msg: "Would you like car delivery or pickup?", author: "Ford Chat", line: true }]);
+                                        setCalcStep(6);
                                     }
                                 }
-                                setCalcStep(6);
+                                else {
+                                    setMessages((m) => [...m, { msg: "Would you like to send a request to the dealer?", author: "Ford Chat", line: true }]);
+                                    // send to negotiation assistance
+                                }
                                 blockQueries.current = false;
-                            case 6: // go to dealership finder
-                                // maybe put menu buttons back up
-                                // setMenuButtons(origButtons);
-                                setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line: true }]);
-                                changeChoice('B');
-                                blockQueries.current = false;
-                                setCalcStep(0);
-                                setCalcMode(0);
-                                //changeChoice('A');
+                            case 6:
+                                if (query.includes('deliver')) {
+                                    setMessages((m) => [...m, { msg: "Enter your delivery address", author: "Ford Chat", line: true }]);
+                                }
+                                else if (query.includes('pick')) {
+                                    setMessages((m) => [...m, { msg: "Type in your zip code to find the nearest dealership", author: "Ford Chat", line: true }]);
+                                    changeChoice('B');
+                                    blockQueries.current = false;
+                                    setCalcStep(0);
+                                    setCalcMode(0);  
+                                }
                                 break;
-
                         }
                         break;
                     default:
@@ -597,6 +618,12 @@ function App() {
                 </div>
                 <div>
                     {menuButtons}
+                    <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
+                        {showCalcButtons && <div className='model-box'>
+                                <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
+                                <div className='button-container'>{calcButtons}</div>
+                            </div>}
+                        </div>
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
@@ -620,12 +647,10 @@ function App() {
                             {
                                 selectMode && <button onClick={changeFind}>back</button>
                             }
-                            {calcButtons}
                             {
                                 selectMode && <button onClick={locateDealerships}>Locate my nearest dealerships</button>
                             }
                         </div>
-
                         <TextField
                             value={queryText}
                             error={blockQueries.current}
