@@ -62,10 +62,13 @@ const Navbar = () => {
           <strong>HenrAI Menu</strong>
         </li>
         <li>
-          <a href="#" onClick={buyListener}>
+          <a href="#" onClick={buyListener} style = {{justifyContent: "space-between"}}>
             <strong>Buying a Ford</strong>
-            {/* <span className={`dropdown-arrow${buyOpen ? ' open' : ''}`}>&#9660;</span> */}
-          </a>
+            {
+              buyOpen ? <span className={`dropdown-arrow${existOpen ? ' open' : ''}`} style = {{marginBottom: '0px', paddingBottom:'0px', paddingTop:'0px'}}>&#9660;</span> : 
+              <span className={`dropdown-arrow${existOpen ? ' open' : ''}`} style = {{marginBottom: '0px', paddingBottom:'0px', paddingTop:'0px'}}>&#x25c0;</span>
+            }
+              </a>
         </li>
         {buyOpen && (
           <div className="sub" style={{ backgroundColor: 'white' }}>
@@ -92,9 +95,12 @@ const Navbar = () => {
           </div>
         )}
         <li>
-          <a href="#" onClick={existListener}>
+          <a href="#" onClick={existListener} style = {{justifyContent: "space-between"}}>
             <strong>Existing Owner</strong>
-            {/* <span className={`dropdown-arrow${existOpen ? ' open' : ''}`}>&#9660;</span> */}
+            {
+              existOpen ? <span className={`dropdown-arrow${existOpen ? ' open' : ''}`} style = {{marginBottom: '0px', paddingBottom:'0px', paddingTop:'0px'}}>&#9660;</span> : 
+              <span className={`dropdown-arrow${existOpen ? ' open' : ''}`} style = {{marginBottom: '0px', paddingBottom:'0px', paddingTop:'0px'}}>&#x25c0;</span>
+            }
           </a>
         </li>
         {existOpen && (
@@ -126,9 +132,12 @@ const Navbar = () => {
           </div>
         )}
         <li>
-          <a href="#" onClick={infoListener}>
+          <a href="#" onClick={infoListener} style = {{justifyContent: "space-between"}}>
             <strong>Info about Ford</strong>
-            {/* <span className={`dropdown-arrow${infoOpen ? ' open' : ''}`}>&#9660;</span> */}
+            {
+              infoOpen ? <span className={`dropdown-arrow${existOpen ? ' open' : ''}`} style = {{marginBottom: '0px', paddingBottom:'0px', paddingTop:'0px'}}>&#9660;</span> : 
+              <span className={`dropdown-arrow${existOpen ? ' open' : ''}`} style = {{marginBottom: '0px', paddingBottom:'0px', paddingTop:'0px'}}>&#x25c0;</span>
+            }
           </a>
         </li>
         {infoOpen && (
@@ -141,9 +150,12 @@ const Navbar = () => {
           </div>
         )}
         <li>
-          <a href="#" onClick={knowListener}>
+          <a href="#" onClick={knowListener} style = {{justifyContent: "space-between"}}>
             <strong>Know my car's price</strong>
-            <span className={`dropdown-arrow${knowOpen ? ' open' : ''}`}>&#9660;</span>
+            {
+              knowOpen ? <span className={`dropdown-arrow${existOpen ? ' open' : ''}`} style = {{marginBottom: '0px', paddingBottom:'0px', paddingTop:'0px'}}>&#9660;</span> : 
+              <span className={`dropdown-arrow${existOpen ? ' open' : ''}`} style = {{marginBottom: '0px', paddingBottom:'0px', paddingTop:'0px'}}>&#x25c0;</span>
+            }
           </a>
         </li>
         {knowOpen && (
