@@ -30,7 +30,7 @@ const CarInfoDropdownSection = ({dropDownOptions, carInfoMode}) => {
                         <DropDown  onChange={(event)=>{dropDownOptions[1](event)}} options={dropDownOptions[6]} car={"secondCar"}/>
                     </div>
                 </div>
-                <Button onClick={dropDownOptions[4]} className="mb-2" style={{marginRight: 8}}>Check it out</Button>
+                <Button onClick={dropDownOptions[4]} className="mb-2" variant="primary" style={{marginRight: 8}}>Check it out</Button>
                 <Button onClick={dropDownOptions[5]} className="mb-2" variant="secondary">Single Car</Button>
             </div>
             }

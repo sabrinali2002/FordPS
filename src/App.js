@@ -57,7 +57,7 @@ const introCardContent = (
             <Typography variant="h5" component="div" className="welcome">
                 Welcome to Ford Chat! 👋
             </Typography>
-            <Typography variant="body2" className="introduction">
+            <Typography variant="body2" className="introduction" component={'div'}>
                 I am a chatbot that can answer any questions you have about Ford vehicles. I can help you with the following:
                 <br />
                 <ul>
@@ -69,6 +69,24 @@ const introCardContent = (
         </CardContent>
     </Fragment>
 );
+
+const fixTrimQueryQuotation = (model, query) => {
+    console.log("model: " + model, "original query: " + query);
+    if(model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van") {
+        return query;
+    }
+    let trimStartIndex = query.indexOf('trim = "') + 8;
+    if(trimStartIndex - 8 !== -1) {
+        query = query.slice(0, trimStartIndex) + '\\"' + query.slice(trimStartIndex);
+        trimStartIndex += 2;
+        let trimName = query.substring(trimStartIndex, query.length - 1);
+        let modified = trimName.replace(/"/g, '\\"\\"');
+        query = query.replace(trimName, modified);
+        query = query.slice(0,query.length - 1) + "\\" + query.slice(query.length - 1);
+        query += '"';
+    }
+    return query;
+}
 
 function App() {
     const [query, setQuery] = useState("");
@@ -310,7 +328,8 @@ function App() {
         }
         if (id === "secondCar") {
             setCompareModel(event.target.value);
-            setCompareTrim("");
+            const firstTrim = trims[event.target.value][0]
+            setCompareTrim(firstTrim);
         }
     };
     const handleTrimChange = (event) => {
@@ -342,6 +361,7 @@ function App() {
         if (selectedTrim !== "no trim" && selectedTrim !== "all trim" && selectedTrim !== "") {
             sqlQuery += `AND trim = "${selectedTrim}"`;
         }
+        sqlQuery = fixTrimQueryQuotation(selectedModel, sqlQuery);
         console.log(sqlQuery);
         let dataArr = []
         let data = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
@@ -468,8 +488,8 @@ function App() {
         } else {
             if (!blockQueries.current && query.length > 0) {
                 blockQueries.current = true;
-                switch (choice) {
-                    case "I":
+        switch (choice) {
+            case "I":
                         //Car info dialogues
             break;
             case 'A':
@@ -820,7 +840,7 @@ function App() {
     choice,
     menuButtons,
     model,
-    trim,
+    trim
   ]);
 
   return (
