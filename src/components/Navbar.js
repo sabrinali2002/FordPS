@@ -64,7 +64,7 @@ const Navbar = () => {
         <li>
           <a href="#" onClick={buyListener}>
             <strong>Buying a Ford</strong>
-            <span className={`dropdown-arrow${buyOpen ? ' open' : ''}`}>&#9660;</span>
+            {/* <span className={`dropdown-arrow${buyOpen ? ' open' : ''}`}>&#9660;</span> */}
           </a>
         </li>
         {buyOpen && (
@@ -94,7 +94,7 @@ const Navbar = () => {
         <li>
           <a href="#" onClick={existListener}>
             <strong>Existing Owner</strong>
-            <span className={`dropdown-arrow${existOpen ? ' open' : ''}`}>&#9660;</span>
+            {/* <span className={`dropdown-arrow${existOpen ? ' open' : ''}`}>&#9660;</span> */}
           </a>
         </li>
         {existOpen && (
@@ -128,7 +128,7 @@ const Navbar = () => {
         <li>
           <a href="#" onClick={infoListener}>
             <strong>Info about Ford</strong>
-            <span className={`dropdown-arrow${infoOpen ? ' open' : ''}`}>&#9660;</span>
+            {/* <span className={`dropdown-arrow${infoOpen ? ' open' : ''}`}>&#9660;</span> */}
           </a>
         </li>
         {infoOpen && (
