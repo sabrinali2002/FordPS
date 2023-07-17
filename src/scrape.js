@@ -14,13 +14,15 @@ const fetchLocations = async (state) => {
         const html = response.data;
         const $ = cheerio.load(html);
         const dealershipList = $(".address");
-        const dealershipName = $(".dealer-list-heading")
+        const dealershipName = $(".dealer-list-heading");
+        const dealershipRating = $('.decimal-rating');
+        const dealershipNumb = $('.phone');
         const places = {};
         let counter = 0;
         dealershipList.each((index, element) => {
             let location = $(element).text().trim().replace(/(\r\n|\n|\r)/gm, "");
             let arr = location.split("                    ");
-            places[counter] = { "address": arr[0], "city": arr[1], "name": $(dealershipName[index]).text()};
+            places[counter] = { "address": arr[0], "city": arr[1], "name": $(dealershipName[index]).text(), "rating": $(dealershipRating[index]).text(), "number":$(dealershipNumb[index]).text()};
             counter += 1;
         });
         return places;
@@ -36,7 +38,6 @@ const fetchAllLocations = async () => {
     for (let i = 0; i < states.length; i++) {
         locationByState[states[i]] = allLocations[i];
     }
-    console.log(locationByState);
     saveLocationsToFile(locationByState);
 }
 
