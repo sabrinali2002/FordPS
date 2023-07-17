@@ -12,7 +12,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setM
         setCalcHeadingText("Choose specific trim");
         setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true }]);
         setShowCalcButtons(true);
-        setCalcButtons(trims[query].map(trim => (<button className='model-button' style={{width:'140px',height:'100px'}} key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
+        setCalcButtons(trims[query].map(trim => (<button className='model-button' style={{width:'150px',height:'110px', textAlign:'center',wordWrap:'wrap',overflowWrap:'wrap'}} key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
         blockQueries.current = false;
         setCalcStep(2);
         break;
