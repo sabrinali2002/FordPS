@@ -100,16 +100,6 @@ function App() {
   const s = new Set();
   const [dealerList, setDealers] = useState(s);
   const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
-  
-  const messagesEndRef = useRef(null)
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages]);
-
   const handleMenuClick = (parameter) => {
     handleUserInput(parameter);
     setMenuButtons([]);
@@ -248,14 +238,13 @@ function App() {
   ]);
 
   return (
-    <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
-      <HamburgerMenu/>
+    <div className="ButtonContainer">
+      <HamburgerMenu onClick = {handleMenuClick}/>
       <div
+        className="App"
         style={{
           backgroundColor: darkMode ? "#000080" : "#f4f3f3",
           color: darkMode ? "#ffffff" : "#000000",
-          width: '100%',
-          height: '100%',
           fontSize:
             textSize === "large"
               ? "22px"
@@ -264,21 +253,19 @@ function App() {
               : "19px",
         }}
       >
+        <QuestionButton />
         <div className="ChatArea">
-        <Card
-            variant="outlined"
-            className="CardOutline"
-            style={{
-              maxWidth: "45%",
-              flex: "none",
-              marginBottom: "3%",
-              alignSelf: "center",
-              textSize: { textSize },
-            }}
-          >
-            {IntroCardContent}
-          </Card>
-        <div className="MessagesArea">
+          <ThreeDots
+            height="50"
+            width="50"
+            radius="7"
+            color="#8080ff"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{ marginLeft: "5vw" }}
+            wrapperClassName=""
+            visible={blockQueries.current}
+          />
+          <div className="MessagesArea">
             <div>
               <p>{response}</p>
             </div>
@@ -300,19 +287,19 @@ function App() {
               );
             })}
           </div>
-          <ThreeDots
-            height="50"
-            width="50"
-            radius="7"
-            color="#8080ff"
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{ marginLeft: "5vw" }}
-            wrapperClassName=""
-            visible={blockQueries.current}
-            style={{flex: 'none'}}
-          />
-          <p>.</p>
-          <div ref={messagesEndRef}/>
+          <Card
+            variant="outlined"
+            className="CardOutline"
+            style={{
+              maxWidth: "45%",
+              flex: "none",
+              marginBottom: "3%",
+              alignSelf: "center",
+              textSize: { textSize },
+            }}
+          >
+            {IntroCardContent}
+          </Card>
         </div>
         <div>
           {menuButtons}
@@ -402,8 +389,7 @@ function App() {
           <QuestionButton />
         </div>
       </div>
-    </div>
-    )
+    </div>)
 }
 
 export default App;
