@@ -15,9 +15,8 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
           setCalcHeadingText("Choose vehicle category");
           setShowCalcButtons(true);
           setCalcButtons(Object.keys(vehicles).map(vehicle => (<button className='calc-button' key={vehicle} value={vehicle} onClick = {()=>setQuery(vehicle)}>{vehicle}</button>)));
-          // setMessages((m) => [...m, { msg: "", author: "DropDown", line: false, zip: "" }]);
-          // setMessages((m) => [...m, { msg: "", author: "Table", line: false, zip: "" }]);
           changeChoice('I');
+          blockQueries.current = false;
           break;
         case "A":
           setMessages((m) => [...m, { msg: "Car recommendation", author: "You", line:true,zip:{} }]);
@@ -41,6 +40,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             setMessages((m) => [...m, { msg: "Schedule a test drive", author: "You", line:true,zip:{} }]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
             changeChoice('C');
+            blockQueries.current = false;
             break;
         case "D":
           if (model === "") {
@@ -99,7 +99,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               setModel(query);
               setCalcHeadingText(query + " - Choose specific trim");
               setCalcButtons(vehicles[vehicle][query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={()=>{
-                handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons);
+                handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput);
                 setInfoMode(2);
               }}>{trim}</button>)));
             }
@@ -120,13 +120,16 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
           case "C":
             {
               if(findMode === 0){
+                setFind(1);
+              }
+              if(findMode === 1){
                 setZipCode(query)
                 setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
                 setShowCalcButtons(true);
                 setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
                 setFind(1);
               }
-              else if(findMode === 1){
+              else if(findMode === 2){
                   setShowCalcButtons(true);
                   setCalcButtons(trims[query].map(trim => (<button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>)));
                   setSelect(true);
