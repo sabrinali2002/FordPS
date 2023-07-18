@@ -20,26 +20,26 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
     const ownerButtons = (
         <div className="buttons">
           <button className = "menu" onClick={()=>{
-                setMessages(m=>{return [...m, {msg: "What type of help with maintenance would you like?", author: "Ford Chat"}]})
+                setMessages(m=>{return [...m, {msg: "Maintenance requests", author: "You"}, {msg: "What type of help with maintenance would you like?", author: "Ford Chat"}]})
                 setMenuButtons([maintenanceButtons])
-            }}>Maintenance Requests</button>
+            }}>Maintenance requests</button>
           <button className = "menu" onClick={()=>{
-            }}>Car Resale Value</button>
+            }}>Car resale value</button>
           <button className = "menu" onClick={()=>{
-            }}>Owner Service Center</button>
+            }}>Owner service center</button>
           <button className = "menu" onClick={()=>{
-            }}>Find a Dealership</button>
+            }}>Find a dealership</button>
         </div>
       );
       const maintenanceButtons = (
         <div className="buttons">
           <button className = "menu" onClick={()=>{
-                setMessages(m=>{return [...m, {msg: "What type of help with maintenance would you like?", author: "Ford Chat"}]})
+                setMessages(m=>{return [...m, {msg: "Schedule a maintenance appointment", author: "You"}, {msg: "What type of help with maintenance would you like?", author: "Ford Chat"}]})
             }}>Schedule a maintenance appointment</button>
           <button className = "menu" onClick={()=>{
             }}>When is my service due?</button>
           <button className = "menu" onClick={()=>{
-            setMessages(m=>{return [...m, {msg: "What would you like to know for maintenance?", author: "Ford Chat"}]})
+            setMessages(m=>{return [...m, {msg: "Questions about maintenance", author: "You"}, {msg: "What would you like to know for maintenance?", author: "Ford Chat"}]})
             setMenuButtons([])
             handleUserInput("maintenanceQuestions")
             }}>Questions about maintenance</button>
@@ -47,8 +47,8 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
       );
     return (
         <div>
-            <h1>Welcome back, {username.length>0?username:user.displayName}!</h1>
-            <p>Not you? <button className="link" onClick={() =>{ 
+            <h1 style={{textAlign: 'center'}}>Welcome back, {username.length>0?username:user.displayName}!</h1>
+            <p style={{textAlign: 'center'}}>Not you? <button className="link" onClick={() =>{ 
             signOut(auth) }}>Click here</button> to sign out.</p>
             <h5>Which of your cars do you need help with?</h5>
             <br/>

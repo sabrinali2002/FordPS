@@ -82,7 +82,7 @@ export default function Login({username, setUsername}){
     }
     
     return (
-    <div>
+    <div className="login-header">
         <ModalPopup showModal={showForgotPasswordModal} toggleModal={()=>{toggleModal(!showForgotPasswordModal)}}
             header={"Forgot Password?"} 
             body={<div>
@@ -132,8 +132,8 @@ export default function Login({username, setUsername}){
             <Button color="primary" onClick={()=>{toggleGeneralModal(!showGeneralModal)}}>OK</Button>
         </div>
         }/>
-        <h1>{loginState?"Log In":"Sign Up"}</h1>
-        <p>{loginState?"Don't have an account?":"Already have an account?"} <button className="link" onClick={() =>{ 
+        <h1 style={{textAlign: 'center'}}>{loginState?"Log In":"Sign Up"}</h1>
+        <p style={{textAlign: 'center'}}>{loginState?"Don't have an account?":"Already have an account?"} <button className="link" onClick={() =>{ 
             toggleLoginState(!loginState) }}>Click here</button> to {loginState?"sign up":"log in"}</p>  
         <Form onSubmit={(e)=>{
                 e.preventDefault()
@@ -174,7 +174,7 @@ export default function Login({username, setUsername}){
                     }}>Click here.</button>    
                 </p>
             </Form.Group>
-            <Button type="submit" size="lg" color="primary">{loginState?"Log In":"Sign Up"}</Button>
+            <Button style={{width: '100%'}} type="submit" size="lg" color="primary">{loginState?"Log In":"Sign Up"}</Button>
         </Form>
     </div>
     )

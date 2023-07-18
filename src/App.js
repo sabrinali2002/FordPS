@@ -75,15 +75,17 @@ function App() {
   const [leaseStep, setLeaseStep] = useState(0);
   // [1]down payment, [2]trade-in, [3]months, [4]annual %
   const [financeStep, setFinanceStep] = useState(0);
-  const [calcButtons, setCalcButtons] = useState("");
+  const [calcButtons, setCalcButtons] = useState([]);
   const [zipMode, setZipMode] = useState(0);
   const [model, setModel] = useState("");
   const [trim, setTrim] = useState("");
-  const [trimOptions, setTrimOptions] = useState([])
-  const messagesEndRef = useRef(null)
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
+  const [trimOptions, setTrimOptions] = useState([]);
+  const [infoMode, setInfoMode] = useState(0);
+  const [vehicle, setVehicle] = useState("");
+  const [showCalcButtons, setShowCalcButtons] = useState(false);
+  const [calcHeadingText, setCalcHeadingText] = useState('');
+  const [payment, setPayment] = useState(0);
+
 
   useEffect(() => {
     scrollToBottom()
@@ -107,6 +109,15 @@ function App() {
   const s = new Set();
   const [dealerList, setDealers] = useState(s);
   const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
+  
+  const messagesEndRef = useRef(null)
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages]);
+  
   const handleMenuClick = (parameter) => {
     handleUserInput(parameter);
     if(parameter!=="A")
@@ -163,6 +174,7 @@ function App() {
         setMenuButtons([])
         }}>Ask my own questions</button>
       <button className="menu" onClick={()=>{
+        setMessages((m) => [...m,{ msg: "Take questionnaire", author: "You", line: true }]);
         setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
         changeChoice("Q");
         setMenuButtons([])
@@ -176,7 +188,7 @@ function App() {
   const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode);
   const changeFind = changeFindFn(setFind, setSelect, setCalcButtons, selectHandler);
   const appendSelect = appendSelectFn(selected, model, changeSelected);
-  const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons);
+  const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons,setShowCalcButtons);
     //Car Info functions  -------------------------------------------------------------
 
     let compareTrimOptions =
@@ -184,7 +196,7 @@ function App() {
 
     const handleCarInfoButton = handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation)
     const handleCarInfoCompareButton = handleCarComparison(carInfoMode, setCarInfoMode, setSelectedModel, setSelectedTrim);
-    const handleModelChange = onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim);
+    const handleModelChange = onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim, trims);
     const handleTrimChange = onTrimChange(setSelectedTrim, setCompareTrim);
 
 
@@ -196,8 +208,7 @@ function App() {
 
   // --------------------------------------------------------------------->
   //handler for button user clicks
-  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons,buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse);
-    
+  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText);
     useEffect(() => {
         // Check if speech recognition is supported
         if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
@@ -232,7 +243,7 @@ function App() {
     };
 
     useEffect(() => {
-        handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory);
+        handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment);
   }, [
     query,
     history,
@@ -255,6 +266,8 @@ function App() {
           height: '100%',
           backgroundColor: darkMode ? "#000080" : "#f4f3f3",
           color: darkMode ? "#ffffff" : "#000000",
+          width: '100%',
+          height: '100%',
           fontSize:
             textSize === "large"
               ? "22px"
@@ -263,7 +276,7 @@ function App() {
               : "19px",
         }}
       >
-<div className="ChatArea">
+        <div className="ChatArea">
         <Card
             variant="outlined"
             className="CardOutline"
@@ -282,7 +295,6 @@ function App() {
               <p>{response}</p>
             </div>
             {messages.map((message, index) => {
-              console.log(index, message.msg)
               return (
                 <ChatItem
                 message={message.msg}
@@ -298,6 +310,7 @@ function App() {
                 setMessages={setMessages}
                 setMenuButtons={setMenuButtons}
                 handleUserInput={handleUserInput}
+                carSpecInfo = {message.carInfo}
             />
               );
             })}
@@ -341,9 +354,8 @@ function App() {
               {
                 selectMode && <button onClick= {changeFind}>back</button>
             }
-            {calcButtons}
             {
-                selectMode && <button onClick = {locateDealerships}>Locate my nearest dealerships</button>
+                selectMode && <button onClick = {locateDealerships}>Locate the nearest dealerships</button>
             }
             </div>
             <TextField
