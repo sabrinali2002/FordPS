@@ -172,12 +172,13 @@ export const findLocations = async (query, distance) => {
   };
   }
 
-  export const calcButtonHandlerFn = function(setQuery, setMessages, setCalcButtons) {
+  export const calcButtonHandlerFn = function(setQuery, setMessages, setCalcButtons, setShowCalcButtons) {
     return (event) => {
       let val = event.target.getAttribute("value");
       setQuery(val);
       setMessages((m) => [...m, { msg: val, author: "You" }]);
       setCalcButtons([]);
+      setShowCalcButtons(false);
     };
   }
   

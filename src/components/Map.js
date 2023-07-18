@@ -104,7 +104,7 @@ function Map({ zip, dist, loc, deal, coords}) {
     let today = new Date();
     let currHr = today.getHours();
     let hrStr = 'Open - closes at 8pm';
-    if (currHr > 20) {
+    if (currHr > 20 || currHr < 8) {
       hrStr = 'Closed - opens at 8am';
     }
     let currDay = today.getDay();
@@ -147,7 +147,8 @@ function Map({ zip, dist, loc, deal, coords}) {
     setBlockPopup(false);
   };
 
-  const handleLocClick = (d) => {
+  const locClickHandler = (d) => {
+    console.log(d);
     let dealer = data[d[1].toString() + ' ' + d[2].toString()]["name"];
     let models = Object.keys(dealerToTrim[dealer])
     if (models.length > 5) {
@@ -263,8 +264,7 @@ function Map({ zip, dist, loc, deal, coords}) {
     }
     fetchInfo();
   }, [zip, latlong]);
-  return (
-    <div
+  return (<div
       style={{
         position: "relative",
         backgroundColor: "#113B7A1A",
@@ -272,9 +272,8 @@ function Map({ zip, dist, loc, deal, coords}) {
         height: "435px",
         borderRadius: "15px",
         padding: "25px",
-      }}
-    >
-      <MapContainer
+      }}>
+      {!showWindow && (<MapContainer
         center={latlong}
         zoom={3}
         style={{
@@ -304,9 +303,17 @@ function Map({ zip, dist, loc, deal, coords}) {
             />
           );
         })}
-      </MapContainer>
+      </MapContainer>)}
       {showPopup && <div className="hover-popup" onMouseLeave={popupHoverOff} style={{ position: { popupPos } }}>{popupText}</div>}
-      <div
+      {showWindow && (<div>
+          <div className="click-popup">  
+            <button className='close-button' onClick={onExit}>
+              x
+            </button>
+            {windowText}
+          </div>
+          </div>)}
+      {!showWindow && (<div
         style={{ marginLeft: "50px", alignItems: "center", marginTop: "10px" }}
       >
         <div
@@ -346,6 +353,7 @@ function Map({ zip, dist, loc, deal, coords}) {
                   height: "101px",
                   width: "512px",
                 }}
+                onClick={locClickHandler}
               >
                 <div
                   style={{
@@ -394,7 +402,7 @@ function Map({ zip, dist, loc, deal, coords}) {
             );
           })}
         </div>
-      </div>
+      </div>)}
     </div>
   );
 }
@@ -402,12 +410,6 @@ function Map({ zip, dist, loc, deal, coords}) {
 export default Map;
 
 /*
-      {showWindow && (<div className='click-popup'>
-          <button className='close-button' onClick={onExit}>
-            x
-          </button>
-          {windowText}
-          </div>)}
 
           {display: 'grid', gridTemplateColumns: 'repeat(2, auto)', gridGap: '2px' }
 */

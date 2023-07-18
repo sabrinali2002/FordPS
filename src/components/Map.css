@@ -105,5 +105,11 @@
 
 .click-window {
     padding-left: 15px;
-
+    justify-content: center;
+    height: 235px;
+    width: 800px;
+    background-color: rgb(205, 220, 232);
+    border-radius: 15px;
+    box-shadow: 3px, rgb(203,225,231);
+    margin-top: 10px;
 }

@@ -181,7 +181,7 @@ function App() {
   const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode);
   const changeFind = changeFindFn(setFind, setSelect, setCalcButtons, selectHandler);
   const appendSelect = appendSelectFn(selected, model, changeSelected);
-  const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons);
+  const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons,setShowCalcButtons);
     //Car Info functions  -------------------------------------------------------------
 
     let compareTrimOptions =
@@ -303,14 +303,22 @@ function App() {
             />
               );
             })}
-            <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
-                {showCalcButtons && <div className='model-box'>
+            {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
+                <div className='model-box'>
                     <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
                     <div className='button-container'>{calcButtons}</div>
-                    </div>}
-                </div>
-
-
+                    </div>
+                </div>}
+            {calcStep==5 && (<div className='payment-summary'>
+                <span style={{fontWeight:'bold',fontSize:'20px'}}>
+                    {(calcMode < 3) ? ('Expected payment:') : ('Expected payment:')}
+                </span><br/>
+                <span style={{fontSize:'18px',paddingLeft:'10px'}}>
+                    $
+                    {Math.round(payment)}
+                    {(calcMode < 3) && ('/month')}
+                </span>
+            </div>)}
           </div>
           <ThreeDots
             height="50"
@@ -352,7 +360,7 @@ function App() {
                 selectMode && <button onClick= {changeFind}>back</button>
             }
             {
-                selectMode && <button onClick = {locateDealerships}>Locate my nearest dealerships</button>
+                selectMode && <button onClick = {locateDealerships}>Locate the nearest dealerships</button>
             }
             </div>
             <TextField

@@ -182,3 +182,16 @@
 .button-container::-webkit-scrollbar-thumb:hover { /* For Chrome, Edge, and Safari */
   background: #6c6c6c;
 }
+
+.payment-summary {
+  color:#322964;
+  background-color: white;
+  width: 400px;
+  height: 200px;
+  margin-left:20px;
+  padding:15px;
+  line-height:35px;
+  border-radius:10px;
+  text-align:left;
+  border: 2px, #322964
+}
