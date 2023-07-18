@@ -12,7 +12,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
         case 'I':
           setMessages((m) => [...m, { msg: "Info on a specific car", author: "You", line:true,zip:{} }]);
           setMessages((m) => [...m, { msg: "Please select 1-3 models/trims of the specific cars you're looking for", author: "Ford Chat", line: true, zip: "" }]);
-          setCalcHeadingText("Choose specific model");
+          setCalcHeadingText("Choose vehicle category");
           setShowCalcButtons(true);
           setCalcButtons(Object.keys(vehicles).map(vehicle => (<button className='calc-button' key={vehicle} value={vehicle} onClick = {()=>setQuery(vehicle)}>{vehicle}</button>)));
           // setMessages((m) => [...m, { msg: "", author: "DropDown", line: false, zip: "" }]);
@@ -84,25 +84,27 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
     };
   }
 
-  export function handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment) {
+  export function handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
         switch (choice) {
           case "I":
             if(infoMode === 0){
+              setCalcHeadingText("Choose specific model");
               setCalcButtons(Object.keys(vehicles[query]).map(model => (<button className='calc-button' key={model} value={model} onClick={()=>setQuery(model)}>{model}</button>)));
               setVehicle(query);
               setInfoMode(1);
             }
             else if(infoMode === 1){
               setModel(query);
+              setCalcHeadingText(query + " - Choose specific trim");
               setCalcButtons(vehicles[vehicle][query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={()=>{
-                handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons);
+                handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons);
                 setInfoMode(2);
               }}>{trim}</button>)));
             }
             else{
-              setMessages((m)=>[...m,{msg: "hihihihihi", author: "Ford Chat", line:true,zip:""}]);
+              setShowCalcButtons(false);
             }
             blockQueries.current = false;
             break;
@@ -120,10 +122,12 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               if(findMode === 0){
                 setZipCode(query)
                 setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
+                setShowCalcButtons(true);
                 setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
                 setFind(1);
               }
               else if(findMode === 1){
+                  setShowCalcButtons(true);
                   setCalcButtons(trims[query].map(trim => (<button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>)));
                   setSelect(true);
               }
