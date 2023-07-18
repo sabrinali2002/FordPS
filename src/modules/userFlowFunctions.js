@@ -10,8 +10,8 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
       // Outputs a response to based on input user selects
       switch (option) {
         case 'I':
-          setMessages((m) => [...m, { msg: "Info on a specific car", author: "You"}]);
-          setMessages((m) => [...m, { msg: "Please select 1-3 models/trims of the specific cars you're looking for", author: "Ford Chat", line: true, zip: "" }]);
+          setMessages((m) => [...m, { msg: "Info about a specific car", author: "You"}]);
+          setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you're looking for", author: "Ford Chat", line: true, zip: "" }]);
           setCalcButtons(Object.keys(vehicles).map(vehicle => (<button className='calc-button' key={vehicle} value={vehicle} onClick = {()=>setQuery(vehicle)}>{vehicle}</button>)));
           // setMessages((m) => [...m, { msg: "", author: "DropDown", line: false, zip: "" }]);
           // setMessages((m) => [...m, { msg: "", author: "Table", line: false, zip: "" }]);
@@ -41,6 +41,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             changeChoice('C');
             break;
         case "D":
+          setMessages((m) => [...m, { msg: "Car pricing estimator", author: "You"}]);
           if (model === "") {
             setMessages((m) => [
               ...m,
@@ -87,10 +88,6 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
         blockQueries.current = true;
         switch (choice) {
           case "I":
-            setMessages((m) => [
-              ...m,
-              { msg: "Info about a specific car", author: "You", line: true },
-            ]);
             if(infoMode === 0){
               setCalcButtons(Object.keys(vehicles[query]).map(model => (<button className='calc-button' key={model} value={model} onClick={()=>setQuery(model)}>{model}</button>)));
               setVehicle(query);
@@ -109,27 +106,15 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             blockQueries.current = false;
             break;
           case 'A':
-            setMessages((m) => [
-              ...m,
-              { msg: "Car recommendation", author: "You", line: true },
-            ]);
             setQuery("");
             sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory);
             break;
           case "B": {
-            setMessages((m) => [
-              ...m,
-              { msg: "Find a dealership", author: "You", line: true },
-            ]);
             handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance);
             blockQueries.current = false;
             break;
           }
           case "C":
-            setMessages((m) => [
-              ...m,
-              { msg: "Schedule a test drive", author: "You", line: true },
-            ]);
             {
               if(findMode === 0){
                 setZipCode(query)
@@ -174,10 +159,6 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             break;
           case "D":
             setQuery("");
-            setMessages((m) => [
-              ...m,
-              { msg: "Car pricing estimator", author: "You", line: true },
-            ]);
             handlePaymentFlow(calcStep, model, setModel, query, setMessages, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment,handleUserInput);
             break;
           default:
