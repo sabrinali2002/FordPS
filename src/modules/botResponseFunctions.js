@@ -32,14 +32,14 @@ export async function sendBotResponse(query, history, mode) {
   return response;
 }
 
-export function sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory) {
+export function sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation) {
     sendBotResponse(query, history, "recommend").then((res) => {
       if(res.includes("RECOMMEND_TABLE")){
         let finalTableData=[]
         let promises=[]
         createRecommendTable(res).forEach(car=>{
           console.log(car.model, car.trim)
-          const query=`SELECT * FROM car_info WHERE model = \"${car.model}\" AND trim = \"${car.trim}\" AND msrp = \"${car.msrp}\" LIMIT 2`
+          const query=fixTrimQueryQuotation(car.model, `SELECT * FROM car_info WHERE model = "${car.model}" AND trim = "${car.trim}" AND msrp = "${car.msrp}" LIMIT 2`)
           promises.push(fetch(`http://fordchat.franklinyin.com/data?query=${query}`, {
             method: "GET",
             headers: {
@@ -67,5 +67,6 @@ export function sendRecommendRequestToServer(query, history, carInfoData, messag
         setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
       }
       blockQueries.current = false;
+      setForceUpdate(!forceUpdate)
     });
   }

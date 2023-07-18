@@ -70,7 +70,7 @@ export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareM
     };
   }
   
-  export function onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim) {
+  export function onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim, trims) {
     return (event) => {
       const id = event.target.parentNode.id;
       if (id === "firstCar") {
@@ -79,7 +79,8 @@ export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareM
       }
       if (id === "secondCar") {
         setCompareModel(event.target.value);
-        setCompareTrim("");
+        const firstTrim = trims[event.target.value][0]
+        setCompareTrim(firstTrim);
       }
     };
   }

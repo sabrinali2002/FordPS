@@ -2,16 +2,15 @@ import { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import {firebase} from '../firebase'
+import {firebase} from '../../firebase'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, updateProfile } from "firebase/auth";
 import { getDatabase, ref, set, get } from "firebase/database";
 
-import ModalPopup from "./Modal";
+import ModalPopup from "../Modal";
 
-import '../styles/Login.css'
+import '../../styles/Login.css'
 
-export default function Login(){
-    const [username, setUsername] = useState("")
+export default function Login({username, setUsername}){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [loginState, toggleLoginState] = useState(true)
@@ -34,15 +33,12 @@ export default function Login(){
     }
 
     function checkForValidUsername(username){
-        return username.match("^[A-Za-z0-9]+$");
+        return username.match("^[A-Za-z ]+$");
     }
 
     function handleAuthentication(){
         if(loginState) {
             signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                window.location.href = "/chat"
-            })
             .catch((error) => {
                 const errorMessage = error.message;
                 generateModal("Sign In Failed", errorMessage)
@@ -54,35 +50,24 @@ export default function Login(){
             else {
                 if(checkForStrongPassword(password)) {
                     if(checkForValidUsername(username)){
-                        get(ref(db,'usernames/'+username.toLowerCase())).then((snapshot)=>{
-                            if(snapshot.exists()){
-                                generateModal("Username Taken", "Sorry, but an account already exists with this username!")
-                            } else {
-                                createUserWithEmailAndPassword(auth, email, password)
-                                .then((userCredential) => {
-                                    const user=userCredential.user;
-                                    window.location.href = "/chat"
-                                    updateProfile(user, {
-                                        displayName: username.toLowerCase()
-                                    }).then(()=>{
-                                        console.log(user)
-                                        set(ref(db, 'usernames/'+user.displayName), email)
-                                    }).catch((error) => {
-                                        const errorMessage = error.message;
-                                        console.log(errorMessage)
-                                    })
-                                })
-                                .catch((error) => {
-                                    const errorMessage = error.message;
-                                    generateModal("Sign Up Failed", errorMessage)
-                                })
-                            }
-                        }).catch(error=>{
+                        createUserWithEmailAndPassword(auth, email, password)
+                        .then((userCredential) => {
+                            const user=userCredential.user;
+                            updateProfile(user, {
+                                displayName: username
+                            }).then(()=>{
+                                console.log(user)
+                            }).catch((error) => {
+                                const errorMessage = error.message;
+                                console.log(errorMessage)
+                            })
+                        })
+                        .catch((error) => {
                             const errorMessage = error.message;
                             generateModal("Sign Up Failed", errorMessage)
                         })
                     } else
-                        generateModal("Bad Username", "Username must exist and contain only letters and numbers.")   
+                        generateModal("Bad Username", "Username must exist and contain only letters and spaces.")   
                 }
                 else
                     generateModal("Password Not Secure!", "Please ensure your password is at least eight characters long and contains at least one uppercase letter, one lowercase letter, and one number.")
@@ -147,8 +132,8 @@ export default function Login(){
             <Button color="primary" onClick={()=>{toggleGeneralModal(!showGeneralModal)}}>OK</Button>
         </div>
         }/>
-        <h1>{loginState?"Log In":"Sign Up"}</h1>
-        <p>{loginState?"Don't have an account?":"Already have an account?"} <button className="link" onClick={() =>{ 
+        <h1 style={{textAlign: 'center'}}>{loginState?"Log In":"Sign Up"}</h1>
+        <p style={{textAlign: 'center'}}>{loginState?"Don't have an account?":"Already have an account?"} <button className="link" onClick={() =>{ 
             toggleLoginState(!loginState) }}>Click here</button> to {loginState?"sign up":"log in"}</p>  
         <Form onSubmit={(e)=>{
                 e.preventDefault()
@@ -157,8 +142,8 @@ export default function Login(){
             {
                 !loginState?
                 <Form.Group>
-                    <Form.Label size="lg">Username</Form.Label>
-                    <Form.Control className="login" value={username} type="text" name="username" id="username" placeholder="enter a username" size="lg" onChange={(e) => {
+                    <Form.Label size="lg">Your Name</Form.Label>
+                    <Form.Control className="login" value={username} type="text" name="username" id="username" placeholder="your name here" size="lg" onChange={(e) => {
                         setUsername(e.target.value)
                     }} />
                 </Form.Group>:<></>
@@ -189,7 +174,7 @@ export default function Login(){
                     }}>Click here.</button>    
                 </p>
             </Form.Group>
-            <Button type="submit" size="lg" color="primary">{loginState?"Log In":"Sign Up"}</Button>
+            <Button style={{width: '100%'}} type="submit" size="lg" color="primary">{loginState?"Log In":"Sign Up"}</Button>
         </Form>
     </div>
     )
