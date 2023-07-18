@@ -24,7 +24,7 @@ import { IntroCardContent } from "./components/IntroCardContent";
 
 const fixTrimQueryQuotation = (model, query) => {
     console.log("model: " + model, "original query: " + query);
-    if(model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van" && model !== "Transit Crew Van" && model !== "Transit Passenger Van") {
+    if(model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van") {
         return query;
     }
     let trimStartIndex = query.indexOf('trim = "') + 8;
