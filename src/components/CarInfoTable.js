@@ -63,7 +63,6 @@ const CarInfoTable = ({ data, mode, intro }) => {
         car1data = data[0][0];
     }
     if (data[1] !== undefined) car2data = data[1][0];
-    console.log(data);
     return (
         <Fragment>
             {intro !== undefined && <p>{intro}</p>}
@@ -105,7 +104,9 @@ const CarInfoTable = ({ data, mode, intro }) => {
                         <TableBody>
                             {data[0].map((item) => (
                                 <StyledTableRow key={item.id}>
-                                    <StyledTableCell><img src={`${images[item.model]}`} style={{"width": "200px"}} alt={`${item.model} image`}></img></StyledTableCell>
+                                    <StyledTableCell>
+                                        <img src={`${images[item.model]}`} style={{ width: "200px" }} alt={`${item.model} image`}></img>
+                                    </StyledTableCell>
                                     <StyledTableCell>{item.model}</StyledTableCell>
                                     <StyledTableCell>{item.trim}</StyledTableCell>
                                     <StyledTableCell>{item.year}</StyledTableCell>
@@ -152,14 +153,52 @@ const CarInfoTable = ({ data, mode, intro }) => {
                         <TableBody>
                             <StyledTableRow>
                                 <StyledTableCell>Image</StyledTableCell>
-                                <StyledTableCell><img src={`${images[car1data.model]}`} style={{"width": "200px"}} alt={`${car1data.model} image`}></img></StyledTableCell>
-                                <StyledTableCell><img src={`${images[car2data.model]}`} style={{"width": "200px"}} alt={`${car2data.model} image`}></img></StyledTableCell>
+                                <StyledTableCell>
+                                    <img src={`${images[car1data.model]}`} style={{ width: "200px" }} alt={`${car1data.model} image`}></img>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <img src={`${images[car2data.model]}`} style={{ width: "200px" }} alt={`${car2data.model} image`}></img>
+                                </StyledTableCell>
                             </StyledTableRow>
                             {specList.map((spec, index) => (
                                 <StyledTableRow key={spec}>
                                     <StyledTableCell>{spec}</StyledTableCell>
-                                    <StyledTableCell >{car1data[`${specListSQL[index]}`]}</StyledTableCell>
-                                    <StyledTableCell >{car2data[`${specListSQL[index]}`]}</StyledTableCell>
+                                    <StyledTableCell>{car1data[`${specListSQL[index]}`]}</StyledTableCell>
+                                    <StyledTableCell>{car2data[`${specListSQL[index]}`]}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            )}
+            {mode === "multiple" && (
+                <TableContainer component={Paper} className="mt-2">
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell></StyledTableCell>
+                                {data.map((car) => {
+                                    return <StyledTableCell key={car.id}>{`${car.model} ${car.trim}`}</StyledTableCell>;
+                                })}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <StyledTableRow>
+                                <StyledTableCell>Image</StyledTableCell>
+                                {data.map((car) => {
+                                    return (
+                                        <StyledTableCell key={car.id}>
+                                            <img src={`${images[car.model]}`} style={{ width: "200px" }} alt={`${car.model} image`}></img>
+                                        </StyledTableCell>
+                                    );
+                                })}
+                            </StyledTableRow>
+                            {specList.map((spec, index) => (
+                                <StyledTableRow key={spec}>
+                                    <StyledTableCell>{spec}</StyledTableCell>
+                                    {data.map((car) => (
+                                        <StyledTableCell key={car.id}>{car[`${specListSQL[index]}`]}</StyledTableCell>
+                                    ))}
                                 </StyledTableRow>
                             ))}
                         </TableBody>
