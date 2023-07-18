@@ -6,6 +6,7 @@ import Table from "./Table";
 import SelectModel from "./selectModel";
 import CarInfoTable from "./CarInfoTable";
 import CarInfoDropdownSection from "./CarInfoDropdownSection";
+import ExistingOwner from "./ExistingOwners/ExistingOwner";
 function extractLinkFromText(messageText, author, darkMode){
     const wordsArray = messageText.split(" ")
     const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
@@ -54,7 +55,7 @@ function dictate(message, toggleIsSpeaking) {
   speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, setMessages, setMenuButtons, handleUserInput}){
     const authorStyle = {
         fontSize: textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem"),
         color: (darkMode ? "#ffffff" : "#999"),
@@ -88,5 +89,8 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
             </div>
             {line && <hr style={{width: '90vw', borderColor: author.toLowerCase()==='you'?'#999':'rgb(49, 135, 255)'}}/>}
         </Fragment>}
+        {
+          author==="Login" && <ExistingOwner setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput}/>
+        }
     </div>)
 }

@@ -122,6 +122,7 @@ function App() {
         }}>Buying a Ford</button>
       <button className = "menu" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "", author: "Login"}]})
         }}>I'm an Existing Owner</button>
       <button className = "menu" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
@@ -294,6 +295,9 @@ function App() {
                 dropDownOptions={dropDownOptions}
                 carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[[],[]]}
                 carInfoMode={carInfoMode}
+                setMessages={setMessages}
+                setMenuButtons={setMenuButtons}
+                handleUserInput={handleUserInput}
             />
               );
             })}

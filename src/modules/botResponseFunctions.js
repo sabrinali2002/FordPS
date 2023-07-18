@@ -67,5 +67,6 @@ export function sendRecommendRequestToServer(query, history, carInfoData, messag
         setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
       }
       blockQueries.current = false;
+      setForceUpdate(!forceUpdate)
     });
   }

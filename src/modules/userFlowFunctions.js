@@ -67,6 +67,9 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons,buyA
           changeChoice("D");
           setMenuButtons([]);
           break;
+        case "maintenanceQuestions":
+          changeChoice("maintenanceQuestions")
+          break;
         default:
           setResponse(
             "Invalid input. Please select one of the options (A, B, C, or D)."
@@ -79,7 +82,17 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons,buyA
   export function handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory) {
       if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
+        setForceUpdate(!forceUpdate)
         switch (choice) {
+          case "maintenanceQuestions":
+            sendBotResponse("I am looking to schedule maintenance for my Ford car and I have a question about maintenance. Here it is: "+query, history, "maint").then((res) => {
+              setMessages((m) => [
+                ...m,
+                { msg: res, author: "Ford Chat", line: true, zip: {} },
+              ])
+              blockQueries.current = false;
+            });
+            break;
           case "I":
             //Car info dialogues
             break;
