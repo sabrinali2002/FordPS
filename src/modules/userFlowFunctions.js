@@ -99,7 +99,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons,buyA
               }}>{trim}</button>)));
             }
             else if(infoMode === 2){
-              setMessages((m)=>[...m,{msg: "-----------------", author: "Ford Chat", line:true,zip:""}]);
+              setMessages((m)=>[...m,{msg: "-----------------", author: "Ford Chat.", line:true,zip:""}]);
             }
             blockQueries.current = false;
             break;
