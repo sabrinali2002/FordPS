@@ -14,7 +14,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
           setMessages((m) => [...m, { msg: "Please select 1-3 models/trims of the specific cars you're looking for", author: "Ford Chat", line: true, zip: "" }]);
           setCalcHeadingText("Choose vehicle category");
           setShowCalcButtons(true);
-          setCalcButtons(Object.keys(vehicles).map(vehicle => (<button className='calc-button' key={vehicle} value={vehicle} onClick = {()=>setQuery(vehicle)}>{vehicle}</button>)));
+          setCalcButtons(Object.keys(vehicles).map(vehicle => (<button className='model-button' key={vehicle} value={vehicle} onClick = {()=>setQuery(vehicle)}>{vehicle}</button>)));
           changeChoice('I');
           blockQueries.current = false;
           break;
@@ -92,20 +92,23 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
           case "I":
             if(infoMode === 0){
               setCalcHeadingText("Choose specific model");
-              setCalcButtons(Object.keys(vehicles[query]).map(model => (<button className='calc-button' key={model} value={model} onClick={()=>setQuery(model)}>{model}</button>)));
+              setCalcButtons(Object.keys(vehicles[query]).map(model => (<button className='model-button' key={model} value={model} onClick={()=>setQuery(model)}>{model}</button>)));
               setVehicle(query);
               setInfoMode(1);
             }
             else if(infoMode === 1){
               setModel(query);
               setCalcHeadingText(query + " - Choose specific trim");
-              setCalcButtons(vehicles[vehicle][query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={()=>{
-                handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput);
-                setInfoMode(2);
+              setCalcButtons(vehicles[vehicle][query].map(trim => (<button className='model-button' key={trim} value={trim} onClick={()=>{
+              handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons);
+              setTrim(trim);
               }}>{trim}</button>)));
             }
             else{
               setShowCalcButtons(false);
+              setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
+              console.log(model);
+              console.log(trim);
             }
             blockQueries.current = false;
             break;

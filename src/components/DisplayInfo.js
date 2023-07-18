@@ -1,6 +1,5 @@
 
 export default function DisplayInfo({info}){
-    console.log(info)
     return <div
         style={{
           height: "400px",

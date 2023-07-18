@@ -145,7 +145,6 @@ function App() {
         }}>Info about a specific car</button>
       <button className = "menu" onClick={() => {
         handleUserInput('A');
-        setMenuButtons([]);
         }}>Car recommendation</button>
       <button className = "menu" onClick={() => {
         handleUserInput('D');
