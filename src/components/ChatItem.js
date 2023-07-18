@@ -6,6 +6,8 @@ import Table from "./Table";
 import SelectModel from "./selectModel";
 import CarInfoTable from "./CarInfoTable";
 import CarInfoDropdownSection from "./CarInfoDropdownSection";
+import circleHenrai from "./henraicircle.jpg";
+
 function extractLinkFromText(messageText, author, darkMode){
     const wordsArray = messageText.split(" ")
     const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
@@ -61,7 +63,9 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
       };
     const [isSpeaking, toggleIsSpeaking] = useState(false);
     return(
-        <div>
+        <div style={{display: "flex", flexDirection:"row", width:"100%"}}>
+        {author !== "You" && <div><img src={circleHenrai} style={{height:"32px", width:"50px"}}></img></div>}
+        <div style={{backgrounColor:"#133a7c"}}>
         {author === "Ford Chat.." && <Table loc={locs}></Table>}
       {author === "Ford Chat." && (
         <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal} coords = {zip.coordinates}></Map>
@@ -88,5 +92,6 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
             </div>
             {line && <hr style={{width: '90vw', borderColor: author.toLowerCase()==='you'?'#999':'rgb(49, 135, 255)'}}/>}
         </Fragment>}
+    </div>
     </div>)
 }
