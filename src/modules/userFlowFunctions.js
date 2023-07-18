@@ -1,9 +1,11 @@
 import trims from "../jsons/trims.json";
-import vehicles from "../jsons/vehicleCategories.json"
+import vehicles from "../jsons/vehicleCategories.json";
 import { sendBotResponse, sendRecommendRequestToServer } from "./botResponseFunctions";
 import handleDealerFlow from "./user_flows/handleDealerFlow";
 import handlePaymentFlow from "./user_flows/handlePaymentFlow";
-import handleInfoFlow from "./user_flows/handleInfoFlow"
+import handleInfoFlow from "./user_flows/handleInfoFlow";
+import { BiRegistered} from 'react-icons/bi';
+import images from '../images/image_link.json';
 
 export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText) {
     return (option) => {
@@ -28,14 +30,14 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               zip: {},
             },
           ]);
-          setMenuButtons([buyACarButtons]);
+          setMenuButtons(buyACarButtons);
           break;
-          case 'B':
+        case 'B':
             setMessages((m) => [...m, { msg: "Find a dealership", author: "You" }]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
             changeChoice('B');
             break;
-          case 'C':
+        case 'C':
             setMessages((m) => [...m, { msg: "Schedule a test drive", author: "You"}]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
             changeChoice('C');
@@ -57,7 +59,8 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
                   value={model}
                   onClick={calcButtonHandler}
                 >
-                  {model}
+                  <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
+                  {model}<BiRegistered/>
                 </button>
               ))
             );
@@ -72,7 +75,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             blockQueries.current = false;
           }
           changeChoice("D");
-          setMenuButtons([]);
+          //setMenuButtons([]);
           break;
         default:
           setResponse(

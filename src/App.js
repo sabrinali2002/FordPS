@@ -117,7 +117,6 @@ function App() {
   
   const handleMenuClick = (parameter) => {
     handleUserInput(parameter);
-    setMenuButtons([]);
     // Perform any other logic or function in the parent component using the parameter
   };
   const origButtons = (
@@ -146,7 +145,6 @@ function App() {
         }}>Info about a specific car</button>
       <button className = "menu" onClick={() => {
         handleUserInput('A');
-        setMenuButtons([]);
         }}>Car recommendation</button>
       <button className = "menu" onClick={() => {
         handleUserInput('D');
