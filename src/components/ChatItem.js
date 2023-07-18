@@ -82,7 +82,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
           </Fragment>}
         {(author!=="DropDown" && author!=="Table" && author !== "Info") && <Fragment>
             <p className={author.toLowerCase().replace(" ", "-")} style={authorStyle}>{author}</p>
-            <div style={{display: 'flex', flexDirection: 'row'}}>
+            <div style={{display: 'flex', flexDirection: 'row', clear:'both'}}>
                 {extractLinkFromText(message, author, darkMode)}
                 {author.toLowerCase()!=='you' && <VolumeUp color={darkMode ? (isSpeaking?"#ffffff":"#e4e4ed") : (isSpeaking?"blue":"black")} size={textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem")} onClick={()=>{
                     if(!isSpeaking)

@@ -92,7 +92,13 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons,buyA
             }
             else if(infoMode === 1){
               setModel(query);
-              setCalcButtons(vehicles[vehicle][query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={()=>handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons)}>{trim}</button>)));
+              setCalcButtons(vehicles[vehicle][query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={()=>{
+                handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons);
+                setInfoMode(2);
+              }}>{trim}</button>)));
+            }
+            else{
+              setMessages((m)=>[...m,{msg: "hihihihihi", author: "Ford Chat", line:true,zip:""}]);
             }
             blockQueries.current = false;
             break;
