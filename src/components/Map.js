@@ -121,8 +121,8 @@ function Map({ zip, dist, loc, deal, coords}) {
           <span style={{ color: '#322964', fontSize: '14px', textDecoration: 'underline' }}>
             Available Models/Trims </span>
           <span style={{ paddingLeft: '20px' }}><MdOutlineArrowForwardIos /></span>
-          <div style={{overflowX:'auto',whiteSpace:'nowrap'}}>
-            {models.map(model => (<div className='model-preview'>{`${model[0]} ${model[1]}`}</div>))}
+          <div style={{overflowX:'auto',whiteSpace:'nowrap',display:'inline-block'}}>
+            {models.map(model => (<div className='model-preview-map'>{`${model[0]} ${model[1]}`}</div>))}
           </div>
         </span>
         <span style={{ width: '50%', right: '-40%' }}>
