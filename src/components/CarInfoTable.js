@@ -105,7 +105,7 @@ const CarInfoTable = ({ data, mode, intro }) => {
                         <TableBody>
                             {data[0].map((item) => (
                                 <StyledTableRow key={item.id}>
-                                    <StyledTableCell><img src={`${images[item.model]}`} style={{"width": "200px"}}></img></StyledTableCell>
+                                    <StyledTableCell><img src={`${images[item.model]}`} style={{"width": "200px"}} alt={`${item.model} image`}></img></StyledTableCell>
                                     <StyledTableCell>{item.model}</StyledTableCell>
                                     <StyledTableCell>{item.trim}</StyledTableCell>
                                     <StyledTableCell>{item.year}</StyledTableCell>
@@ -152,8 +152,8 @@ const CarInfoTable = ({ data, mode, intro }) => {
                         <TableBody>
                             <StyledTableRow>
                                 <StyledTableCell>Image</StyledTableCell>
-                                <StyledTableCell><img src={`${images[car1data.model]}`} style={{"width": "200px"}}></img></StyledTableCell>
-                                <StyledTableCell><img src={`${images[car2data.model]}`} style={{"width": "200px"}}></img></StyledTableCell>
+                                <StyledTableCell><img src={`${images[car1data.model]}`} style={{"width": "200px"}} alt={`${car1data.model} image`}></img></StyledTableCell>
+                                <StyledTableCell><img src={`${images[car2data.model]}`} style={{"width": "200px"}} alt={`${car2data.model} image`}></img></StyledTableCell>
                             </StyledTableRow>
                             {specList.map((spec, index) => (
                                 <StyledTableRow key={spec}>
