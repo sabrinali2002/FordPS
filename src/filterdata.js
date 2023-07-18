@@ -65,4 +65,17 @@ for (let model in trimToDealer) {
 
 let jsondata = JSON.stringify(dict);
 console.log(jsondata);
+
+let dict = {};
+for (let loc in data) {
+    dict[data[loc]["name"]] = {"address": data[loc]["address"] + ', ' + data[loc]["city"], "rating":data[loc]["rating"], "number": data[loc]["number"]};
+    //dict[data[loc]["name"]]["address"] = data[loc]["address"] + ', ' + data[loc]["city"];
+    //dict[data[loc]["name"]]["rating"] = data[loc]["rating"];
+    //dict[data[loc]["name"]]["number"] = data[loc]["number"];
+}
+
+let dict_json = JSON.stringify(dict);
+console.log(dict_json);
+
+
 */

@@ -1,4 +1,4 @@
-const data = require('./locations.json');
+const data = require('./jsons/locations.json');
 const fs = require('fs');
 
 const findLoc = async (url) => {

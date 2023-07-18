@@ -1,0 +1,68 @@
+/*==========================
+Sidebar navigation
+========================*/
+.navbar {
+    position: relative;
+  }
+  button {
+    cursor: pointer;
+    background: transparent;;
+    border: none;
+    font-size: 20px;
+  }
+  .navbar .toggle {
+    position: fixed;
+    right: 30px;
+    top: 40px;
+    cursor: pointer;
+    background: transparent;;
+    border: none;
+  }
+  .menu-nav {
+    right: 0px;
+    top: 40px;
+    list-style: none;
+    position: absolute;
+    background: #fff;
+    width: 0;
+    overflow: hidden;
+    max-width: 250px;
+    z-index: 9;
+    box-shadow: 0 10px 15px -3px rgb(46 41 51 / 8%), 0 4px 6px -2px rgb(71 63 79 / 16%);
+    transform: translateX(100px);
+    transition: transform ease-in-out 0.2s;
+    background-color:#bccce8;
+    padding:10px;
+    border-radius: 5px;
+    /* transition: width ease 0.2s; */
+  }
+  .menu-nav.show-menu {
+    width: 100%;
+    transform: translateX(-30px);
+  }
+  .menu-nav li a, .menu-nav li span {
+    display: flex;
+    padding: .5rem;
+    text-decoration:none;
+    color:white;
+    background-color:#00095b;
+    margin-bottom:10px;
+    border-radius: 5px;
+  }
+  .sub > li {
+    border-style:groove;
+    border-radius: 5px;
+    margin-bottom: 0px;
+  }
+  .sub > a{
+    margin-bottom:0px;
+  }
+  .title{
+    display: block;
+    padding: .5rem;
+    text-decoration:none;
+    color:#00095b;
+    margin-bottom:10px;
+    margin-top:10px;
+    border-radius: 5px;
+  }
