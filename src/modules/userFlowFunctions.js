@@ -12,6 +12,8 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
         case 'I':
           setMessages((m) => [...m, { msg: "Info on a specific car", author: "You", line:true,zip:{} }]);
           setMessages((m) => [...m, { msg: "Please select 1-3 models/trims of the specific cars you're looking for", author: "Ford Chat", line: true, zip: "" }]);
+          setCalcHeadingText("Choose specific model");
+          setShowCalcButtons(true);
           setCalcButtons(Object.keys(vehicles).map(vehicle => (<button className='calc-button' key={vehicle} value={vehicle} onClick = {()=>setQuery(vehicle)}>{vehicle}</button>)));
           // setMessages((m) => [...m, { msg: "", author: "DropDown", line: false, zip: "" }]);
           // setMessages((m) => [...m, { msg: "", author: "Table", line: false, zip: "" }]);
