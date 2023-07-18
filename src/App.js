@@ -284,6 +284,7 @@ function App() {
                 dropDownOptions={dropDownOptions}
                 carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[[],[]]}
                 carInfoMode={carInfoMode}
+                carSpecInfo = {message.carInfo}
             />
               );
             })}
