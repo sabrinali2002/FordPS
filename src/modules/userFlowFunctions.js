@@ -38,6 +38,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons,buyA
           case 'C':
             setMessages((m) => [...m, { msg: "Schedule a test drive", author: "You", line:true,zip:{} }]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
+            blockQueries.current = false;
             changeChoice('C');
             break;
         case "D":
@@ -93,12 +94,12 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons,buyA
             else if(infoMode === 1){
               setModel(query);
               setCalcButtons(vehicles[vehicle][query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={()=>{
-                handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons);
+                handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, changeChoice, handleUserInput);
                 setInfoMode(2);
               }}>{trim}</button>)));
             }
-            else{
-              setMessages((m)=>[...m,{msg: "hihihihihi", author: "Ford Chat", line:true,zip:""}]);
+            else if(infoMode === 2){
+              setMessages((m)=>[...m,{msg: "-----------------", author: "Ford Chat", line:true,zip:""}]);
             }
             blockQueries.current = false;
             break;

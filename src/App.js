@@ -44,7 +44,6 @@ function App() {
     const [query, setQuery] = useState("");
     const [queryText, setQueryText] = useState("");
     const [messages, setMessages] = useState([
-      { msg: "What's your name?", author: "Bot" },
     ]);
     const [history, setHistory] = useState([]);
     const [response, setResponse] = useState("");
@@ -110,18 +109,18 @@ function App() {
   const origButtons = (
     <div className="buttons">
       <button className = "menu" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You"}]})
-        setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]})
+        setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You", line:true}]})
+        setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat", line:true}]})
         setMenuButtons(buyingFordButtons)
         }}>Buying a Ford</button>
       <button className = "menu" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You", line:true}]})
         }}>I'm an Existing Owner</button>
       <button className = "menu" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You", line:true}]})
         }}>Info about Ford</button>
       <button className = "menu" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You", line:true}]})
         }}>Negotiation Assistance</button>
     </div>
   );
