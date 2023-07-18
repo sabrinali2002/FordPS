@@ -75,11 +75,17 @@ function App() {
   const [leaseStep, setLeaseStep] = useState(0);
   // [1]down payment, [2]trade-in, [3]months, [4]annual %
   const [financeStep, setFinanceStep] = useState(0);
-  const [calcButtons, setCalcButtons] = useState("");
+  const [calcButtons, setCalcButtons] = useState([]);
   const [zipMode, setZipMode] = useState(0);
   const [model, setModel] = useState("");
   const [trim, setTrim] = useState("");
-  const [trimOptions, setTrimOptions] = useState([])
+  const [trimOptions, setTrimOptions] = useState([]);
+  const [infoMode, setInfoMode] = useState(0);
+  const [vehicle, setVehicle] = useState("");
+  const [showCalcButtons, setShowCalcButtons] = useState(false);
+  const [calcHeadingText, setCalcHeadingText] = useState('');
+  const [payment, setPayment] = useState(0);
+
 
     // Car Info states
     const [selectedModel, setSelectedModel] = useState("");
@@ -105,25 +111,33 @@ function App() {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
-
   useEffect(() => {
     scrollToBottom()
   }, [messages]);
-
+  
   const handleMenuClick = (parameter) => {
     handleUserInput(parameter);
-    setMenuButtons([]);
+    if (parameter !== "A"){
+      setMenuButtons([]);
+    }
     // Perform any other logic or function in the parent component using the parameter
   };
   const origButtons = (
     <div className="buttons">
       <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You"}]})
         setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]})
         setMenuButtons(buyingFordButtons)
         }}>Buying a Ford</button>
-      <button className = "menu">I'm an Existing Owner</button>
-      <button className = "menu">Info about Ford</button>
-      <button className = "menu">Negotiation Assistance</button>
+      <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]})
+        }}>I'm an Existing Owner</button>
+      <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
+        }}>Info about Ford</button>
+      <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You"}]})
+        }}>Negotiation Assistance</button>
     </div>
   );
   const buyingFordButtons = (
@@ -154,9 +168,9 @@ function App() {
       <button className="menu" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
         changeChoice("A");
-        setMenuButtons([])
         }}>Ask my own questions</button>
       <button className="menu" onClick={()=>{
+        setMessages((m) => [...m,{ msg: "Take questionnaire", author: "You", line: true }]);
         setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
         changeChoice("Q");
         setMenuButtons([])
@@ -170,7 +184,7 @@ function App() {
   const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode);
   const changeFind = changeFindFn(setFind, setSelect, setCalcButtons, selectHandler);
   const appendSelect = appendSelectFn(selected, model, changeSelected);
-  const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons);
+  const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons,setShowCalcButtons);
     //Car Info functions  -------------------------------------------------------------
 
     let compareTrimOptions =
@@ -190,8 +204,7 @@ function App() {
 
   // --------------------------------------------------------------------->
   //handler for button user clicks
-  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse);
-    
+  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText);
     useEffect(() => {
         // Check if speech recognition is supported
         if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
@@ -226,7 +239,7 @@ function App() {
     };
 
     useEffect(() => {
-        handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory);
+        handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment);
   }, [
     query,
     history,
@@ -242,8 +255,9 @@ function App() {
 
   return (
     <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
-      <HamburgerMenu/>
+      <HamburgerMenu onClick = {handleMenuClick}/>
       <div
+        className="App"
         style={{
           backgroundColor: darkMode ? "#000080" : "#f4f3f3",
           color: darkMode ? "#ffffff" : "#000000",
@@ -271,12 +285,11 @@ function App() {
           >
             {IntroCardContent}
           </Card>
-        <div className="MessagesArea">
+          <div className="MessagesArea">
             <div>
               <p>{response}</p>
             </div>
             {messages.map((message, index) => {
-              console.log(index, message.msg)
               return (
                 <ChatItem
                 message={message.msg}
@@ -289,9 +302,26 @@ function App() {
                 dropDownOptions={dropDownOptions}
                 carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[[],[]]}
                 carInfoMode={carInfoMode}
+                carSpecInfo = {message.carInfo}
             />
               );
             })}
+            {calcStep>4 && (<div className='payment-summary'>
+                <span style={{fontWeight:'bold',fontSize:'20px'}}>
+                    {(calcMode < 3) ? ('Expected payment:') : ('Expected payment:')}
+                </span><br/>
+                <span style={{fontSize:'18px',paddingLeft:'10px'}}>
+                    $
+                    {Math.round(payment)}
+                    {(calcMode < 3) && ('/month')}
+                </span>
+            </div>)}
+            {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
+                <div className='model-box'>
+                    <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
+                    <div className='button-container'>{calcButtons}</div>
+                    </div>
+                </div>}
           </div>
           <ThreeDots
             height="50"
@@ -332,9 +362,8 @@ function App() {
               {
                 selectMode && <button onClick= {changeFind}>back</button>
             }
-            {calcButtons}
             {
-                selectMode && <button onClick = {locateDealerships}>Locate my nearest dealerships</button>
+                selectMode && <button onClick = {locateDealerships}>Locate the nearest dealerships</button>
             }
             </div>
             <TextField
@@ -395,8 +424,7 @@ function App() {
           <QuestionButton />
         </div>
       </div>
-    </div>
-    )
+    </div>)
 }
 
 export default App;
