@@ -74,13 +74,17 @@ function App() {
   const [leaseStep, setLeaseStep] = useState(0);
   // [1]down payment, [2]trade-in, [3]months, [4]annual %
   const [financeStep, setFinanceStep] = useState(0);
-  const [calcButtons, setCalcButtons] = useState("");
+  const [calcButtons, setCalcButtons] = useState([]);
   const [zipMode, setZipMode] = useState(0);
   const [model, setModel] = useState("");
   const [trim, setTrim] = useState("");
   const [trimOptions, setTrimOptions] = useState([]);
   const [infoMode, setInfoMode] = useState(0);
   const [vehicle, setVehicle] = useState("");
+  const [showCalcButtons, setShowCalcButtons] = useState(false);
+  const [calcHeadingText, setCalcHeadingText] = useState('');
+  const [payment, setPayment] = useState(0);
+
 
     // Car Info states
     const [selectedModel, setSelectedModel] = useState("");
@@ -101,6 +105,15 @@ function App() {
   const s = new Set();
   const [dealerList, setDealers] = useState(s);
   const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
+  
+  const messagesEndRef = useRef(null)
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages]);
+  
   const handleMenuClick = (parameter) => {
     handleUserInput(parameter);
     setMenuButtons([]);
@@ -132,6 +145,7 @@ function App() {
         }}>Info about a specific car</button>
       <button className = "menu" onClick={() => {
         handleUserInput('A');
+        setMenuButtons([]);
         }}>Car recommendation</button>
       <button className = "menu" onClick={() => {
         handleUserInput('D');
@@ -161,14 +175,14 @@ function App() {
         setQuestionnaireStep(1)
       }}>Take questionnaire</button>
     </div>
-  )
+  );
   const [menuButtons, setMenuButtons] = useState(origButtons);
     //map functions -------------------------------------------------------->
   const selectHandler = selectHandlerFn(setQuery, setModel, setCalcButtons, setFind);
   const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode);
   const changeFind = changeFindFn(setFind, setSelect, setCalcButtons, selectHandler);
   const appendSelect = appendSelectFn(selected, model, changeSelected);
-  const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons);
+  const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons,setShowCalcButtons);
     //Car Info functions  -------------------------------------------------------------
 
     let compareTrimOptions =
@@ -188,8 +202,7 @@ function App() {
 
   // --------------------------------------------------------------------->
   //handler for button user clicks
-  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons,buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse);
-    
+  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText);
     useEffect(() => {
         // Check if speech recognition is supported
         if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
@@ -224,7 +237,7 @@ function App() {
     };
 
     useEffect(() => {
-        handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle);
+        handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons);
   }, [
     query,
     history,
@@ -239,13 +252,15 @@ function App() {
   ]);
 
   return (
-    <div className="ButtonContainer">
+    <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
       <HamburgerMenu onClick = {handleMenuClick}/>
       <div
         className="App"
         style={{
           backgroundColor: darkMode ? "#000080" : "#f4f3f3",
           color: darkMode ? "#ffffff" : "#000000",
+          width: '100%',
+          height: '100%',
           fontSize:
             textSize === "large"
               ? "22px"
@@ -254,18 +269,20 @@ function App() {
               : "19px",
         }}
       >
-        <QuestionButton />
         <div className="ChatArea">
-          <ThreeDots
-            height="50"
-            width="50"
-            radius="7"
-            color="#8080ff"
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{ marginLeft: "5vw" }}
-            wrapperClassName=""
-            visible={blockQueries.current}
-          />
+        <Card
+            variant="outlined"
+            className="CardOutline"
+            style={{
+              maxWidth: "45%",
+              flex: "none",
+              marginBottom: "3%",
+              alignSelf: "center",
+              textSize: { textSize },
+            }}
+          >
+            {IntroCardContent}
+          </Card>
           <div className="MessagesArea">
             <div>
               <p>{response}</p>
@@ -287,20 +304,36 @@ function App() {
             />
               );
             })}
+            {calcStep>4 && (<div className='payment-summary'>
+                <span style={{fontWeight:'bold',fontSize:'20px'}}>
+                    {(calcMode < 3) ? ('Expected payment:') : ('Expected payment:')}
+                </span><br/>
+                <span style={{fontSize:'18px',paddingLeft:'10px'}}>
+                    $
+                    {Math.round(payment)}
+                    {(calcMode < 3) && ('/month')}
+                </span>
+            </div>)}
+            {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
+                <div className='model-box'>
+                    <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
+                    <div className='button-container'>{calcButtons}</div>
+                    </div>
+                </div>}
           </div>
-          <Card
-            variant="outlined"
-            className="CardOutline"
-            style={{
-              maxWidth: "45%",
-              flex: "none",
-              marginBottom: "3%",
-              alignSelf: "center",
-              textSize: { textSize },
-            }}
-          >
-            {IntroCardContent}
-          </Card>
+          <ThreeDots
+            height="50"
+            width="50"
+            radius="7"
+            color="#8080ff"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{ marginLeft: "5vw" }}
+            wrapperClassName=""
+            visible={blockQueries.current}
+            style={{flex: 'none'}}
+          />
+          <p>.</p>
+          <div ref={messagesEndRef}/>
         </div>
         <div>
           {menuButtons}
@@ -327,9 +360,8 @@ function App() {
               {
                 selectMode && <button onClick= {changeFind}>back</button>
             }
-            {calcButtons}
             {
-                selectMode && <button onClick = {locateDealerships}>Locate my nearest dealerships</button>
+                selectMode && <button onClick = {locateDealerships}>Locate the nearest dealerships</button>
             }
             </div>
             <TextField
