@@ -85,7 +85,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
     };
   }
 
-  export function handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons) {
+  export function handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons, locateDealershipsFn, changeSelected, setDealers,selected) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
         switch (choice) {
@@ -104,11 +104,16 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               setTrim(trim);
               }}>{trim}</button>)));
             }
-            else{
+            else if(infoMode === 2){
               setShowCalcButtons(false);
               setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
-              console.log(model);
-              console.log(trim);
+              setInfoMode(3);
+            }
+            else{
+              const selectedCopy = selected;
+              selectedCopy[model].push(trim);
+              changeSelected(selectedCopy);
+              locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, distance, setMessages, setZipMode)();
             }
             blockQueries.current = false;
             break;
@@ -124,16 +129,13 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
           case "C":
             {
               if(findMode === 0){
-                setFind(1);
-              }
-              if(findMode === 1){
                 setZipCode(query)
                 setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
                 setShowCalcButtons(true);
                 setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
                 setFind(1);
               }
-              else if(findMode === 2){
+              else if(findMode === 1){
                   setShowCalcButtons(true);
                   setCalcButtons(trims[query].map(trim => (<button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>)));
                   setSelect(true);
