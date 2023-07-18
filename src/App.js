@@ -79,7 +79,9 @@ function App() {
   const [zipMode, setZipMode] = useState(0);
   const [model, setModel] = useState("");
   const [trim, setTrim] = useState("");
-  const [trimOptions, setTrimOptions] = useState([])
+  const [trimOptions, setTrimOptions] = useState([]);
+  const [infoMode, setInfoMode] = useState(0);
+  const [vehicle, setVehicle] = useState("");
 
     // Car Info states
     const [selectedModel, setSelectedModel] = useState("");
@@ -223,7 +225,7 @@ function App() {
     };
 
     useEffect(() => {
-        handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory);
+        handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle);
   }, [
     query,
     history,
@@ -270,7 +272,6 @@ function App() {
               <p>{response}</p>
             </div>
             {messages.map((message, index) => {
-              console.log(index, message.msg)
               return (
                 <ChatItem
                 message={message.msg}
