@@ -333,7 +333,8 @@ function App() {
             </div>)}
             {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
                 <div className='model-box'>
-                    <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
+                    <div style={{marginTop:'10px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>
+                    <div style={{marginTop:'5px',color:'#322964',fontSize:'10px',fontWeight:'bold',lineHeight:'20px'}}>Select from the options to specify which cars you are looking for</div>
                     <div className='button-container'>{calcButtons}</div>
                     </div>
                 </div>}
