@@ -84,19 +84,21 @@ function App() {
   const [showCalcButtons, setShowCalcButtons] = useState(false);
   const [calcHeadingText, setCalcHeadingText] = useState('');
   const [payment, setPayment] = useState(0);
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages]);
+
     // Car Info states
-  const [selectedModel, setSelectedModel] = useState("");
-  const [selectedTrim, setSelectedTrim] = useState("");
-  const [compareModel, setCompareModel] = useState("");
-  const [compareTrim, setCompareTrim] = useState("");
-  const [carInfoData, setCarInfoData] = useState({});
-  const [carInfoMode, setCarInfoMode] = useState("single");
-  const [questionnaireAnswers, setQuestionnaireAnswers] = useState([])
-  const blockQueries = useRef(false);
-  const recognition = useRef(null);
+    const [selectedModel, setSelectedModel] = useState("");
+    const [selectedTrim, setSelectedTrim] = useState("");
+    const [selectedCar, setSelectedCar] = useState(0)
+    const [compareModel, setCompareModel] = useState("");
+    const [compareTrim, setCompareTrim] = useState("");
+    const [carInfoData, setCarInfoData] = useState({});
+    const [carInfoMode, setCarInfoMode] = useState("single");
+    const [questionnaireAnswers, setQuestionnaireAnswers] = useState([])
+
+    const blockQueries = useRef(false);
+    const recognition = useRef(null);
+    //map functions -------------------------------------------------------->
+
   const [distance, setDistance] = useState("10");
   const [findMode, setFind] = useState(0);
   const [selectMode, setSelect] = useState(false);
@@ -106,7 +108,8 @@ function App() {
   
   const messagesEndRef = useRef(null)
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    if(messagesEndRef.current)
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
   }
   useEffect(() => {
     scrollToBottom()
@@ -307,6 +310,8 @@ function App() {
                 setMenuButtons={setMenuButtons}
                 handleUserInput={handleUserInput}
                 carSpecInfo = {message.carInfo}
+                selectedCar={selectedCar}
+                setSelectedCar={setSelectedCar}
             />
               );
             })}
