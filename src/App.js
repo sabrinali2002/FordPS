@@ -392,6 +392,7 @@ function App() {
               onChange={(e) => {
                 setQueryText(e.target.value);
               }}
+              id="input-field"
               style={{
                 accentColor: "white",
                 width: "90%",
