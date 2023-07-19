@@ -86,13 +86,10 @@ function App() {
   const [calcHeadingText, setCalcHeadingText] = useState('');
   const [payment, setPayment] = useState(0);
 
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages]);
     // Car Info states
     const [selectedModel, setSelectedModel] = useState("");
     const [selectedTrim, setSelectedTrim] = useState("");
+    const [selectedCar, setSelectedCar] = useState(0)
     const [compareModel, setCompareModel] = useState("");
     const [compareTrim, setCompareTrim] = useState("");
     const [carInfoData, setCarInfoData] = useState({});
@@ -112,7 +109,8 @@ function App() {
   
   const messagesEndRef = useRef(null)
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    if(messagesEndRef.current)
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
   }
   useEffect(() => {
     scrollToBottom()
@@ -311,6 +309,8 @@ function App() {
                 setMenuButtons={setMenuButtons}
                 handleUserInput={handleUserInput}
                 carSpecInfo = {message.carInfo}
+                selectedCar={selectedCar}
+                setSelectedCar={setSelectedCar}
             />
               );
             })}
