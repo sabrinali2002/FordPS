@@ -12,22 +12,10 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
       // Outputs a response to based on input user selects
       switch (option) {
         case 'I':
-<<<<<<< HEAD
-<<<<<<< HEAD
           setMessages((m) => [...m, { msg: "Info on a specific car", author: "You", line:true,zip:{} }]);
           setMessages((m) => [...m, { msg: "Please select 1-3 models/trims of the specific cars you're looking for", author: "Ford Chat", line: true, zip: "" }]);
           setCalcHeadingText("Choose vehicle category");
           setShowCalcButtons(true);
-=======
-          setMessages((m) => [...m, { msg: "Info about a specific car", author: "You"}]);
-          setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you're looking for", author: "Ford Chat", line: true, zip: "" }]);
->>>>>>> d07cd3490744e721e09b787b9ae11b6642da504e
-=======
-          setMessages((m) => [...m, { msg: "Info about a specific car", author: "You"}]);
-          setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you're looking for", author: "Ford Chat", line: true, zip: "" }]);
-          setCalcHeadingText("Choose vehicle category");
-          setShowCalcButtons(true);
->>>>>>> 66229143d805650484ebfde81625e5bb7dd3e97a
           setCalcButtons(Object.keys(vehicles).map(vehicle => (<button className='calc-button' key={vehicle} value={vehicle} onClick = {()=>setQuery(vehicle)}>{vehicle}</button>)));
           changeChoice('I');
           blockQueries.current = false;
@@ -104,11 +92,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
   }
 
   export function handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons) {
-<<<<<<< HEAD
     if (!blockQueries.current && query.length > 0) {
-=======
-      if (!blockQueries.current && query.length > 0) {
->>>>>>> 66229143d805650484ebfde81625e5bb7dd3e97a
         blockQueries.current = true;
         setForceUpdate(!forceUpdate)
         switch (choice) {
