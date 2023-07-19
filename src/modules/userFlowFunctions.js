@@ -111,12 +111,23 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               blockQueries.current = false;
             });
             break;
+            
           case "I":
             if(infoMode === 1){
               setCalcHeadingText("Choose specific model");
-              setCalcButtons(Object.keys(vehicles[query]).map(model => (<button className='model-button' key={model} value={model} 
-              onClick={()=>{setQuery(model);
-              setInfoMode(2);}}>{model}</button>)));
+              setCalcButtons(Object.keys(vehicles[query]).map(model => (<button
+                className="model-button"
+                key={model}
+                value={model}
+                onClick={() => {
+                  setQuery(model);
+                  setInfoMode(2);
+                }
+                }
+              >
+                <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
+                {model}
+              </button>)));
               setVehicle(query);
             }
             else if(infoMode === 2){
@@ -150,7 +161,9 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
                 setZipCode(query)
                 setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
                 setShowCalcButtons(true);
-                setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
+                setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>{model}
+                <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
+                  {model}<BiRegistered/></button>)));
                 setFind(1);
               }
               else if(findMode === 1){
