@@ -11,6 +11,7 @@ import DisplayInfo from "./DisplayInfo"
 import circleHenrai from "./henraicircle.jpg";
 
 function extractLinkFromText(messageText, author, darkMode){
+    console.log(messageText);
     const wordsArray = messageText.split(" ")
     const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
 

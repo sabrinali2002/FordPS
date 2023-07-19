@@ -173,10 +173,11 @@ export const findLocations = async (query, distance) => {
   }
 
   export const calcButtonHandlerFn = function(setQuery, setMessages, setCalcButtons, setShowCalcButtons) {
-    return (event) => {
-      let val = event.target.getAttribute("value");
-      setQuery(val);
-      setMessages((m) => [...m, { msg: val, author: "You" }]);
+    return (value) => {
+      console.log(value);
+      //let val = event.target.getAttribute("value");
+      setQuery(value);
+      setMessages((m) => [...m, { msg: value, author: "You" }]);
       setCalcButtons([]);
       setShowCalcButtons(false);
     };
