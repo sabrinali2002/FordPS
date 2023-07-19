@@ -1,15 +1,18 @@
 import trims from "../jsons/trims.json";
-import vehicles from "../jsons/vehicleCategories.json"
+import vehicles from "../jsons/vehicleCategories.json";
 import { sendBotResponse, sendRecommendRequestToServer } from "./botResponseFunctions";
 import handleDealerFlow from "./user_flows/handleDealerFlow";
 import handlePaymentFlow from "./user_flows/handlePaymentFlow";
-import handleInfoFlow from "./user_flows/handleInfoFlow"
+import handleInfoFlow from "./user_flows/handleInfoFlow";
+import { BiRegistered} from 'react-icons/bi';
+import images from '../images/image_link.json';
 
 export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText) {
     return (option) => {
       // Outputs a response to based on input user selects
       switch (option) {
         case 'I':
+<<<<<<< HEAD
 <<<<<<< HEAD
           setMessages((m) => [...m, { msg: "Info on a specific car", author: "You", line:true,zip:{} }]);
           setMessages((m) => [...m, { msg: "Please select 1-3 models/trims of the specific cars you're looking for", author: "Ford Chat", line: true, zip: "" }]);
@@ -19,6 +22,12 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
           setMessages((m) => [...m, { msg: "Info about a specific car", author: "You"}]);
           setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you're looking for", author: "Ford Chat", line: true, zip: "" }]);
 >>>>>>> d07cd3490744e721e09b787b9ae11b6642da504e
+=======
+          setMessages((m) => [...m, { msg: "Info about a specific car", author: "You"}]);
+          setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you're looking for", author: "Ford Chat", line: true, zip: "" }]);
+          setCalcHeadingText("Choose vehicle category");
+          setShowCalcButtons(true);
+>>>>>>> 66229143d805650484ebfde81625e5bb7dd3e97a
           setCalcButtons(Object.keys(vehicles).map(vehicle => (<button className='calc-button' key={vehicle} value={vehicle} onClick = {()=>setQuery(vehicle)}>{vehicle}</button>)));
           changeChoice('I');
           blockQueries.current = false;
@@ -34,14 +43,14 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               zip: {},
             },
           ]);
-          setMenuButtons([buyACarButtons]);
+          setMenuButtons(buyACarButtons);
           break;
-          case 'B':
+        case 'B':
             setMessages((m) => [...m, { msg: "Find a dealership", author: "You" }]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
             changeChoice('B');
             break;
-          case 'C':
+        case 'C':
             setMessages((m) => [...m, { msg: "Schedule a test drive", author: "You"}]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
             changeChoice('C');
@@ -64,7 +73,8 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
                   value={model}
                   onClick={calcButtonHandler}
                 >
-                  {model}
+                  <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
+                  {model}<BiRegistered/>
                 </button>
               ))
             );
@@ -79,7 +89,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             blockQueries.current = false;
           }
           changeChoice("D");
-          setMenuButtons([]);
+          //setMenuButtons([]);
           break;
         case "maintenanceQuestions":
           changeChoice("maintenanceQuestions")
@@ -94,7 +104,11 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
   }
 
   export function handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons) {
+<<<<<<< HEAD
     if (!blockQueries.current && query.length > 0) {
+=======
+      if (!blockQueries.current && query.length > 0) {
+>>>>>>> 66229143d805650484ebfde81625e5bb7dd3e97a
         blockQueries.current = true;
         setForceUpdate(!forceUpdate)
         switch (choice) {
