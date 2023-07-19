@@ -299,7 +299,6 @@ function Map({ zip, dist, loc, deal, coords}) {
       let long = loc[loc.length-1];
       topLatLongs.push([name,info[name]['address'],lat,long]);
     }
-
     return topLatLongs;
   };
   function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -334,6 +333,7 @@ function Map({ zip, dist, loc, deal, coords}) {
         let longitude = data.location.lon;
         const res = { latitude, longitude };
         changeLatLong([res.latitude, res.longitude]);
+        console.log(latlong)
         return res;
         //{latitude, longitude}
       });
