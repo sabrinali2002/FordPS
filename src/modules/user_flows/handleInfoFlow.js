@@ -1,5 +1,5 @@
 import data from '../../jsons/data.json'
-export default function handleInfoFlow(model, trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode){
+export default function handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode){
     if(infoMode===2){
       let arr = {}
     for(let i = 0; i < data.length; i++){
@@ -30,6 +30,12 @@ export default function handleInfoFlow(model, trim, setMessages, setModel, setQu
       setShowCalcButtons(false);
               setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
               setInfoMode(4);
+    }
+    else{
+      const selectedCopy = selected;
+              selectedCopy[model].push(trim);
+              changeSelected(selectedCopy);
+              locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, 20, setMessages, setZipMode)();
     }
     
 } 

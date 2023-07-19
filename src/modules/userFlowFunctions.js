@@ -113,10 +113,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers);
             }
             else if(infoMode ===4){
-              const selectedCopy = selected;
-              selectedCopy[model].push(trim);
-              changeSelected(selectedCopy);
-              locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, 20, setMessages, setZipMode)();
+              handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
             }
             blockQueries.current = false;
             break;
