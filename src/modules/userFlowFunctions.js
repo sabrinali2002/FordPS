@@ -7,19 +7,22 @@ import handleInfoFlow from "./user_flows/handleInfoFlow";
 import { BiRegistered} from 'react-icons/bi';
 import images from '../images/image_link.json';
 
-export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText, setInfoMode) {
+export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText, setInfoMode, cat, setCat) {
     return (option) => {
       // Outputs a response to based on input user selects
       switch (option) {
         case 'I':
+          if(cat === ""){
           setMessages((m) => [...m, { msg: "Info on a specific car", author: "You", line:true,zip:{} }]);
           setMessages((m) => [...m, { msg: "Please a model/trim of the specific car you're looking for", author: "Ford Chat", line: true, zip: "" }]);
+          }
           setCalcHeadingText("Choose vehicle category");
           setShowCalcButtons(true);
           setCalcButtons(Object.keys(vehicles).map(vehicle => (<button className='model-button' key={vehicle} value={vehicle} 
           onClick = {()=>{
             setQuery(vehicle);
             setInfoMode(1);
+            setCat(vehicle);
           }
           }>{vehicle}</button>)));
           changeChoice('I');
@@ -59,12 +62,17 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             setCalcHeadingText("Choose specific model");
             setShowCalcButtons(true);
             setCalcButtons(
-              Object.keys(trims).map((model) => (
+              Object.keys(trims).map(model => (
                 <button
                   className="model-button"
                   key={model}
                   value={model}
-                  onClick={calcButtonHandler}
+                  onClick={() => 
+                    {setQuery(model);
+                    setMessages((m) => [...m, { msg: model, author: "You" }]);
+                    setCalcButtons([]);
+                    setShowCalcButtons(false);}
+                  }
                 >
                   <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
                   {model}<BiRegistered/>
@@ -97,7 +105,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
   }
 
 
-  export function handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons, locateDealershipsFn, changeSelected, setDealers,selected) {
+  export function handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons, locateDealershipsFn, changeSelected, setDealers,selected, cat) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
         setForceUpdate(!forceUpdate)
@@ -115,7 +123,8 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
           case "I":
             if(infoMode === 1){
               setCalcHeadingText("Choose specific model");
-              setCalcButtons(Object.keys(vehicles[query]).map(model => (<button
+              console.log(vehicles[cat])
+              setCalcButtons(Object.keys(vehicles[cat]).map(model => (<button
                 className="model-button"
                 key={model}
                 value={model}
@@ -133,6 +142,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             else if(infoMode === 2){
               setModel(query);
               setCalcHeadingText(query + " - Choose specific trim");
+              console.log("info")
               setCalcButtons(vehicles[vehicle][query].map(trim => (<button className='model-button' key={trim} value={trim} onClick={()=>{
               handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode);
               setTrim(trim);
@@ -141,7 +151,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             else if(infoMode === 3){
               handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers);
             }
-            else if(infoMode ===4){
+            else if(infoMode === 4){
               handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
             }
             blockQueries.current = false;
@@ -204,7 +214,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             break;
           case "D":
             setQuery("");
-            handlePaymentFlow(calcStep, model, setModel, query, setMessages, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment,handleUserInput);
+            handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment,handleUserInput);
             break;
           default:
             setQuery("");
