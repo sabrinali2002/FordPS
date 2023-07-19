@@ -149,20 +149,11 @@ export const findLocations = async (query, distance) => {
           }
       }
       setDealers(dealers);
+      console.log(dealers);
       findLocationsGiven(zipCode,distance, dealers).then(loc=>{
        // setMessages((m)=>[...m,{msg:"",author:"Ford Chat.", line:false, zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers}}]);
           const places = loc.split('..');
-          for(let i = 0; i < places.length-1; i++){
-              if(i === 0){
-                  setMessages((m) => [...m, { msg: places[i], author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers}}]);
-              }
-              else if(i === places.length-2){
-                  setMessages((m) => [...m, { msg: places[i], author: "", line : true,zip:{} }]);
-              }
-              else{
-                  setMessages((m) => [...m, { msg: places[i], author: "", line : false,zip:{}  }]);
-              }
-          }
+          setMessages((m) => [...m, { msg:"", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers}}]);
           setZipMode(0);
   })
   setCalcButtons([]);

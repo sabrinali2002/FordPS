@@ -75,7 +75,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
       )}
       {
         author === "Info" && <Fragment><p style={authorStyle}>Ford Chat</p>
-        <DisplayInfo info = {carSpecInfo}></DisplayInfo></Fragment>
+        <DisplayInfo info = {carSpecInfo} style = {{width:"80%"}}></DisplayInfo></Fragment>
       }
         {author==="DropDown" && 
         <Fragment>
