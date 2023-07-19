@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
+import images from "../images/image_link.json";
 
 //Style functions -----------------------------------------------------
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -71,6 +72,7 @@ const CarInfoTable = ({ data, mode, intro }) => {
                     <Table>
                         <TableHead>
                             <TableRow>
+                                <StyledTableCell>Image</StyledTableCell>
                                 <StyledTableCell>Model</StyledTableCell>
                                 <StyledTableCell>Trim</StyledTableCell>
                                 <StyledTableCell>Year</StyledTableCell>
@@ -103,6 +105,7 @@ const CarInfoTable = ({ data, mode, intro }) => {
                         <TableBody>
                             {data[0].map((item) => (
                                 <StyledTableRow key={item.id}>
+                                    <StyledTableCell><img src={`${images[item.model]}`} style={{"width": "200px"}} alt={`${item.model} image`}></img></StyledTableCell>
                                     <StyledTableCell>{item.model}</StyledTableCell>
                                     <StyledTableCell>{item.trim}</StyledTableCell>
                                     <StyledTableCell>{item.year}</StyledTableCell>
@@ -147,6 +150,11 @@ const CarInfoTable = ({ data, mode, intro }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
+                            <StyledTableRow>
+                                <StyledTableCell>Image</StyledTableCell>
+                                <StyledTableCell><img src={`${images[car1data.model]}`} style={{"width": "200px"}} alt={`${car1data.model} image`}></img></StyledTableCell>
+                                <StyledTableCell><img src={`${images[car2data.model]}`} style={{"width": "200px"}} alt={`${car2data.model} image`}></img></StyledTableCell>
+                            </StyledTableRow>
                             {specList.map((spec, index) => (
                                 <StyledTableRow key={spec}>
                                     <StyledTableCell>{spec}</StyledTableCell>

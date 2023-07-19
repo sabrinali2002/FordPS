@@ -87,6 +87,9 @@ function App() {
   const [payment, setPayment] = useState(0);
 
 
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages]);
     // Car Info states
     const [selectedModel, setSelectedModel] = useState("");
     const [selectedTrim, setSelectedTrim] = useState("");
@@ -117,6 +120,7 @@ function App() {
   
   const handleMenuClick = (parameter) => {
     handleUserInput(parameter);
+    if(parameter!=="A")
     setMenuButtons([]);
     // Perform any other logic or function in the parent component using the parameter
   };
@@ -129,6 +133,7 @@ function App() {
         }}>Buying a Ford</button>
       <button className = "menu" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "", author: "Login"}]})
         }}>I'm an Existing Owner</button>
       <button className = "menu" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
@@ -146,7 +151,6 @@ function App() {
         }}>Info about a specific car</button>
       <button className = "menu" onClick={() => {
         handleUserInput('A');
-        setMenuButtons([]);
         }}>Car recommendation</button>
       <button className = "menu" onClick={() => {
         handleUserInput('D');
@@ -170,6 +174,7 @@ function App() {
         setMenuButtons([])
         }}>Ask my own questions</button>
       <button className="menu" onClick={()=>{
+        setMessages((m) => [...m,{ msg: "Take questionnaire", author: "You", line: true }]);
         setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
         changeChoice("Q");
         setMenuButtons([])
@@ -191,7 +196,7 @@ function App() {
 
     const handleCarInfoButton = handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation)
     const handleCarInfoCompareButton = handleCarComparison(carInfoMode, setCarInfoMode, setSelectedModel, setSelectedTrim);
-    const handleModelChange = onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim);
+    const handleModelChange = onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim, trims);
     const handleTrimChange = onTrimChange(setSelectedTrim, setCompareTrim);
 
 
@@ -238,7 +243,7 @@ function App() {
     };
 
     useEffect(() => {
-        handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons);
+        handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons);
   }, [
     query,
     history,
@@ -256,8 +261,9 @@ function App() {
     <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
       <HamburgerMenu onClick = {handleMenuClick}/>
       <div
-        className="App"
         style={{
+          width: '100%',
+          height: '100%',
           backgroundColor: darkMode ? "#000080" : "#f4f3f3",
           color: darkMode ? "#ffffff" : "#000000",
           width: '100%',
@@ -284,7 +290,7 @@ function App() {
           >
             {IntroCardContent}
           </Card>
-          <div className="MessagesArea">
+        <div className="MessagesArea">
             <div>
               <p>{response}</p>
             </div>
@@ -301,26 +307,13 @@ function App() {
                 dropDownOptions={dropDownOptions}
                 carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[[],[]]}
                 carInfoMode={carInfoMode}
+                setMessages={setMessages}
+                setMenuButtons={setMenuButtons}
+                handleUserInput={handleUserInput}
                 carSpecInfo = {message.carInfo}
             />
               );
             })}
-            {calcStep>4 && (<div className='payment-summary'>
-                <span style={{fontWeight:'bold',fontSize:'20px'}}>
-                    {(calcMode < 3) ? ('Expected payment:') : ('Expected payment:')}
-                </span><br/>
-                <span style={{fontSize:'18px',paddingLeft:'10px'}}>
-                    $
-                    {Math.round(payment)}
-                    {(calcMode < 3) && ('/month')}
-                </span>
-            </div>)}
-            {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
-                <div className='model-box'>
-                    <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
-                    <div className='button-container'>{calcButtons}</div>
-                    </div>
-                </div>}
           </div>
           <ThreeDots
             height="50"
