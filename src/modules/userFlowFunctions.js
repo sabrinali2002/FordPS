@@ -1,21 +1,29 @@
 import trims from "../jsons/trims.json";
-import vehicles from "../jsons/vehicleCategories.json"
+import vehicles from "../jsons/vehicleCategories.json";
 import { sendBotResponse, sendRecommendRequestToServer } from "./botResponseFunctions";
 import handleDealerFlow from "./user_flows/handleDealerFlow";
 import handlePaymentFlow from "./user_flows/handlePaymentFlow";
-import handleInfoFlow from "./user_flows/handleInfoFlow"
+import handleInfoFlow from "./user_flows/handleInfoFlow";
+import { BiRegistered} from 'react-icons/bi';
+import images from '../images/image_link.json';
 
-export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText) {
+export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText, setInfoMode) {
     return (option) => {
       // Outputs a response to based on input user selects
       switch (option) {
         case 'I':
-          setMessages((m) => [...m, { msg: "Info about a specific car", author: "You"}]);
-          setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you're looking for", author: "Ford Chat", line: true, zip: "" }]);
-          setCalcButtons(Object.keys(vehicles).map(vehicle => (<button className='calc-button' key={vehicle} value={vehicle} onClick = {()=>setQuery(vehicle)}>{vehicle}</button>)));
-          // setMessages((m) => [...m, { msg: "", author: "DropDown", line: false, zip: "" }]);
-          // setMessages((m) => [...m, { msg: "", author: "Table", line: false, zip: "" }]);
+          setMessages((m) => [...m, { msg: "Info on a specific car", author: "You", line:true,zip:{} }]);
+          setMessages((m) => [...m, { msg: "Please a model/trim of the specific car you're looking for", author: "Ford Chat", line: true, zip: "" }]);
+          setCalcHeadingText("Choose vehicle category");
+          setShowCalcButtons(true);
+          setCalcButtons(Object.keys(vehicles).map(vehicle => (<button className='model-button' key={vehicle} value={vehicle} 
+          onClick = {()=>{
+            setQuery(vehicle);
+            setInfoMode(1);
+          }
+          }>{vehicle}</button>)));
           changeChoice('I');
+          blockQueries.current = false;
           break;
         case "A":
           setMessages((m) => [...m, { msg: "Car recommendation", author: "You"}]);
@@ -28,17 +36,18 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               zip: {},
             },
           ]);
-          setMenuButtons([buyACarButtons]);
+          setMenuButtons(buyACarButtons);
           break;
-          case 'B':
+        case 'B':
             setMessages((m) => [...m, { msg: "Find a dealership", author: "You" }]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
             changeChoice('B');
             break;
-          case 'C':
+        case 'C':
             setMessages((m) => [...m, { msg: "Schedule a test drive", author: "You"}]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
             changeChoice('C');
+            blockQueries.current = false;
             break;
         case "D":
           setMessages((m) => [...m, { msg: "Car pricing estimator", author: "You"}]);
@@ -57,7 +66,8 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
                   value={model}
                   onClick={calcButtonHandler}
                 >
-                  {model}
+                  <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
+                  {model}<BiRegistered/>
                 </button>
               ))
             );
@@ -72,7 +82,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             blockQueries.current = false;
           }
           changeChoice("D");
-          setMenuButtons([]);
+          //setMenuButtons([]);
           break;
         case "maintenanceQuestions":
           changeChoice("maintenanceQuestions")
@@ -86,8 +96,9 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
     };
   }
 
-  export function handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment) {
-      if (!blockQueries.current && query.length > 0) {
+
+  export function handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons, locateDealershipsFn, changeSelected, setDealers,selected) {
+    if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
         setForceUpdate(!forceUpdate)
         switch (choice) {
@@ -100,21 +111,38 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               blockQueries.current = false;
             });
             break;
+            
           case "I":
-            if(infoMode === 0){
-              setCalcButtons(Object.keys(vehicles[query]).map(model => (<button className='calc-button' key={model} value={model} onClick={()=>setQuery(model)}>{model}</button>)));
+            if(infoMode === 1){
+              setCalcHeadingText("Choose specific model");
+              setCalcButtons(Object.keys(vehicles[query]).map(model => (<button
+                className="model-button"
+                key={model}
+                value={model}
+                onClick={() => {
+                  setQuery(model);
+                  setInfoMode(2);
+                }
+                }
+              >
+                <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
+                {model}
+              </button>)));
               setVehicle(query);
-              setInfoMode(1);
             }
-            else if(infoMode === 1){
+            else if(infoMode === 2){
               setModel(query);
-              setCalcButtons(vehicles[vehicle][query].map(trim => (<button className='calc-button' key={trim} value={trim} onClick={()=>{
-                handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons);
-                setInfoMode(2);
+              setCalcHeadingText(query + " - Choose specific trim");
+              setCalcButtons(vehicles[vehicle][query].map(trim => (<button className='model-button' key={trim} value={trim} onClick={()=>{
+              handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode);
+              setTrim(trim);
               }}>{trim}</button>)));
             }
-            else{
-              setMessages((m)=>[...m,{msg: "hihihihihi", author: "Ford Chat", line:true,zip:""}]);
+            else if(infoMode === 3){
+              handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers);
+            }
+            else if(infoMode ===4){
+              handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
             }
             blockQueries.current = false;
             break;
@@ -132,10 +160,14 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               if(findMode === 0){
                 setZipCode(query)
                 setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
-                setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>{model}</button>)));
+                setShowCalcButtons(true);
+                setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>{model}
+                <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
+                  {model}<BiRegistered/></button>)));
                 setFind(1);
               }
               else if(findMode === 1){
+                  setShowCalcButtons(true);
                   setCalcButtons(trims[query].map(trim => (<button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>)));
                   setSelect(true);
               }
