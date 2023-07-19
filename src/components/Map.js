@@ -174,6 +174,7 @@ function Map({ zip, dist, loc, deal, coords}) {
   const locClickHandler = (d) => {
     let dealer = d[0];
     let models = returnCars(dealer,5);
+    let url = 'https://images.jazelc.com/uploads/robinsford-m2en/Ford_Service.jpeg';
     let addr = info[dealer]['address'];
     let phone = info[dealer]['number'];
     let rating = info[dealer]['rating'];
@@ -192,14 +193,8 @@ function Map({ zip, dist, loc, deal, coords}) {
     let currDay = today.getDate();
     let currTime = currHr;
     let currMin = today.getMinutes();
-    if (currMin < 15) {
-      currMin = 15;
-    }
-    else if (currMin < 30) {
-      currMin = 30;
-    }
-    else if (currMin < 45) {
-      currMin = 45;
+    if (currMin < 30) {
+      currMin = 3;
     }
     else if (currMin < 60) {
       currMin = 0;
@@ -214,7 +209,26 @@ function Map({ zip, dist, loc, deal, coords}) {
     }
     let appts = [];
     for (let i = 0; i < 6; i++) {
-      appts.append()
+      let day = (new Date('2023',today.getMonth(),currDay)).getDay();
+      let dayOfWeek = new Date(Date.UTC(2023, today.getMonth(), day)).toLocaleString('en-US', { weekday: 'long' })
+      let useTime = currTime
+      let ending = 'am';
+      if (currTime > 12) {
+        useTime = currTime-12;
+        ending = 'pm';
+      }
+      appts.push([`${dayOfWeek} ${currMonth}/${currDay}`,`${useTime.toString()}:${currMin.toString()}0${ending}`])
+      if (currMin == 3) {
+        currTime = currTime + 1;
+        currMin = 0;
+      }
+      else {
+        currMin = 3;
+      } 
+      if (currTime > 20) {
+        currTime = 8;
+        currMin = 0;
+      }
     }
     setShowWindow(true);
     let window1 = (<div className='dealer-window1'>
@@ -222,6 +236,7 @@ function Map({ zip, dist, loc, deal, coords}) {
         <span style={{position:'relative',right:'6px',bottom:'1.6px'}}><IoMdClose/></span>
       </button>
       <span style={{color:'#322964',fontSize:'24px',fontWeight:'bold'}}>{dealer}</span>
+      <img style={{width:'200px',height:'auto',position:'absolute',right:'50px',top:'50px',borderRadius:'10px',boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'}} src={url}/>
       <span style={{position:'absolute',right:'220px'}}><FaMapMarked/></span>
       <span style={{textDecoration:'underline',fontSize:'16px',position:'absolute',right:'58px',cursor:'pointer'}} onClick={() => goToMap(`${dealer}, ${addr}`)}>
         View on Google Maps</span>
@@ -241,7 +256,7 @@ function Map({ zip, dist, loc, deal, coords}) {
       <br/>
       <div className='models-container'>
         <div style={{listStyleType: 'none',display: 'flex'}}>
-          {models.map(model => (<div className='window-model'>
+          {models.map(model => (<div key={model} className='window-model'>
           <img style={{width:'140px',height:'auto'}} src={images[model[0]]}/><br/>
                 {model[0]}<BiRegistered/>{` ${model[1]}`}
               </div>))}
@@ -253,6 +268,17 @@ function Map({ zip, dist, loc, deal, coords}) {
           <span style={{fontSize:'12px',position:'absolute',right:'22px',cursor:'pointer'}} onClick={() => openScheduler(dealer)}>View more
           <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
           <br/>
+          <div className='timeslot-container'>
+            <button className='schedule-button' style={{fontWeight:'bold'}} onClick={() => openScheduler(dealer)}>Click here to schedule an appointment</button>
+          <div>
+            <div className='timeslot-container' style={{position:'absolute'}}>
+            {appts.slice(0,3).map(appt => (<button key={appt[1]} className='time-slot'>{appt[0]}<br/><span style={{fontWeight:'bold'}}>{appt[1]}</span></button>))}
+              </div><br/>
+              <div className='timeslow-container' style={{position:'absolute'}}>
+              {appts.slice(3,6).map(appt => (<button key={appt[1]} className='time-slot'>{appt[0]}<br/><span style={{fontWeight:'bold'}}>{appt[1]}</span></button>))}
+              </div>
+            </div>            
+          </div>
         </div>)
     setWindow1Content(window1);
     setWindow2Content(window2);
