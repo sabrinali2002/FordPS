@@ -8,7 +8,7 @@ const CarInfoDropdownSection = ({dropDownOptions, carInfoMode}) => {
         {carInfoMode ==="single" && 
             <div>
                 <h6>Model:</h6>
-                <DropDown onChange={(event)=>{dropDownOptions[0](event)}} options={dropDownOptions[2]} car={"firstCar"}/>
+                <DropDown onChange={(event)=>{dropDownOptions[0](event)}} options={dropDownOptions[2]} car={"firstCar"} style={{width:"100%"}}/>
                 <h6>Trim:</h6>
                 <DropDown  onChange={(event)=>{dropDownOptions[1](event)}} options={dropDownOptions[3]} car={"firstCar"}/>
                 <Button onClick={dropDownOptions[4]} className="mb-2" style={{marginRight: 8}}>Check it out</Button>
@@ -30,7 +30,7 @@ const CarInfoDropdownSection = ({dropDownOptions, carInfoMode}) => {
                         <DropDown  onChange={(event)=>{dropDownOptions[1](event)}} options={dropDownOptions[6]} car={"secondCar"}/>
                     </div>
                 </div>
-                <Button onClick={dropDownOptions[4]} className="mb-2" style={{marginRight: 8}}>Check it out</Button>
+                <Button onClick={dropDownOptions[4]} className="mb-2" variant="primary" style={{marginRight: 8}}>Check it out</Button>
                 <Button onClick={dropDownOptions[5]} className="mb-2" variant="secondary">Single Car</Button>
             </div>
             }

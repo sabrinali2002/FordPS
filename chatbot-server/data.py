@@ -1,3 +1,4 @@
+import json
 models=[  {
     "make": "Ford",
     "model": "Bronco",
@@ -3599,3 +3600,5 @@ models=[  {
     "highway_fuel_economy": ""
   }
 ]
+with open('data.json', 'w') as f:
+    json.dump(models, f);

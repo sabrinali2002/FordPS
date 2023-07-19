@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
+import images from "../images/image_link.json";
 
 //Style functions -----------------------------------------------------
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -23,33 +24,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
-
-//Sorting functions -------------------------------------------------
-function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
-    return 0;
-}
-
-function getComparator(order, orderBy) {
-    return order === "desc" ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) {
-            return order;
-        }
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-}
 
 const specList = [
     "Model",
@@ -98,6 +72,7 @@ const CarInfoTable = ({ data, mode, intro }) => {
                     <Table>
                         <TableHead>
                             <TableRow>
+                                <StyledTableCell>Image</StyledTableCell>
                                 <StyledTableCell>Model</StyledTableCell>
                                 <StyledTableCell>Trim</StyledTableCell>
                                 <StyledTableCell>Year</StyledTableCell>
@@ -130,6 +105,7 @@ const CarInfoTable = ({ data, mode, intro }) => {
                         <TableBody>
                             {data[0].map((item) => (
                                 <StyledTableRow key={item.id}>
+                                    <StyledTableCell><img src={`${images[item.model]}`} style={{"width": "200px"}} alt={`${item.model} image`}></img></StyledTableCell>
                                     <StyledTableCell>{item.model}</StyledTableCell>
                                     <StyledTableCell>{item.trim}</StyledTableCell>
                                     <StyledTableCell>{item.year}</StyledTableCell>
@@ -174,11 +150,16 @@ const CarInfoTable = ({ data, mode, intro }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
+                            <StyledTableRow>
+                                <StyledTableCell>Image</StyledTableCell>
+                                <StyledTableCell><img src={`${images[car1data.model]}`} style={{"width": "200px"}} alt={`${car1data.model} image`}></img></StyledTableCell>
+                                <StyledTableCell><img src={`${images[car2data.model]}`} style={{"width": "200px"}} alt={`${car2data.model} image`}></img></StyledTableCell>
+                            </StyledTableRow>
                             {specList.map((spec, index) => (
                                 <StyledTableRow key={spec}>
                                     <StyledTableCell>{spec}</StyledTableCell>
-                                    <StyledTableCell>{car1data[`${specListSQL[index]}`]}</StyledTableCell>
-                                    <StyledTableCell>{car2data[`${specListSQL[index]}`]}</StyledTableCell>
+                                    <StyledTableCell >{car1data[`${specListSQL[index]}`]}</StyledTableCell>
+                                    <StyledTableCell >{car2data[`${specListSQL[index]}`]}</StyledTableCell>
                                 </StyledTableRow>
                             ))}
                         </TableBody>
