@@ -62,12 +62,17 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             setCalcHeadingText("Choose specific model");
             setShowCalcButtons(true);
             setCalcButtons(
-              Object.keys(trims).map((model) => (
+              Object.keys(trims).map(model => (
                 <button
                   className="model-button"
                   key={model}
                   value={model}
-                  onClick={calcButtonHandler}
+                  onClick={() => 
+                    {setQuery(model);
+                    setMessages((m) => [...m, { msg: model, author: "You" }]);
+                    setCalcButtons([]);
+                    setShowCalcButtons(false);}
+                  }
                 >
                   <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
                   {model}<BiRegistered/>
@@ -209,7 +214,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             break;
           case "D":
             setQuery("");
-            handlePaymentFlow(calcStep, model, setModel, query, setMessages, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment,handleUserInput);
+            handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment,handleUserInput);
             break;
           default:
             setQuery("");

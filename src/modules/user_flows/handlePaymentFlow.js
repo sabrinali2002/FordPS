@@ -3,7 +3,7 @@ import EV from "../../jsons/EV.json";
 import carPrices from "../../jsons/carPrices.json";
 import '../../styles/App.css';
 
-export default function handlePaymentFlow(calcStep, model, setModel, query, setMessages, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment,handleUserInput) {
+export default function handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, handleUserInput) {
   const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
   switch (calcStep) {
     case 1: //trim 
@@ -13,7 +13,12 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setM
         setCalcHeadingText("Choose specific trim");
         setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true }]);
         setShowCalcButtons(true);
-        setCalcButtons(trims[query].map(trim => (<button className='model-button'  key={trim} value={trim} onClick={calcButtonHandler}>{trim}</button>)));
+        setCalcButtons(trims[query].map(trim => 
+            (<button className='model-button' key={trim} value={trim} onClick={() => 
+                {setQuery(trim);
+                    setMessages((m) => [...m, { msg: trim, author: "You" }]);
+                    setCalcButtons([]);
+                    setShowCalcButtons(false);}}>{trim}</button>)));
         blockQueries.current = false;
         setCalcStep(2);
         break;
@@ -126,6 +131,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setM
                 setCalcStep(5);
                 break;
         }
+        break;
     case 5:
         if (Object.keys(EV).includes(model)) {
             if (EV[model].includes(trim)) {
@@ -148,7 +154,6 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setM
                 setCalcStep(7);
                 break;
             }
-            break;
         }
         else {
             setCalcHeadingText('Send a request?');

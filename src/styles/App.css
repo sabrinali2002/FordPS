@@ -152,7 +152,7 @@
   word-wrap:wrap;
   overflow-wrap:wrap;  
   margin: 10px;
-  box-shadow: 0 4px 2px -2px gray;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .model-button:hover {

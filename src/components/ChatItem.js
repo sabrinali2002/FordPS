@@ -11,6 +11,7 @@ import DisplayInfo from "./DisplayInfo"
 import circleHenrai from "./henraicircle.jpg";
 
 function extractLinkFromText(messageText, author, darkMode){
+    console.log(messageText);
     const wordsArray = messageText.split(" ")
     const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
 
@@ -58,7 +59,7 @@ function dictate(message, toggleIsSpeaking) {
   speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar}){
     const authorStyle = {
         fontSize: textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem"),
         color: (darkMode ? "#ffffff" : "#999"),
@@ -99,7 +100,8 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
             {line && <hr style={{width: '90vw', borderColor: author.toLowerCase()==='you'?'#999':'rgb(49, 135, 255)'}}/>}
         </Fragment>}
         {
-          author==="Login" && <ExistingOwner setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput}/>
+          author==="Login" && <ExistingOwner setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput} justSelect={message.length>0} selectedCar={selectedCar}
+          setSelectedCar={setSelectedCar}/>
         }
     </div>
     </div>)

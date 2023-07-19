@@ -1,4 +1,3 @@
-import trims from "../../jsons/trims.json";
 
 export default function handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance) {
   switch(zipMode){
