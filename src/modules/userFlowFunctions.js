@@ -110,9 +110,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               }}>{trim}</button>)));
             }
             else if(infoMode === 3){
-              setShowCalcButtons(false);
-              setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
-              setInfoMode(4);
+              handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers);
             }
             else if(infoMode ===4){
               const selectedCopy = selected;
