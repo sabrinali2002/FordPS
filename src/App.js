@@ -15,7 +15,7 @@ import {
 
 import { extractFiveDigitString, findLocations, selectHandlerFn, locateDealershipsFn, calcButtonHandlerFn, appendSelectFn, changeFindFn } from "./modules/mapFunctions";
 import {modelOptions, getTrimOptions} from './modules/tableFunctions'
-import { handleCarInfo, handleCarComparison, onModelChange, onTrimChange } from "./modules/selectCarFunctions";
+import { handleCarInfo, handleCarComparison, onModelChange, onTrimChange, onCheckBoxSelect, onCompare, onTableBack} from "./modules/selectCarFunctions";
 import { handleUserInputFn, handleUserFlow } from "./modules/userFlowFunctions";
 
 import QuestionButton from "./components/QuestionButton";
@@ -89,6 +89,7 @@ function App() {
     const [carInfoData, setCarInfoData] = useState({});
     const [carInfoMode, setCarInfoMode] = useState("single");
     const [questionnaireAnswers, setQuestionnaireAnswers] = useState([])
+    const [selectedCars, setSelectedCars] = useState([]);
 
     const blockQueries = useRef(false);
     const recognition = useRef(null);
@@ -176,10 +177,13 @@ function App() {
     let compareTrimOptions =
         compareModel === "" || compareModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[compareModel].map((trim) => ({ value: trim, label: trim }));
 
-    const handleCarInfoButton = handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation)
+    const handleCarInfoButton = handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation, setSelectedCars)
     const handleCarInfoCompareButton = handleCarComparison(carInfoMode, setCarInfoMode, setSelectedModel, setSelectedTrim);
     const handleModelChange = onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim, trims);
     const handleTrimChange = onTrimChange(setSelectedTrim, setCompareTrim);
+    const handleCheckboxSelect = onCheckBoxSelect(selectedCars, setSelectedCars, carInfoData, setCarInfoData);
+    const handleCompareButton = onCompare(setCarInfoMode);
+    const handleTableBackButton = onTableBack(setCarInfoMode);
 
 
     useEffect(()=>{
@@ -187,6 +191,7 @@ function App() {
     }, [selectedModel])
 
     const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton, handleCarInfoCompareButton, compareTrimOptions];
+    const tableFunctions = [handleCheckboxSelect, handleCompareButton, handleTableBackButton];
 
   // --------------------------------------------------------------------->
   //handler for button user clicks
@@ -289,6 +294,9 @@ function App() {
                 dropDownOptions={dropDownOptions}
                 carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[[],[]]}
                 carInfoMode={carInfoMode}
+                tableFunctions={tableFunctions}
+                messageIndex={index}
+                selectedCars={selectedCars}
             />
               );
             })}

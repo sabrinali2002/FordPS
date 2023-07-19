@@ -3,6 +3,9 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
 import images from "../images/image_link.json";
+import Checkbox from '@mui/material/Checkbox';
+import { Button } from "react-bootstrap";
+
 
 //Style functions -----------------------------------------------------
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -57,8 +60,9 @@ const specList = [
 
 const specListSQL = specList.map((spec) => spec.toLowerCase().replace(/ /g, "_"));
 
-const CarInfoTable = ({ data, mode, intro }) => {
+const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selectedCars, onCompare, onTableBack }) => {
     let car1data, car2data;
+    console.log("received data" + data);
     if (data[0] !== undefined) {
         car1data = data[0][0];
     }
@@ -66,11 +70,18 @@ const CarInfoTable = ({ data, mode, intro }) => {
     return (
         <Fragment>
             {intro !== undefined && <p>{intro}</p>}
+            {data[0].length !== 0 && mode === "single" && selectedCars.length < 2 && (
+                <Button disabled>Select Cars to Compare</Button>
+            )}
+            {data[0].length !== 0 && mode === "single" && selectedCars.length >= 2 && (
+                <Button onClick={onCompare}>Compare These Cars</Button>
+            )}
             {data[0].length !== 0 && mode === "single" && (
                 <TableContainer component={Paper} className="mt-2">
                     <Table>
                         <TableHead>
                             <TableRow>
+                                <StyledTableCell></StyledTableCell>
                                 <StyledTableCell>Image</StyledTableCell>
                                 <StyledTableCell>Model</StyledTableCell>
                                 <StyledTableCell>Trim</StyledTableCell>
@@ -104,6 +115,7 @@ const CarInfoTable = ({ data, mode, intro }) => {
                         <TableBody>
                             {data[0].map((item) => (
                                 <StyledTableRow key={item.id}>
+                                    <Checkbox onChange={()=>onCheckboxSelect(item.id, messageIndex)} checked={item.isChecked}/>
                                     <StyledTableCell>
                                         <img src={`${images[item.model]}`} style={{ width: "200px" }} alt={`${item.model} image`}></img>
                                     </StyledTableCell>
@@ -172,38 +184,41 @@ const CarInfoTable = ({ data, mode, intro }) => {
                 </TableContainer>
             )}
             {mode === "multiple" && (
-                <TableContainer component={Paper} className="mt-2">
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell></StyledTableCell>
-                                {data.map((car) => {
-                                    return <StyledTableCell key={car.id}>{`${car.model} ${car.trim}`}</StyledTableCell>;
-                                })}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <StyledTableRow>
-                                <StyledTableCell>Image</StyledTableCell>
-                                {data.map((car) => {
-                                    return (
-                                        <StyledTableCell key={car.id}>
-                                            <img src={`${images[car.model]}`} style={{ width: "200px" }} alt={`${car.model} image`}></img>
-                                        </StyledTableCell>
-                                    );
-                                })}
-                            </StyledTableRow>
-                            {specList.map((spec, index) => (
-                                <StyledTableRow key={spec}>
-                                    <StyledTableCell>{spec}</StyledTableCell>
-                                    {data.map((car) => (
-                                        <StyledTableCell key={car.id}>{car[`${specListSQL[index]}`]}</StyledTableCell>
-                                    ))}
+                <Fragment>
+                    <Button variant="secondary" onClick={onTableBack}>Back</Button>
+                    <TableContainer component={Paper} className="mt-2">
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell></StyledTableCell>
+                                    {selectedCars.map((car) => {
+                                        return <StyledTableCell key={car.id}>{`${car.model} ${car.trim}`}</StyledTableCell>;
+                                    })}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <StyledTableRow>
+                                    <StyledTableCell>Image</StyledTableCell>
+                                    {selectedCars.map((car) => {
+                                        return (
+                                            <StyledTableCell key={car.id}>
+                                                <img src={`${images[car.model]}`} style={{ width: "200px" }} alt={`${car.model} image`}></img>
+                                            </StyledTableCell>
+                                        );
+                                    })}
                                 </StyledTableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                {specList.map((spec, index) => (
+                                    <StyledTableRow key={spec}>
+                                        <StyledTableCell>{spec}</StyledTableCell>
+                                        {selectedCars.map((car) => (
+                                            <StyledTableCell key={car.id}>{car[`${specListSQL[index]}`]}</StyledTableCell>
+                                        ))}
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Fragment>
             )}
         </Fragment>
     );

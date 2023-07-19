@@ -1,5 +1,5 @@
 
-export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation) {
+export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation, setSelectedCars) {
     return async () => {
       let sqlQuery = "";
       if (selectedModel !== "no model") {
@@ -19,6 +19,10 @@ export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareM
       }).then((res) => {
         return res.json();
       });
+      data = data.map((car) => ({
+        ...car, isChecked:false
+      }))
+
   
       let data2 = [];
       if (carInfoMode === "compare") {
@@ -40,6 +44,7 @@ export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareM
       console.log(messages.length - 1, carInfoCopy["" + (messages.length - 1)]);
       console.log(dataArr);
       setCarInfoData(carInfoCopy);
+      setSelectedCars([]);
       setForceUpdate(!forceUpdate);
     };
   }
@@ -83,4 +88,40 @@ export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareM
         setCompareTrim(firstTrim);
       }
     };
+  }
+
+  export function onCheckBoxSelect(selectedCars, setSelectedCars, carInfoData, setCarInfoData) {
+    return (id, messageIndex) => {
+      let selectedTable = carInfoData[messageIndex];
+      let data = selectedTable[0];
+      let selectedCar = data.find((item) => item.id === id);
+      if(selectedCar.isChecked === false) {
+        selectedCar.isChecked = true; 
+        data = data.map((item) => item.id === selectedCar.id ? {...item, isChecked:true} : item);
+        selectedTable[0] = data;
+        carInfoData[messageIndex] = selectedTable;
+        setSelectedCars((prevData) => [...prevData, selectedCar]);
+        setCarInfoData(carInfoData);
+      } else {
+        selectedCar.isChecked = false;
+        data = data.map((item) => item.id === selectedCar.id ? {...item, isChecked:false} : item);
+        selectedTable[0] = data;
+        carInfoData[messageIndex] = selectedTable;
+        selectedCars = selectedCars.filter((item) => item.id !== selectedCar.id);
+        setSelectedCars(selectedCars);
+        setCarInfoData(carInfoData);
+      }
+    }
+  }
+
+  export function onCompare(setCarInfoMode) {
+    return () => {
+      setCarInfoMode("multiple");
+    }
+  }
+
+  export function onTableBack(setCarInfoMode) {
+    return () => {
+      setCarInfoMode("single");
+    }
   }
