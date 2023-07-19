@@ -3,7 +3,7 @@ export default function DisplayInfo({info}){
     return <div
         style={{
           height: "400px",
-          width: "80%", // Increase width to desired value
+          width: "900px", // Increase width to desired value
           display: "flex",
           float: "left",
           borderRadius: "15px", // Add this for rounded corners

@@ -37,6 +37,7 @@ export default function handleInfoFlow(model,trim, setMessages, setModel, setQue
               selectedCopy[model].push(trim);
               changeSelected(selectedCopy);
               locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, 20, setMessages, setZipMode)();
-    }
+    setShowCalcButtons(false);
+            }
     
 } 
