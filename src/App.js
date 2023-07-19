@@ -62,7 +62,7 @@ function App() {
 
     // PAYMENT CALCULATOR
 
-  //which state the bot is in: closest dealership, calculator, etc.
+  //which state the bot is in:
   const [choice, changeChoice] = useState("");
   const [forceUpdate, setForceUpdate] = useState(true)
   // which step of the payment calculator the bot is in: [1]model,[2]trim,[3]lease/finance/buy,[4]price
@@ -84,21 +84,16 @@ function App() {
   const [showCalcButtons, setShowCalcButtons] = useState(false);
   const [calcHeadingText, setCalcHeadingText] = useState('');
   const [payment, setPayment] = useState(0);
-
-
     // Car Info states
-    const [selectedModel, setSelectedModel] = useState("");
-    const [selectedTrim, setSelectedTrim] = useState("");
-    const [compareModel, setCompareModel] = useState("");
-    const [compareTrim, setCompareTrim] = useState("");
-    const [carInfoData, setCarInfoData] = useState({});
-    const [carInfoMode, setCarInfoMode] = useState("single");
-    const [questionnaireAnswers, setQuestionnaireAnswers] = useState([])
-
-    const blockQueries = useRef(false);
-    const recognition = useRef(null);
-    //map functions -------------------------------------------------------->
-
+  const [selectedModel, setSelectedModel] = useState("");
+  const [selectedTrim, setSelectedTrim] = useState("");
+  const [compareModel, setCompareModel] = useState("");
+  const [compareTrim, setCompareTrim] = useState("");
+  const [carInfoData, setCarInfoData] = useState({});
+  const [carInfoMode, setCarInfoMode] = useState("single");
+  const [questionnaireAnswers, setQuestionnaireAnswers] = useState([])
+  const blockQueries = useRef(false);
+  const recognition = useRef(null);
   const [distance, setDistance] = useState("10");
   const [findMode, setFind] = useState(0);
   const [selectMode, setSelect] = useState(false);
@@ -115,8 +110,13 @@ function App() {
   }, [messages]);
   
   const handleMenuClick = (parameter) => {
-    handleUserInput(parameter);
     setMenuButtons([]);
+    setShowCalcButtons(false);
+    setModel("");
+    setTrim("");
+    setInfoMode(0);
+    setQuery("");
+    handleUserInput(parameter);
     // Perform any other logic or function in the parent component using the parameter
   };
   const origButtons = (
@@ -127,14 +127,14 @@ function App() {
         setMenuButtons(buyingFordButtons)
         }}>Buying a Ford</button>
       <button className = "menu" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You", line:true}]})
-        }}>I'm an Existing Owner</button>
+        setMessages(m=>{return [...m, {msg: "I'm an existing owner", author: "You", line:true}]})
+        }}>I'm an existing owner</button>
       <button className = "menu" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You", line:true}]})
         }}>Info about Ford</button>
       <button className = "menu" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You", line:true}]})
-        }}>Negotiation Assistance</button>
+        setMessages(m=>{return [...m, {msg: "Negotiation assistance", author: "You", line:true}]})
+        }}>Negotiation assistance</button>
     </div>
   );
   const buyingFordButtons = (
@@ -183,10 +183,8 @@ function App() {
   const appendSelect = appendSelectFn(selected, model, changeSelected);
   const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons,setShowCalcButtons);
     //Car Info functions  -------------------------------------------------------------
-
     let compareTrimOptions =
         compareModel === "" || compareModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[compareModel].map((trim) => ({ value: trim, label: trim }));
-
     const handleCarInfoButton = handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation)
     const handleCarInfoCompareButton = handleCarComparison(carInfoMode, setCarInfoMode, setSelectedModel, setSelectedTrim);
     const handleModelChange = onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim);
@@ -201,7 +199,7 @@ function App() {
 
   // --------------------------------------------------------------------->
   //handler for button user clicks
-  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyingFordButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText);
+  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText, setInfoMode);
     useEffect(() => {
         // Check if speech recognition is supported
         if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
@@ -315,7 +313,8 @@ function App() {
             </div>)}
             {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
                 <div className='model-box'>
-                    <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
+                    <div style={{marginTop:'10px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>
+                    <div style={{marginTop:'5px',color:'#322964',fontSize:'10px',fontWeight:'bold',lineHeight:'20px'}}>Select from the options to specify which cars you are looking for</div>
                     <div className='button-container'>{calcButtons}</div>
                     </div>
                 </div>}

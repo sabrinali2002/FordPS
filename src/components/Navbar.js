@@ -115,7 +115,7 @@ const Navbar = ({onClick}) => {
         )}
         <li>
           <a href="#" onClick={existListener} style = {{justifyContent: "space-between"}}>
-            <strong>Existing Owner</strong>
+            <strong>Existing owner</strong>
             {
               existOpen ? <span className={`dropdown-arrow${existOpen ? ' open' : ''}`} style = {{marginBottom: '0px', paddingBottom:'0px', paddingTop:'0px'}}>&#9660;</span> : 
               <span className={`dropdown-arrow${existOpen ? ' open' : ''}`} style = {{marginBottom: '0px', paddingBottom:'0px', paddingTop:'0px'}}>&#x25c0;</span>
@@ -126,18 +126,18 @@ const Navbar = ({onClick}) => {
           <div className="sub" style={{ backgroundColor: 'white' }}>
             <li>
               <a href="#" onClick={maintainListener} style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }}>
-                Maintenance Request
+                Maintenance request
               </a>
               {maintainOpen && (
                 <div>
                   <li>
                     <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }}>
-                      Locating Dealers
+                      Locating dealers
                     </a>
                   </li>
                   <li>
                     <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }}>
-                      Questions About Maintenance
+                      Questions about maintenance
                     </a>
                   </li>
                 </div>
@@ -163,7 +163,7 @@ const Navbar = ({onClick}) => {
           <div className="sub" style={{ backgroundColor: 'white' }}>
             <li>
               <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }}>
-                Innovation and Sustainability
+                Innovation and sustainability
               </a>
             </li>
           </div>
@@ -181,12 +181,12 @@ const Navbar = ({onClick}) => {
           <div className="sub" style={{ backgroundColor: 'white' }}>
             <li>
               <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }}>
-                Electric Vehicles
+                Electric vehicles
               </a>
             </li>
             <li>
               <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }}>
-                Dealer Negotiation
+                Dealer negotiation
               </a>
             </li>
           </div>

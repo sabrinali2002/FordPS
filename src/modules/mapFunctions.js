@@ -135,7 +135,6 @@ export const findLocations = async (query, distance) => {
   }
   export const locateDealershipsFn=function(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode) {
     return () => {
-      console.log("reached")
       //go through the dealerships that have the cars we want
       //pass in the list of dealership names
       const dealers = new Set();
