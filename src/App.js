@@ -81,6 +81,7 @@ function App() {
   const [trimOptions, setTrimOptions] = useState([]);
   const [infoMode, setInfoMode] = useState(0);
   const [vehicle, setVehicle] = useState("");
+  const [cat, setCat] = useState("");
   const [showCalcButtons, setShowCalcButtons] = useState(false);
   const [calcHeadingText, setCalcHeadingText] = useState('');
   const [payment, setPayment] = useState(0);
@@ -204,7 +205,7 @@ function App() {
 
   // --------------------------------------------------------------------->
   //handler for button user clicks
-  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText, setInfoMode);
+  const handleUserInput = handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText, setInfoMode, cat, setCat);
     useEffect(() => {
         // Check if speech recognition is supported
         if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
@@ -239,7 +240,7 @@ function App() {
     };
 
     useEffect(() => {
-        handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons, locateDealershipsFn, changeSelected, setDealers, selected);
+        handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons, locateDealershipsFn, changeSelected, setDealers, selected, cat, setCat);
   }, [
     query,
     history,
@@ -336,6 +337,17 @@ function App() {
                     <div style={{marginTop:'10px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>
                     <div style={{marginTop:'5px',color:'#322964',fontSize:'10px',fontWeight:'bold',lineHeight:'20px'}}>Select from the options to specify which cars you are looking for</div>
                     <div className='button-container'>{calcButtons}</div>
+                    {vehicle !== "" && <button style = {{position: "relative", bottom: 0, alignSelf:'start', marginLeft:-40, alignSelf:'start'}} onClick = {() => {
+                      if(infoMode === 1){
+                        handleUserInput('I')
+                      }
+                      else{
+                        setQuery(cat);
+                        setInfoMode(infoMode-1)
+                        handleUserFlow(fixTrimQueryQuotation, cat, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode-1, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons, locateDealershipsFn, changeSelected, setDealers, selected, cat, setCat);
+                      }
+                    }
+                    }><u>Back</u></button>}
                     </div>
                 </div>}
           <ThreeDots

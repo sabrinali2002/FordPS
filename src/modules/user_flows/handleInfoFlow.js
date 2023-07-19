@@ -29,8 +29,8 @@ export default function handleInfoFlow(model,trim, setMessages, setModel, setQue
     }
     else if(infoMode === 3){
       setShowCalcButtons(false);
-              setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
-              setInfoMode(4);
+      setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
+      setInfoMode(4);
     }
     else{
       const selectedCopy = selected;

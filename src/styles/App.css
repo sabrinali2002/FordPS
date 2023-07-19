@@ -131,12 +131,14 @@
 
 .model-box {
   justify-content: center;
-  height: 235px;
-  width: 800px;
+  
+  height: 300px;
+  width: 80%;
   background-color: rgb(205, 220, 232);
   border-radius: 15px;
   box-shadow: 3px, rgb(203,225,231);
   margin-top: 10px;
+  box-shadow: 0 4px 2px -2px gray;
 }
 
 .model-button {
@@ -150,6 +152,7 @@
   word-wrap:wrap;
   overflow-wrap:wrap;  
   margin: 10px;
+  box-shadow: 0 4px 2px -2px gray;
 }
 
 .model-button:hover {
@@ -166,12 +169,13 @@
 }
 
 .button-container::-webkit-scrollbar { /* For Chrome, Edge, and Safari */
-  width: 12px;
+  width: 5px;
   color: #c2c1c1;
 }
 
 .button-container::-webkit-scrollbar-track { /* For Chrome, Edge, and Safari */
   background: #f5f5f5;
+  width: 5px;
 }
 
 .button-container::-webkit-scrollbar-thumb { /* For Chrome, Edge, and Safari */
