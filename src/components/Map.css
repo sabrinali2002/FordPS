@@ -59,7 +59,7 @@
     height: 320px;
     padding: 10px;
     left: 52px;
-    top: 50px;
+    top: 62px;
     border-radius: 15px;
     text-align: left;
   }
@@ -78,9 +78,11 @@
     font-weight: bold;
     line-height: 15px;
     cursor: pointer;
-    padding-bottom: 5px;
-    padding-left: 4.5px;
     justify-content: left;
+}
+
+.close-button:hover {
+    background: rgb(172, 174, 176);
 }
 
 .hover-content {
@@ -90,24 +92,57 @@
     padding-top: 13px;
 }
 
-.model-preview-map {
+.modelprev-map {
     box-shadow: 3px, rgb(86, 88, 86);
-    width: 50px;
-    height: 40px;
-    text-align: left;
+    width: 70px;
+    height: 50px;
     font-size: 8px;
     font-weight: bold;
     color: #322964;
-    margin: 2px;
+    text-align:center;
+    word-wrap: wrap;
+    overflow-wrap:wrap;  
+    line-height:1.2;
+    justify-content:center;
+    margin-right: 5px;
 }
 
-.click-window {
+.modelprev-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 5px;
+}
+
+.dealer-window {
     padding-left: 15px;
     justify-content: center;
-    height: 235px;
+    height: 200px;
     width: 800px;
     background-color: rgb(205, 220, 232);
     border-radius: 15px;
     box-shadow: 3px, rgb(203,225,231);
     margin-top: 10px;
+}
+
+.dealer-window1 {
+    position: relative;
+    background-color: #113B7A1A;
+    width: 900px;
+    height: 250px;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 10px;
+    left: 60px;
+}
+
+.dealer-window2 {
+    position: relative;
+    background-color: #113B7A1A;
+    width: 900px;
+    height: 200px;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 10px;
+    left: 60px;
 }

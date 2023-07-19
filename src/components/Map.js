@@ -13,6 +13,8 @@ import { BsTelephoneFill, BsLink } from 'react-icons/bs';
 import { AiFillClockCircle, AiFillStar } from 'react-icons/ai';
 import { FiLink2 } from 'react-icons/fi';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
+import { BiRegistered } from 'react-icons/bi';
+import images from '../images/image_link.json';
 
 function Map({ zip, dist, loc, deal, coords}) {
   const [latlong, changeLatLong] = useState([39, -98]);
@@ -28,6 +30,10 @@ function Map({ zip, dist, loc, deal, coords}) {
   const [popupText, setPopupText] = useState('');
   const [popupPos, setPopupPos] = useState([]);
   const [blockPopup, setBlockPopup] = useState(false);
+  const [window1Content, setWindow1Content] = useState([]);
+  const [window2Content, setWindow2Content] = useState([]);
+  const [window3Content, setWindow3Content] = useState([]);
+
 
   const handleButtonClick = (loc) => {
     setPickedLoc(loc);
@@ -100,14 +106,13 @@ function Map({ zip, dist, loc, deal, coords}) {
     let addr = info[dealer]["address"];
     let phone = info[dealer]["number"];
     let rating = info[dealer]["rating"];
-    let link = `www.${dealer.replace(' ','').toLowerCase()}.com`;
+    let link = `www.${dealer.replaceAll(' ','').replaceAll("'",'').toLowerCase()}.com`;
     let today = new Date();
     let currHr = today.getHours();
     let hrStr = 'Open - closes at 8pm';
     if (currHr > 20 || currHr < 8) {
       hrStr = 'Closed - opens at 8am';
     }
-    let currDay = today.getDay();
     let text = (<p className='hover-content'>
       <span style={{ color: '#322964', paddingTop: '20px', fontSize: '30px', fontWeight: 'bold' }}>{dealer}</span><br />
       <span style={{ fontSize: '17px' }}><FaLocationArrow /><span style={{ paddingLeft: '8px' }}>{addr}</span><br />
@@ -119,15 +124,20 @@ function Map({ zip, dist, loc, deal, coords}) {
       <div style={{ display: 'flex' }}>
         <span style={{ width: '50%' }}>
           <span style={{ color: '#322964', fontSize: '14px', textDecoration: 'underline' }}>
-            Available Models/Trims </span>
+            Available models/trims </span>
           <span style={{ paddingLeft: '20px' }}><MdOutlineArrowForwardIos /></span>
-          <div style={{overflowX:'auto',whiteSpace:'nowrap',display:'inline-block'}}>
-            {models.map(model => (<div className='model-preview-map'>{`${model[0]} ${model[1]}`}</div>))}
+          <div className='modelprev-container'>
+            {models.map(model => (<div className='modelprev-map'>
+                <img style={{justifySelf: 'center',position:'relative',right:'10px',width:'90px',height:'auto'}} src={images[model[0]]}/>
+              <div>
+                {model[0]}<BiRegistered/>{` ${model[1]}`}
+              </div>
+              </div>))}
           </div>
         </span>
         <span style={{ width: '50%', right: '-40%' }}>
           <span style={{ color: '#322964', fontSize: '14px', textDecoration: 'underline' }}>
-            Available Appointments
+            Available appointments
           </span>
           <span style={{ paddingLeft: '20px' }}><MdOutlineArrowForwardIos /></span>
           <div>
@@ -148,9 +158,8 @@ function Map({ zip, dist, loc, deal, coords}) {
   };
 
   const locClickHandler = (d) => {
-    console.log(d);
-    let dealer = data[d[1].toString() + ' ' + d[2].toString()]["name"];
-    let models = Object.keys(dealerToTrim[dealer])
+    let dealer = d[0];
+    let models = Object.keys(dealerToTrim[dealer]);
     if (models.length > 5) {
       models = models.slice(0, 5);
     }
@@ -162,18 +171,17 @@ function Map({ zip, dist, loc, deal, coords}) {
     let title2 = 'Available dates: ';
     let str1 = str.slice(0, str.length - 2);
     let str2 = "dates";
-    let addr = ' ' + d[0];
-    let str3 = '000-000-0000';
-    let text = (<p>
-      <span>
-        <span style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>{dealer}</span><br />
-        {addr}
-      </span><br />
-      <span style={{ textAlign: 'left', fontSize: '14px' }}><span style={{ fontWeight: 'bold' }}>{title1}</span>{str1}<br />
-        <span style={{ fontWeight: 'bold' }}>{title2}</span>{str2}<br />
-        {str3}</span></p>);
+    let addr = info[dealer]['address'];
+    let num = info[dealer]['number'];
+    let rating = info[dealer]['rating'];
+    let text = (<div>
+      {dealer}
+    </div>);
     setShowWindow(true);
-    setWindowText(text);
+    let window1 = (<div>
+      <span style={{color:'#322964',fontSize:'20px',fontWeight:'bold'}}>{dealer}</span>
+    </div>)
+    setWindow1Content(window1);
   };
 
   const findLocations = async (distance) => {
@@ -264,7 +272,23 @@ function Map({ zip, dist, loc, deal, coords}) {
     }
     fetchInfo();
   }, [zip, latlong]);
-  return (<div
+  return (
+  <div>
+      {showWindow && (<div style={{alignContent:'center'}}>
+          <div className="dealer-window1">  
+            <button className='close-button' onClick={onExit}>
+              <span style={{position:'relative',paddingRight:'50%',paddingBottom:'50%',marginRight:'5px',marginBottom:'4px'}}>x</span>
+            </button>
+            {window1Content}
+          </div>
+          <div className='dealer-window2'>
+            {window2Content}
+          </div>
+          <div className='dealer-window2'>
+            {window3Content}
+          </div>
+        </div>)}
+  {!showWindow && <div
       style={{
         position: "relative",
         backgroundColor: "#113B7A1A",
@@ -273,7 +297,7 @@ function Map({ zip, dist, loc, deal, coords}) {
         borderRadius: "15px",
         padding: "25px",
       }}>
-      {!showWindow && (<MapContainer
+      <MapContainer
         center={latlong}
         zoom={3}
         style={{
@@ -303,17 +327,9 @@ function Map({ zip, dist, loc, deal, coords}) {
             />
           );
         })}
-      </MapContainer>)}
+      </MapContainer>
       {showPopup && <div className="hover-popup" onMouseLeave={popupHoverOff} style={{ position: { popupPos } }}>{popupText}</div>}
-      {showWindow && (<div>
-          <div className="click-popup">  
-            <button className='close-button' onClick={onExit}>
-              x
-            </button>
-            {windowText}
-          </div>
-          </div>)}
-      {!showWindow && (<div
+      <div
         style={{ marginLeft: "50px", alignItems: "center", marginTop: "10px" }}
       >
         <div
@@ -353,7 +369,7 @@ function Map({ zip, dist, loc, deal, coords}) {
                   height: "101px",
                   width: "512px",
                 }}
-                onClick={locClickHandler}
+                onClick={() => locClickHandler(e)}
               >
                 <div
                   style={{
@@ -402,7 +418,8 @@ function Map({ zip, dist, loc, deal, coords}) {
             );
           })}
         </div>
-      </div>)}
+      </div>
+    </div>}
     </div>
   );
 }

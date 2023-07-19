@@ -1,9 +1,11 @@
 import trims from "../jsons/trims.json";
-import vehicles from "../jsons/vehicleCategories.json"
+import vehicles from "../jsons/vehicleCategories.json";
 import { sendBotResponse, sendRecommendRequestToServer } from "./botResponseFunctions";
 import handleDealerFlow from "./user_flows/handleDealerFlow";
 import handlePaymentFlow from "./user_flows/handlePaymentFlow";
-import handleInfoFlow from "./user_flows/handleInfoFlow"
+import handleInfoFlow from "./user_flows/handleInfoFlow";
+import { BiRegistered} from 'react-icons/bi';
+import images from '../images/image_link.json';
 
 export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buyACarButtons, setCalcButtons, model, calcButtonHandler, setCalcStep, trim, setQuery, blockQueries, setResponse, setShowCalcButtons, setCalcHeadingText, setInfoMode) {
     return (option) => {
@@ -24,7 +26,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
           blockQueries.current = false;
           break;
         case "A":
-          setMessages((m) => [...m, { msg: "Car recommendation", author: "You", line:true,zip:{} }]);
+          setMessages((m) => [...m, { msg: "Car recommendation", author: "You"}]);
           setMessages((m) => [
             ...m,
             {
@@ -34,20 +36,21 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
               zip: {},
             },
           ]);
-          setMenuButtons([buyACarButtons]);
+          setMenuButtons(buyACarButtons);
           break;
-          case 'B':
-            setMessages((m) => [...m, { msg: "Find a dealership", author: "You", line:true,zip:{} }]);
+        case 'B':
+            setMessages((m) => [...m, { msg: "Find a dealership", author: "You" }]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
             changeChoice('B');
             break;
-          case 'C':
-            setMessages((m) => [...m, { msg: "Schedule a test drive", author: "You", line:true,zip:{} }]);
+        case 'C':
+            setMessages((m) => [...m, { msg: "Schedule a test drive", author: "You"}]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
             changeChoice('C');
             blockQueries.current = false;
             break;
         case "D":
+          setMessages((m) => [...m, { msg: "Car pricing estimator", author: "You"}]);
           if (model === "") {
             setMessages((m) => [
               ...m,
@@ -63,7 +66,8 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
                   value={model}
                   onClick={calcButtonHandler}
                 >
-                  {model}
+                  <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
+                  {model}<BiRegistered/>
                 </button>
               ))
             );
@@ -78,7 +82,10 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             blockQueries.current = false;
           }
           changeChoice("D");
-          setMenuButtons([]);
+          //setMenuButtons([]);
+          break;
+        case "maintenanceQuestions":
+          changeChoice("maintenanceQuestions")
           break;
         default:
           setResponse(
@@ -89,10 +96,21 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
     };
   }
 
-  export function handleUserFlow(query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons, locateDealershipsFn, changeSelected, setDealers,selected) {
+
+  export function handleUserFlow(fixTrimQueryQuotation, query, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons, locateDealershipsFn, changeSelected, setDealers,selected) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
+        setForceUpdate(!forceUpdate)
         switch (choice) {
+          case "maintenanceQuestions":
+            sendBotResponse("I am looking to schedule maintenance for my Ford car and I have a question about maintenance. Here it is: "+query, history, "maint").then((res) => {
+              setMessages((m) => [
+                ...m,
+                { msg: res, author: "Ford Chat", line: true, zip: {} },
+              ])
+              blockQueries.current = false;
+            });
+            break;
           case "I":
             if(infoMode === 1){
               setCalcHeadingText("Choose specific model");
@@ -119,7 +137,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             break;
           case 'A':
             setQuery("");
-            sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory);
+            sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
             break;
           case "B": {
             handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance);
@@ -168,7 +186,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
                 let questionnaireAnswersCopy = [...questionnaireAnswers, query];
                 setForceUpdate(!forceUpdate);
                 const ultimateQueryString = "Here is my budget: " + questionnaireAnswersCopy[0] + ". I am looking for a " + questionnaireAnswersCopy[1] + ". I will primarily use it for the following: " + questionnaireAnswersCopy[2] + ". I need a seating capacity of at least: " + questionnaireAnswersCopy[3];
-                sendRecommendRequestToServer(ultimateQueryString, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory);
+                sendRecommendRequestToServer(ultimateQueryString, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
             }
             break;
           case "D":

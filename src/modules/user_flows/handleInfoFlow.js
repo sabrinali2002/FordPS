@@ -23,6 +23,7 @@ export default function handleInfoFlow(model,trim, setMessages, setModel, setQue
     }}>Pricing estimation</button>
     <button className="menu" onClick={()=>{
       setMenuButtons([]);
+      
     }}>More information</button>
   </div>)
     }
