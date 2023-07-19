@@ -314,12 +314,6 @@ function App() {
             />
               );
             })}
-             {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
-                <div className='model-box'>
-                    <div style={{marginTop:'5px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'60px'}}>{calcHeadingText}</div>
-                    <div className='button-container'>{calcButtons}</div>
-                    </div>
-                </div>}
             {calcStep==5 && (<div className='payment-summary'>
                 <span style={{fontWeight:'bold',fontSize:'20px'}}>
                     {(calcMode < 3) ? ('Expected payment:') : ('Expected payment:')}
