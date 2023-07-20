@@ -16,6 +16,7 @@ import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import { BiRegistered } from 'react-icons/bi';
 import images from '../images/image_link.json';
 import { FaMapMarked } from 'react-icons/fa';
+import zips from '../jsons/csvjson.json'
 //import { scheduler } from "timers/promises";
 
 function Map({ zip, dist, loc, deal, coords}) {
@@ -260,7 +261,6 @@ function Map({ zip, dist, loc, deal, coords}) {
 
   const findLocations = async (distance) => {
     const result = await findLatLong(zip);
-    // const result = coords === "" ? (await findLatLong(zip)) : coords;
     const distances = {};
     const l = [result.latitude, result.longitude];
     for (const coords in data) {
