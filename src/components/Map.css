@@ -85,7 +85,7 @@
 }
 
 .hover-content {
-    line-height: 28px;
+    line-height: 23px;
     justify-content: left;
     padding-left: 20px;
     padding-top: 13px;
@@ -93,9 +93,9 @@
 
 .modelprev-map {
     box-shadow: 3px, rgb(86, 88, 86);
-    width: 70px;
-    height: 50px;
-    font-size: 8px;
+    width: 100px;
+    height: 60px;
+    font-size: 9px;
     font-weight: bold;
     color: #322964;
     text-align:center;
@@ -103,14 +103,16 @@
     overflow-wrap:wrap;  
     line-height:1.2;
     justify-content:center;
-    margin-right: 5px;
+    margin-right: 3px;
 }
 
 .modelprev-container {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 5px;
+    margin-top: 10px;
+    padding: 3px;
+    margin-left: -13px;
 }
 
 .dealer-window1 {
@@ -168,33 +170,63 @@
     font-size:13px;
     text-align:center;
     word-wrap:wrap;
-    width:240px;
+    width:200px;
     height:60px;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     margin: 5px;
-    margin-top: 15px;
+    cursor: auto;
 }
 
 .schedule-button {
     font-size:13px;
     text-align:center;
     word-wrap:wrap;
-    width:130px;
+    font-weight:bold;
+    width:200px;
     height:130px;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    margin: 5px;
-    margin-top: 10px;
-    margin-left: 0px;
+    margin:5px;
+}
+
+.schedule-button:hover {
+    background-color:lightgrey;
 }
 
 .timeslot-container {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 5px;
-    position: relative;
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-top: 0px;
+}
+
+.view-more {
+    font-size:12px;
+    position:absolute;
+    right:22px;
+    cursor:pointer;
+}
+
+.view-more:hover {
+    text-decoration:underline;
+}
+
+.time-slot-mini {
+    font-size:12px;
+    text-align:center;
+    word-wrap:wrap;
+    line-height:1.25;
+    width:90px;
+    height:50px;
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin:3px;
+    padding-top:9px;
 }

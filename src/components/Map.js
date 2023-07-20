@@ -110,6 +110,53 @@ function Map({ zip, dist, loc, deal, coords}) {
   return models;
   }
 
+  const returnAppts = (n) => {
+    let today = new Date();
+    let currHr = today.getHours();
+    let currMonth = today.getMonth()+1;
+    let currDay = today.getDate();
+    let currTime = currHr;
+    let currMin = today.getMinutes();
+    if (currMin < 30) {
+      currMin = 3;
+    }
+    else if (currMin < 60) {
+      currMin = 0;
+      currTime = currHr + 1;
+    }
+    if (currHr < 8) {
+      currTime = 8;
+    }
+    else if (currHr >= 20) {
+      currTime = 8;
+      currDay = currDay + 1;
+    }
+    let appts = [];
+    for (let i = 0; i < n; i++) {
+      let day = (new Date('2023',today.getMonth(),currDay)).getDay();
+      let dayOfWeek = new Date(Date.UTC(2023, today.getMonth(), day)).toLocaleString('en-US', { weekday: 'long' })
+      let useTime = currTime
+      let ending = 'am';
+      if (currTime > 12) {
+        useTime = currTime-12;
+        ending = 'pm';
+      }
+      appts.push([`${dayOfWeek} ${currMonth}/${currDay}`,`${useTime.toString()}:${currMin.toString()}0${ending}`])
+      if (currMin == 3) {
+        currTime = currTime + 1;
+        currMin = 0;
+      }
+      else {
+        currMin = 3;
+      } 
+      if (currTime > 20) {
+        currTime = 8;
+        currMin = 0;
+      }
+    }
+    return appts;
+  }
+
   const markerHoverOver = (d) => {
     if (blockPopup) {
       return;
@@ -126,14 +173,15 @@ function Map({ zip, dist, loc, deal, coords}) {
     if (currHr > 20 || currHr < 8) {
       hrStr = 'Closed - opens at 8am';
     }
+    let appts = returnAppts(4);
     let text = (<p className='hover-content'>
-      <span style={{ color: '#322964', paddingTop: '20px', fontSize: '30px', fontWeight: 'bold' }}>{dealer}</span><br />
+      <span style={{ color: '#322964', paddingTop: '20px', fontSize: '27px', fontWeight: 'bold' }}>{dealer}</span><br />
       <span style={{ fontSize: '17px' }}>
-        <FaLocationArrow /><span style={{ paddingLeft: '8px' }}>{addr}</span><br />
-        <BsTelephoneFill /><span style={{ paddingLeft: '8px' }}>{phone}</span><br />
-        <FiLink2 /><span style={{ paddingLeft: '8px' }}>{link}</span><br />
-        <AiFillStar /><span style={{ paddingLeft: '8px' }}>{rating + ' stars'}</span><br />
-        <AiFillClockCircle /><span style={{ paddingLeft: '8px' }}>{hrStr}</span><br />
+        <FaLocationArrow /><span style={{ fontSize:'14px',paddingLeft: '8px' }}>{addr}</span><br />
+        <BsTelephoneFill /><span style={{ fontSize:'14px',paddingLeft: '8px' }}>{phone}</span><br />
+        <FiLink2 /><span style={{ fontSize:'14px',paddingLeft: '8px' }}>{link}</span><br />
+        <AiFillStar /><span style={{ fontSize:'14px',paddingLeft: '8px' }}>{rating + ' stars'}</span><br />
+        <AiFillClockCircle /><span style={{ fontSize:'14px',paddingLeft: '8px' }}>{hrStr}</span><br />
       </span>
       <div style={{ display: 'flex' }}>
         <span style={{ width: '50%' }}>
@@ -142,7 +190,7 @@ function Map({ zip, dist, loc, deal, coords}) {
           <span style={{ paddingLeft: '20px' }}><MdOutlineArrowForwardIos /></span>
           <div className='modelprev-container'>
             {models.map(model => (<div className='modelprev-map'>
-                <img style={{justifySelf: 'center',position:'relative',right:'10px',width:'90px',height:'auto'}} src={images[model[0]]}/>
+                <img style={{justifySelf: 'center',position:'relative',right:'10px',width:'120px',height:'auto'}} src={images[model[0]]}/>
               <div>
                 {model[0]}<BiRegistered/>{` ${model[1]}`}
               </div>
@@ -150,12 +198,21 @@ function Map({ zip, dist, loc, deal, coords}) {
           </div>
         </span>
         <span style={{ width: '50%', right: '-40%' }}>
-          <span style={{ color: '#322964', fontSize: '14px', textDecoration: 'underline' }}>
+          <span style={{ color: '#322964', fontSize: '14px', textDecoration: 'underline', paddingLeft:'10px' }}>
             Available appointments
           </span>
           <span style={{ paddingLeft: '20px' }}><MdOutlineArrowForwardIos /></span>
           <div>
-            here
+            <div style={{display:'flex',marginTop:'5px',alignContent:'left'}}>
+              <div>
+                {appts.slice(0,2).map(appt => (<div className='time-slot-mini'>{appt[0]}<br/>
+                    <span style={{fontWeight:'bold'}}>{appt[1]}</span></div>))}
+              </div>
+              <div>
+              {appts.slice(2,4).map(appt => (<div className='time-slot-mini'>{appt[0]}<br/>
+                    <span style={{fontWeight:'bold'}}>{appt[1]}</span></div>))}
+              </div>
+            </div>
           </div>
         </span>
       </div>
@@ -189,47 +246,7 @@ function Map({ zip, dist, loc, deal, coords}) {
     if (model == '' && trim == '') {
       selection = '';
     }
-    let currMonth = '8';
-    let currDay = today.getDate();
-    let currTime = currHr;
-    let currMin = today.getMinutes();
-    if (currMin < 30) {
-      currMin = 3;
-    }
-    else if (currMin < 60) {
-      currMin = 0;
-      currTime = currHr + 1;
-    }
-    if (currHr < 8) {
-      currTime = 8;
-    }
-    else if (currHr >= 20) {
-      currTime = 8;
-      currDay = currDay + 1;
-    }
-    let appts = [];
-    for (let i = 0; i < 6; i++) {
-      let day = (new Date('2023',today.getMonth(),currDay)).getDay();
-      let dayOfWeek = new Date(Date.UTC(2023, today.getMonth(), day)).toLocaleString('en-US', { weekday: 'long' })
-      let useTime = currTime
-      let ending = 'am';
-      if (currTime > 12) {
-        useTime = currTime-12;
-        ending = 'pm';
-      }
-      appts.push([`${dayOfWeek} ${currMonth}/${currDay}`,`${useTime.toString()}:${currMin.toString()}0${ending}`])
-      if (currMin == 3) {
-        currTime = currTime + 1;
-        currMin = 0;
-      }
-      else {
-        currMin = 3;
-      } 
-      if (currTime > 20) {
-        currTime = 8;
-        currMin = 0;
-      }
-    }
+    let appts = returnAppts(6);
     setShowWindow(true);
     let window1 = (<div className='dealer-window1'>
       <button className='close-button' onClick={onExit}>
@@ -251,7 +268,7 @@ function Map({ zip, dist, loc, deal, coords}) {
     let window2 = (<div className='dealer-window2'>
       <span style={{fontWeight:'bold',fontSize:'18px',color:'#322964'}}>Models & trims available</span>
       <span style={{paddingLeft:'7px',fontSize:'14px'}}>{selection}</span>
-      <span style={{fontSize:'12px',position:'absolute',right:'22px',cursor:'pointer'}} onClick={() => openScheduler(dealer)}>View more
+      <span className='view-more' onClick={() => openScheduler(dealer)}>View more
       <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
       <br/>
       <div className='models-container'>
@@ -265,19 +282,21 @@ function Map({ zip, dist, loc, deal, coords}) {
     </div>)
     let window3 = (<div className='dealer-window2'>
           <span style={{fontWeight:'bold',fontSize:'18px',color:'#322964'}}>Next appointments available</span>
-          <span style={{fontSize:'12px',position:'absolute',right:'22px',cursor:'pointer'}} onClick={() => openScheduler(dealer)}>View more
+          <span className='view-more' onClick={() => openScheduler(dealer)}>View more
           <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
           <br/>
-          <div className='timeslot-container'>
-            <button className='schedule-button' style={{fontWeight:'bold'}} onClick={() => openScheduler(dealer)}>Click here to schedule an appointment</button>
-          <div>
-            <div className='timeslot-container' style={{position:'absolute'}}>
-            {appts.slice(0,3).map(appt => (<button key={appt[1]} className='time-slot'>{appt[0]}<br/><span style={{fontWeight:'bold'}}>{appt[1]}</span></button>))}
-              </div><br/>
-              <div className='timeslow-container' style={{position:'absolute'}}>
-              {appts.slice(3,6).map(appt => (<button key={appt[1]} className='time-slot'>{appt[0]}<br/><span style={{fontWeight:'bold'}}>{appt[1]}</span></button>))}
+          <div style={{display:'flex',marginTop:'5px',marginLeft:'8px'}}>
+            <button className='schedule-button' onClick={() => openScheduler(dealer)}>Click here to schedule an appointment</button>
+            <span>
+              <div className='timeslot-container'>
+                {appts.slice(0,3).map(appt => (<button key={appt[1]} className='time-slot'>{appt[0]}<br/>
+                  <span style={{fontWeight:'bold'}}>{appt[1]}</span></button>))}
               </div>
-            </div>            
+              <div className='timeslot-container'>
+                {appts.slice(3,6).map(appt => (<button key={appt[1]} className='time-slot'>{appt[0]}<br/>
+                  <span style={{fontWeight:'bold'}}>{appt[1]}</span></button>))}
+              </div>              
+            </span>            
           </div>
         </div>)
     setWindow1Content(window1);

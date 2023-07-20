@@ -169,7 +169,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             {
               if(findMode === 0){
                 setZipCode(query)
-                setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
+                setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims you are looking for.", author: "Ford Chat", line:true,zip:""}]);
                 setShowCalcButtons(true);
                 setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>{model}
                 <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
@@ -214,7 +214,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             break;
           case "D":
             setQuery("");
-            handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment,handleUserInput);
+            handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment,handleUserInput);
             break;
           default:
             setQuery("");

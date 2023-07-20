@@ -131,8 +131,7 @@
 
 .model-box {
   justify-content: center;
-  
-  height: 300px;
+  height: 260px;
   width: 80%;
   background-color: rgb(205, 220, 232);
   border-radius: 15px;
@@ -163,7 +162,7 @@
   justify-content: center;
   height: 160px;
   padding-left: 10px;
-  padding-top: 0;
+  margin-top: 15px;
   overflow-X: auto;
   white-space: nowrap;
 }
@@ -193,7 +192,8 @@
   width: 400px;
   height: 200px;
   margin: 20px;
-  padding:15px;
+  padding: 15px;
+  margin-left:100px;
   line-height:35px;
   border-radius:10px;
   text-align:left;

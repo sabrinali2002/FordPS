@@ -3,7 +3,7 @@ import EV from "../../jsons/EV.json";
 import carPrices from "../../jsons/carPrices.json";
 import '../../styles/App.css';
 
-export default function handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, handleUserInput) {
+export default function handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, calcButtonHandler, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, handleUserInput) {
   const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
   switch (calcStep) {
     case 1: //trim 
@@ -26,11 +26,17 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         if (trim === '') {
             setTrim(query);
         }
-        setCalcHeadingText('Choose purchase type');
+        //setCalcHeadingText('Choose purchase type');
         const options = ['Lease', 'Finance', 'Buy'];
         setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat", line: true }]);
-        setShowCalcButtons(true);
-        setCalcButtons(options.map(option => (<button className='calc-button' key={option} value={option} onClick={calcButtonHandler}>{option}</button>)));
+        //setShowCalcButtons(true);
+        setMenuButtons(<div className='buttons'>
+            {options.map(option => (<button className='menu' key={option} value={option} 
+                onClick={() => 
+                    {setQuery(option);
+                        setMessages((m) => [...m, { msg: option, author: "You" }]);
+                        setMenuButtons([]);}}>{option}</button>))}
+        </div>);
         blockQueries.current = false;
         setCalcStep(3);
         break;
@@ -67,10 +73,16 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                     case 2: // months
                         setPayment(payment => {return (payment - query)});
                         let durations = [24, 36, 39, 48];
-                        setCalcHeadingText('Choose lease duration (months)');
-                        setMessages((m) => [...m, { msg: "Please select the desired lease duration, in months", author: "Ford Chat", line: true }]);
-                        setShowCalcButtons(true);
-                        setCalcButtons(durations.map(dur => (<button className='calc-button' key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
+                        //setCalcHeadingText('Choose lease duration (months)');
+                        setMessages((m) => [...m, { msg: "Please select your desired lease duration, in months", author: "Ford Chat", line: true }]);
+                        //setShowCalcButtons(true);
+                        setMenuButtons(<div className='buttons'>
+                            {durations.map(dur => (<button className='menu' key={dur.toString()} value={dur} 
+                            onClick={() => 
+                                {setQuery(dur.toString());
+                                    setMessages((m) => [...m, { msg: `${dur.toString()} months`, author: "You" }]);
+                                    setMenuButtons([]);}}>{dur.toString()}</button>))}
+                        </div>);
                         blockQueries.current = false;
                         setLeaseStep(3);
                         break;
@@ -93,10 +105,16 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                     case 2: // months
                         setPayment(payment => {return (payment - query)});
                         let durations = [36, 48, 60, 72, 84];
-                        setCalcHeadingText('Choose loan duration (months)');
-                        setMessages((m) => [...m, { msg: "Please select the desired loan duration, in months", author: "Ford Chat", line: true }]);
-                        setShowCalcButtons(true);
-                        setCalcButtons(durations.map(dur => (<button className='calc-button' key={dur.toString()} value={dur} onClick={calcButtonHandler}>{dur.toString()}</button>)));
+                        //setCalcHeadingText('Choose loan duration (months)');
+                        setMessages((m) => [...m, { msg: "Please select your desired loan duration, in months", author: "Ford Chat", line: true }]);
+                        //setShowCalcButtons(true);
+                        setMenuButtons(<div className='buttons'>
+                            {durations.map(dur => (<button className='menu' key={dur.toString()} value={dur} 
+                            onClick={() => 
+                                {setQuery(dur.toString());
+                                    setMessages((m) => [...m, { msg: `${dur.toString()} months`, author: "You" }]);
+                                    setMenuButtons([]);}}>{dur.toString()}</button>))}
+                        </div>);                        
                         blockQueries.current = false;
                         setFinanceStep(0);
                         setCalcStep(4);
@@ -112,69 +130,117 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                 setPayment(payment);
                 final = payment;
                 setMessages((m) => [...m, { msg: `Your expected monthly payment is $${Math.round(final)}`, author: "Ford Chat", line: true }]);
-                blockQueries.current = false;
-                setCalcStep(5);
+                //blockQueries.current = false;
                 break;
             case 2: // finance 
                 let apr = mosToAPR[query];
                 setPayment(payment => {return (((apr/12)*payment)/(1-((1+(apr/12))**(0-query))))});
                 final = ((apr/12)*payment)/(1-((1+(apr/12))**(0-query)));
                 setMessages((m) => [...m, { msg: `Your expected monthly payment is $${Math.round(final)}`, author: "Ford Chat", line: true }]);
-                blockQueries.current = false;
-                setCalcStep(5);
+                //blockQueries.current = false;
                 break;
             case 3: // buy
                 setPayment(payment => { return (payment - query)});
                 final = payment - query;
                 setMessages((m) => [...m, { msg: `Your expected price is $${Math.round(final)}`, author: "Ford Chat", line: true }]);
+                //blockQueries.current = false;
+                break;
+        }
+        if (Object.keys(EV).includes(model)) {
+            if (EV[model].includes(trim)) {
+                //setCalcHeadingText('Place an order?');
+                setMessages((m) => [...m, { msg: "Would you like to place an order?", author: "Ford Chat", line: true }]);
+                const opts = ['Yes','No'];
+                setMenuButtons(<div className='buttons'>
+                    {opts.map(o => (<button className='menu' key={o.toString()} value={o} 
+                    onClick={() => 
+                        {setQuery(o);
+                            setMessages((m) => [...m, { msg: o, author: "You" }]);
+                            setMenuButtons([]);}}>{o}</button>))}
+                    </div>);
+                //setShowCalcButtons(true);
                 blockQueries.current = false;
                 setCalcStep(5);
                 break;
-        }
-        break;
-    case 5:
-        if (Object.keys(EV).includes(model)) {
-            if (EV[model].includes(trim)) {
-                setCalcHeadingText('Place an order?');
-                setMessages((m) => [...m, { msg: "Would you like to place an order?", author: "Ford Chat", line: true }]);
-                const opts = ['Yes','No'];
-                setCalcButtons(opts.map(o => (<button className='calc-button' key={o.toString()} value={o} onClick={calcButtonHandler}>{o}</button>)));
-                setShowCalcButtons(true);
-                blockQueries.current = false;
-                setCalcStep(6);
-                break;
             }
             else {
-                setCalcHeadingText('Send a request?');
+                //setCalcHeadingText('Send a request?');
                 setMessages((m) => [...m, { msg: "Would you like to send a request to the dealer?", author: "Ford Chat", line: true }]);
                 const opts = ['Yes','No'];
-                setCalcButtons(opts.map(o => (<button className='calc-button' key={o.toString()} value={o} onClick={calcButtonHandler}>{o}</button>)));
+                setMenuButtons(<div className='buttons'>
+                    {opts.map(o => (<button className='menu' key={o.toString()} value={o} 
+                    onClick={() => 
+                        {setQuery(o);
+                            setMessages((m) => [...m, { msg: o, author: "You" }]);
+                            setMenuButtons([]);}}>{o}</button>))}
+                    </div>);                
                 blockQueries.current = false;
-                setShowCalcButtons(true);
-                setCalcStep(7);
+                //setShowCalcButtons(true);
+                setCalcStep(6);
                 break;
             }
         }
         else {
-            setCalcHeadingText('Send a request?');
+            //setCalcHeadingText('Send a request?');
             setMessages((m) => [...m, { msg: "Would you like to send a request to the dealer?", author: "Ford Chat", line: true }]);
             const opts = ['Yes','No'];
-            setCalcButtons(opts.map(o => (<button className='calc-button' key={o.toString()} value={o} onClick={calcButtonHandler}>{o}</button>)));
+            setMenuButtons(<div className='buttons'>
+                {opts.map(o => (<button className='menu' key={o.toString()} value={o} 
+                onClick={() => 
+                    {setQuery(o);
+                        setMessages((m) => [...m, { msg: o, author: "You" }]);
+                        setMenuButtons([]);}}>{o}</button>))}
+                </div>);            
             blockQueries.current = false;
-            setShowCalcButtons(true);
-            setCalcStep(7);
+            //setShowCalcButtons(true);
+            setCalcStep(6);
             break;
         }
-    case 6:
+    case 5:
         switch(query) {
             case 'Yes':
-                setCalcHeadingText('Delivery or pickup?');
+                //setCalcHeadingText('Delivery or pickup?');
                 setMessages((m) => [...m, { msg: "Would you like car delivery or pickup?", author: "Ford Chat", line: true }]);
                 const opts = ['Delivery','Pickup'];
-                setCalcButtons(opts.map(o => (<button className='calc-button' key={o.toString()} value={o} onClick={calcButtonHandler}>{o}</button>)));
-                setShowCalcButtons(true);
-                setCalcStep(7);
+                setMenuButtons(<div className='buttons'>
+                    {opts.map(o => (<button className='menu' key={o.toString()} value={o} 
+                    onClick={() => 
+                        {setQuery(o);
+                            setMessages((m) => [...m, { msg: o, author: "You" }]);
+                            setMenuButtons([]);}}>{o}</button>))}
+                    </div>);                
+                //setShowCalcButtons(true);
+                setCalcStep(6);
                 blockQueries.current = false;
+                break;
+            case 'No':
+                setCalcStep(0);
+                blockQueries.current = false;
+                break;
+        }
+        break;
+    case 6:
+        switch(query) {
+            case 'Delivery':
+                setMessages((m) => [...m, { msg: "Please enter your delivery address:", author: "Ford Chat", line: true }]);
+                blockQueries.current = false;
+                setCalcStep(7);
+                break;
+            case 'Pickup':
+                setMessages((m) => [...m, { msg: "You will now be directed to the dealership finder", author: "Ford Chat", line: true }]);
+                setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
+                blockQueries.current = false;
+                changeChoice('B');
+                //handleUserInput('B');
+                setCalcStep(0);
+                break;                
+            case 'Yes':
+                setMessages((m) => [...m, { msg: "You will now be directed to the dealership finder", author: "Ford Chat", line: true }]);
+                setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
+                blockQueries.current = false;
+                changeChoice('B');
+                //handleUserInput('B');
+                setCalcStep(0);
                 break;
             case 'No':
                 setCalcStep(0);
@@ -183,25 +249,14 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         }
         break;
     case 7:
-        switch(query) {
-            case 'Delivery':
-                setMessages((m) => [...m, { msg: "Please enter your delivery address", author: "Ford Chat", line: true }]);
-                blockQueries.current = false;
-                setCalcStep(7);
-                break;
-            case 'Pickup':
-                setMessages((m) => [...m, { msg: "You will now be directed to the dealership finder", author: "Ford Chat", line: true }]);
-                handleUserInput('B');
-                setCalcStep(0);
-                break;                
-            case 'Yes':
-                setMessages((m) => [...m, { msg: "You will now be directed to the dealership finder", author: "Ford Chat", line: true }]);
-                break;
-            case 'No':
-                setCalcStep(0);
-                blockQueries.current = false;
-                break;
-        }
+        setMessages((m) => [...m, { msg: "Please enter your email address:", author: "Ford Chat", line: true }]);
+        blockQueries.current = false;
+        setCalcStep(8);
+        break;
+    case 8:
+        setMessages((m) => [...m, { msg: "Thank you! We will process your request and send you a confirmation email shortly.", author: "Ford Chat", line: true }]);
+        blockQueries.current = false;
+        setCalcStep(0);
         break;
     }
   }

@@ -316,31 +316,21 @@ function App() {
             />
               );
             })}
-            {calcStep==5 && (<div className='payment-summary'>
-                <span style={{fontWeight:'bold',fontSize:'20px'}}>
-                    {(calcMode < 3) ? ('Expected payment:') : ('Expected payment:')}
-                </span><br/>
-                <span style={{fontSize:'18px',paddingLeft:'10px'}}>
-                    $
-                    {Math.round(payment)}
-                    {(calcMode < 3) && ('/month')}
-                </span>
-            </div>)}
           </div>
-          {calcStep>4 && (<div className='payment-summary'>
+          {calcStep==5 && (<div className='payment-summary'>
                 <span style={{fontWeight:'bold',fontSize:'20px'}}>
-                    {(calcMode < 3) ? ('Expected payment:') : ('Expected payment:')}
+                    {(calcMode<3) ? ('Expected payment:') : ('Expected payment:')}
                 </span><br/>
                 <span style={{fontSize:'18px',paddingLeft:'10px'}}>
                     $
                     {Math.round(payment)}
-                    {(calcMode < 3) && ('/month')}
+                    {(calcMode<3) && ('/month')}
                 </span>
             </div>)}
             {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
                 <div className='model-box'>
-                    <div style={{marginTop:'10px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>
-                    <div style={{marginTop:'5px',color:'#322964',fontSize:'10px',fontWeight:'bold',lineHeight:'20px'}}>Select from the options to specify which cars you are looking for</div>
+                    <div style={{marginTop:'10px',color:'#322964',fontSize:'20px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>
+                    <div style={{color:'#322964',fontSize:'10px',fontWeight:'bold',lineHeight:'20px'}}>Select from the options to specify which cars you are looking for</div>
                     <div className='button-container'>{calcButtons}</div>
                     {vehicle !== "" && <button style = {{position: "relative", bottom: 0, alignSelf:'start', marginLeft:-40, alignSelf:'start'}} onClick = {() => {
                       if(infoMode === 1){
