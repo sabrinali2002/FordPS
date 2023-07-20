@@ -10,22 +10,23 @@ import dealerToTrim from '../jsons/dealerToTrim.json';
 import info from '../jsons/dealerInfo.json';
 import { FaLocationArrow } from 'react-icons/fa';
 import { BsTelephoneFill, BsLink } from 'react-icons/bs';
-import { AiFillClockCircle, AiFillStar } from 'react-icons/ai';
+import { AiFillClockCircle, AiFillStar, AiOutlineCloseCircle } from 'react-icons/ai';
+import { IoMdClose } from 'react-icons/io';
 import { FiLink2 } from 'react-icons/fi';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import { BiRegistered } from 'react-icons/bi';
 import images from '../images/image_link.json';
+import { FaMapMarked } from 'react-icons/fa';
+//import { scheduler } from "timers/promises";
 
 function Map({ zip, dist, loc, deal, coords}) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
   const [pickedLoc, setPickedLoc] = useState("");
-  const [specific, setSpecific] = useState(false);
   const [model, setModel] = useState('');
   const [trim, setTrim] = useState('');
   const [showWindow, setShowWindow] = useState(false);
-  const [windowText, setWindowText] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [popupText, setPopupText] = useState('');
   const [popupPos, setPopupPos] = useState([]);
@@ -34,17 +35,18 @@ function Map({ zip, dist, loc, deal, coords}) {
   const [window2Content, setWindow2Content] = useState([]);
   const [window3Content, setWindow3Content] = useState([]);
 
-
-  const handleButtonClick = (loc) => {
-    setPickedLoc(loc);
-    setIsSchedulerVisible(true);
-    console.log(pickedLoc);
-  };
-
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
     iconSize: [20, 20], // Adjust the icon size if necessary
   });
+
+  const goToMap = (address) => {
+
+    const encodedAddress = encodeURIComponent(address);
+    const mapsUrl = `https://www.google.com/maps?q=${encodedAddress}`;
+
+    window.open(mapsUrl, '_blank'); // Open the Google Maps link in a new tab/window
+  };
 
   const popupHoverOff = () => {
     setShowPopup(false);
@@ -52,13 +54,15 @@ function Map({ zip, dist, loc, deal, coords}) {
     setBlockPopup(false);
   };
 
-  const markerHoverOver = (d) => {
-    if (blockPopup) {
-      return;
-    }
-    let dealer = d[0];
+  const openScheduler = (dealer) => {
+    setIsSchedulerVisible(true);
+    setShowWindow(false);
+    setPickedLoc(dealer);
+  }
+
+  const returnCars = (dealer, n) => {
     let models = [];
-    if (model != '' && trim != '') { // know model & trim
+    if (model !== '' && trim !== '') { // know model & trim
       if (Object.values(dealerToTrim[dealer][model]).includes(trim)) {
         models.push([model, trim]);
         for (let trims of dealerToTrim[dealer][model]) {
@@ -70,30 +74,30 @@ function Map({ zip, dist, loc, deal, coords}) {
       }
       else { // trim unavailable
         for (let trims of dealerToTrim[dealer][model]) {
-          if (models.length < 2) {
+          if (models.length < n) {
             models.push([model, trims]);
           }
         }
-        while (models.length < 2) { // not enough trims of model
+        while (models.length < n) { // not enough trims of model
           let x = 0;
           // append first trim of similar model
         }
       }
     }
-    else if (models != '') { // know model, not trim
+    else if (model !== '') { // know model, not trim
       for (let trims of dealerToTrim[dealer][model]) {
-        if (models.length < 2) {
+        if (models.length < n) {
           models.push([model, trims]);
         }
       }
-      while (models.length < 2) { // not enough trims of model
+      while (models.length < n) { // not enough trims of model
         let x = 0;
         // append first trim of similar model
       }
     }
     else { // know neither
       for (let currmodel of Object.keys(dealerToTrim[dealer])) {
-        if (models.length < 2) {
+        if (models.length < n) {
           if (dealerToTrim[dealer][currmodel].length != 0) {
             models.push([currmodel, dealerToTrim[dealer][currmodel][0]]);
           }
@@ -103,6 +107,15 @@ function Map({ zip, dist, loc, deal, coords}) {
         }
       }
     }
+  return models;
+  }
+
+  const markerHoverOver = (d) => {
+    if (blockPopup) {
+      return;
+    }
+    let dealer = d[0];
+    let models = returnCars(dealer,2);
     let addr = info[dealer]["address"];
     let phone = info[dealer]["number"];
     let rating = info[dealer]["rating"];
@@ -115,7 +128,8 @@ function Map({ zip, dist, loc, deal, coords}) {
     }
     let text = (<p className='hover-content'>
       <span style={{ color: '#322964', paddingTop: '20px', fontSize: '30px', fontWeight: 'bold' }}>{dealer}</span><br />
-      <span style={{ fontSize: '17px' }}><FaLocationArrow /><span style={{ paddingLeft: '8px' }}>{addr}</span><br />
+      <span style={{ fontSize: '17px' }}>
+        <FaLocationArrow /><span style={{ paddingLeft: '8px' }}>{addr}</span><br />
         <BsTelephoneFill /><span style={{ paddingLeft: '8px' }}>{phone}</span><br />
         <FiLink2 /><span style={{ paddingLeft: '8px' }}>{link}</span><br />
         <AiFillStar /><span style={{ paddingLeft: '8px' }}>{rating + ' stars'}</span><br />
@@ -159,29 +173,116 @@ function Map({ zip, dist, loc, deal, coords}) {
 
   const locClickHandler = (d) => {
     let dealer = d[0];
-    let models = Object.keys(dealerToTrim[dealer]);
-    if (models.length > 5) {
-      models = models.slice(0, 5);
-    }
-    let str = '';
-    for (let model of models) {
-      str = str + model + ', ';
-    }
-    let title1 = 'Available models: ';
-    let title2 = 'Available dates: ';
-    let str1 = str.slice(0, str.length - 2);
-    let str2 = "dates";
+    let models = returnCars(dealer,5);
+    let url = 'https://images.jazelc.com/uploads/robinsford-m2en/Ford_Service.jpeg';
     let addr = info[dealer]['address'];
-    let num = info[dealer]['number'];
+    let phone = info[dealer]['number'];
     let rating = info[dealer]['rating'];
-    let text = (<div>
-      {dealer}
-    </div>);
+    let link = `www.${dealer.replaceAll(' ','').replaceAll("'",'').toLowerCase()}.com`;
+    let today = new Date();
+    let currHr = today.getHours();
+    let hrStr = 'Open - closes at 8pm';
+    if (currHr > 20 || currHr < 8) {
+      hrStr = 'Closed - opens at 8am';
+    }
+    let selection = 'based on your selection';
+    if (model == '' && trim == '') {
+      selection = '';
+    }
+    let currMonth = '8';
+    let currDay = today.getDate();
+    let currTime = currHr;
+    let currMin = today.getMinutes();
+    if (currMin < 30) {
+      currMin = 3;
+    }
+    else if (currMin < 60) {
+      currMin = 0;
+      currTime = currHr + 1;
+    }
+    if (currHr < 8) {
+      currTime = 8;
+    }
+    else if (currHr >= 20) {
+      currTime = 8;
+      currDay = currDay + 1;
+    }
+    let appts = [];
+    for (let i = 0; i < 6; i++) {
+      let day = (new Date('2023',today.getMonth(),currDay)).getDay();
+      let dayOfWeek = new Date(Date.UTC(2023, today.getMonth(), day)).toLocaleString('en-US', { weekday: 'long' })
+      let useTime = currTime
+      let ending = 'am';
+      if (currTime > 12) {
+        useTime = currTime-12;
+        ending = 'pm';
+      }
+      appts.push([`${dayOfWeek} ${currMonth}/${currDay}`,`${useTime.toString()}:${currMin.toString()}0${ending}`])
+      if (currMin == 3) {
+        currTime = currTime + 1;
+        currMin = 0;
+      }
+      else {
+        currMin = 3;
+      } 
+      if (currTime > 20) {
+        currTime = 8;
+        currMin = 0;
+      }
+    }
     setShowWindow(true);
-    let window1 = (<div>
-      <span style={{color:'#322964',fontSize:'20px',fontWeight:'bold'}}>{dealer}</span>
+    let window1 = (<div className='dealer-window1'>
+      <button className='close-button' onClick={onExit}>
+        <span style={{position:'relative',right:'6px',bottom:'1.6px'}}><IoMdClose/></span>
+      </button>
+      <span style={{color:'#322964',fontSize:'24px',fontWeight:'bold'}}>{dealer}</span>
+      <img style={{width:'200px',height:'auto',position:'absolute',right:'50px',top:'50px',borderRadius:'10px',boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'}} src={url}/>
+      <span style={{position:'absolute',right:'220px'}}><FaMapMarked/></span>
+      <span style={{textDecoration:'underline',fontSize:'16px',position:'absolute',right:'58px',cursor:'pointer'}} onClick={() => goToMap(`${dealer}, ${addr}`)}>
+        View on Google Maps</span>
+      <br/>
+      <span style={{fontSize:'16px',lineHeight:'1.8',position:'relative',left:'4px',top:'5px'}}>
+        <FaLocationArrow /><span style={{ paddingLeft: '8px' }}>{addr}</span><br />
+        <BsTelephoneFill /><span style={{ paddingLeft: '8px' }}>{phone}</span><br />
+        <FiLink2 /><span style={{ paddingLeft: '8px' }}>{link}</span><br />
+        <AiFillStar /><span style={{ paddingLeft: '8px' }}>{rating + ' stars'}</span><br />
+        <AiFillClockCircle /><span style={{ paddingLeft: '8px' }}>{hrStr}</span><br /></span>
     </div>)
+    let window2 = (<div className='dealer-window2'>
+      <span style={{fontWeight:'bold',fontSize:'18px',color:'#322964'}}>Models & trims available</span>
+      <span style={{paddingLeft:'7px',fontSize:'14px'}}>{selection}</span>
+      <span style={{fontSize:'12px',position:'absolute',right:'22px',cursor:'pointer'}} onClick={() => openScheduler(dealer)}>View more
+      <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
+      <br/>
+      <div className='models-container'>
+        <div style={{listStyleType: 'none',display: 'flex'}}>
+          {models.map(model => (<div key={model} className='window-model'>
+          <img style={{width:'140px',height:'auto'}} src={images[model[0]]}/><br/>
+                {model[0]}<BiRegistered/>{` ${model[1]}`}
+              </div>))}
+          </div>
+      </div>
+    </div>)
+    let window3 = (<div className='dealer-window2'>
+          <span style={{fontWeight:'bold',fontSize:'18px',color:'#322964'}}>Next appointments available</span>
+          <span style={{fontSize:'12px',position:'absolute',right:'22px',cursor:'pointer'}} onClick={() => openScheduler(dealer)}>View more
+          <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
+          <br/>
+          <div className='timeslot-container'>
+            <button className='schedule-button' style={{fontWeight:'bold'}} onClick={() => openScheduler(dealer)}>Click here to schedule an appointment</button>
+          <div>
+            <div className='timeslot-container' style={{position:'absolute'}}>
+            {appts.slice(0,3).map(appt => (<button key={appt[1]} className='time-slot'>{appt[0]}<br/><span style={{fontWeight:'bold'}}>{appt[1]}</span></button>))}
+              </div><br/>
+              <div className='timeslow-container' style={{position:'absolute'}}>
+              {appts.slice(3,6).map(appt => (<button key={appt[1]} className='time-slot'>{appt[0]}<br/><span style={{fontWeight:'bold'}}>{appt[1]}</span></button>))}
+              </div>
+            </div>            
+          </div>
+        </div>)
     setWindow1Content(window1);
+    setWindow2Content(window2);
+    setWindow3Content(window3);
   };
 
   const findLocations = async (distance) => {
@@ -216,11 +317,13 @@ function Map({ zip, dist, loc, deal, coords}) {
     const closestLocations = sortedLocations.slice(0, count);
     let topLatLongs = [];
     for (let i = 0; i < closestLocations.length; i++) {
-      const arr = closestLocations[i][0].split(", ");
-      const location = arr[arr.length - 1].split(" ");
-      let address = arr.length === 3 ? arr[0] + arr[1] : arr[0];
-      let name = address.split("----");
-      topLatLongs.push([name[0],name[1], location[1], location[2]]);
+      let address = closestLocations[i][0];
+      let name = address.split('----')[0];
+      let rest = address.split('----')[1];
+      let loc = rest.split(' ');
+      let lat = loc[loc.length-2];
+      let long = loc[loc.length-1];
+      topLatLongs.push([name,info[name]['address'],lat,long]);
     }
 
     return topLatLongs;
@@ -275,20 +378,12 @@ function Map({ zip, dist, loc, deal, coords}) {
   return (
   <div>
       {showWindow && (<div style={{alignContent:'center'}}>
-          <div className="dealer-window1">  
-            <button className='close-button' onClick={onExit}>
-              <span style={{position:'relative',paddingRight:'50%',paddingBottom:'50%',marginRight:'5px',marginBottom:'4px'}}>x</span>
-            </button>
-            {window1Content}
-          </div>
-          <div className='dealer-window2'>
-            {window2Content}
-          </div>
-          <div className='dealer-window2'>
-            {window3Content}
-          </div>
+          {window1Content}
+          {window2Content}
+          {window3Content}
         </div>)}
-  {!showWindow && <div
+    {isSchedulerVisible && <TestDriveScheduler loc={pickedLoc}/>}
+  {(!showWindow && !isSchedulerVisible) && <div
       style={{
         position: "relative",
         backgroundColor: "#113B7A1A",
@@ -425,8 +520,3 @@ function Map({ zip, dist, loc, deal, coords}) {
 }
 
 export default Map;
-
-/*
-
-          {display: 'grid', gridTemplateColumns: 'repeat(2, auto)', gridGap: '2px' }
-*/

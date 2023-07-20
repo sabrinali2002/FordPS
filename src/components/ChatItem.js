@@ -11,6 +11,7 @@ import DisplayInfo from "./DisplayInfo"
 import circleHenrai from "./henraicircle.jpg";
 
 function extractLinkFromText(messageText, author, darkMode){
+    console.log(messageText);
     const wordsArray = messageText.split(" ")
     const linkIndex = wordsArray.findIndex(str=>str.includes('https'))
 
@@ -113,7 +114,8 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
         <CarInfoTable data={carInfoData} mode={carInfoMode} intro={message}/>
           </Fragment>}
         {
-          author==="Login" && <ExistingOwner setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput}/>
+          author==="Login" && <ExistingOwner setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput} justSelect={message.length>0} selectedCar={selectedCar}
+          setSelectedCar={setSelectedCar} hide={message.length==0}/>
         }
     </div>
     </div>)

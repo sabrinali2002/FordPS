@@ -78,7 +78,6 @@
     font-weight: bold;
     line-height: 15px;
     cursor: pointer;
-    justify-content: left;
 }
 
 .close-button:hover {
@@ -114,26 +113,17 @@
     padding: 5px;
 }
 
-.dealer-window {
-    padding-left: 15px;
-    justify-content: center;
-    height: 200px;
-    width: 800px;
-    background-color: rgb(205, 220, 232);
-    border-radius: 15px;
-    box-shadow: 3px, rgb(203,225,231);
-    margin-top: 10px;
-}
-
 .dealer-window1 {
     position: relative;
     background-color: #113B7A1A;
     width: 900px;
-    height: 250px;
+    height: 220px;
     border-radius: 15px;
-    padding: 25px;
-    margin: 10px;
+    padding: 20px;
+    padding-top: 15px;
+    margin: 15px;
     left: 60px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .dealer-window2 {
@@ -142,7 +132,69 @@
     width: 900px;
     height: 200px;
     border-radius: 15px;
-    padding: 25px;
-    margin: 10px;
+    padding: 20px;
+    padding-top: 15px;
+    margin: 15px;
     left: 60px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.window-model {
+    height: 120px;
+    width: 180px;
+    background-color: white;
+    color:#322964;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 10px;
+    text-align:center;
+    word-wrap:wrap;
+    overflow-wrap:wrap;  
+    margin: 10px;
+    padding-top: 8px;
+    padding-bottom: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.models-container {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(150px, 1fr));
+    gap: 10px;
+    margin:5px;
+    margin-left:0px;
+}
+
+.time-slot {
+    font-size:13px;
+    text-align:center;
+    word-wrap:wrap;
+    width:240px;
+    height:60px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin: 5px;
+    margin-top: 15px;
+}
+
+.schedule-button {
+    font-size:13px;
+    text-align:center;
+    word-wrap:wrap;
+    width:130px;
+    height:130px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin: 5px;
+    margin-top: 10px;
+    margin-left: 0px;
+}
+
+.timeslot-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 5px;
+    position: relative;
 }
