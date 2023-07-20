@@ -1,10 +1,10 @@
 @font-face {
-    font-family: 'Manrope';
-    src: url('fonts/Manrope-Regular.ttf') format('truetype');
+    font-family: 'Antenna';
+    src: url('fonts/ford-antenna-medium-cnd-587bd97171cbd.otf') format('truetype');
 }
 
 .question-button-container {
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Antenna', sans-serif;
     z-index: 9999;
     margin-top:2px;
   }
@@ -20,9 +20,9 @@
   }
   
   .explanation-container {
-    position:relative;
-    bottom: -5px;
-    right: 200px;
+    position:fixed;
+    bottom: 160px;
+    left: 90px;
     width: 300px;
     background-color: white;
     padding: 10px;
@@ -54,10 +54,10 @@
   }
 
   .extra-information {
-    position:relative;
-    bottom: -1px;
-    right: 300px;
-    width: 400px;
+    position:fixed;
+    bottom: 160px;
+    left: 90px;
+    width: 500px;
     background-color: white;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
