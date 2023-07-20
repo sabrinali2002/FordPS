@@ -394,6 +394,34 @@ function App() {
               );
             })}
           </div>
+          {calcStep==5 && (<div className='payment-summary'>
+                <span style={{fontWeight:'bold',fontSize:'20px'}}>
+                    {(calcMode<3) ? ('Expected payment:') : ('Expected payment:')}
+                </span><br/>
+                <span style={{fontSize:'18px',paddingLeft:'10px'}}>
+                    $
+                    {Math.round(payment)}
+                    {(calcMode<3) && ('/month')}
+                </span>
+            </div>)}
+            {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center',marginTop:'10px',marginBottom:'15px'}}>
+                <div className='model-box'>
+                    <div style={{marginTop:'10px',color:'#322964',fontSize:'20px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>
+                    <div style={{color:'#322964',fontSize:'12px',fontWeight:'bold',lineHeight:'20px'}}>Select from the options to specify which cars you are looking for</div>
+                    <div className='button-container'>{calcButtons}</div>
+                    {vehicle !== "" && <button style = {{position: "relative", bottom: 0, alignSelf:'start', marginLeft:-40, alignSelf:'start'}} onClick = {() => {
+                      if(infoMode === 1){
+                        handleUserInput('I')
+                      }
+                      else{
+                        setQuery(cat);
+                        setInfoMode(infoMode-1)
+                        handleUserFlow(fixTrimQueryQuotation, cat, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode-1, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons, locateDealershipsFn, changeSelected, setDealers, selected, cat, setCat);
+                      }
+                    }
+                    }><u>Back</u></button>}
+                    </div>
+                </div>}
           <ThreeDots
             height="50"
             width="50"
@@ -408,7 +436,7 @@ function App() {
           <div ref={messagesEndRef}/>
         </div>
         <div>
-          {menuButtons}
+            {menuButtons}
           <form
             onSubmit={(e) => {
               e.preventDefault();
