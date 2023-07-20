@@ -30,6 +30,7 @@ export function handleUserInputFn(
         // Outputs a response to based on input user selects
         switch (option) {
             case "I":
+              setInfoMode(0);
                 if (cat === "") {
                     setMessages((m) => [...m, { msg: "Info on a specific car", author: "You", line: true, zip: {} }]);
                     setMessages((m) => [...m, { msg: "Please a model/trim of the specific car you're looking for", author: "Ford Chat", line: true, zip: "" }]);
@@ -129,6 +130,7 @@ export function handleUserInputFn(
 }
 
 export function handleUserFlow(
+  origButtons,
     tableForceUpdate,
     setTableForceUpdate,
     handleMoreInfo,
@@ -244,6 +246,7 @@ export function handleUserFlow(
             }
             else if(infoMode === 4){
               handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
+              // setMenuButtons(origButtons) 
             }
             blockQueries.current = false;
             break;

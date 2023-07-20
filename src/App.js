@@ -172,6 +172,14 @@ function App() {
     );
     const buyingFordButtons = (
         <div className="buttons">
+          <button
+                className="menu"
+                onClick={() => {
+                  setMenuButtons([origButtons])
+                }}
+            >
+                Back
+            </button>
             <button
                 className="menu"
                 onClick={() => {
@@ -220,6 +228,14 @@ function App() {
     );
     const buyACarButtons = (
         <div className="buttons">
+          <button
+                className="menu"
+                onClick={() => {
+                  setMenuButtons(buyingFordButtons);
+                }}
+            >
+                Back
+            </button>
             <button
                 className="menu"
                 onClick={() => {
@@ -333,6 +349,7 @@ function App() {
 
     useEffect(() => {
         handleUserFlow(
+          origButtons,
             tableForceUpdate, 
             setTableForceUpdate,
             handleMoreInfo,
@@ -487,16 +504,22 @@ function App() {
                                     Select from the options to specify which cars you are looking for
                                 </div>
                                 <div className="button-container">{calcButtons}</div>
-                                {vehicle !== "" && (
+                                {
                                     <button
                                         style={{ position: "relative", bottom: 0, alignSelf: "start", marginLeft: -40, alignSelf: "start" }}
                                         onClick={() => {
+                                            if (infoMode === 0){
+                                              setShowCalcButtons(false)
+                                              setMenuButtons(buyingFordButtons)
+                                            }
                                             if (infoMode === 1) {
                                                 handleUserInput("I");
+                                                setInfoMode(0);
                                             } else {
                                                 setQuery(cat);
                                                 setInfoMode(infoMode - 1);
                                                 handleUserFlow(
+                                                  origButtons,
                                                   tableForceUpdate, 
                                                   setTableForceUpdate,
                                                   handleMoreInfo,
@@ -571,7 +594,7 @@ function App() {
                                     >
                                         <u>Back</u>
                                     </button>
-                                )}
+                                }
                             </div>
                         </div>
                     )}
