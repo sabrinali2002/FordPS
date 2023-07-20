@@ -4,7 +4,7 @@ export default function handleDealerFlow(zipMode, dealerList, setZipCode, query,
     case 0: {
         setZipCode(query)
         setMessages((m)=>[...m,{msg: "Thank you - I will look for dealerships in the "+extractFiveDigitString(query) + " area", author: "Ford Chat", line:false,zip:""}]);
-        setMessages((m)=>[...m,{msg: "Please enter your preferred radius to find a dealership, or NONE", author: "", line:true,zip:""}]);
+        setMessages((m)=>[...m,{msg: "Please enter your preferred radius to find a dealership, or NONE", author: "Ford Chat", line:true,zip:""}]);
         setZipMode(1);
         break;
     }
