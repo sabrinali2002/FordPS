@@ -15,7 +15,7 @@ function ExistingOwner({setMessages, setMenuButtons, handleUserInput, justSelect
             setMenuButtons([])
     }, [hide])
     return (
-        <div>
+        <div style={{display:'flex',justifyContent:'center'}}>
             {
              user ? <CarSelectScreen user={user} auth={auth} username={username} setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput} justSelect={justSelect} selectedCar={selectedCar}
              setSelectedCar={setSelectedCar}/>:<Login username={username} setUsername={setUsername}/>
