@@ -1,0 +1,274 @@
+{
+    "SUVs and Cars": {
+      "Escape": [
+        "Active",
+        "Base",
+        "Platinum",
+        "Plug-In Hybrid",
+        "ST-Line",
+        "ST-Line Elite",
+        "ST-Line Select"
+      ],
+      "Bronco": [
+        "Badlands",
+        "Base",
+        "Base w/Advanced 4x4",
+        "Big Bend",
+        "Big Bend w/Advanced 4x4",
+        "Black Diamond w/Advanced 4x4",
+        "Black Diamond",
+        "Everglades",
+        "Heritage Edition",
+        "Heritage Limited Edition",
+        "Outer Banks",
+        "Outer Banks w/Advanced 4x4",
+        "Raptor",
+        "Wildtrak"
+      ],
+      "Bronco Sport": [
+        "Badlands",
+        "Base",
+        "Big Bend",
+        "Heritage",
+        "Heritage Limited",
+        "Outer Banks"
+      ],
+      "Explorer": [
+        "Base",
+        "King Ranch",
+        "Limited",
+        "Limited Hybrid",
+        "Platinum",
+        "Platinum Hybrid",
+        "ST",
+        "ST-Line",
+        "Timberline",
+        "XLT"
+      ],
+      "Edge": [
+        "SE",
+        "SEL",
+        "ST",
+        "ST-Line",
+        "Titanium"
+      ],
+      "Mustang Mach-E": [
+        "California Route 1 w/Extended Range",
+        "GT w/Extended Range",
+        "Premium w/Standard Range",
+        "Select w/Standard Range"
+      ]
+    },
+    "Trucks and Vans": {
+      "Ranger": [
+        "Lariat",
+        "XL",
+        "XLT"
+      ],
+      "F-150": [
+        "King Ranch",
+        "Lariat",
+        "Limited",
+        "Platinum",
+        "Raptor",
+        "Raptor R",
+        "Tremor",
+        "XL",
+        "XLT"
+      ],
+      "F-150 Lightning": [
+        "Lariat",
+        "Platinum",
+        "Pro",
+        "XLT"
+      ],
+      "E-Transit Cargo Van": [
+        "350 High Roof w/148\" WB",
+        "350 Low Roof w/148\" WB",
+        "350 Low Roof w/130\" WB",
+        "350 Medium Roof w/130\" WB",
+        "350 Medium Roof w/148\" WB"
+      ],
+      "Transit Cargo Van": [
+        "150 Low Roof w/148\" WB",
+        "150 Low Roof w/130\" WB",
+        "150 Medium Roof w/130\" WB",
+        "150 Medium Roof w/148\" WB",
+        "250 High Roof w/148\" WB",
+        "250 Low Roof w/148\" WB",
+        "250 Low Roof w/130\" WB",
+        "250 Medium Roof w/130\" WB",
+        "250 Medium Roof w/148\" WB",
+        "350 HD High Roof w/148\" WB, 9,950 lbs. GVWR",
+        "350 HD High Roof w/148\" WB, 10,360 lbs. GVWR",
+        "350 HD High Roof w/148\" WB, 11,000 lbs. GVWR",
+        "350 High Roof w/148\" WB",
+        "350 High Roof w/148\" WB, 9,950 lbs. GVWR",
+        "350 Low Roof w/130\" WB",
+        "350 Low Roof w/148\" WB",
+        "350 Low Roof w/148\" WB, 9,950 lbs. GVWR",
+        "350 Medium Roof w/130\" WB",
+        "350 Medium Roof w/148\" WB"
+      ],
+      "Transit Crew Van": [
+        "250 Low Roof w/130\" WB",
+        "350 Low Roof w/148\" WB",
+        "150 Low Roof w/148\" WB",
+        "150 Medium Roof w/130\" WB",
+        "250 Medium Roof w/130\" WB",
+        "250 Medium Roof w/148\" WB",
+        "350 Medium Roof w/148\" WB",
+        "350 HD High Roof w/148\" WB, 9,950 lbs. GVWR",
+        "150 Low Roof w/130\" WB",
+        "350 HD High Roof w/148\" WB, 10,360 lbs. GVWR",
+        "250 Low Roof w/148\" WB",
+        "250 High Roof w/148\" WB",
+        "350 Medium Roof w/130\" WB",
+        "350 Low Roof w/130\" WB",
+        "350 High Roof w/148\" WB",
+        "150 Medium Roof w/148\" WB"
+    ],
+    "Transit Passenger Van": [
+        "350 HD XL High Roof w/148\" WB",
+        "350 XLT Low Roof w/148\" WB",
+        "350 XLT Medium Roof w/148\" WB",
+        "350 XLT High Roof w/148\" WB",
+        "350 XL Low Roof w/148\" WB",
+        "350 HD XLT High Roof w/148\" WB",
+        "350 XL High Roof w/148\" WB",
+        "350 XL Medium Roof w/148\" WB"
+    ],
+    "Transit Connect Cargo Van": [
+        "XLT w/Rear Liftgate LWB",
+        "XL w/Rear 180 Degree Doors SWB",
+        "XLT w/Rear 180 Degree Doors LWB",
+        "XL w/Rear Liftgate SWB",
+        "XL w/Rear Liftgate LWB",
+        "XL w/Rear 180 Degree Doors LWB",
+        "XLT w/Rear 180 Degree Doors SWB",
+        "XLT w/Rear Liftgate SWB"
+    ]
+    },
+    "Electrified": {
+      "Mustang Mach-E": [
+        "California Route 1 w/Extended Range",
+        "GT w/Extended Range",
+        "Premium w/Standard Range",
+        "Select w/Standard Range"
+      ],
+      "F-150 Lightning": [
+        "Lariat",
+        "Platinum",
+        "Pro",
+        "XLT"
+      ],
+      "E-Transit Cargo Van": [
+        "350 High Roof w/148\" WB",
+        "350 Low Roof w/148\" WB",
+        "350 Low Roof w/130\" WB",
+        "350 Medium Roof w/130\" WB",
+        "350 Medium Roof w/148\" WB"
+      ],
+      "F-150": [
+        "King Ranch",
+        "Lariat",
+        "Limited",
+        "Platinum",
+        "Raptor",
+        "Raptor R",
+        "Tremor",
+        "XL",
+        "XLT"
+      ],
+      "Escape": [
+        "Plug-In Hybrid",
+        "ST-Line Elite"
+      ],
+      "Explorer": [
+        "Limited"
+      ]
+    },
+    "Performance Vehicles": {
+      "Edge": [
+        "ST"
+      ],
+      "Explorer": [
+        "ST"
+      ],
+      "Bronco": [
+        "Raptor"
+      ],
+      "F-150": [
+        "Raptor",
+        "Raptor R"
+      ]
+    },
+    "Commercial Vehicles": {
+      "Transit Cargo Van": [
+        "150 Low Roof w/148\" WB",
+        "150 Low Roof w/130\" WB",
+        "150 Medium Roof w/130\" WB",
+        "150 Medium Roof w/148\" WB",
+        "250 High Roof w/148\" WB",
+        "250 Low Roof w/148\" WB",
+        "250 Low Roof w/130\" WB",
+        "250 Medium Roof w/130\" WB",
+        "250 Medium Roof w/148\" WB",
+        "350 HD High Roof w/148\" WB, 9,950 lbs. GVWR",
+        "350 HD High Roof w/148\" WB, 10,360 lbs. GVWR",
+        "350 HD High Roof w/148\" WB, 11,000 lbs. GVWR",
+        "350 High Roof w/148\" WB",
+        "350 High Roof w/148\" WB, 9,950 lbs. GVWR",
+        "350 Low Roof w/130\" WB",
+        "350 Low Roof w/148\" WB",
+        "350 Low Roof w/148\" WB, 9,950 lbs. GVWR",
+        "350 Medium Roof w/130\" WB",
+        "350 Medium Roof w/148\" WB"
+      ],
+      "E-Transit Cargo Van": [
+        "350 High Roof w/148\" WB",
+        "350 Low Roof w/148\" WB",
+        "350 Low Roof w/130\" WB",
+        "350 Medium Roof w/130\" WB",
+        "350 Medium Roof w/148\" WB"
+      ],
+      "Transit Crew Van": [
+        "250 Low Roof w/130\" WB",
+        "350 Low Roof w/148\" WB",
+        "150 Low Roof w/148\" WB",
+        "150 Medium Roof w/130\" WB",
+        "250 Medium Roof w/130\" WB",
+        "250 Medium Roof w/148\" WB",
+        "350 Medium Roof w/148\" WB",
+        "350 HD High Roof w/148\" WB, 9,950 lbs. GVWR",
+        "150 Low Roof w/130\" WB",
+        "350 HD High Roof w/148\" WB, 10,360 lbs. GVWR",
+        "250 Low Roof w/148\" WB",
+        "250 High Roof w/148\" WB",
+        "350 Medium Roof w/130\" WB",
+        "350 Low Roof w/130\" WB",
+        "350 High Roof w/148\" WB",
+        "150 Medium Roof w/148\" WB"
+    ],
+    "Transit Passenger Van": [
+        "350 HD XL High Roof w/148\" WB",
+        "350 XLT Low Roof w/148\" WB",
+        "350 XLT Medium Roof w/148\" WB",
+        "350 XLT High Roof w/148\" WB",
+        "350 XL Low Roof w/148\" WB",
+        "350 HD XLT High Roof w/148\" WB",
+        "350 XL High Roof w/148\" WB",
+        "350 XL Medium Roof w/148\" WB"
+    ],
+    "Transit Connect Cargo Van": [
+        "XLT w/Rear Liftgate LWB",
+        "XL w/Rear 180 Degree Doors SWB",
+        "XLT w/Rear 180 Degree Doors LWB",
+        "XL w/Rear Liftgate SWB",
+        "XL w/Rear Liftgate LWB",
+        "XL w/Rear 180 Degree Doors LWB",
+        "XLT w/Rear 180 Degree Doors SWB",
+        "XLT w/Rear Liftgate SWB"
+    ]
+    }
+  }

@@ -171,10 +171,18 @@ const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selec
                                 <StyledTableCell>
                                     <img src={`${images[car2data.model]}`} style={{ width: "200px" }} alt={`${car2data.model} image`}></img>
                                 </StyledTableCell>
+                                <StyledTableCell>
+                                    <img src={`${images[car1data.model]}`} style={{ width: "200px" }} alt={`${car1data.model} image`}></img>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <img src={`${images[car2data.model]}`} style={{ width: "200px" }} alt={`${car2data.model} image`}></img>
+                                </StyledTableCell>
                             </StyledTableRow>
                             {specList.map((spec, index) => (
                                 <StyledTableRow key={spec}>
                                     <StyledTableCell>{spec}</StyledTableCell>
+                                    <StyledTableCell>{car1data[`${specListSQL[index]}`]}</StyledTableCell>
+                                    <StyledTableCell>{car2data[`${specListSQL[index]}`]}</StyledTableCell>
                                     <StyledTableCell>{car1data[`${specListSQL[index]}`]}</StyledTableCell>
                                     <StyledTableCell>{car2data[`${specListSQL[index]}`]}</StyledTableCell>
                                 </StyledTableRow>
