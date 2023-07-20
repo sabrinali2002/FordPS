@@ -80,6 +80,12 @@
   margin:5px;
 }
 .buttons{
+  position:fixed;
+  bottom:110px;
+  align-items:center;
+  justify-content:center;
+  align-self: center;
+  width:100%;
   margin:auto;
   text-align:center;
 }
