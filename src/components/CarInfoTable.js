@@ -117,7 +117,7 @@ const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selec
                                 <StyledTableRow key={item.id}>
                                     <Checkbox onChange={()=>onCheckboxSelect(item.id, messageIndex)} checked={item.isChecked}/>
                                     <StyledTableCell>
-                                        <img src={`${images[item.model]}`} style={{ width: "200px" }} alt={`${item.model} image`}></img>
+                                        <img src={`${images[item.model][item.trim]}`} style={{ width: "200px" }} alt={`${item.model} image`}></img>
                                     </StyledTableCell>
                                     <StyledTableCell>{item.model}</StyledTableCell>
                                     <StyledTableCell>{item.trim}</StyledTableCell>
@@ -210,7 +210,7 @@ const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selec
                                     {selectedCars.map((car) => {
                                         return (
                                             <StyledTableCell key={car.id}>
-                                                <img src={`${images[car.model]}`} style={{ width: "200px" }} alt={`${car.model} image`}></img>
+                                                <img src={`${images[car.model][car.trim]}`} style={{ width: "200px" }} alt={`${car.model} image`}></img>
                                             </StyledTableCell>
                                         );
                                     })}
