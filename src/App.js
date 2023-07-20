@@ -338,7 +338,11 @@ function App() {
 
   return (
     <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
-      <div className="topbar"><TopBar /></div>
+      <div className="topbar"><TopBar handleClick={()=>{
+        setMessages([]);
+        setMenuButtons([origButtons]);
+        setCalcButtons([])
+        }}/></div>
       <div className="topbarback"></div>
       <div className="divider"></div>
       <div className="burger"><HamburgerMenu onClick = {handleMenuClick}/></div>
