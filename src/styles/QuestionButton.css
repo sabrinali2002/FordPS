@@ -4,9 +4,9 @@
 }
 
 .question-button-container {
-    position: relative;
     font-family: 'Manrope', sans-serif;
     z-index: 9999;
+    margin-top:2px;
   }
   
   .question-button {
@@ -16,18 +16,18 @@
     color: rgb(138, 138, 147);
     font-size: 20px;
     cursor: pointer;
+    position:relative;
   }
   
   .explanation-container {
-    position: absolute;
+    position:relative;
     bottom: -5px;
-    left: 0;
+    right: 200px;
     width: 300px;
     background-color: white;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     font-size: 16px;
-    transform: translateY(-50%);
   }
   
   .learn-more-button {
@@ -44,7 +44,6 @@
   }
   
   .explanation-container .close-button {
-    position: absolute;
     bottom: 5px;
     right: 5px;
     background-color: white;
@@ -55,14 +54,13 @@
   }
 
   .extra-information {
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 600px;
+    position:relative;
+    bottom: -1px;
+    right: 300px;
+    width: 400px;
     background-color: white;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     font-size: 16px;
-    transform: translateY(-50%);
   }
   

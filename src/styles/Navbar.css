@@ -2,7 +2,8 @@
 Sidebar navigation
 ========================*/
 .navbar {
-    position: relative;
+    z-index: 10000000000000000000;
+    padding-top:10px;
   }
   button {
     cursor: pointer;
@@ -13,7 +14,7 @@ Sidebar navigation
   .navbar .toggle {
     position: fixed;
     right: 30px;
-    top: 40px;
+    top: 70px;
     cursor: pointer;
     background: transparent;;
     border: none;
@@ -22,7 +23,7 @@ Sidebar navigation
     right: 0px;
     top: 40px;
     list-style: none;
-    position: absolute;
+    position: fixed;
     background: #fff;
     width: 0;
     overflow: hidden;

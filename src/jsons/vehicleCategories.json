@@ -109,7 +109,45 @@
         "350 Low Roof w/148\" WB, 9,950 lbs. GVWR",
         "350 Medium Roof w/130\" WB",
         "350 Medium Roof w/148\" WB"
-      ]
+      ],
+      "Transit Crew Van": [
+        "250 Low Roof w/130\" WB",
+        "350 Low Roof w/148\" WB",
+        "150 Low Roof w/148\" WB",
+        "150 Medium Roof w/130\" WB",
+        "250 Medium Roof w/130\" WB",
+        "250 Medium Roof w/148\" WB",
+        "350 Medium Roof w/148\" WB",
+        "350 HD High Roof w/148\" WB, 9,950 lbs. GVWR",
+        "150 Low Roof w/130\" WB",
+        "350 HD High Roof w/148\" WB, 10,360 lbs. GVWR",
+        "250 Low Roof w/148\" WB",
+        "250 High Roof w/148\" WB",
+        "350 Medium Roof w/130\" WB",
+        "350 Low Roof w/130\" WB",
+        "350 High Roof w/148\" WB",
+        "150 Medium Roof w/148\" WB"
+    ],
+    "Transit Passenger Van": [
+        "350 HD XL High Roof w/148\" WB",
+        "350 XLT Low Roof w/148\" WB",
+        "350 XLT Medium Roof w/148\" WB",
+        "350 XLT High Roof w/148\" WB",
+        "350 XL Low Roof w/148\" WB",
+        "350 HD XLT High Roof w/148\" WB",
+        "350 XL High Roof w/148\" WB",
+        "350 XL Medium Roof w/148\" WB"
+    ],
+    "Transit Connect Cargo Van": [
+        "XLT w/Rear Liftgate LWB",
+        "XL w/Rear 180 Degree Doors SWB",
+        "XLT w/Rear 180 Degree Doors LWB",
+        "XL w/Rear Liftgate SWB",
+        "XL w/Rear Liftgate LWB",
+        "XL w/Rear 180 Degree Doors LWB",
+        "XLT w/Rear 180 Degree Doors SWB",
+        "XLT w/Rear Liftgate SWB"
+    ]
     },
     "Electrified": {
       "Mustang Mach-E": [
@@ -193,6 +231,44 @@
         "350 Low Roof w/130\" WB",
         "350 Medium Roof w/130\" WB",
         "350 Medium Roof w/148\" WB"
-      ]
+      ],
+      "Transit Crew Van": [
+        "250 Low Roof w/130\" WB",
+        "350 Low Roof w/148\" WB",
+        "150 Low Roof w/148\" WB",
+        "150 Medium Roof w/130\" WB",
+        "250 Medium Roof w/130\" WB",
+        "250 Medium Roof w/148\" WB",
+        "350 Medium Roof w/148\" WB",
+        "350 HD High Roof w/148\" WB, 9,950 lbs. GVWR",
+        "150 Low Roof w/130\" WB",
+        "350 HD High Roof w/148\" WB, 10,360 lbs. GVWR",
+        "250 Low Roof w/148\" WB",
+        "250 High Roof w/148\" WB",
+        "350 Medium Roof w/130\" WB",
+        "350 Low Roof w/130\" WB",
+        "350 High Roof w/148\" WB",
+        "150 Medium Roof w/148\" WB"
+    ],
+    "Transit Passenger Van": [
+        "350 HD XL High Roof w/148\" WB",
+        "350 XLT Low Roof w/148\" WB",
+        "350 XLT Medium Roof w/148\" WB",
+        "350 XLT High Roof w/148\" WB",
+        "350 XL Low Roof w/148\" WB",
+        "350 HD XLT High Roof w/148\" WB",
+        "350 XL High Roof w/148\" WB",
+        "350 XL Medium Roof w/148\" WB"
+    ],
+    "Transit Connect Cargo Van": [
+        "XLT w/Rear Liftgate LWB",
+        "XL w/Rear 180 Degree Doors SWB",
+        "XLT w/Rear 180 Degree Doors LWB",
+        "XL w/Rear Liftgate SWB",
+        "XL w/Rear Liftgate LWB",
+        "XL w/Rear 180 Degree Doors LWB",
+        "XLT w/Rear 180 Degree Doors SWB",
+        "XLT w/Rear Liftgate SWB"
+    ]
     }
   }
