@@ -7,7 +7,7 @@ test('ask me anything input area works', () => {
   render(<App/>)
 
   const questionInput = screen.getByLabelText('Ask me anything...');
-  questionInput.value = '50k';
+  questionInput.value = 'hello world';
   expect(questionInput).toBeInTheDocument();
-  expect(questionInput.value).toBe('50k');
+  expect(questionInput.value).toBe('hello world');
 });
