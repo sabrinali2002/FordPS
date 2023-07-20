@@ -1,0 +1,58 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+  }
+  .inputStyle,
+  .react-datepicker-wrapper .react-datepicker__input-container input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    font-size: 16px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    outline: none;
+  }
+  
+  .inputStyle:focus,
+  .react-datepicker-wrapper .react-datepicker__input-container input:focus {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Add your preferred focus style */
+  }
+  
+  /* Same for the Select component */
+  .css-yk16xz-control,
+  .css-1pahdxg-control {
+    border: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .css-yk16xz-control:focus,
+  .css-1pahdxg-control:focus {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25) !important; /* Add your preferred focus style */
+  }
+  
+  .react-datepicker__day--selected {
+    background-color: #007bff !important;
+  }
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+  
+  .react-datepicker__input-container {
+    width: 100%;
+  }
+  .react-datepicker__input-container input:focus {
+    border-color: blue;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  }
+  
