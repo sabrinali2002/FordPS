@@ -7,12 +7,13 @@ import { useState, useEffect } from 'react';
 
 const auth = getAuth(firebase);
 
-function ExistingOwner({setMessages, setMenuButtons, handleUserInput, justSelect, selectedCar, setSelectedCar}){
+function ExistingOwner({setMessages, setMenuButtons, handleUserInput, justSelect, selectedCar, setSelectedCar, hide}){
     const [user, loading, error] = useAuthState(auth);
     const [username, setUsername] = useState("")
     useEffect(() => {
-        setMenuButtons([])
-    }, [])
+        if(hide)
+            setMenuButtons([])
+    }, [hide])
     return (
         <div>
             {

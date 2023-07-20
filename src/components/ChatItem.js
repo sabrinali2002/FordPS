@@ -101,7 +101,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
         </Fragment>}
         {
           author==="Login" && <ExistingOwner setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput} justSelect={message.length>0} selectedCar={selectedCar}
-          setSelectedCar={setSelectedCar}/>
+          setSelectedCar={setSelectedCar} hide={message.length==0}/>
         }
     </div>
     </div>)
