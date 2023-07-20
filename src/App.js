@@ -436,7 +436,7 @@ function App() {
           <div ref={messagesEndRef}/>
         </div>
         <div>
-          {menuButtons}
+        {menuButtons}
           <form
             onSubmit={(e) => {
               e.preventDefault();
