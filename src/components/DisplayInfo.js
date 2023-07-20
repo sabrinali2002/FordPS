@@ -1,6 +1,8 @@
 import data from '../images/image_link.json'
-export default function DisplayInfo({info}){
-    return <div
+import dealerships from "../jsons/trimToDealer.json"
+export default function DisplayInfo({ info }) {
+    return (
+      <div
         style={{
           height: "400px",
           width: "900px", // Increase width to desired value
@@ -8,26 +10,66 @@ export default function DisplayInfo({info}){
           float: "left",
           borderRadius: "15px", // Add this for rounded corners
           backgroundColor: "#d4e3fa",
-          flexDirection:'column',
-          margin: '10px'
+          flexDirection: "column",
+          margin: "10px"
         }}
       >
         <div>
-        <div style = {{padding:"10px"}}>
-          <div style = {{float: "right", width:"356px", height:"180px", margin:"20px", 
-          backgroundColor:"white", borderRadius: "15px",
-          boxShadow: "0 4px 2px -2px gray"}}>
-            <img src = {data[info.model]}></img>
+          <div style={{ padding: "10px" }}>
+            <div
+              style={{
+                float: "right",
+                width: "356px",
+                height: "180px",
+                margin: "20px",
+                backgroundColor: "white",
+                borderRadius: "15px",
+                boxShadow: "0 4px 2px -2px gray"
+              }}
+            >
+              <img src={data[info.model]}></img>
             </div>
-            <div style = {{marginLeft:"20px", marginTop:"10px"}}>
-        <h1>{"2023 " + info.model + " " + info.trim}</h1>
-        <h3><strong>Engine</strong>{" "+info['engine_aspiration']}</h3>
-        <h3><strong>Drivetrain</strong>{" "+info['drivetrain']}</h3>
-        <h3><strong>Transmission</strong>{" "+info['transmission']}</h3>
-        <h3><strong>Body Style</strong>{" "+info['body_style']}</h3>
+            <div style={{ marginLeft: "20px", marginTop: "10px" }}>
+              <h2>
+                {"2023 "}
+                <strong>{info.model}</strong> &#x24C7;{" "}
+                <strong>{info.trim + " "}</strong>&#x24C7; model
+              </h2>
+              <div style={{ marginBottom: "25px" }}>
+                <h3 style={{ fontSize: "20px" }}>
+                  <strong>Estimated net price</strong> $36,630<u>{" "}...more</u>
+                </h3>
+                <h3 style={{ fontSize: "20px" }}>
+                  <strong>Available at</strong>{" "}
+                  {" " +
+                    dealerships[info.model][info.trim][0] +
+                    ", " +
+                    dealerships[info.model][info.trim][1] +
+                    ", "}<u>...more</u>
+                </h3>
+              </div>
+              <h2>
+                <strong>Your Vehicle</strong>
+              </h2>
+              <h3 style={{ fontSize: "20px" }}>
+                <strong>Engine</strong>{" " + info["engine_aspiration"]}
+              </h3>
+              <h3 style={{ fontSize: "20px" }}>
+                <strong>Drivetrain</strong>{" " + info["drivetrain"]}
+              </h3>
+              <h3 style={{ fontSize: "20px" }}>
+                <strong>Transmission</strong>{" " + info["transmission"]}
+              </h3>
+              <h3 style={{ fontSize: "20px" }}>
+                <strong>Body Style</strong>{" " + info["body_style"]}
+              </h3>
+            </div>
+          </div>
         </div>
-        </div></div>
-        <div></div>
-
+        <div style={{ textAlign: "right", paddingRight: "10px",margin: "3px"}}>
+          <button style={{ float: "right" }}><u>Detailed info</u>&#10148;</button>
+        </div>
       </div>
-}
+    );
+  }
+  

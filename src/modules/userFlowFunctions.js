@@ -123,7 +123,6 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
           case "I":
             if(infoMode === 1){
               setCalcHeadingText("Choose specific model");
-              console.log(vehicles[cat])
               setCalcButtons(Object.keys(vehicles[cat]).map(model => (<button
                 className="model-button"
                 key={model}
@@ -142,7 +141,6 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
             else if(infoMode === 2){
               setModel(query);
               setCalcHeadingText(query + " - Choose specific trim");
-              console.log("info")
               setCalcButtons(vehicles[vehicle][query].map(trim => (<button className='model-button' key={trim} value={trim} onClick={()=>{
               handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode);
               setTrim(trim);

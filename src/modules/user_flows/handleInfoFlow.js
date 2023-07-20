@@ -23,7 +23,9 @@ export default function handleInfoFlow(model,trim, setMessages, setModel, setQue
     }}>Pricing estimation</button>
     <button className="menu" onClick={()=>{
       setMenuButtons([]);
-      
+      console.log(arr);
+      setCarInfoData(arr);
+      setMessages((m) => [...m, { msg: "", author: "Table", line:true,zip:{} }]);
     }}>More information</button>
   </div>)
     }

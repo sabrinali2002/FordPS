@@ -23,7 +23,6 @@ import HamburgerMenu from "./components/Navbar.js";
 import { IntroCardContent } from "./components/IntroCardContent";
 
 const fixTrimQueryQuotation = (model, query) => {
-    console.log("model: " + model, "original query: " + query);
     if(model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van") {
         return query;
     }
