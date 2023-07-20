@@ -99,6 +99,7 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
             {!justSelect && <Fragment>
                 <h1 style={{textAlign: 'center'}}>Welcome back, {username.length>0?username:user.displayName}!</h1>
                 <p style={{textAlign: 'center'}}>Not you? <button className="link" onClick={() =>{ 
+                    alert('clicked')
                 signOut(auth) }}>Click here</button> to sign out.</p>
                 <h5>Which of your cars do you need help with?</h5>
             </Fragment>}

@@ -333,6 +333,7 @@ export function handleUserFlow(
                     query,
                     setQuery,
                     setMessages,
+                    setMenuButtons,
                     setCalcButtons,
                     calcButtonHandler,
                     blockQueries,
@@ -365,4 +366,4 @@ export function handleUserFlow(
                 break;
         }
     }
-}
+  }

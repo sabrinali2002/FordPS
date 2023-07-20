@@ -34,12 +34,16 @@
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
     "react-select": "^5.7.3",
+    "react-three-fiber": "^6.0.13",
+    "react-tooltip": "^5.18.0",
+    "styled-components": "^6.0.4",
+    "three": "^0.154.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest ./src/tests",
+    "test": "jest ./src/tests --silent",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -64,6 +68,7 @@
     "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
     "@babel/preset-react": "^7.22.5",
+    "@jest/globals": "^29.6.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",

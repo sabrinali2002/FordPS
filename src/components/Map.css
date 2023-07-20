@@ -11,28 +11,28 @@
     border-radius: 5px;
     box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.1);
 }
-/* CSS */
+
 .custom-scrollbar {
     overflow-y: scroll;
-    max-height: 345px;
-    scrollbar-width: thin; /* For Firefox */
-    scrollbar-color: #888 #f5f5f5; /* For Firefox */
+    max-height: 320px;
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f5f5f5;
   }
   
-  .custom-scrollbar::-webkit-scrollbar { /* For Chrome, Edge, and Safari */
+  .custom-scrollbar::-webkit-scrollbar {
     width: 12px;
   }
   
-  .custom-scrollbar::-webkit-scrollbar-track { /* For Chrome, Edge, and Safari */
+  .custom-scrollbar::-webkit-scrollbar-track {
     background: #f5f5f5;
   }
   
-  .custom-scrollbar::-webkit-scrollbar-thumb { /* For Chrome, Edge, and Safari */
+  .custom-scrollbar::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 6px;
   }
   
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover { /* For Chrome, Edge, and Safari */
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
   
@@ -85,7 +85,7 @@
 }
 
 .hover-content {
-    line-height: 28px;
+    line-height: 23px;
     justify-content: left;
     padding-left: 20px;
     padding-top: 13px;
@@ -93,9 +93,9 @@
 
 .modelprev-map {
     box-shadow: 3px, rgb(86, 88, 86);
-    width: 70px;
-    height: 50px;
-    font-size: 8px;
+    width: 100px;
+    height: 60px;
+    font-size: 9px;
     font-weight: bold;
     color: #322964;
     text-align:center;
@@ -103,45 +103,49 @@
     overflow-wrap:wrap;  
     line-height:1.2;
     justify-content:center;
-    margin-right: 5px;
+    margin-right: 3px;
 }
 
 .modelprev-container {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 5px;
+    margin-top: 10px;
+    padding: 3px;
+    margin-left: -13px;
 }
 
 .dealer-window1 {
+    align-items:flex-start;
+    align-self:flex-start;
     position: relative;
     background-color: #113B7A1A;
-    width: 900px;
+    width: 90%;
     height: 220px;
     border-radius: 15px;
     padding: 20px;
     padding-top: 15px;
-    margin: 15px;
-    left: 60px;
+    margin-top: 15px;
+    left: 0px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .dealer-window2 {
     position: relative;
     background-color: #113B7A1A;
-    width: 900px;
+    width: 90%;
     height: 200px;
     border-radius: 15px;
     padding: 20px;
     padding-top: 15px;
-    margin: 15px;
-    left: 60px;
+    margin-top: 15px;
+    left: 0px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .window-model {
     height: 120px;
-    width: 180px;
+    width: 150px;
     background-color: white;
     color:#322964;
     font-size: 10px;
@@ -150,51 +154,81 @@
     text-align:center;
     word-wrap:wrap;
     overflow-wrap:wrap;  
-    margin: 10px;
+    margin: 7px;
     padding-top: 8px;
     padding-bottom: 2px;
+    padding-right: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .models-container {
     display: grid;
     grid-template-columns: repeat(4, minmax(150px, 1fr));
-    gap: 10px;
-    margin:5px;
-    margin-left:0px;
+    margin-top: 7px;
 }
 
 .time-slot {
     font-size:13px;
     text-align:center;
     word-wrap:wrap;
-    width:240px;
+    width:180px;
     height:60px;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     margin: 5px;
-    margin-top: 15px;
+    cursor: auto;
 }
 
 .schedule-button {
     font-size:13px;
     text-align:center;
     word-wrap:wrap;
-    width:130px;
+    font-weight:bold;
+    width:230px;
     height:130px;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    margin: 5px;
-    margin-top: 10px;
-    margin-left: 0px;
+    margin:5px;
+}
+
+.schedule-button:hover {
+    background-color:lightgrey;
 }
 
 .timeslot-container {
+    width: 90%;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 5px;
-    position: relative;
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-top: 0px;
+}
+
+.view-more {
+    font-size:14px;
+    position:absolute;
+    right:22px;
+    cursor:pointer;
+}
+
+.view-more:hover {
+    text-decoration:underline;
+}
+
+.time-slot-mini {
+    font-size:12px;
+    text-align:center;
+    word-wrap:wrap;
+    line-height:1.25;
+    width:90px;
+    height:50px;
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin:3px;
+    padding-top:9px;
 }

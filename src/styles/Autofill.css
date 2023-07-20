@@ -1,0 +1,80 @@
+@font-face {
+  font-family: 'Antenna';
+  src: url('fonts/ford-antenna-medium-cnd-587bd97171cbd.otf') format('truetype');
+}
+
+.toggle-container {
+  position: relative;
+  padding-top:10px;
+}
+
+.toggle-button {
+  width: 40px;
+  height: 22px;
+  color: rgb(253, 253, 197);
+  position: relative;
+  z-index: 2;
+}
+
+.label {
+  position: absolute;
+  top: 30px;
+  left: 1px;
+  font-family: 'Antenna', sans-serif;
+  color: #5a5858;
+  font-size: 13px;
+  width:100px;
+}
+
+.toggle-button input {
+  display: none;
+}
+
+.slider {
+  height: 22px;
+  width: 40px;
+  cursor: pointer;
+  background-color: #8f8f8f;
+  border-radius: 22px;
+  transition: 0.4s;
+  z-index: 3;
+  position: relative;
+}
+.slider:before {
+  content: '';
+  height: 16px;
+  width: 16px;
+  background-color: rgb(248, 248, 248);
+  border-radius: 50%;
+  transition: 0.4s transform; /* Add transition for smooth animation */
+  position: absolute;
+  top: 3px;
+  left: 3px;
+
+}
+
+input[type='checkbox'] {
+  display: none;
+}
+
+input[type='checkbox']:checked + .slider {
+  
+  background-color:rgb(132, 132, 243)
+}
+
+input[type='checkbox']:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+.fill {
+  margin-left: 30px;
+  margin-bottom: 300px;
+  background-color: rgb(230, 224, 224);
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.fill:hover {
+  background-color: rgb(182, 180, 180);
+  cursor: pointer;
+}
