@@ -422,7 +422,6 @@ function App() {
                     }><u>Back</u></button>}
                     </div>
                 </div>}
-            {menuButtons}
           <ThreeDots
             height="50"
             width="50"
@@ -437,10 +436,7 @@ function App() {
           <div ref={messagesEndRef}/>
         </div>
         <div>
-            <div>
-                {menuButtons}
-            </div>
-
+            {menuButtons}
           <form
             onSubmit={(e) => {
               e.preventDefault();
