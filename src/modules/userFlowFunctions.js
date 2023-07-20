@@ -217,8 +217,6 @@ export function handleUserFlow(
           case "I":
             if(infoMode === 1){
               setCalcHeadingText("Choose specific model");
-              console.log("cat" + cat);
-              console.log(vehicles)
               setCalcButtons(Object.keys(vehicles[cat]).map(model => (<button
                 className="model-button"
                 key={model}
@@ -265,8 +263,8 @@ export function handleUserFlow(
                 setZipCode(query)
                 setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
                 setShowCalcButtons(true);
-                setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>{model}
-                <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
+                setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>
+                <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>{model}
                   <BiRegistered/></button>)));
                 setFind(1);
               }
