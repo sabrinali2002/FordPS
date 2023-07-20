@@ -17,7 +17,7 @@ export default function DisplayInfo({info}){
           <div style = {{float: "right", width:"356px", height:"180px", margin:"20px", 
           backgroundColor:"white", borderRadius: "15px",
           boxShadow: "0 4px 2px -2px gray"}}>
-            <img src = {data[info.model]}></img>
+            <img src = {data[info.model][info.trim]}></img>
             </div>
             <div style = {{marginLeft:"20px", marginTop:"10px"}}>
         <h1>{"2023 " + info.model + " " + info.trim}</h1>
