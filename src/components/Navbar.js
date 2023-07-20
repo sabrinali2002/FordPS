@@ -70,7 +70,7 @@ const Navbar = ({onClick}) => {
       </button>
       <ul className={`menu-nav${navbarOpen ? ' show-menu' : ''}`}>
         <button className="toggle" onClick={() => setNavbarOpen((prev) => !prev)}>
-          <MdClose style={{ width: '32px', height: '32px', position: 'relative', top: '-28px', right: '-5px' }} />
+          <MdClose style={{ width: '32px', height: '32px', position: 'fixed', top: '-28px', right: '-5px' }} />
         </button>
         <li className="title">
           <strong>HenrAI Menu</strong>

@@ -94,14 +94,12 @@ function calculateEditDistance(str1, str2) {
 
   return (
 <div>
-    <div className="toggle-container">
-<label  className="toggle-button"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}>
-      <input type="checkbox" checked={recOn} onChange={handleClick}/>
-      <span className="slider"></span>
-    </label>
-{isHovered && (recOn ? (<p className="label">Autofill on</p>) : (<p className="label">Autofill off</p>))}
+<div className="toggle-container">
+      <label className="toggle-button" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <input type="checkbox" checked={recOn} onChange={handleClick} />
+        <div className="slider"></div>
+      </label>
+      {isHovered && <p className="label">Autofill {recOn ? 'on' : 'off'}</p>}
     </div>
     
     {recOn && recommendations.length>1 &&

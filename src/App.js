@@ -1,11 +1,13 @@
 import "./styles/App.css";
-import { Card, TextField, InputAdornment, IconButton } from "@mui/material";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
+import AccessibilityButton from "./components/AccessibilityButton";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
 import Autofill from './components/Autofill';
 import trims from "./jsons/trims.json";
+import TopBar from "./components/TopBar";
 
 import {
   Brightness4,
@@ -20,7 +22,6 @@ import { handleUserInputFn, handleUserFlow } from "./modules/userFlowFunctions";
 
 import QuestionButton from "./components/QuestionButton";
 import HamburgerMenu from "./components/Navbar.js";
-import { IntroCardContent } from "./components/IntroCardContent";
 
 const fixTrimQueryQuotation = (model, query) => {
     console.log("model: " + model, "original query: " + query);
@@ -126,41 +127,41 @@ function App() {
   };
   const origButtons = (
     <div className="buttons">
-      <button className = "menu" onClick={()=>{
+      <button className = "menu button-standard" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You"}]})
         setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]})
         setMenuButtons(buyingFordButtons)
         }}>Buying a Ford</button>
-      <button className = "menu" onClick={()=>{
+      <button className = "menu button-standard" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]})
         setMessages(m=>{return [...m, {msg: "", author: "Login"}]})
         }}>I'm an Existing Owner</button>
-      <button className = "menu" onClick={()=>{
+      <button className = "menu button-standard" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
         }}>Info about Ford</button>
-      <button className = "menu" onClick={()=>{
+      <button className = "menu button-standard" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You"}]})
         }}>Negotiation Assistance</button>
     </div>
   );
   const buyingFordButtons = (
     <div className = "buttons">
-       <button className = "menu" onClick={() => {
+       <button className = "menu button-standard" onClick={() => {
         handleUserInput('I');
         setMenuButtons([]);
         }}>Info about a specific car</button>
-      <button className = "menu" onClick={() => {
+      <button className = "menu button-standard" onClick={() => {
         handleUserInput('A');
         }}>Car recommendation</button>
-      <button className = "menu" onClick={() => {
+      <button className = "menu button-standard" onClick={() => {
         handleUserInput('D');
         setMenuButtons([]);
         }}>Car pricing estimator</button>
-      <button className = "menu" onClick={() => {
+      <button className = "menu button-standard" onClick={() => {
         handleUserInput('B');
         setMenuButtons([]);
         }}>Find a dealership</button>
-      <button className = "menu" onClick={() => {
+      <button className = "menu button-standard" onClick={() => {
         handleUserInput('C');
         setMenuButtons([]);
         }}>Schedule a test drive</button>
@@ -168,12 +169,12 @@ function App() {
   )
   const buyACarButtons = (
     <div className="buttons">
-      <button className="menu" onClick={()=>{
+      <button className="menu button-standard" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
         changeChoice("A");
         setMenuButtons([])
         }}>Ask my own questions</button>
-      <button className="menu" onClick={()=>{
+      <button className="menu button-standard" onClick={()=>{
         setMessages((m) => [...m,{ msg: "Take questionnaire", author: "You", line: true }]);
         setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
         changeChoice("Q");
@@ -259,37 +260,35 @@ function App() {
 
   return (
     <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
-      <HamburgerMenu onClick = {handleMenuClick}/>
-      <div
+      <div className="topbar"><TopBar /></div>
+      <div className="topbarback"></div>
+      <div className="divider"></div>
+      <div className="burger"><HamburgerMenu onClick = {handleMenuClick}/></div>
+      <AccessibilityButton 
+          toggleTextSize={toggleTextSize} 
+          toggleDarkMode={toggleDarkMode} 
+          queryText={queryText} 
+          setQueryText={setQueryText}
+          darkMode={darkMode}
+          textSize={textSize}/>
+      <div className="fullpage"
         style={{
           width: '100%',
           height: '100%',
-          backgroundColor: darkMode ? "#000080" : "#f4f3f3",
+          backgroundColor: darkMode ? "#000080" : "white",
           color: darkMode ? "#ffffff" : "#000000",
           width: '100%',
           height: '100%',
           fontSize:
             textSize === "large"
-              ? "22px"
+              ? "25px"
               : textSize === "small"
-              ? "16px"
-              : "19px",
+              ? "19px"
+              : "22px",
         }}
       >
         <div className="ChatArea">
-        <Card
-            variant="outlined"
-            className="CardOutline"
-            style={{
-              maxWidth: "45%",
-              flex: "none",
-              marginBottom: "3%",
-              alignSelf: "center",
-              textSize: { textSize },
-            }}
-          >
-            {IntroCardContent}
-          </Card>
+
         <div className="MessagesArea">
             <div>
               <p>{response}</p>
@@ -321,12 +320,11 @@ function App() {
             radius="7"
             color="#8080ff"
             ariaLabel="three-dots-loading"
-            wrapperStyle={{ marginLeft: "5vw" }}
+            wrapperStyle={{ marginLeft: "10%" }}
             wrapperClassName=""
             visible={blockQueries.current}
             style={{flex: 'none'}}
           />
-          <p>.</p>
           <div ref={messagesEndRef}/>
         </div>
         <div>
@@ -358,6 +356,7 @@ function App() {
                 selectMode && <button onClick = {locateDealerships}>Locate the nearest dealerships</button>
             }
             </div>
+            <div className="textfield">
             <TextField
               value={queryText}
               error={blockQueries.current}
@@ -370,6 +369,7 @@ function App() {
                 marginTop: "1%",
                 marginLeft: "5%",
                 textSize: { textSize },
+                fontFamily: 'Antenna, sans-serif',
               }}
               label={"Ask me anything..."}
               helperText={
@@ -396,30 +396,11 @@ function App() {
                 ),
               }}
             />
+            </div>
           </form>
         </div>
         <div className="bottom">
-          <IconButton
-            onClick={toggleTextSize}
-            color="blue"
-            aria-label="Toggle Text Size"
-          >
-            {textSize === "medium" ? <TextFieldsOutlined /> : <TextFields />}
-          </IconButton>
-          <IconButton
-            onClick={toggleDarkMode}
-            color="blue"
-            aria-label="Toggle Dark Mode"
-          >
-            {darkMode ? <Brightness7 /> : <Brightness4 />}
-          </IconButton>
-          <QuestionButton />
-          <Autofill             
-            lastWord={queryText.trim().split(' ').pop()}
-            chars={queryText.length}
-            setQuery={setQueryText}
-            restOfString={queryText.trim().split(' ').slice(0, -1).join(' ')}/>
-        </div>
+          </div>
       </div>
     </div>)
 }
