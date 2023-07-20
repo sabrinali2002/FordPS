@@ -124,41 +124,41 @@ function App() {
   };
   const origButtons = (
     <div className="buttons">
-      <button className = "menu" onClick={()=>{
+      <button className = "menu button-standard" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You"}]})
         setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]})
         setMenuButtons(buyingFordButtons)
         }}>Buying a Ford</button>
-      <button className = "menu" onClick={()=>{
+      <button className = "menu button-standard" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]})
         setMessages(m=>{return [...m, {msg: "", author: "Login"}]})
         }}>I'm an Existing Owner</button>
-      <button className = "menu" onClick={()=>{
+      <button className = "menu button-standard" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
         }}>Info about Ford</button>
-      <button className = "menu" onClick={()=>{
+      <button className = "menu button-standard" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You"}]})
         }}>Negotiation Assistance</button>
     </div>
   );
   const buyingFordButtons = (
     <div className = "buttons">
-       <button className = "menu" onClick={() => {
+       <button className = "menu button-standard" onClick={() => {
         handleUserInput('I');
         setMenuButtons([]);
         }}>Info about a specific car</button>
-      <button className = "menu" onClick={() => {
+      <button className = "menu button-standard" onClick={() => {
         handleUserInput('A');
         }}>Car recommendation</button>
-      <button className = "menu" onClick={() => {
+      <button className = "menu button-standard" onClick={() => {
         handleUserInput('D');
         setMenuButtons([]);
         }}>Car pricing estimator</button>
-      <button className = "menu" onClick={() => {
+      <button className = "menu button-standard" onClick={() => {
         handleUserInput('B');
         setMenuButtons([]);
         }}>Find a dealership</button>
-      <button className = "menu" onClick={() => {
+      <button className = "menu button-standard" onClick={() => {
         handleUserInput('C');
         setMenuButtons([]);
         }}>Schedule a test drive</button>
@@ -166,12 +166,12 @@ function App() {
   )
   const buyACarButtons = (
     <div className="buttons">
-      <button className="menu" onClick={()=>{
+      <button className="menu button-standard" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
         changeChoice("A");
         setMenuButtons([])
         }}>Ask my own questions</button>
-      <button className="menu" onClick={()=>{
+      <button className="menu button-standard" onClick={()=>{
         setMessages((m) => [...m,{ msg: "Take questionnaire", author: "You", line: true }]);
         setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
         changeChoice("Q");
@@ -388,6 +388,8 @@ function App() {
                 setMenuButtons={setMenuButtons}
                 handleUserInput={handleUserInput}
                 carSpecInfo = {message.carInfo}
+                selectedCar = {selectedCar}
+                setSelectedCar = {setSelectedCar}
             />
               );
             })}
