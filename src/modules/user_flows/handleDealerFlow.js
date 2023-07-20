@@ -15,7 +15,7 @@ export default function handleDealerFlow(zipMode, dealerList, setZipCode, query,
 break; 
     }
     case 2:{
-      setDistance(10);
+      setDistance((query==="NONE")?10:query);
         setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealerList}}]);
         setZipMode(0);
     }

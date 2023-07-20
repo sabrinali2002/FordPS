@@ -122,6 +122,7 @@ function App() {
     setTrim("");
     setInfoMode(0);
     setQuery("");
+    setVehicle("");
     handleUserInput(parameter);
     // Perform any other logic or function in the parent component using the parameter
   };
