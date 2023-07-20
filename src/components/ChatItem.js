@@ -24,20 +24,24 @@ function extractLinkFromText(messageText, author, darkMode){
       : (link ? " " : "") +
         wordsArray.slice(linkIndex + 1, wordsArray.length).join(" ");
 
+  const bubbleStyle = {
+    color: "white",
+    backgroundColor: author.toLowerCase() === "you" ? "blue" : "#322964",
+    padding: "10px 20px",
+    borderRadius: "20px",
+    textAlign: author.toLowerCase() === "you" ? "right" : "left",
+    justifyContent: author.toLowerCase() === "you" ? "flex-end" : "flex-start", // Align bubble content to the right for "You" author
+    marginRight: author.toLowerCase() === "you" ? "auto" : "0", 
+  };
+
+  const textStyle = {
+    alignItems: author === "You" ? "flex-end" : "flex-start",
+    alignSelf: author === "You" ? "flex-end" : "flex-start",
+    justifyContent: author === "You" ? "flex-end" : "flex-start",
+  }
+
   return (
-    <p
-      style={{
-        textAlign: "left",
-        color:
-          author.toLowerCase() === "you"
-            ? darkMode
-              ? "#e4e4ed"
-              : "#999"
-            : darkMode
-            ? "#ffffff"
-            : "rgb(1, 36, 154)",
-      }}
-    >
+    <p style={{ ...bubbleStyle, ...textStyle }}>
       {beforeText && beforeText}
       {link && (
         <a href={link} target="_blank" rel="noreferrer">
@@ -48,6 +52,10 @@ function extractLinkFromText(messageText, author, darkMode){
     </p>
   );
 }
+
+// confusion when adding clickable CTAs (same shape)
+// separate gray from buttons 
+// border 
 
 function dictate(message, toggleIsSpeaking) {
   toggleIsSpeaking(true);
@@ -60,35 +68,25 @@ function dictate(message, toggleIsSpeaking) {
 }
 
 export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar}){
-    const authorStyle = {
-        fontSize: textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem"),
-        color: (darkMode ? "#ffffff" : "#999"),
-      };
+
+      const textPartStyle = {
+        display: "flex", flexDirection:"row",
+        width:"100%",
+        justifyContent: author.toLowerCase() === "you" ? "flex-end" : "flex-start",
+        paddingRight: "5%",
+        paddingLeft:"2%",
+        paddingTop: "5px",
+      }
+      
+
     const [isSpeaking, toggleIsSpeaking] = useState(false);
     return (
-        <div style={{display: "flex", flexDirection:"row", width:"100%"}}>
-        {author !== "You" && <div><img src={circleHenrai} style={{height:"32px", width:"50px"}}></img></div>}
-        <div style={{backgrounColor:"#133a7c"}}>
-        {author === "Ford Chat.." && <Table loc={locs}></Table>}
-      {author === "Ford Chat." && (
-        <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal} coords = {zip.coordinates}></Map>
-      )}
-      {
-        author === "Info" && <Fragment><p style={authorStyle}>Ford Chat</p>
-        <DisplayInfo info = {carSpecInfo} style = {{width:"80%"}}></DisplayInfo></Fragment>
-      }
-        {author==="DropDown" && 
-        <Fragment>
-          <CarInfoDropdownSection dropDownOptions={dropDownOptions} carInfoMode={carInfoMode}/>
-        </Fragment>
-        }
-        {author==="Table" && <Fragment>
-        <p style={authorStyle}>Ford Chat</p>
-        <CarInfoTable data={carInfoData} mode={carInfoMode} intro={message}/>
-          </Fragment>}
-        {(author!=="DropDown" && author!=="Table" && author !== "Info") && <Fragment>
-            <p className={author.toLowerCase().replace(" ", "-")} style={authorStyle}>{author}</p>
-            <div style={{display: 'flex', flexDirection: 'row', clear:'both'}}>
+        <div style={{display: "flex", flexDirection:"row", width:"100%", }}>
+        <div style={textPartStyle}>
+          <div style={textPartStyle}>
+          {author !== "You" && <div><img src={circleHenrai} style={{height:"48px", width:"75px"}}></img></div>}
+          {(author!=="DropDown" && author!=="Table" && author !== "Info") && <Fragment>
+            <div style={{display: 'flex', flexDirection: 'row', clear:'both',}}>
                 {extractLinkFromText(message, author, darkMode)}
                 {author.toLowerCase()!=='you' && <VolumeUp color={darkMode ? (isSpeaking?"#ffffff":"#e4e4ed") : (isSpeaking?"blue":"black")} size={textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem")} onClick={()=>{
                     if(!isSpeaking)
@@ -97,8 +95,24 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
                 }
                 />}
             </div>
-            {line && <hr style={{width: '90vw', borderColor: author.toLowerCase()==='you'?'#999':'rgb(49, 135, 255)'}}/>}
         </Fragment>}
+          </div>
+        {author === "Ford Chat.." && <Table loc={locs}></Table>}
+      {author === "Ford Chat." && (
+        <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal} coords = {zip.coordinates}></Map>
+      )}
+      {
+        author === "Info" && <div>
+        <DisplayInfo info = {carSpecInfo}></DisplayInfo></div>
+      }
+        {author==="DropDown" && 
+        <Fragment>
+          <CarInfoDropdownSection dropDownOptions={dropDownOptions} carInfoMode={carInfoMode}/>
+        </Fragment>
+        }
+        {author==="Table" && <Fragment>
+        <CarInfoTable data={carInfoData} mode={carInfoMode} intro={message}/>
+          </Fragment>}
         {
           author==="Login" && <ExistingOwner setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput} justSelect={message.length>0} selectedCar={selectedCar}
           setSelectedCar={setSelectedCar} hide={message.length==0}/>
