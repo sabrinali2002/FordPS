@@ -137,6 +137,10 @@ function Map({ zip, dist, loc, deal, coords}) {
       let dayOfWeek = new Date(Date.UTC(2023, today.getMonth(), day)).toLocaleString('en-US', { weekday: 'long' })
       let useTime = currTime
       let ending = 'am';
+      if (currTime > 12) {
+        useTime = currTime-12;
+        ending = 'pm';
+      }
       appts.push([`${dayOfWeek} ${currMonth}/${currDay}`,`${useTime.toString()}:${currMin.toString()}0${ending}`])
       if (currMin == 3) {
         currTime = currTime + 1;
@@ -148,10 +152,6 @@ function Map({ zip, dist, loc, deal, coords}) {
       if (currTime > 20) {
         currTime = 8;
         currMin = 0;
-      }
-      if (currTime > 12) {
-        useTime = currTime-12;
-        ending = 'pm';
       }
     }
     return appts;
@@ -395,8 +395,8 @@ function Map({ zip, dist, loc, deal, coords}) {
     fetchInfo();
   }, [zip, latlong]);
   return (
-  <div>
-      {showWindow && (<div style={{ display:'flex',flexDirection:'column',marginRight:'200px'}}>
+  <div style={{alignItems:'flex-start'}}>
+      {showWindow && (<div >
           {window1Content}
           {window2Content}
           {window3Content}
@@ -404,19 +404,21 @@ function Map({ zip, dist, loc, deal, coords}) {
     {isSchedulerVisible && <TestDriveScheduler loc={pickedLoc}/>}
   {(!showWindow && !isSchedulerVisible) && <div
       style={{
-        position: "relative",
         backgroundColor: "#113B7A1A",
-        width: "1112px",
+        left: "5px",
+        right: "5px",
+        width: "800px",
         height: "435px",
         borderRadius: "15px",
         padding: "25px",
+        left: "0px"
       }}>
       <MapContainer
         center={latlong}
         zoom={3}
         style={{
           height: "400px",
-          width: "50%", // Increase width to desired value
+          width: "70%", // Increase width to desired value
           display: "flex",
           float: "left",
           marginRight: "20px",
@@ -475,7 +477,6 @@ function Map({ zip, dist, loc, deal, coords}) {
               <button
                 style={{
                   color: "#00095B",
-
                   backgroundColor: "white",
                   padding: "10px",
                   borderRadius: "15px",

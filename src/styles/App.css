@@ -22,8 +22,7 @@
 .topbar {
   position:fixed;
   margin-left:27%;
-  margin-bottom:500px;
-  padding-bottom:200px;
+  margin-bottom:100px;
   margin-top:0px;
   padding-top:0px;
   z-index: 999999999999;
@@ -35,6 +34,7 @@
   top:0px;
   height:70px;
   background-color: white;
+  z-index: 9999999;
 }
 
 .divider {
