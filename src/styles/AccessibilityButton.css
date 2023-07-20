@@ -1,0 +1,18 @@
+.access{
+    position: fixed;
+    left: 30px;
+    top: 70px;
+}
+
+.bottom{
+    position:fixed;
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    
+}
+
+.accesspic{
+    height:30px;
+}

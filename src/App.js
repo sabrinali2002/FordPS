@@ -1,13 +1,20 @@
 import "./styles/App.css";
-import { Card, TextField, InputAdornment, IconButton } from "@mui/material";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
+import AccessibilityButton from "./components/AccessibilityButton";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic } from "react-bootstrap-icons";
+import Autofill from './components/Autofill';
 import trims from "./jsons/trims.json";
+import TopBar from "./components/TopBar";
 
-import { Brightness4, Brightness7, TextFields, TextFieldsOutlined } from "@mui/icons-material";
-
+import {
+  Brightness4,
+  Brightness7,
+  TextFields,
+  TextFieldsOutlined,
+} from "@mui/icons-material";
 import { extractFiveDigitString, findLocations, selectHandlerFn, locateDealershipsFn, calcButtonHandlerFn, appendSelectFn, changeFindFn } from "./modules/mapFunctions";
 import { modelOptions, getTrimOptions } from "./modules/tableFunctions";
 import { handleCarInfo, handleCarComparison, onModelChange, onTrimChange } from "./modules/selectCarFunctions";
@@ -15,7 +22,6 @@ import { handleUserInputFn, handleUserFlow } from "./modules/userFlowFunctions";
 
 import QuestionButton from "./components/QuestionButton";
 import HamburgerMenu from "./components/Navbar.js";
-import { IntroCardContent } from "./components/IntroCardContent";
 
 const fixTrimQueryQuotation = (model, query) => {
     console.log("model: " + model, "original query: " + query);
@@ -95,174 +101,86 @@ function App() {
     const recognition = useRef(null);
     //map functions -------------------------------------------------------->
 
-    const [distance, setDistance] = useState("10");
-    const [findMode, setFind] = useState(0);
-    const [selectMode, setSelect] = useState(false);
-    const s = new Set();
-    const [dealerList, setDealers] = useState(s);
-    const [selected, changeSelected] = useState({
-        Bronco: [],
-        "Bronco Sport": [],
-        "E-Transit Cargo Van": [],
-        Edge: [],
-        Escape: [],
-        Expedition: [],
-        Explorer: [],
-        "F-150": [],
-        "F-150 Lightning": [],
-        "Mustang Mach-E": [],
-        Ranger: [],
-        "Transit Cargo Van": [],
-    });
-
-    const messagesEndRef = useRef(null);
-    const scrollToBottom = () => {
-        if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    };
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
-
-    const handleMenuClick = (parameter) => {
+  const [distance, setDistance] = useState("10");
+  const [findMode, setFind] = useState(0);
+  const [selectMode, setSelect] = useState(false);
+  const s = new Set();
+  const [dealerList, setDealers] = useState(s);
+  const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
+  
+  const messagesEndRef = useRef(null)
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages]);
+  
+  const handleMenuClick = (parameter) => {
+    handleUserInput(parameter);
+    if(parameter!=="A")
+    setMenuButtons([]);
+    // Perform any other logic or function in the parent component using the parameter
+  };
+  const origButtons = (
+    <div className="buttons">
+      <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]})
+        setMenuButtons(buyingFordButtons)
+        }}>Buying a Ford</button>
+      <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "", author: "Login"}]})
+        }}>I'm an Existing Owner</button>
+      <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
+        }}>Info about Ford</button>
+      <button className = "menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You"}]})
+        }}>Negotiation Assistance</button>
+    </div>
+  );
+  const buyingFordButtons = (
+    <div className = "buttons">
+       <button className = "menu" onClick={() => {
+        handleUserInput('I');
         setMenuButtons([]);
-        setShowCalcButtons(false);
-        setModel("");
-        setTrim("");
-        setInfoMode(0);
-        setQuery("");
-        handleUserInput(parameter);
-        // Perform any other logic or function in the parent component using the parameter
-    };
-    const origButtons = (
-        <div className="buttons">
-            <button
-                className="menu"
-                onClick={() => {
-                    setMessages((m) => {
-                        return [...m, { msg: "Buying a Ford", author: "You", line: true }];
-                    });
-                    setMessages((m) => {
-                        return [...m, { msg: "What info would you like to know?", author: "Ford Chat", line: true }];
-                    });
-                    setMenuButtons(buyingFordButtons);
-                }}
-            >
-                Buying a Ford
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    setMessages((m) => {
-                        return [...m, { msg: "I'm an Existing Owner", author: "You" }];
-                    });
-                    setMessages((m) => {
-                        return [...m, { msg: "", author: "Login" }];
-                    });
-                }}
-            >
-                I'm an Existing Owner
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    setMessages((m) => {
-                        return [...m, { msg: "Info about Ford", author: "You", line: true }];
-                    });
-                }}
-            >
-                Info about Ford
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    setMessages((m) => {
-                        return [...m, { msg: "Negotiation assistance", author: "You", line: true }];
-                    });
-                }}
-            >
-                Negotiation assistance
-            </button>
-        </div>
-    );
-    const buyingFordButtons = (
-        <div className="buttons">
-            <button
-                className="menu"
-                onClick={() => {
-                    handleUserInput("I");
-                    setMenuButtons([]);
-                }}
-            >
-                Info about a specific car
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    handleUserInput("A");
-                }}
-            >
-                Car recommendation
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    handleUserInput("D");
-                    setMenuButtons([]);
-                }}
-            >
-                Car pricing estimator
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    handleUserInput("B");
-                    setMenuButtons([]);
-                }}
-            >
-                Find a dealership
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    handleUserInput("C");
-                    setMenuButtons([]);
-                }}
-            >
-                Schedule a test drive
-            </button>
-        </div>
-    );
-    const buyACarButtons = (
-        <div className="buttons">
-            <button
-                className="menu"
-                onClick={() => {
-                    setMessages((m) => {
-                        return [...m, { msg: "Great! What kind of car are you looking for?", author: "Ford Chat" }];
-                    });
-                    changeChoice("A");
-                    setMenuButtons([]);
-                }}
-            >
-                Ask my own questions
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    setMessages((m) => [...m, { msg: "Take questionnaire", author: "You", line: true }]);
-                    setMessages((m) => {
-                        return [...m, { msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat" }];
-                    });
-                    changeChoice("Q");
-                    setMenuButtons([]);
-                    setQuestionnaireStep(1);
-                }}
-            >
-                Take questionnaire
-            </button>
-        </div>
-    );
-    const [menuButtons, setMenuButtons] = useState(origButtons);
+        }}>Info about a specific car</button>
+      <button className = "menu" onClick={() => {
+        handleUserInput('A');
+        }}>Car recommendation</button>
+      <button className = "menu" onClick={() => {
+        handleUserInput('D');
+        setMenuButtons([]);
+        }}>Car pricing estimator</button>
+      <button className = "menu" onClick={() => {
+        handleUserInput('B');
+        setMenuButtons([]);
+        }}>Find a dealership</button>
+      <button className = "menu" onClick={() => {
+        handleUserInput('C');
+        setMenuButtons([]);
+        }}>Schedule a test drive</button>
+    </div>
+  )
+  const buyACarButtons = (
+    <div className="buttons">
+      <button className="menu" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
+        changeChoice("A");
+        setMenuButtons([])
+        }}>Ask my own questions</button>
+      <button className="menu" onClick={()=>{
+        setMessages((m) => [...m,{ msg: "Take questionnaire", author: "You", line: true }]);
+        setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
+        changeChoice("Q");
+        setMenuButtons([])
+        setQuestionnaireStep(1)
+      }}>Take questionnaire</button>
+    </div>
+  );
+  const [menuButtons, setMenuButtons] = useState(origButtons);
     //map functions -------------------------------------------------------->
     const selectHandler = selectHandlerFn(setQuery, setModel, setCalcButtons, setFind);
     const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode);
@@ -418,260 +336,151 @@ function App() {
         );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
-    return (
-        <div style={{ width: "100%", height: "100vh", overflow: "hidden" }}>
-            <HamburgerMenu onClick={handleMenuClick} />
-            <div
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: darkMode ? "#000080" : "#f4f3f3",
-                    color: darkMode ? "#ffffff" : "#000000",
-                    width: "100%",
-                    height: "100%",
-                    fontSize: textSize === "large" ? "22px" : textSize === "small" ? "16px" : "19px",
-                }}
-            >
-                <div className="ChatArea">
-                    <Card
-                        variant="outlined"
-                        className="CardOutline"
-                        style={{
-                            maxWidth: "45%",
-                            flex: "none",
-                            marginBottom: "3%",
-                            alignSelf: "center",
-                            textSize: { textSize },
-                        }}
-                    >
-                        {IntroCardContent}
-                    </Card>
-                    <div className="MessagesArea">
-                        <div>
-                            <p>{response}</p>
-                        </div>
-                        {messages.map((message, index) => {
-                            return (
-                                <ChatItem
-                                    message={message.msg}
-                                    author={message.author}
-                                    line={message.line}
-                                    darkMode={darkMode}
-                                    textSize={textSize}
-                                    zip={message.zip}
-                                    locs={message.locs}
-                                    dropDownOptions={dropDownOptions}
-                                    carInfoData={carInfoData["" + index] ? carInfoData["" + index] : [[], []]}
-                                    carInfoMode={carInfoMode}
-                                    setMessages={setMessages}
-                                    setMenuButtons={setMenuButtons}
-                                    handleUserInput={handleUserInput}
-                                    carSpecInfo={message.carInfo}
-                                    selectedCar={selectedCar}
-                                    setSelectedCar={setSelectedCar}
-                                />
-                            );
-                        })}
-                        {calcStep == 5 && (
-                            <div className="payment-summary">
-                                <span style={{ fontWeight: "bold", fontSize: "20px" }}>{calcMode < 3 ? "Expected payment:" : "Expected payment:"}</span>
-                                <br />
-                                <span style={{ fontSize: "18px", paddingLeft: "10px" }}>
-                                    ${Math.round(payment)}
-                                    {calcMode < 3 && "/month"}
-                                </span>
-                            </div>
-                        )}
-                    </div>
-                    {calcStep > 4 && (
-                        <div className="payment-summary">
-                            <span style={{ fontWeight: "bold", fontSize: "20px" }}>{calcMode < 3 ? "Expected payment:" : "Expected payment:"}</span>
-                            <br />
-                            <span style={{ fontSize: "18px", paddingLeft: "10px" }}>
-                                ${Math.round(payment)}
-                                {calcMode < 3 && "/month"}
-                            </span>
-                        </div>
-                    )}
-                    {showCalcButtons && (
-                        <div style={{ display: "flex", justifyContent: "center", textAlign: "center" }}>
-                            <div className="model-box">
-                                <div style={{ marginTop: "10px", color: "#322964", fontSize: "18px", fontWeight: "bold", lineHeight: "30px" }}>{calcHeadingText}</div>
-                                <div style={{ marginTop: "5px", color: "#322964", fontSize: "10px", fontWeight: "bold", lineHeight: "20px" }}>
-                                    Select from the options to specify which cars you are looking for
-                                </div>
-                                <div className="button-container">{calcButtons}</div>
-                                {vehicle !== "" && (
-                                    <button
-                                        style={{ position: "relative", bottom: 0, alignSelf: "start", marginLeft: -40, alignSelf: "start" }}
-                                        onClick={() => {
-                                            if (infoMode === 1) {
-                                                handleUserInput("I");
-                                            } else {
-                                                setQuery(cat);
-                                                setInfoMode(infoMode - 1);
-                                                handleUserFlow(
-                                                    fixTrimQueryQuotation,
-                                                    cat,
-                                                    dealerList,
-                                                    carInfoData,
-                                                    setCarInfoData,
-                                                    extractFiveDigitString,
-                                                    findLocations,
-                                                    handleUserInput,
-                                                    blockQueries,
-                                                    choice,
-                                                    setQuery,
-                                                    zipMode,
-                                                    setZipCode,
-                                                    messages,
-                                                    setMessages,
-                                                    setZipMode,
-                                                    setDistance,
-                                                    setCalcButtons,
-                                                    calcButtonHandler,
-                                                    zipCode,
-                                                    distance,
-                                                    findMode,
-                                                    selectHandler,
-                                                    setFind,
-                                                    appendSelect,
-                                                    setSelect,
-                                                    questionnaireStep,
-                                                    setQuestionnaireAnswers,
-                                                    setQuestionnaireStep,
-                                                    questionnaireAnswers,
-                                                    setForceUpdate,
-                                                    forceUpdate,
-                                                    calcStep,
-                                                    model,
-                                                    setModel,
-                                                    setCalcStep,
-                                                    trim,
-                                                    setTrim,
-                                                    calcMode,
-                                                    setCalcMode,
-                                                    setLeaseStep,
-                                                    setFinanceStep,
-                                                    leaseStep,
-                                                    financeStep,
-                                                    changeChoice,
-                                                    history,
-                                                    setHistory,
-                                                    infoMode - 1,
-                                                    setInfoMode,
-                                                    vehicle,
-                                                    setVehicle,
-                                                    showCalcButtons,
-                                                    setShowCalcButtons,
-                                                    calcHeadingText,
-                                                    setCalcHeadingText,
-                                                    payment,
-                                                    setPayment,
-                                                    setMenuButtons,
-                                                    locateDealershipsFn,
-                                                    changeSelected,
-                                                    setDealers,
-                                                    selected,
-                                                    cat,
-                                                    setCat
-                                                );
-                                            }
-                                        }}
-                                    >
-                                        <u>Back</u>
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    )}
-                    <ThreeDots
-                        height="50"
-                        width="50"
-                        radius="7"
-                        color="#8080ff"
-                        ariaLabel="three-dots-loading"
-                        wrapperStyle={{ marginLeft: "5vw" }}
-                        wrapperClassName=""
-                        visible={blockQueries.current}
-                        style={{ flex: "none" }}
-                    />
-                    <p>.</p>
-                    <div ref={messagesEndRef} />
-                </div>
-                <div>
-                    {menuButtons}
-                    <form
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            if (queryText.length > 0 && !blockQueries.current) {
-                                setQuery(queryText);
-                                setMessages((m) => [...m, { msg: queryText, author: "You", line: true }]);
-                                setQueryText("");
-                            }
-                        }}
-                    >
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                flexWrap: "wrap",
-                            }}
-                        >
-                            {selectMode && <button onClick={changeFind}>back</button>}
-                            {selectMode && <button onClick={locateDealerships}>Locate the nearest dealerships</button>}
-                        </div>
-                        <TextField
-                            value={queryText}
-                            error={blockQueries.current}
-                            onChange={(e) => {
-                                setQueryText(e.target.value);
-                            }}
-                            id="input-field"
-                            style={{
-                                accentColor: "white",
-                                width: "90%",
-                                marginTop: "1%",
-                                marginLeft: "5%",
-                                textSize: { textSize },
-                            }}
-                            label={"Ask me anything..."}
-                            helperText={blockQueries.current ? "Please wait!" : "Press enter to send."}
-                            InputProps={{
-                                endAdornment: recording ? (
-                                    <div
-                                        className="pulsing-blob"
-                                        onClick={() => {
-                                            toggleRecording();
-                                        }}
-                                    ></div>
-                                ) : (
-                                    <InputAdornment position="end">
-                                        <Mic
-                                            className="mic-icon"
-                                            size="2rem"
-                                            onClick={() => {
-                                                toggleRecording();
-                                            }}
-                                        />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </form>
-                </div>
-                <div className="bottom">
-                    <IconButton onClick={toggleTextSize} color="blue" aria-label="Toggle Text Size">
-                        {textSize === "medium" ? <TextFieldsOutlined /> : <TextFields />}
-                    </IconButton>
-                    <IconButton onClick={toggleDarkMode} color="blue" aria-label="Toggle Dark Mode">
-                        {darkMode ? <Brightness7 /> : <Brightness4 />}
-                    </IconButton>
-                    <QuestionButton />
-                </div>
+  return (
+    <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
+      <div className="topbar"><TopBar /></div>
+      <div className="topbarback"></div>
+      <div className="divider"></div>
+      <div className="burger"><HamburgerMenu onClick = {handleMenuClick}/></div>
+      <AccessibilityButton 
+          toggleTextSize={toggleTextSize} 
+          toggleDarkMode={toggleDarkMode} 
+          queryText={queryText} 
+          setQueryText={setQueryText}
+          darkMode={darkMode}
+          textSize={textSize}/>
+      <div className="fullpage"
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: darkMode ? "#000080" : "white",
+          color: darkMode ? "#ffffff" : "#000000",
+          width: '100%',
+          height: '100%',
+          fontSize:
+            textSize === "large"
+              ? "25px"
+              : textSize === "small"
+              ? "19px"
+              : "22px",
+        }}
+      >
+        <div className="ChatArea">
+
+        <div className="MessagesArea">
+            <div>
+              <p>{response}</p>
             </div>
+            {messages.map((message, index) => {
+              return (
+                <ChatItem
+                message={message.msg}
+                author={message.author}
+                line = {message.line}
+                darkMode={darkMode}
+                textSize={textSize}
+                zip = {message.zip}
+                locs={message.locs}
+                dropDownOptions={dropDownOptions}
+                carInfoData={carInfoData[""+(index)]?carInfoData[""+(index)]:[[],[]]}
+                carInfoMode={carInfoMode}
+                setMessages={setMessages}
+                setMenuButtons={setMenuButtons}
+                handleUserInput={handleUserInput}
+                carSpecInfo = {message.carInfo}
+            />
+              );
+            })}
+          </div>
+          <ThreeDots
+            height="50"
+            width="50"
+            radius="7"
+            color="#8080ff"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{ marginLeft: "10%" }}
+            wrapperClassName=""
+            visible={blockQueries.current}
+            style={{flex: 'none'}}
+          />
+          <div ref={messagesEndRef}/>
         </div>
-    );
+        <div>
+          {menuButtons}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (queryText.length > 0 && !blockQueries.current) {
+                setQuery(queryText);
+                setMessages((m) => [
+                  ...m,
+                  { msg: queryText, author: "You", line: true },
+                ]);
+                setQueryText("");
+              }
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              {
+                selectMode && <button onClick= {changeFind}>back</button>
+            }
+            {
+                selectMode && <button onClick = {locateDealerships}>Locate the nearest dealerships</button>
+            }
+            </div>
+            <div className="textfield">
+            <TextField
+              value={queryText}
+              error={blockQueries.current}
+              onChange={(e) => {
+                setQueryText(e.target.value);
+              }}
+              style={{
+                accentColor: "white",
+                width: "90%",
+                marginTop: "1%",
+                marginLeft: "5%",
+                textSize: { textSize },
+                fontFamily: 'Antenna, sans-serif',
+              }}
+              label={"Ask me anything..."}
+              helperText={
+                blockQueries.current ? "Please wait!" : "Press enter to send."
+              }
+              InputProps={{
+                endAdornment: recording ? (
+                  <div
+                    className="pulsing-blob"
+                    onClick={() => {
+                      toggleRecording();
+                    }}
+                  ></div>
+                ) : (
+                  <InputAdornment position="end">
+                    <Mic
+                      className="mic-icon"
+                      size="2rem"
+                      onClick={() => {
+                        toggleRecording();
+                      }}
+                    />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            </div>
+          </form>
+        </div>
+        <div className="bottom">
+          </div>
+      </div>
+    </div>)
 }
 
 export default App;
