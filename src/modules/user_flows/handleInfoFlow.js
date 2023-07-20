@@ -36,10 +36,10 @@ export default function handleInfoFlow(model,trim, setMessages, setModel, setQue
     }
     else{
       const selectedCopy = selected;
-              selectedCopy[model].push(trim);
-              changeSelected(selectedCopy);
-              locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, 20, setMessages, setZipMode)();
-    setShowCalcButtons(false);
-            }
+      selectedCopy[model].push(trim);
+      changeSelected(selectedCopy);
+      locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, 20, setMessages, setZipMode, setShowCalcButtons)();
+      setShowCalcButtons(false);
+      }
     
 } 

@@ -333,13 +333,13 @@ function Map({ zip, dist, loc, deal, coords}) {
         let longitude = data.location.lon;
         const res = { latitude, longitude };
         changeLatLong([res.latitude, res.longitude]);
-        console.log(latlong)
         return res;
         //{latitude, longitude}
       });
   };
   useEffect(() => {
     async function fetchInfo() {
+      if(locations.length ===0){
       findLatLong(zip).then((res) => {
         findLocations(dist).then((locas) => {
           changeLocations(locas);
@@ -347,6 +347,7 @@ function Map({ zip, dist, loc, deal, coords}) {
         });
       });
     }
+  }
     fetchInfo();
   }, [zip, latlong]);
   return (

@@ -171,7 +171,7 @@ export function handleUserInputFn(setMessages, changeChoice, setMenuButtons, buy
                 setShowCalcButtons(true);
                 setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>{model}
                 <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>
-                  {model}<BiRegistered/></button>)));
+                  <BiRegistered/></button>)));
                 setFind(1);
               }
               else if(findMode === 1){

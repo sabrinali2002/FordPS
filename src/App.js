@@ -186,7 +186,7 @@ function App() {
   const [menuButtons, setMenuButtons] = useState(origButtons);
     //map functions -------------------------------------------------------->
   const selectHandler = selectHandlerFn(setQuery, setModel, setCalcButtons, setFind);
-  const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode);
+  const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons);
   const changeFind = changeFindFn(setFind, setSelect, setCalcButtons, selectHandler);
   const appendSelect = appendSelectFn(selected, model, changeSelected);
   const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons,setShowCalcButtons);
