@@ -1,18 +1,18 @@
 import data from '../images/image_link.json'
 import dealerships from "../jsons/trimToDealer.json"
 
-export default function DisplayInfo({ info }) {
+export default function DisplayInfo({ info , handler }) {
   return (
     <div
       style={{
-        height: "400px",
-        width: "900px", // Increase width to desired value
+        width: "950px", // Increase width to desired value
         display: "flex",
         float: "left",
         borderRadius: "15px", // Add this for rounded corners
         backgroundColor: "#d4e3fa",
         flexDirection: "column",
-        margin: "10px"
+        margin: "10px",
+        boxShadow: "0 4px 2px -2px gray"
       }}
     >
       <div>
@@ -30,13 +30,13 @@ export default function DisplayInfo({ info }) {
           >
             <img src={data[info.model]} alt={info.model}></img>
           </div>
-          <div style={{ marginLeft: "20px", marginTop: "10px" }}>
-            <h2>
+          <div style={{ marginLeft: "20px", marginTop: "10px"}}>
+            <h2 style = {{ marginBottom:"20px"}}>
               {"2023 "}
               <strong>{info.model}</strong> &#x24C7;{" "}
               <strong>{info.trim + " "}</strong>&#x24C7; model
             </h2>
-            <div style={{ marginBottom: "25px" }}>
+            <div style={{ marginBottom: "25px", marginLeft:"10px"}}>
               <h3 style={{ fontSize: "20px" }}>
                 <strong>Estimated net price</strong> $36,630
                 <button
@@ -73,7 +73,8 @@ export default function DisplayInfo({ info }) {
                 </button>
               </h3>
             </div>
-            <h2>
+            <div style = {{marginLeft:"10px"}}>
+            <h2 style = {{fontSize:"28px"}}>
               <strong>Your Vehicle</strong>
             </h2>
             <h3 style={{ fontSize: "20px" }}>
@@ -85,15 +86,21 @@ export default function DisplayInfo({ info }) {
             <h3 style={{ fontSize: "20px" }}>
               <strong>Transmission</strong>{" " + info["transmission"]}
             </h3>
-            <h3 style={{ fontSize: "20px" }}>
+            <h3 style={{ fontSize: "20px", marginBottom:"30px" }}>
               <strong>Body Style</strong>{" " + info["body_style"]}
             </h3>
-          </div>
-          <div style={{ textAlign: "right", paddingRight: "10px", margin: "3px" }}>
+            </div>
+            <div style={{ textAlign: "left", margin: "3px" }}>
+            <button style={{ float: "left"}} onClick = {()=>{handler('I')}}>
+         <u>Back</u>
+        </button>
+        </div>
+            <div style={{ textAlign: "right", paddingRight: "10px", margin: "3px" }}>
         <button style={{ float: "right" }}>
           <u>Detailed info</u>&#10148;
         </button>
       </div>
+          </div>
         </div>
       </div>
     </div>

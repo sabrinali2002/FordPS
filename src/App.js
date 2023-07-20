@@ -23,6 +23,7 @@ import HamburgerMenu from "./components/Navbar.js";
 import { IntroCardContent } from "./components/IntroCardContent";
 
 const fixTrimQueryQuotation = (model, query) => {
+    console.log("model: " + model, "original query: " + query);
     if(model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van") {
         return query;
     }
@@ -80,11 +81,10 @@ function App() {
   const [trimOptions, setTrimOptions] = useState([]);
   const [infoMode, setInfoMode] = useState(0);
   const [vehicle, setVehicle] = useState("");
-  const [cat, setCat] = useState("");
   const [showCalcButtons, setShowCalcButtons] = useState(false);
   const [calcHeadingText, setCalcHeadingText] = useState('');
   const [payment, setPayment] = useState(0);
-
+  const [cat, setCat] = useState('');
     // Car Info states
     const [selectedModel, setSelectedModel] = useState("");
     const [selectedTrim, setSelectedTrim] = useState("");
@@ -186,7 +186,7 @@ function App() {
   const [menuButtons, setMenuButtons] = useState(origButtons);
     //map functions -------------------------------------------------------->
   const selectHandler = selectHandlerFn(setQuery, setModel, setCalcButtons, setFind);
-  const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons);
+  const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode);
   const changeFind = changeFindFn(setFind, setSelect, setCalcButtons, selectHandler);
   const appendSelect = appendSelectFn(selected, model, changeSelected);
   const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons,setShowCalcButtons);
@@ -341,17 +341,6 @@ function App() {
                     <div style={{marginTop:'10px',color:'#322964',fontSize:'18px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>
                     <div style={{marginTop:'5px',color:'#322964',fontSize:'10px',fontWeight:'bold',lineHeight:'20px'}}>Select from the options to specify which cars you are looking for</div>
                     <div className='button-container'>{calcButtons}</div>
-                    {vehicle !== "" && <button style = {{position: "relative", bottom: 0, alignSelf:'start', marginLeft:-40, alignSelf:'start'}} onClick = {() => {
-                      if(infoMode === 1){
-                        handleUserInput('I')
-                      }
-                      else{
-                        setQuery(cat);
-                        setInfoMode(infoMode-1)
-                        handleUserFlow(fixTrimQueryQuotation, cat, dealerList, carInfoData, setCarInfoData, extractFiveDigitString, findLocations, handleUserInput, blockQueries, choice, setQuery, zipMode, setZipCode, messages, setMessages, setZipMode, setDistance, setCalcButtons, calcButtonHandler, zipCode, distance, findMode, selectHandler, setFind, appendSelect, setSelect, questionnaireStep, setQuestionnaireAnswers, setQuestionnaireStep, questionnaireAnswers, setForceUpdate, forceUpdate, calcStep, model, setModel, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, history, setHistory, infoMode-1, setInfoMode, vehicle, setVehicle, showCalcButtons, setShowCalcButtons, calcHeadingText, setCalcHeadingText, payment, setPayment, setMenuButtons, locateDealershipsFn, changeSelected, setDealers, selected, cat, setCat);
-                      }
-                    }
-                    }><u>Back</u></button>}
                     </div>
                 </div>}
           <ThreeDots

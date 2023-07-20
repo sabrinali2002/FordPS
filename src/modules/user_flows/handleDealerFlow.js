@@ -10,20 +10,14 @@ export default function handleDealerFlow(zipMode, dealerList, setZipCode, query,
     }
     case 1:{
       setDistance((query==="NONE")?10:query);
-      findLocations(zipCode,distance).then(loc=>{
-        const places = loc.split('..');
         setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealerList}}]);
         setZipMode(0);
-})
 break; 
     }
     case 2:{
       setDistance(10);
-      findLocations(query, distance).then(loc => {
-        const places = loc.split('..');
         setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealerList}}]);
         setZipMode(0);
-      })
     }
 }
   }
