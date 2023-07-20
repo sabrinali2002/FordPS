@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Manrope';
-  src: url('fonts/Manrope-Regular.ttf') format('truetype');
+  font-family: 'Antenna';
+  src: url('fonts/ford-antenna-medium-cnd-587bd97171cbd.otf') format('truetype');
 }
 
 .toggle-container {
@@ -20,7 +20,7 @@
   position: absolute;
   top: 30px;
   left: 1px;
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Antenna', sans-serif;
   color: #5a5858;
   font-size: 13px;
   width:100px;

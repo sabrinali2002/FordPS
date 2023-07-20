@@ -35,18 +35,20 @@ const handleButtonPress = (rec) => {
 
 const recommendations = [" "];
 
-const y=464;
-const x=68 + (7 * chars);
+const y=947;
+const x=85 + (7 * chars);
 
   const style = {
     position: 'fixed',
     left: `${x}px`,
     top: `${y}px`,
+    fontSize: '15px',
+    fontFamily: 'Antenna, sans-serif'
   };
 
 //recommending the model 
 const fordModels = ['Fiesta', 'Focus', 'Mustang', 'Explorer', 'Escape', 'Bronco', 'EcoBoost',
- 'Shelby', 'Lariat', 'Platinum', 'Limited','Titanium', 'Edge', 'Vignale', 'Ranger', 'Bronco2'
+ 'Shelby', 'Lariat', 'Platinum', 'Limited','Titanium', 'Edge', 'Vignale', 'Ranger'
 ];
   let recTaken = '';
 
@@ -105,7 +107,7 @@ function calculateEditDistance(str1, str2) {
     {recOn && recommendations.length>1 &&
     <div>
     {recommendations.map((item, index) => (
-      <button key={index} onClick={() => handleButtonPress(item)}>
+      <button style={style} key={index} onClick={() => handleButtonPress(item)}>
         {item}
       </button>
     ))}
