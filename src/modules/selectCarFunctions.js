@@ -6,7 +6,7 @@ export function handleCarInfo(tableForceUpdate, setTableForceUpdate, selectedMod
         if (selectedModel !== "no model") {
             sqlQuery += `SELECT * FROM car_info WHERE model = "${selectedModel}" `;
         }
-        if (selectedTrim !== "no trim" && selectedTrim !== "all trim" && selectedTrim !== "") {
+        if (selectedTrim !== "no trim" && selectedTrim !== "all trim" && selectedTrim !== "" && selectedTrim !== "All Trims") {
             sqlQuery += `AND trim = "${selectedTrim}"`;
         }
         sqlQuery = fixTrimQueryQuotation(selectedModel, sqlQuery);
@@ -24,9 +24,10 @@ export function handleCarInfo(tableForceUpdate, setTableForceUpdate, selectedMod
         ...car, isChecked:false
       }))
 
-
-        let data2 = [];
-        if (carInfoMode === "compare") {
+      
+      
+      let data2 = [];
+      if (carInfoMode === "compare") {
             sqlQuery = `SELECT * FROM car_info WHERE model = "${compareModel}" AND trim = "${compareTrim}"`;
             sqlQuery = fixTrimQueryQuotation(compareModel, sqlQuery);
             data2 = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
@@ -46,9 +47,10 @@ export function handleCarInfo(tableForceUpdate, setTableForceUpdate, selectedMod
         console.log(dataArr);
         console.log("🚗" + selectedModel + selectedTrim);
         console.log("carinfocopy:",carInfoCopy);
+        console.log("quertdata", carInfoCopy);
         setCarInfoData(carInfoCopy);
         setSelectedCars([]);
-      setForceUpdate(!forceUpdate);
+        setForceUpdate(!forceUpdate);
         // setTableForceUpdate(!tableForceUpdate);
     };
 }

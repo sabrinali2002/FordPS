@@ -344,7 +344,6 @@ function App() {
     };
 
     const handleMoreInfo = () => {
-      console.log("😢" + JSON.stringify(carInfoData));
       setMessages((m) => [...m, { msg: "", author: "Table" }]);
     };
 

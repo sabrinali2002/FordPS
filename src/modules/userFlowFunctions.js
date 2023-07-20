@@ -270,48 +270,48 @@ export function handleUserFlow(
                         ))
                     );
                 }
-                // } else if (infoMode === 3) {
-                //     handleInfoFlow(
-                //         model,
-                //         trim,
-                //         setMessages,
-                //         setModel,
-                //         setQuery,
-                //         setInfoMode,
-                //         setCalcButtons,
-                //         setMenuButtons,
-                //         handleUserInput,
-                //         setShowCalcButtons,
-                //         setCarInfoData,
-                //         infoMode,
-                //         selected,
-                //         changeSelected,
-                //         setDealers
-                //     );
-                // } else if (infoMode === 4) {
-                //     handleInfoFlow(
-                //         model,
-                //         trim,
-                //         setMessages,
-                //         setModel,
-                //         setQuery,
-                //         setInfoMode,
-                //         setCalcButtons,
-                //         setMenuButtons,
-                //         handleUserInput,
-                //         setShowCalcButtons,
-                //         setCarInfoData,
-                //         infoMode,
-                //         selected,
-                //         changeSelected,
-                //         setDealers,
-                //         locateDealershipsFn,
-                //         setSelect,
-                //         setFind,
-                //         query,
-                //         setZipMode
-                //     );
-                // }
+                 else if (infoMode === 3) {
+                    handleInfoFlow(
+                        model,
+                        trim,
+                        setMessages,
+                        setModel,
+                        setQuery,
+                        setInfoMode,
+                        setCalcButtons,
+                        setMenuButtons,
+                        handleUserInput,
+                        setShowCalcButtons,
+                        setCarInfoData,
+                        infoMode,
+                        selected,
+                        changeSelected,
+                        setDealers
+                    );
+                } else if (infoMode === 4) {
+                    handleInfoFlow(
+                        model,
+                        trim,
+                        setMessages,
+                        setModel,
+                        setQuery,
+                        setInfoMode,
+                        setCalcButtons,
+                        setMenuButtons,
+                        handleUserInput,
+                        setShowCalcButtons,
+                        setCarInfoData,
+                        infoMode,
+                        selected,
+                        changeSelected,
+                        setDealers,
+                        locateDealershipsFn,
+                        setSelect,
+                        setFind,
+                        query,
+                        setZipMode
+                    );
+                }
                 blockQueries.current = false;
                 break;
             case "A":

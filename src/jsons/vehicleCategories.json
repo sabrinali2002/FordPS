@@ -1,6 +1,7 @@
 {
     "SUVs and Cars": {
       "Escape": [
+        "All Trims",
         "Active",
         "Base",
         "Platinum",
@@ -10,6 +11,7 @@
         "ST-Line Select"
       ],
       "Bronco": [
+        "All Trims",
         "Badlands",
         "Base",
         "Base w/Advanced 4x4",
@@ -26,6 +28,7 @@
         "Wildtrak"
       ],
       "Bronco Sport": [
+        "All Trims",
         "Badlands",
         "Base",
         "Big Bend",
@@ -34,6 +37,7 @@
         "Outer Banks"
       ],
       "Explorer": [
+        "All Trims",
         "Base",
         "King Ranch",
         "Limited",
@@ -46,6 +50,7 @@
         "XLT"
       ],
       "Edge": [
+        "All Trims",
         "SE",
         "SEL",
         "ST",
@@ -53,19 +58,21 @@
         "Titanium"
       ],
       "Mustang Mach-E": [
+        "All Trims",
         "California Route 1 w/Extended Range",
         "GT w/Extended Range",
-        "Premium w/Standard Range",
-        "Select w/Standard Range"
+        "Premium w/Standard Range"
       ]
     },
     "Trucks and Vans": {
       "Ranger": [
+        "All Trims",
         "Lariat",
         "XL",
         "XLT"
       ],
       "F-150": [
+        "All Trims",
         "King Ranch",
         "Lariat",
         "Limited",
@@ -77,12 +84,14 @@
         "XLT"
       ],
       "F-150 Lightning": [
+        "All Trims",
         "Lariat",
         "Platinum",
         "Pro",
         "XLT"
       ],
       "E-Transit Cargo Van": [
+        "All Trims",
         "350 High Roof w/148\" WB",
         "350 Low Roof w/148\" WB",
         "350 Low Roof w/130\" WB",
@@ -90,6 +99,7 @@
         "350 Medium Roof w/148\" WB"
       ],
       "Transit Cargo Van": [
+        "All Trims",
         "150 Low Roof w/148\" WB",
         "150 Low Roof w/130\" WB",
         "150 Medium Roof w/130\" WB",
@@ -111,6 +121,7 @@
         "350 Medium Roof w/148\" WB"
       ],
       "Transit Crew Van": [
+        "All Trims",
         "250 Low Roof w/130\" WB",
         "350 Low Roof w/148\" WB",
         "150 Low Roof w/148\" WB",
@@ -129,6 +140,7 @@
         "150 Medium Roof w/148\" WB"
     ],
     "Transit Passenger Van": [
+        "All Trims",
         "350 HD XL High Roof w/148\" WB",
         "350 XLT Low Roof w/148\" WB",
         "350 XLT Medium Roof w/148\" WB",
@@ -139,6 +151,7 @@
         "350 XL Medium Roof w/148\" WB"
     ],
     "Transit Connect Cargo Van": [
+        "All Trims",
         "XLT w/Rear Liftgate LWB",
         "XL w/Rear 180 Degree Doors SWB",
         "XLT w/Rear 180 Degree Doors LWB",
@@ -151,18 +164,20 @@
     },
     "Electrified": {
       "Mustang Mach-E": [
+        "All Trims",
         "California Route 1 w/Extended Range",
         "GT w/Extended Range",
-        "Premium w/Standard Range",
-        "Select w/Standard Range"
+        "Premium w/Standard Range"
       ],
       "F-150 Lightning": [
+        "All Trims",
         "Lariat",
         "Platinum",
         "Pro",
         "XLT"
       ],
       "E-Transit Cargo Van": [
+        "All Trims",
         "350 High Roof w/148\" WB",
         "350 Low Roof w/148\" WB",
         "350 Low Roof w/130\" WB",
@@ -170,6 +185,7 @@
         "350 Medium Roof w/148\" WB"
       ],
       "F-150": [
+        "All Trims",
         "King Ranch",
         "Lariat",
         "Limited",
@@ -181,6 +197,7 @@
         "XLT"
       ],
       "Escape": [
+        "All Trims",
         "Plug-In Hybrid",
         "ST-Line Elite"
       ],
@@ -199,12 +216,14 @@
         "Raptor"
       ],
       "F-150": [
+        "All Trims",
         "Raptor",
         "Raptor R"
       ]
     },
     "Commercial Vehicles": {
       "Transit Cargo Van": [
+        "All Trims",
         "150 Low Roof w/148\" WB",
         "150 Low Roof w/130\" WB",
         "150 Medium Roof w/130\" WB",
@@ -226,6 +245,7 @@
         "350 Medium Roof w/148\" WB"
       ],
       "E-Transit Cargo Van": [
+        "All Trims",
         "350 High Roof w/148\" WB",
         "350 Low Roof w/148\" WB",
         "350 Low Roof w/130\" WB",
@@ -233,6 +253,7 @@
         "350 Medium Roof w/148\" WB"
       ],
       "Transit Crew Van": [
+        "All Trims",
         "250 Low Roof w/130\" WB",
         "350 Low Roof w/148\" WB",
         "150 Low Roof w/148\" WB",
@@ -251,6 +272,7 @@
         "150 Medium Roof w/148\" WB"
     ],
     "Transit Passenger Van": [
+        "All Trims",
         "350 HD XL High Roof w/148\" WB",
         "350 XLT Low Roof w/148\" WB",
         "350 XLT Medium Roof w/148\" WB",
@@ -261,6 +283,7 @@
         "350 XL Medium Roof w/148\" WB"
     ],
     "Transit Connect Cargo Van": [
+        "All Trims",
         "XLT w/Rear Liftgate LWB",
         "XL w/Rear 180 Degree Doors SWB",
         "XLT w/Rear 180 Degree Doors LWB",
