@@ -129,6 +129,8 @@ export function handleUserInputFn(
 }
 
 export function handleUserFlow(
+    tableForceUpdate,
+    setTableForceUpdate,
     handleMoreInfo,
     handleCarInfoButton,
     fixTrimQueryQuotation,
@@ -242,6 +244,8 @@ export function handleUserFlow(
                                 onClick={() => {
                                     setTrim(trim);
                                     handleInfoFlow(
+                                        tableForceUpdate,
+                                        setTableForceUpdate,
                                         handleMoreInfo,
                                         forceUpdate,
                                         setForceUpdate,

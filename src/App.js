@@ -89,6 +89,7 @@ function App() {
     const [carInfoData, setCarInfoData] = useState({});
     const [carInfoMode, setCarInfoMode] = useState("single");
     const [questionnaireAnswers, setQuestionnaireAnswers] = useState([]);
+    const [tableForceUpdate, setTableForceUpdate] = useState(false);
 
     const blockQueries = useRef(false);
     const recognition = useRef(null);
@@ -271,7 +272,7 @@ function App() {
     //Car Info functions  -------------------------------------------------------------
     let compareTrimOptions =
         compareModel === "" || compareModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[compareModel].map((trim) => ({ value: trim, label: trim }));
-    const handleCarInfoButton = handleCarInfo(model, trim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation);
+    const handleCarInfoButton = handleCarInfo(tableForceUpdate, setTableForceUpdate,model, trim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation);
     const handleCarInfoCompareButton = handleCarComparison(carInfoMode, setCarInfoMode, setSelectedModel, setSelectedTrim);
     const handleModelChange = onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim, trims);
     const handleTrimChange = onTrimChange(setSelectedTrim, setCompareTrim);
@@ -338,12 +339,16 @@ function App() {
     };
 
     const handleMoreInfo = () => {
-        console.log("😢" + JSON.stringify(carInfoData));
-        setMessages((m) => [...m, { msg: "", author: "Table" }]);
+      console.log("😢" + JSON.stringify(carInfoData));
+      setMessages((m) => [...m, { msg: "", author: "Table" }]);
     };
+
+    // useEffect(()=>{handleMoreInfo()}, [tableForceUpdate]);
 
     useEffect(() => {
         handleUserFlow(
+            tableForceUpdate, 
+            setTableForceUpdate,
             handleMoreInfo,
             handleCarInfoButton,
             fixTrimQueryQuotation,

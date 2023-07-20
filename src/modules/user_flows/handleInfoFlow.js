@@ -1,5 +1,7 @@
 import data from "../../jsons/data.json";
 export default function handleInfoFlow(
+    tableForceUpdate, 
+    setTableForceUpdate,
     handleMoreInfo,
     forceUpdate,
     setForceUpdate,
@@ -61,8 +63,8 @@ export default function handleInfoFlow(
                     className="menu"
                     onClick={() => {
                         setMenuButtons([]);
+                        handleCarInfoButton(model, trim);
                         setForceUpdate(!forceUpdate);
-                        handleCarInfoButton();
                         handleMoreInfo();
                     }}
                 >

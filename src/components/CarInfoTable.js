@@ -63,7 +63,7 @@ const CarInfoTable = ({ data, mode, intro }) => {
         car1data = data[0][0];
     }
     if (data[1] !== undefined) car2data = data[1][0];
-    console.log(data);
+    console.log("tabledata" + data);
     return (
         <Fragment>
             {intro !== undefined && <p>{intro}</p>}

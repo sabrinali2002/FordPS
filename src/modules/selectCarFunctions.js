@@ -1,5 +1,7 @@
-export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation) {
-    return async () => {
+export function handleCarInfo(tableForceUpdate, setTableForceUpdate, selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation) {
+    return async (model, trim) => {
+        let selectedModel = model;
+        let selectedTrim = trim;
         let sqlQuery = "";
         if (selectedModel !== "no model") {
             sqlQuery += `SELECT * FROM car_info WHERE model = "${selectedModel}" `;
@@ -35,12 +37,14 @@ export function handleCarInfo(selectedModel, selectedTrim, carInfoMode, compareM
         console.log("compare trim:" + compareTrim);
         dataArr = [data, data2];
         let carInfoCopy = carInfoData;
-        carInfoCopy["" + (messages.length - 1)] = dataArr;
+        carInfoCopy["" + (messages.length + 2)] = dataArr;
         console.log(messages.length - 1, carInfoCopy["" + (messages.length - 1)]);
         console.log(dataArr);
-        console.log("😠" + selectedModel + selectedTrim);
+        console.log("🚗" + selectedModel + selectedTrim);
+        console.log("carinfocopy:",carInfoCopy);
         setCarInfoData(carInfoCopy);
         setForceUpdate(!forceUpdate);
+        // setTableForceUpdate(!tableForceUpdate);
     };
 }
 
