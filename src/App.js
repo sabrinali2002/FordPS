@@ -404,10 +404,10 @@ function App() {
                     {(calcMode<3) && ('/month')}
                 </span>
             </div>)}
-            {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center'}}>
+            {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center',marginTop:'10px',marginBottom:'15px'}}>
                 <div className='model-box'>
                     <div style={{marginTop:'10px',color:'#322964',fontSize:'20px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>
-                    <div style={{color:'#322964',fontSize:'10px',fontWeight:'bold',lineHeight:'20px'}}>Select from the options to specify which cars you are looking for</div>
+                    <div style={{color:'#322964',fontSize:'12px',fontWeight:'bold',lineHeight:'20px'}}>Select from the options to specify which cars you are looking for</div>
                     <div className='button-container'>{calcButtons}</div>
                     {vehicle !== "" && <button style = {{position: "relative", bottom: 0, alignSelf:'start', marginLeft:-40, alignSelf:'start'}} onClick = {() => {
                       if(infoMode === 1){

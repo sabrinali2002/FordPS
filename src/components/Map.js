@@ -44,7 +44,7 @@ function Map({ zip, dist, loc, deal, coords}) {
 
     const encodedAddress = encodeURIComponent(address);
     const mapsUrl = `https://www.google.com/maps?q=${encodedAddress}`;
-
+    console.log('here');
     window.open(mapsUrl, '_blank'); // Open the Google Maps link in a new tab/window
   };
 
@@ -137,10 +137,6 @@ function Map({ zip, dist, loc, deal, coords}) {
       let dayOfWeek = new Date(Date.UTC(2023, today.getMonth(), day)).toLocaleString('en-US', { weekday: 'long' })
       let useTime = currTime
       let ending = 'am';
-      if (currTime > 12) {
-        useTime = currTime-12;
-        ending = 'pm';
-      }
       appts.push([`${dayOfWeek} ${currMonth}/${currDay}`,`${useTime.toString()}:${currMin.toString()}0${ending}`])
       if (currMin == 3) {
         currTime = currTime + 1;
@@ -152,6 +148,10 @@ function Map({ zip, dist, loc, deal, coords}) {
       if (currTime > 20) {
         currTime = 8;
         currMin = 0;
+      }
+      if (currTime > 12) {
+        useTime = currTime-12;
+        ending = 'pm';
       }
     }
     return appts;
@@ -396,7 +396,7 @@ function Map({ zip, dist, loc, deal, coords}) {
   }, [zip, latlong]);
   return (
   <div>
-      {showWindow && (<div style={{alignContent:'center'}}>
+      {showWindow && (<div style={{ display:'flex',flexDirection:'column',marginRight:'200px'}}>
           {window1Content}
           {window2Content}
           {window3Content}

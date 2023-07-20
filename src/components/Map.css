@@ -126,6 +126,7 @@
     margin: 15px;
     left: 60px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index:1;
 }
 
 .dealer-window2 {
@@ -139,6 +140,7 @@
     margin: 15px;
     left: 60px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index:1;
 }
 
 .window-model {

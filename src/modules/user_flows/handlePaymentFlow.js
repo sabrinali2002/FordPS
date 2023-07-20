@@ -31,7 +31,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat", line: true }]);
         //setShowCalcButtons(true);
         setMenuButtons(<div className='buttons'>
-            {options.map(option => (<button className='menu' key={option} value={option} 
+            {options.map(option => (<button className='menu button-standard' key={option} value={option} 
                 onClick={() => 
                     {setQuery(option);
                         setMessages((m) => [...m, { msg: option, author: "You" }]);
@@ -77,7 +77,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                         setMessages((m) => [...m, { msg: "Please select your desired lease duration, in months", author: "Ford Chat", line: true }]);
                         //setShowCalcButtons(true);
                         setMenuButtons(<div className='buttons'>
-                            {durations.map(dur => (<button className='menu' key={dur.toString()} value={dur} 
+                            {durations.map(dur => (<button className='menu button-standard' key={dur.toString()} value={dur} 
                             onClick={() => 
                                 {setQuery(dur.toString());
                                     setMessages((m) => [...m, { msg: `${dur.toString()} months`, author: "You" }]);
@@ -109,7 +109,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                         setMessages((m) => [...m, { msg: "Please select your desired loan duration, in months", author: "Ford Chat", line: true }]);
                         //setShowCalcButtons(true);
                         setMenuButtons(<div className='buttons'>
-                            {durations.map(dur => (<button className='menu' key={dur.toString()} value={dur} 
+                            {durations.map(dur => (<button className='menu button-standard' key={dur.toString()} value={dur} 
                             onClick={() => 
                                 {setQuery(dur.toString());
                                     setMessages((m) => [...m, { msg: `${dur.toString()} months`, author: "You" }]);
@@ -152,7 +152,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                 setMessages((m) => [...m, { msg: "Would you like to place an order?", author: "Ford Chat", line: true }]);
                 const opts = ['Yes','No'];
                 setMenuButtons(<div className='buttons'>
-                    {opts.map(o => (<button className='menu' key={o.toString()} value={o} 
+                    {opts.map(o => (<button className='menu button-standard' key={o.toString()} value={o} 
                     onClick={() => 
                         {setQuery(o);
                             setMessages((m) => [...m, { msg: o, author: "You" }]);
@@ -185,7 +185,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
             setMessages((m) => [...m, { msg: "Would you like to send a request to the dealer?", author: "Ford Chat", line: true }]);
             const opts = ['Yes','No'];
             setMenuButtons(<div className='buttons'>
-                {opts.map(o => (<button className='menu' key={o.toString()} value={o} 
+                {opts.map(o => (<button className='menu button-standard' key={o.toString()} value={o} 
                 onClick={() => 
                     {setQuery(o);
                         setMessages((m) => [...m, { msg: o, author: "You" }]);
@@ -203,7 +203,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                 setMessages((m) => [...m, { msg: "Would you like car delivery or pickup?", author: "Ford Chat", line: true }]);
                 const opts = ['Delivery','Pickup'];
                 setMenuButtons(<div className='buttons'>
-                    {opts.map(o => (<button className='menu' key={o.toString()} value={o} 
+                    {opts.map(o => (<button className='menu button-standard' key={o.toString()} value={o} 
                     onClick={() => 
                         {setQuery(o);
                             setMessages((m) => [...m, { msg: o, author: "You" }]);
