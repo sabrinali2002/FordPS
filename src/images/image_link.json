@@ -35,7 +35,8 @@
         "SEL": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/edge/2023/collections/3-2/23_frd_edg_sel_agbl_ps34__356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
         "ST": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/edge/2023/collections/3-2/23_frd_edg_st_crgr_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
         "ST-Line": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/edge/2023/collections/3-2/23_frd_edg_stln_icsl_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
-        "Titanium": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/edge/2023/collections/3-2/23_frd_edg_tnm_frgn_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png"
+        "Titanium": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/edge/2023/collections/3-2/23_frd_edg_tnm_frgn_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
+        "Sport": "https://file.kelleybluebookimages.com/kbb/base/evox/CP/8194/2013-Ford-Edge-front_8194_032_2400x1800_UG.png"
     },
     "Escape": {
         "Active": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/escape/2023/collections/3-2/23_frd_esp_actv_atlb_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
@@ -44,7 +45,8 @@
         "Plug-In Hybrid": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/escape/2023/collections/3-2/23_frd_esp_phev_atlb_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
         "ST-Line": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/escape/2023/collections/3-2/23_frd_esp_stln_vpbl_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
         "ST-Line Elite": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/escape/2023/collections/3-2/23_frd_esp_stln_elt_atlb_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
-        "ST-Line Select": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/escape/2023/collections/3-2/23_frd_esp_stln_slt_oxwh_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png"
+        "ST-Line Select": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/escape/2023/collections/3-2/23_frd_esp_stln_slt_oxwh_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
+        "Limited": "https://cfx-vrf-main-imgs.imgix.net/a/1/5/42703ae04f251bd26e429fa72c41aad840d6551a.png?auto=format&fit=clip&w=420"
     },
     "Expedition": {
         "King Ranch": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/expedition/2024/collections/3-2/23_frd_epd_kr_agbl_ps34_356X180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
@@ -81,7 +83,8 @@
         "Raptor R": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/f-150f-150/2023/collections/3_2/22_frd_f150_scrw_5_5ft_rptr_801a_cdor_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
         "Tremor": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/f-150f-150/2023/collections/3_2/22_frd_f150_scrw_5_5ft_trem_402a_islv_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
         "XL": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/f-150f-150/2023/collections/3_2/22_frd_f150_rcab_6_5ft_xl_oxwh_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
-        "XLT": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/f-150f-150/2023/collections/3_2/22_frd_f150_rcab_6_5ft_xlt_agbl_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png"
+        "XLT": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/f-150f-150/2023/collections/3_2/22_frd_f150_rcab_6_5ft_xlt_agbl_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",
+        "FX-2 Sport": "https://cdn.jdpower.com/ChromeImageGallery/Expanded/Transparent/640/2010FRD009b_640/2010FRD009b_640_01.png"
     },
     "F-150 Lightning": {
         "Lariat": "https://www.ford.com/cmslibs/content/dam/vdm_ford/live/en_us/ford/nameplate/f-150lightning/2023/collections/3_2/22_frd_f150_spcb_8ft_510a_lar_atlb_ps34_356x180.png/jcr:content/renditions/cq5dam.web.1280.1280.png",

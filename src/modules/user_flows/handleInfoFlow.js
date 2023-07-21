@@ -1,7 +1,5 @@
 import data from "../../jsons/data.json";
 export default function handleInfoFlow(
-    tableForceUpdate, 
-    setTableForceUpdate,
     handleMoreInfo,
     forceUpdate,
     setForceUpdate,

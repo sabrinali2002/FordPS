@@ -60,6 +60,11 @@ const specList = [
 
 const specListSQL = specList.map((spec) => spec.toLowerCase().replace(/ /g, "_"));
 
+const moneyFormatter = new Intl.NumberFormat('en-US', {
+    style: "currency",
+    currency: "USD"
+})
+
 const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selectedCars, onCompare, onTableBack }) => {
     let car1data, car2data;
     console.log("received data" + data);
@@ -122,7 +127,7 @@ const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selec
                                     <StyledTableCell>{item.model}</StyledTableCell>
                                     <StyledTableCell>{item.trim}</StyledTableCell>
                                     <StyledTableCell>{item.year}</StyledTableCell>
-                                    <StyledTableCell>{item.msrp}</StyledTableCell>
+                                    <StyledTableCell>{moneyFormatter.format(item.msrp)}</StyledTableCell>
                                     <StyledTableCell>{item.body_size}</StyledTableCell>
                                     <StyledTableCell>{item.body_style}</StyledTableCell>
                                     <StyledTableCell>{item.cylinders}</StyledTableCell>
@@ -218,9 +223,12 @@ const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selec
                                 {specList.map((spec, index) => (
                                     <StyledTableRow key={spec}>
                                         <StyledTableCell>{spec}</StyledTableCell>
-                                        {selectedCars.map((car) => (
-                                            <StyledTableCell key={car.id}>{car[`${specListSQL[index]}`]}</StyledTableCell>
-                                        ))}
+                                        {selectedCars.map((car) => {
+                                            if(spec === "MSRP") {
+                                                return <StyledTableCell key={car.id}>{moneyFormatter.format(car[`${specListSQL[index]}`])}</StyledTableCell>
+                                            }
+                                            return <StyledTableCell key={car.id}>{car[`${specListSQL[index]}`]}</StyledTableCell>
+                                        })}
                                     </StyledTableRow>
                                 ))}
                             </TableBody>
