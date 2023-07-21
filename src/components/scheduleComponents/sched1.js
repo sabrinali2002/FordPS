@@ -208,6 +208,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, backButt
               fontSize: 18,
               width: 300,
               marginBottom: 10,
+              cursor: 'pointer'
             }}
           >
             Confirm appointment

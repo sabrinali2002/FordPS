@@ -179,6 +179,10 @@
     cursor: auto;
 }
 
+.time-slot:hover {
+    background-color:lightgrey;
+}
+
 .schedule-button {
     font-size:13px;
     text-align:center;

@@ -291,6 +291,7 @@ export default function Sched2({ callback, backButton }) {
                 marginTop: 20,
                 fontSize: 18,
                 width: 300,
+                cursor: 'pointer'
               }}
               onClick={onSubmit}
             >

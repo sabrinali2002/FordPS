@@ -165,6 +165,9 @@ function Map({ zip, dist, loc, deal, coords }) {
         useTime = currTime-12;
         ending = 'pm';
       }
+      if (currTime == 12) {
+        ending = 'pm';
+      }
       appts.push([`${dayOfWeek} ${currMonth}/${currDay}`,`${useTime.toString()}:${currMin.toString()}0${ending}`])
       if (currMin == 3) {
         currTime = currTime + 1;
@@ -190,6 +193,9 @@ function Map({ zip, dist, loc, deal, coords }) {
     let addr = info[dealer]["address"];
     let phone = info[dealer]["number"];
     let rating = info[dealer]["rating"];
+    if (rating == '') {
+      rating = '4';
+    }
     let link = `www.${dealer
       .replaceAll(" ", "")
       .replaceAll("'", "")
@@ -284,6 +290,9 @@ function Map({ zip, dist, loc, deal, coords }) {
     let addr = info[dealer]["address"];
     let phone = info[dealer]["number"];
     let rating = info[dealer]["rating"];
+    if (rating == '') {
+      rating = '4';
+    }
     let link = `www.${dealer
       .replaceAll(" ", "")
       .replaceAll("'", "")

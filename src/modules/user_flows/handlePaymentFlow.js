@@ -216,7 +216,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
             case 'No':
                 setCalcStep(0);
                 blockQueries.current = false;
-                setMenuButtons(origButtons);
+                //setMenuButtons(origButtons);
                 break;
         }
         break;
@@ -245,7 +245,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                 break;
             case 'No':
                 setCalcStep(0);
-                setMenuButtons(origButtons);
+                //setMenuButtons(origButtons);
                 blockQueries.current = false;
                 break;
         }
@@ -259,7 +259,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         setMessages((m) => [...m, { msg: "Thank you! We will process your request and send you a confirmation email shortly.", author: "Ford Chat", line: true }]);
         blockQueries.current = false;
         setCalcStep(0);
-        setMenuButtons(origButtons);
+        //setMenuButtons(origButtons);
         break;
     }
   }
