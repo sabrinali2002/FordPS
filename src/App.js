@@ -423,7 +423,6 @@ function App() {
             selected,
             cat,
             setCat,
-            origButtons,
             setOptionButtons
         );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);

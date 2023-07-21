@@ -199,7 +199,6 @@ export function handleUserFlow(
     selected,
     cat,
     setCat,
-    origButtons,
     setOptionButtons
 ) {
     if (!blockQueries.current && query.length > 0) {
@@ -255,6 +254,7 @@ export function handleUserFlow(
             sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
             break;
           case "B": {
+            setZipMode(1);
             handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance);
             blockQueries.current = false;
             break;
