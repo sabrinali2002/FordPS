@@ -259,32 +259,10 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
                 break;
             case "D":
                 setQuery("");
-                handlePaymentFlow(
-                    calcStep,
-                    model,
-                    setModel,
-                    query,
-                    setQuery,
-                    setMessages,
-                    setMenuButtons,
-                    setCalcButtons,
-                    blockQueries,
-                    setCalcStep,
-                    trim,
-                    setTrim,
-                    calcMode,
-                    setCalcMode,
-                    setLeaseStep,
-                    setFinanceStep,
-                    leaseStep,
-                    financeStep,
-                    changeChoice,
-                    setShowCalcButtons,
-                    setCalcHeadingText,
-                    payment,
-                    setPayment,
-                    origButtons,
-                    setOptionButtons
+                handlePaymentFlow(calcStep,model,setModel,query,setQuery,
+                    setMessages,setMenuButtons,setCalcButtons,blockQueries,setCalcStep,trim,setTrim,calcMode,
+                    setCalcMode,setLeaseStep,setFinanceStep,leaseStep,financeStep,changeChoice,
+                    setShowCalcButtons,setCalcHeadingText,payment,setPayment,origButtons,setOptionButtons
                 );
                 break;
             default:
