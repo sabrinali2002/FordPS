@@ -67,18 +67,15 @@ function dictate(message, toggleIsSpeaking) {
   speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar}){
-
-      const textPartStyle = {
-        display: "flex", flexDirection:"row",
-        width:"100%",
-        justifyContent: author.toLowerCase() === "you" ? "flex-end" : "flex-start",
-        paddingRight: "5%",
-        paddingLeft:"2%",
-        paddingTop: "5px",
-      }
-      
-
+export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars}){
+  const textPartStyle = {
+    display: "flex", flexDirection:"row",
+    width:"100%",
+    justifyContent: author.toLowerCase() === "you" ? "flex-end" : "flex-start",
+    paddingRight: "5%",
+    paddingLeft:"2%",
+    paddingTop: "5px",
+  }
     const [isSpeaking, toggleIsSpeaking] = useState(false);
     return (
         <div style={{display: "flex", flexDirection:"row", width:"100%", }}>
@@ -111,7 +108,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
         </Fragment>
         }
         {author==="Table" && <Fragment>
-        <CarInfoTable data={carInfoData} mode={carInfoMode} intro={message}/>
+        <CarInfoTable data={carInfoData} mode={carInfoMode} intro={message} onCheckboxSelect={tableFunctions[0]} messageIndex={messageIndex} selectedCars={selectedCars} onCompare={tableFunctions[1]} onTableBack={tableFunctions[2]}/>
           </Fragment>}
         {
           author==="Login" && <ExistingOwner setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput} justSelect={message.length>0} selectedCar={selectedCar}
