@@ -39,30 +39,6 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
         },
       }));
       
-    const ownerButtons = (
-        <div className="buttons">
-        <BigTooltip placement="top" title="Maintenance requests for cars are when you ask for repairs or services to keep your vehicle in good condition and running well. It's important to address issues promptly for safety and longevity.">
-          <button classname="menu button-standard" onClick={()=>{
-                setMessages(m=>{return [...m, {msg: "Maintenance requests", author: "You"}, {msg: "What type of help with maintenance would you like?", author: "Ford Chat"}]})
-                setMenuButtons([maintenanceButtons])
-            }}>Maintenance requests</button>
-            </BigTooltip>
-        <BigTooltip placement="top" title="Car resale value is the amount you can expect to get when you sell your car. Regular maintenance and proper care help maintain a higher resale value.">
-          <button classname="menu button-standard" onClick={()=>{
-            }}>Car resale value</button>
-        </BigTooltip>
-        <BigTooltip placement="top" title="An owner service center is a facility provided by Ford dealerships exclusively for Ford vehicles. It offers specialized expertise, genuine Ford parts, and trained technicians for optimal maintenance and warranty support. Choosing this center helps maintain your Ford's value and ensure reliable service.">
-          <button classname="menu button-standard" onClick={()=>{
-            }}>Owner service center</button>
-        </BigTooltip>
-        <BigTooltip placement="top" title="We will help you find the closest Ford dealerships to you based on your preferred radius.">
-          <button classname="menu button-standard" onClick={()=>{
-                handleUserInput('B');
-                setMenuButtons([]);   
-            }}>Find a dealership</button>
-        </BigTooltip>
-        </div>
-      );
       const scheduleButtons = (
         <div className="buttons">
             <BigTooltip placement="top" title="Regular maintenance keeps your car in great shape. It includes routine tasks like oil changes, tire rotations, and brake inspections. Proper maintenance ensures your vehicle stays safe and reliable.">
