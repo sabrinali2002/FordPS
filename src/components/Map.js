@@ -272,11 +272,11 @@ function Map({ zip, dist, loc, deal, coords }) {
     setShowWindow(true);
     let window1 = (<div className='dealer-window1'>
       <button className='close-button' onClick={onExit}>
-        <span style={{position:'relative',right:'6px',bottom:'1.6px'}}><IoMdClose/></span>
+        <span style={{position:'relative',right:'6px',top:'0px'}}><IoMdClose/></span>
       </button>
       <span style={{color:'#322964',fontSize:'24px',fontWeight:'bold'}}>{dealer}</span>
       <span style={{position:'absolute',right:'220px'}}><FaMapMarked/></span>
-      <span style={{textDecoration:'underline',fontSize:'16px',position:'absolute',right:'58px',cursor:'pointer'}} onClick={() => goToMap(`${dealer}, ${addr}`)}>
+      <span style={{textDecoration:'underline',fontSize:'16px',position:'absolute',right:'70px',cursor:'pointer'}} onClick={() => goToMap(`${dealer}, ${addr}`)}>
         View on Google Maps</span>
       <br/>
       <span style={{fontSize:'16px',lineHeight:'1.8',position:'relative',left:'4px',top:'5px'}}>
@@ -444,10 +444,12 @@ function Map({ zip, dist, loc, deal, coords }) {
           style={{
             position: "relative",
             backgroundColor: "#113B7A1A",
-            width: "1112px",
+            width: "1100px",
             height: "435px",
             borderRadius: "15px",
+            left: "40px",
             padding: "25px",
+            marginBottom: "15px"
           }}
         >
           <MapContainer
@@ -493,7 +495,7 @@ function Map({ zip, dist, loc, deal, coords }) {
             style={{
               marginLeft: "50px",
               alignItems: "center",
-              marginTop: "10px",
+              marginTop: "5px",
             }}
           >
             <div
@@ -502,7 +504,7 @@ function Map({ zip, dist, loc, deal, coords }) {
                 justifyContent: "flex-start",
                 alignContent: "flex-start",
                 display: "flex",
-                marginBottom: "8px",
+                marginBottom: "5px",
                 overflowY: "scroll",
                 maxHeight: "345px",
               }}
@@ -510,7 +512,7 @@ function Map({ zip, dist, loc, deal, coords }) {
               <h3
                 style={{
                   marginTop: "0",
-                  marginBottom: "15px",
+                  marginBottom: "4px",
                   fontSize: "24px",
 
               color: "#00095B",
@@ -528,9 +530,9 @@ function Map({ zip, dist, loc, deal, coords }) {
                   backgroundColor: "white",
                   padding: "10px",
                   borderRadius: "15px",
-                  marginBottom: "15px",
-                  height: "101px",
-                  width: "512px",
+                  marginBottom: "10px",
+                  height: "110px",
+                  width: "475px",
                 }}
                 onClick={() => locClickHandler(e)}
               >

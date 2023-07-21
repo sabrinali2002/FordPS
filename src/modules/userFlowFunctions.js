@@ -198,7 +198,9 @@ export function handleUserFlow(
     setDealers,
     selected,
     cat,
-    setcat
+    setCat,
+    origButtons,
+    setOptionButtons
 ) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
@@ -326,6 +328,7 @@ export function handleUserFlow(
                 break;
             case "D":
                 setQuery("");
+                console.log('here');
                 handlePaymentFlow(
                     calcStep,
                     model,
@@ -335,7 +338,6 @@ export function handleUserFlow(
                     setMessages,
                     setMenuButtons,
                     setCalcButtons,
-                    calcButtonHandler,
                     blockQueries,
                     setCalcStep,
                     trim,
@@ -347,13 +349,12 @@ export function handleUserFlow(
                     leaseStep,
                     financeStep,
                     changeChoice,
-                    showCalcButtons,
                     setShowCalcButtons,
-                    calcHeadingText,
                     setCalcHeadingText,
                     payment,
                     setPayment,
-                    handleUserInput
+                    origButtons,
+                    setOptionButtons
                 );
                 break;
             default:

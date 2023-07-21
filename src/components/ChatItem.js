@@ -81,7 +81,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
     const [isSpeaking, toggleIsSpeaking] = useState(false);
     return (
         <div style={{display: "flex", flexDirection:"row", width:"100%", }}>
-        <div style={(author==="You"||author==="Henrai")?textPartStyle:{}}>
+        <div style={(author==="You"||author==="Ford Chat")?textPartStyle:{}}>
           <div style={textPartStyle}>
           {author === "Ford Chat" && <div><img src={circleHenrai} style={{height:"48px", width:"75px"}}></img></div>}
           {(author!=="DropDown" && author!=="Table" && author !== "Info" && message.length>0) && <Fragment>

@@ -52,6 +52,7 @@ function App() {
     const [textSize, setTextSize] = useState("small");
     const [darkMode, setDarkMode] = useState(false);
     const [zipCode, setZipCode] = useState("");
+    const [optionButtons, setOptionButtons] = useState("")
     const toggleTextSize = () => {
         setTextSize((prevSize) => (prevSize === "small" ? "medium" : prevSize === "medium" ? "large" : "small"));
     };
@@ -76,8 +77,6 @@ function App() {
     const [financeStep, setFinanceStep] = useState(0);
     const [calcButtons, setCalcButtons] = useState([]);
     const [zipMode, setZipMode] = useState(0);
-    const [model, setModel] = useState("");
-    const [trim, setTrim] = useState("");
     const [trimOptions, setTrimOptions] = useState([]);
     const [infoMode, setInfoMode] = useState(0);
     const [vehicle, setVehicle] = useState("");
@@ -87,8 +86,8 @@ function App() {
     const [payment, setPayment] = useState(0);
 
     // Car Info states
-    const [selectedModel, setSelectedModel] = useState("");
-    const [selectedTrim, setSelectedTrim] = useState("");
+    const [model, setModel] = useState("");
+    const [trim, setTrim] = useState("");
     const [selectedCar, setSelectedCar] = useState(0);
     const [compareModel, setCompareModel] = useState("");
     const [compareTrim, setCompareTrim] = useState("");
@@ -281,13 +280,13 @@ function App() {
     let compareTrimOptions =
         compareModel === "" || compareModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[compareModel].map((trim) => ({ value: trim, label: trim }));
     const handleCarInfoButton = handleCarInfo(tableForceUpdate, setTableForceUpdate,model, trim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation);
-    const handleCarInfoCompareButton = handleCarComparison(carInfoMode, setCarInfoMode, setSelectedModel, setSelectedTrim);
-    const handleModelChange = onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim, trims);
-    const handleTrimChange = onTrimChange(setSelectedTrim, setCompareTrim);
+    const handleCarInfoCompareButton = handleCarComparison(carInfoMode, setCarInfoMode, setModel, setTrim);
+    const handleModelChange = onModelChange(setModel, setTrim, setCompareModel, setCompareTrim, trims);
+    const handleTrimChange = onTrimChange(setTrim, setCompareTrim);
 
     useEffect(() => {
-        setTrimOptions(getTrimOptions(selectedModel));
-    }, [selectedModel]);
+        setTrimOptions(getTrimOptions(model));
+    }, [model]);
 
     const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton, handleCarInfoCompareButton, compareTrimOptions];
 
@@ -423,7 +422,9 @@ function App() {
             setDealers,
             selected,
             cat,
-            setCat
+            setCat,
+            origButtons,
+            setOptionButtons
         );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
@@ -488,6 +489,7 @@ function App() {
             />
               );
             })}
+            {optionButtons}
           </div>
           {calcStep==5 && (<div className='payment-summary'>
                 <span style={{fontWeight:'bold',fontSize:'20px'}}>
