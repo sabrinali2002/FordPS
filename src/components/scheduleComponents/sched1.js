@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-export default function Sched1({ dealer, date, time, handleAppointment }) {
+export default function Sched1({ dealer, date, time, handleAppointment, backButton }) {
   const [time1, setTime1] = useState(null);
   const [date1, setDate1] = useState(null);
   const [name, setName] = useState("");
@@ -25,7 +25,7 @@ export default function Sched1({ dealer, date, time, handleAppointment }) {
         justifyContent: "flex-start",
         display: "flex",
         padding: 20,
-
+        marginLeft: '35px',
         boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
       }}
     >
@@ -222,7 +222,9 @@ export default function Sched1({ dealer, date, time, handleAppointment }) {
           height: 22,
           marginTop: -30,
           marginLeft: 8,
+          cursor:'pointer'
         }}
+        onClick={backButton}
       ></img>
     </div>
   );

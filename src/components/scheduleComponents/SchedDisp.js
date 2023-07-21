@@ -4,7 +4,7 @@ import Sched2 from "./sched2";
 import Sched3 from "./sched3";
 import { useState } from "react";
 
-function SchedDisp({ dealer, phone, address, link, hours }) {
+function SchedDisp({ dealer, phone, address, link, hours, backButton }) {
   const [hour, setHour] = useState(null);
   const [date, setDate] = useState(null);
   const [name, setName] = useState(null);
@@ -36,13 +36,14 @@ function SchedDisp({ dealer, phone, address, link, hours }) {
   };
   return (
     <div className="App">
-      {vis1 && <Sched2 callback={handleCallback} />}
+      {vis1 && <Sched2 callback={handleCallback} backButton={backButton}/>}
       {vis2 && (
         <Sched1
           dealer={dealer}
           handleAppointment={handleAppointment}
           date={date}
           time={hour}
+          backButton={backButton}
         />
       )}
       {vis3 && (

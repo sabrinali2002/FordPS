@@ -225,20 +225,6 @@
   background: #6c6c6c;
 }
 
-.payment-summary {
-  color:#322964;
-  background-color: white;
-  width: 400px;
-  height: 200px;
-  margin: 20px;
-  padding: 15px;
-  margin-left:100px;
-  line-height:35px;
-  border-radius:10px;
-  text-align:left;
-  border: 2px, #322964;
-}
-
 .button-standard{
   background-color: rgb(231, 228, 228);
   color: #322964;
@@ -251,9 +237,6 @@
 }
 
 .option-buttons {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
   margin-left: 114px;
   margin-top: -10px;
   margin-bottom: 10px;
@@ -263,6 +246,11 @@
   background-color: rgb(231, 228, 228);
   color: #322964;
   border-radius: 100px;
+  margin-right: 10px;
+  height: 40px;
+  padding-right: 20px;
+  padding-left: 20px;
+  text-align: center;
   box-shadow: 1px 4px 2px rgba(0, 0, 0, 0.5);
 }
 
