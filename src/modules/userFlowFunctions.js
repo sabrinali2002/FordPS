@@ -32,7 +32,7 @@ export function handleUserInputFn(
             case "I":
                 if (cat === "") {
                     setMessages((m) => [...m, { msg: "Info on a specific car", author: "You", line: true, zip: {} }]);
-                    setMessages((m) => [...m, { msg: "Please a model/trim of the specific car you're looking for", author: "Ford Chat", line: true, zip: "" }]);
+                    setMessages((m) => [...m, { msg: "Please select a model/trim of the specific car you're looking for", author: "Ford Chat", line: true, zip: "" }]);
                 }
                 setCalcHeadingText("Choose vehicle category");
                 setShowCalcButtons(true);
