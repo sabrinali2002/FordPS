@@ -425,7 +425,7 @@ function App() {
             setCat,
             setOptionButtons
         );
-    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
+    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim, choice]);
 
   return (
     <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>

@@ -7,25 +7,7 @@ import handleInfoFlow from "./user_flows/handleInfoFlow";
 import { BiRegistered } from "react-icons/bi";
 import images from "../images/image_link.json";
 
-export function handleUserInputFn(
-    setMessages,
-    changeChoice,
-    setMenuButtons,
-    buyACarButtons,
-    setCalcButtons,
-    model,
-    calcButtonHandler,
-    setCalcStep,
-    trim,
-    setQuery,
-    blockQueries,
-    setResponse,
-    setShowCalcButtons,
-    setCalcHeadingText,
-    setInfoMode,
-    cat,
-    setCat
-) {
+export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACarButtons,setCalcButtons,model,calcButtonHandler,setCalcStep,trim,setQuery,blockQueries,setResponse,setShowCalcButtons,setCalcHeadingText,setInfoMode,cat,setCat) {
     return (option) => {
         // Outputs a response to based on input user selects
         switch (option) {
@@ -129,77 +111,10 @@ export function handleUserInputFn(
     };
 }
 
-export function handleUserFlow(
-  origButtons,
-    tableForceUpdate,
-    setTableForceUpdate,
-    handleMoreInfo,
-    handleCarInfoButton,
-    fixTrimQueryQuotation,
-    query,
-    dealerList,
-    carInfoData,
-    setCarInfoData,
-    extractFiveDigitString,
-    findLocations,
-    handleUserInput,
-    blockQueries,
-    choice,
-    setQuery,
-    zipMode,
-    setZipCode,
-    messages,
-    setMessages,
-    setZipMode,
-    setDistance,
-    setCalcButtons,
-    calcButtonHandler,
-    zipCode,
-    distance,
-    findMode,
-    selectHandler,
-    setFind,
-    appendSelect,
-    setSelect,
-    questionnaireStep,
-    setQuestionnaireAnswers,
-    setQuestionnaireStep,
-    questionnaireAnswers,
-    setForceUpdate,
-    forceUpdate,
-    calcStep,
-    model,
-    setModel,
-    setCalcStep,
-    trim,
-    setTrim,
-    calcMode,
-    setCalcMode,
-    setLeaseStep,
-    setFinanceStep,
-    leaseStep,
-    financeStep,
-    changeChoice,
-    history,
-    setHistory,
-    infoMode,
-    setInfoMode,
-    vehicle,
-    setVehicle,
-    showCalcButtons,
-    setShowCalcButtons,
-    calcHeadingText,
-    setCalcHeadingText,
-    payment,
-    setPayment,
-    setMenuButtons,
-    locateDealershipsFn,
-    changeSelected,
-    setDealers,
-    selected,
-    cat,
-    setCat,
-    setOptionButtons
+export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,handleMoreInfo,handleCarInfoButton,fixTrimQueryQuotation,query,dealerList,carInfoData,setCarInfoData,extractFiveDigitString,findLocations,handleUserInput,blockQueries,choice,setQuery,zipMode,setZipCode,messages,setMessages,setZipMode,setDistance,
+    setCalcButtons,calcButtonHandler,zipCode,distance,findMode,selectHandler,setFind,appendSelect, setSelect,questionnaireStep,
+    setQuestionnaireAnswers,setQuestionnaireStep,questionnaireAnswers,setForceUpdate,forceUpdate,calcStep,model,setModel,setCalcStep, trim,setTrim,calcMode,setCalcMode,setLeaseStep,setFinanceStep,leaseStep,financeStep,
+    changeChoice,history,setHistory,infoMode,setInfoMode,vehicle,setVehicle,showCalcButtons,setShowCalcButtons,calcHeadingText,setCalcHeadingText,payment,setPayment,setMenuButtons,locateDealershipsFn,changeSelected,setDealers,selected,cat,setCat,setOptionButtons
 ) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
@@ -231,6 +146,8 @@ export function handleUserFlow(
                 {model}
               </button>)));
               setVehicle(query);
+              blockQueries.current = false;
+            break;
             }
             else if(infoMode === 2){
               setModel(query);
@@ -239,16 +156,52 @@ export function handleUserFlow(
               handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode);
               setTrim(trim);
               }}>{trim}</button>)));
+              blockQueries.current = false;
+            break;
             }
             else if(infoMode === 3){
               handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers);
+              blockQueries.current = false;
+            break;
             }
             else if(infoMode === 4){
               handleInfoFlow(model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
-              // setMenuButtons(origButtons) 
+              blockQueries.current = false;
+                break;
             }
-            blockQueries.current = false;
-            break;
+            else if(infoMode === 10){
+                setCalcStep(2);
+                changeChoice('D');
+                handlePaymentFlow(
+                    calcStep,
+                    model,
+                    setModel,
+                    query,
+                    setQuery,
+                    setMessages,
+                    setMenuButtons,
+                    setCalcButtons,
+                    blockQueries,
+                    setCalcStep,
+                    trim,
+                    setTrim,
+                    calcMode,
+                    setCalcMode,
+                    setLeaseStep,
+                    setFinanceStep,
+                    leaseStep,
+                    financeStep,
+                    changeChoice,
+                    setShowCalcButtons,
+                    setCalcHeadingText,
+                    payment,
+                    setPayment,
+                    origButtons,
+                    setOptionButtons
+                );
+                blockQueries.current = false;
+                break;
+            }
           case 'A':
             setQuery("");
             sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
@@ -328,7 +281,6 @@ export function handleUserFlow(
                 break;
             case "D":
                 setQuery("");
-                console.log('here');
                 handlePaymentFlow(
                     calcStep,
                     model,

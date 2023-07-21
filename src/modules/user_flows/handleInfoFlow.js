@@ -18,6 +18,7 @@ export default function handleInfoFlow(model,trim, setMessages, setModel, setQue
       }}>Schedule a test drive</button>
     <button className="menu" onClick={()=>{
       setMenuButtons([]);
+      setInfoMode(10);
     }}>Pricing estimation</button>
     <button className="menu" onClick={()=>{
       setMenuButtons([]);
@@ -31,7 +32,7 @@ export default function handleInfoFlow(model,trim, setMessages, setModel, setQue
       setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line:true,zip:{} }]);
       setInfoMode(4);
     }
-    else{
+    else if(infoMode ===4){
       const regex = /\b\d{5}\b/g;
       const matches = query.match(regex);
       if (matches && matches.length > 0) {
