@@ -98,7 +98,7 @@ export function handleUserInputFn(
                                     setShowCalcButtons(false);
                                 }}
                             >
-                                <img style={{ width: "160px", height: "auto" }} src={images[model]} />
+                                <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} />
                                 <br />
                                 {model}
                                 <BiRegistered />
@@ -226,7 +226,7 @@ export function handleUserFlow(
                                     setInfoMode(2);
                                 }}
                             >
-                                <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} />
+                                <img style={{ width: "160px", height: "auto" }} src={images[model]} />
                                 <br />
                                 {model}
                             </button>
@@ -246,30 +246,24 @@ export function handleUserFlow(
                                 onClick={() => {
                                     setTrim(trim);
                                     handleInfoFlow(
-                                      handleMoreInfo,
-                                      forceUpdate,
-                                      setForceUpdate,
-                                      handleCarInfoButton,
-                                      model,
-                                      trim,
-                                      setMessages,
-                                      setModel,
-                                      setQuery,
-                                      setInfoMode,
-                                      setCalcButtons,
-                                      setMenuButtons,
-                                      handleUserInput,
-                                      setShowCalcButtons,
-                                      setCarInfoData,
-                                      infoMode,
-                                      selected,
-                                      changeSelected,
-                                      setDealers,
-                                      locateDealershipsFn,
-                                      setSelect,
-                                      setFind,
-                                      query,
-                                      setZipMode
+                                        tableForceUpdate,
+                                        setTableForceUpdate,
+                                        handleMoreInfo,
+                                        forceUpdate,
+                                        setForceUpdate,
+                                        handleCarInfoButton,
+                                        model,
+                                        trim,
+                                        setMessages,
+                                        setModel,
+                                        setQuery,
+                                        setInfoMode,
+                                        setCalcButtons,
+                                        setMenuButtons,
+                                        handleUserInput,
+                                        setShowCalcButtons,
+                                        setCarInfoData,
+                                        infoMode
                                     );
                                 }}
                             >
@@ -277,61 +271,49 @@ export function handleUserFlow(
                             </button>
                         ))
                     );
-                } else if (infoMode === 3) {
-                    handleInfoFlow(
-                      handleMoreInfo,
-                      forceUpdate,
-                      setForceUpdate,
-                      handleCarInfoButton,
-                      model,
-                      trim,
-                      setMessages,
-                      setModel,
-                      setQuery,
-                      setInfoMode,
-                      setCalcButtons,
-                      setMenuButtons,
-                      handleUserInput,
-                      setShowCalcButtons,
-                      setCarInfoData,
-                      infoMode,
-                      selected,
-                      changeSelected,
-                      setDealers,
-                      locateDealershipsFn,
-                      setSelect,
-                      setFind,
-                      query,
-                      setZipMode
-                    );
-                } else if (infoMode === 4) {
-                    handleInfoFlow(
-                      handleMoreInfo,
-                      forceUpdate,
-                      setForceUpdate,
-                      handleCarInfoButton,
-                      model,
-                      trim,
-                      setMessages,
-                      setModel,
-                      setQuery,
-                      setInfoMode,
-                      setCalcButtons,
-                      setMenuButtons,
-                      handleUserInput,
-                      setShowCalcButtons,
-                      setCarInfoData,
-                      infoMode,
-                      selected,
-                      changeSelected,
-                      setDealers,
-                      locateDealershipsFn,
-                      setSelect,
-                      setFind,
-                      query,
-                      setZipMode
-                    );
                 }
+                // } else if (infoMode === 3) {
+                //     handleInfoFlow(
+                //         model,
+                //         trim,
+                //         setMessages,
+                //         setModel,
+                //         setQuery,
+                //         setInfoMode,
+                //         setCalcButtons,
+                //         setMenuButtons,
+                //         handleUserInput,
+                //         setShowCalcButtons,
+                //         setCarInfoData,
+                //         infoMode,
+                //         selected,
+                //         changeSelected,
+                //         setDealers
+                //     );
+                // } else if (infoMode === 4) {
+                //     handleInfoFlow(
+                //         model,
+                //         trim,
+                //         setMessages,
+                //         setModel,
+                //         setQuery,
+                //         setInfoMode,
+                //         setCalcButtons,
+                //         setMenuButtons,
+                //         handleUserInput,
+                //         setShowCalcButtons,
+                //         setCarInfoData,
+                //         infoMode,
+                //         selected,
+                //         changeSelected,
+                //         setDealers,
+                //         locateDealershipsFn,
+                //         setSelect,
+                //         setFind,
+                //         query,
+                //         setZipMode
+                //     );
+                // }
                 blockQueries.current = false;
                 break;
             case "A":
@@ -424,7 +406,6 @@ export function handleUserFlow(
                 break;
             case "D":
                 setQuery("");
-                console.log('here');
                 handlePaymentFlow(
                     calcStep,
                     model,

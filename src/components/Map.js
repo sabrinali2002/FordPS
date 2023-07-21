@@ -223,7 +223,7 @@ function Map({ zip, dist, loc, deal, coords }) {
           <span style={{ paddingLeft: '20px' }}><MdOutlineArrowForwardIos /></span>
           <div className='modelprev-container'>
             {models.map(model => (<div className='modelprev-map'>
-                <img style={{justifySelf: 'center',position:'relative',right:'10px',width:'120px',height:'auto'}} src={images[model[0]]}/>
+                <img style={{justifySelf: 'center',position:'relative',right:'10px',width:'120px',height:'auto'}} src={images["Default"][model[0]]}/>
               <div>
                 {model[0]}<BiRegistered/>{` ${model[1]}`}
               </div>
@@ -342,7 +342,7 @@ function Map({ zip, dist, loc, deal, coords }) {
       <div className='models-container'>
         <div style={{listStyleType: 'none',display: 'flex'}}>
           {models.map(model => (<div key={model} className='window-model'>
-          <img style={{width:'140px',height:'auto'}} src={images[model[0]]}/><br/>
+          <img style={{width:'140px',height:'auto'}} src={images["default"][model[0]]}/><br/>
                 {model[0]}<BiRegistered/>{` ${model[1]}`}
               </div>))}
           </div>

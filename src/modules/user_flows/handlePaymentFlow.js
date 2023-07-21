@@ -2,6 +2,7 @@ import trims from "../../jsons/trims.json";
 import EV from "../../jsons/EV.json";
 import carPrices from "../../jsons/carPrices.json";
 import '../../styles/App.css';
+import images from "../../images/image_link.json";
 
 export default function handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons) {
   const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
@@ -10,6 +11,9 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         if (model === '') {
             setModel(query);
         }
+        console.log(trims[query]);
+        console.log(Object.keys(images[query]));
+        //console.log(images["E-Transit Cargo Van"]);
         setCalcHeadingText("Choose specific trim");
         setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true }]);
         setShowCalcButtons(true);
@@ -18,7 +22,9 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                 {setQuery(trim);
                     setMessages((m) => [...m, { msg: trim, author: "You" }]);
                     setCalcButtons([]);
-                    setShowCalcButtons(false);}}>{trim}</button>)));
+                    setShowCalcButtons(false);}}>
+                        <img style={{ width: "160px", height: "auto" }} src={images[model][trim.toString()]} />
+                    <br />{trim}</button>)));
         blockQueries.current = false;
         setCalcStep(2);
         break;
