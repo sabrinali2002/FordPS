@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import images from "../../images/image_link.json";
+
 export default function Sched3({
   dealer,
   date,
@@ -11,6 +13,9 @@ export default function Sched3({
   address,
   link,
   hours,
+  maintenanceMode,
+  trim,
+  model
 }) {
   return (
     <div
@@ -179,9 +184,9 @@ export default function Sched3({
               marginBottom: 20,
             }}
           >
-            Trims to test drive
+            {maintenanceMode.length==0?"Trims to Test Drive":maintenanceMode+" for your "+trim+" "+model}
           </div>
-          <img src="/bronco.png"></img>
+          <img src={model.lengh===0?"/bronco.png":`${images[model]}`}></img>
         </div>
         <div style={{ width: "100%" }}>
           <div

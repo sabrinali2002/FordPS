@@ -24,7 +24,7 @@ import { FaMapMarked } from "react-icons/fa";
 import SchedDisp from "./scheduleComponents/SchedDisp";
 //import { scheduler } from "timers/promises";
 
-function Map({ zip, dist, loc, deal, coords }) {
+function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, selectedTrim }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
@@ -63,9 +63,9 @@ function Map({ zip, dist, loc, deal, coords }) {
     setBlockPopup(false);
   };
 
-  const openScheduler = (dealer) => {
+  const openScheduler = (dealer, maintenanceMode) => {
     setIsSchedulerVisible(true);
-    setShowWindow(false);
+    setShowWindow(false); 
     setPickedLoc(dealer);
   };
 
@@ -198,7 +198,7 @@ function Map({ zip, dist, loc, deal, coords }) {
         <AiFillClockCircle /><span style={{ fontSize:'14px',paddingLeft: '8px' }}>{hrStr}</span><br />
       </span>
       <div style={{ display: 'flex' }}>
-        <span style={{ width: '50%' }}>
+        {maintenanceMode.length==0&&<span style={{ width: '50%' }}>
           <span style={{ color: '#322964', fontSize: '14px', textDecoration: 'underline' }}>
             Available models/trims </span>
           <span style={{ paddingLeft: '20px' }}><MdOutlineArrowForwardIos /></span>
@@ -210,7 +210,7 @@ function Map({ zip, dist, loc, deal, coords }) {
               </div>
               </div>))}
           </div>
-        </span>
+        </span>}
         <span style={{ width: '50%', right: '-40%' }}>
           <span style={{ color: '#322964', fontSize: '14px', textDecoration: 'underline', paddingLeft:'10px' }}>
             Available appointments
@@ -265,7 +265,7 @@ function Map({ zip, dist, loc, deal, coords }) {
     }
     let appts = returnAppts(6);
     setShowWindow(true);
-    let window1 = (<div className='dealer-window1'>
+    let window1 = (<div className={'dealer-window'+(maintenanceMode.length==0?'1':'3')}>
       <button className='close-button' onClick={onExit}>
         <span style={{position:'relative',right:'6px',top:'0px'}}><IoMdClose/></span>
       </button>
@@ -282,10 +282,10 @@ function Map({ zip, dist, loc, deal, coords }) {
         <AiFillStar /><span style={{ paddingLeft: '8px' }}>{rating + ' stars'}</span><br />
         <AiFillClockCircle /><span style={{ paddingLeft: '8px' }}>{hrStr}</span><br /></span>
     </div>)
-    let window2 = (<div className='dealer-window2'>
+    let window2 = maintenanceMode.length==0?(<div className='dealer-window2'>
       <span style={{fontWeight:'bold',fontSize:'18px',color:'#322964'}}>Models & trims available</span>
       <span style={{paddingLeft:'7px',fontSize:'14px'}}>{selection}</span>
-      <span className='view-more' onClick={() => openScheduler(dealer)}>View more
+      <span className='view-more' onClick={() => openScheduler(dealer, maintenanceMode)}>View more
       <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
       <br/>
       <div className='models-container'>
@@ -296,14 +296,14 @@ function Map({ zip, dist, loc, deal, coords }) {
               </div>))}
           </div>
       </div>
-    </div>)
-    let window3 = (<div className='dealer-window2'>
+    </div>):(<></>)
+    let window3 = (<div className={'dealer-window'+(maintenanceMode.length==0?'2':'3')}>
           <span style={{fontWeight:'bold',fontSize:'18px',color:'#322964'}}>Next appointments available</span>
-          <span className='view-more' onClick={() => openScheduler(dealer)}>View more
+          <span className='view-more' onClick={() => openScheduler(dealer, maintenanceMode)}>View more
           <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
           <br/>
           <div style={{display:'flex',marginTop:'5px',marginLeft:'8px'}}>
-            <button className='schedule-button' onClick={() => openScheduler(dealer)}>Click here to schedule an appointment</button>
+            <button className='schedule-button' onClick={() => openScheduler(dealer, maintenanceMode)}>Click here to schedule an appointment</button>
             <span>
               <div className='timeslot-container'>
                 {appts.slice(0,3).map(appt => (<button key={appt[1]} className='time-slot'>{appt[0]}<br/>
@@ -432,6 +432,9 @@ function Map({ zip, dist, loc, deal, coords }) {
           address={address1}
           link={link1}
           hours={hour1}
+          maintenanceMode={maintenanceMode}
+          model={selectedModel}
+          trim={selectedTrim}
         />
       )}
       {!showWindow && !isSchedulerVisible && (
