@@ -48,6 +48,9 @@ export function sendRecommendRequestToServer(query, history, carInfoData, messag
           }).then((res) => {
               return res.json();
           }).then(data=>{
+            data = data.map((car) => ({
+              ...car, isChecked:false
+            }))
             finalTableData=[...finalTableData, ...data]
           }))
         })

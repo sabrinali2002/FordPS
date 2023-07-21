@@ -17,7 +17,7 @@ import {
 } from "@mui/icons-material";
 import { extractFiveDigitString, findLocations, selectHandlerFn, locateDealershipsFn, calcButtonHandlerFn, appendSelectFn, changeFindFn } from "./modules/mapFunctions";
 import { modelOptions, getTrimOptions } from "./modules/tableFunctions";
-import { handleCarInfo, handleCarComparison, onModelChange, onTrimChange } from "./modules/selectCarFunctions";
+import { handleCarInfo, handleCarComparison, onModelChange, onTrimChange, onCheckBoxSelect, onCompare, onTableBack} from "./modules/selectCarFunctions";
 import { handleUserInputFn, handleUserFlow } from "./modules/userFlowFunctions";
 
 import QuestionButton from "./components/QuestionButton";
@@ -88,6 +88,8 @@ function App() {
     // Car Info states
     const [model, setModel] = useState("");
     const [trim, setTrim] = useState("");
+    const [selectedModel, setSelectedModel] = useState("");
+    const [selectedTrim, setSelectedTrim] = useState("");
     const [selectedCar, setSelectedCar] = useState(0);
     const [compareModel, setCompareModel] = useState("");
     const [compareTrim, setCompareTrim] = useState("");
@@ -95,6 +97,7 @@ function App() {
     const [carInfoMode, setCarInfoMode] = useState("single");
     const [questionnaireAnswers, setQuestionnaireAnswers] = useState([]);
     const [tableForceUpdate, setTableForceUpdate] = useState(false);
+    const [selectedCars, setSelectedCars] = useState([]);
 
     const blockQueries = useRef(false);
     const recognition = useRef(null);
@@ -189,16 +192,20 @@ function App() {
     //Car Info functions  -------------------------------------------------------------
     let compareTrimOptions =
         compareModel === "" || compareModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[compareModel].map((trim) => ({ value: trim, label: trim }));
-    const handleCarInfoButton = handleCarInfo(tableForceUpdate, setTableForceUpdate,model, trim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation);
-    const handleCarInfoCompareButton = handleCarComparison(carInfoMode, setCarInfoMode, setModel, setTrim);
-    const handleModelChange = onModelChange(setModel, setTrim, setCompareModel, setCompareTrim, trims);
-    const handleTrimChange = onTrimChange(setTrim, setCompareTrim);
+    const handleCarInfoButton = handleCarInfo(tableForceUpdate, setTableForceUpdate,model, trim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation, setSelectedCars);
+    const handleCarInfoCompareButton = handleCarComparison(carInfoMode, setCarInfoMode, setSelectedModel, setSelectedTrim);
+    const handleModelChange = onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim, trims);
+    const handleTrimChange = onTrimChange(setSelectedTrim, setCompareTrim);
+    const handleCheckboxSelect = onCheckBoxSelect(selectedCars, setSelectedCars, carInfoData, setCarInfoData);
+    const handleCompareButton = onCompare(setCarInfoMode);
+    const handleTableBackButton = onTableBack(setCarInfoMode);
 
     useEffect(() => {
         setTrimOptions(getTrimOptions(model));
     }, [model]);
 
     const dropDownOptions = [handleModelChange, handleTrimChange, modelOptions, trimOptions, handleCarInfoButton, handleCarInfoCompareButton, compareTrimOptions];
+    const tableFunctions = [handleCheckboxSelect, handleCompareButton, handleTableBackButton];
 
     // --------------------------------------------------------------------->
     //handler for button user clicks
@@ -256,7 +263,6 @@ function App() {
     };
 
     const handleMoreInfo = () => {
-      console.log("😢" + JSON.stringify(carInfoData));
       setMessages((m) => [...m, { msg: "", author: "Table" }]);
     };
 
@@ -395,7 +401,10 @@ function App() {
                 carSpecInfo = {message.carInfo}
                 selectedCar = {selectedCar}
                 setSelectedCar = {setSelectedCar}
-            />
+                                    tableFunctions={tableFunctions}
+                                    messageIndex={index}
+                                    selectedCars={selectedCars}
+              />
               );
             })}
             {optionButtons}
