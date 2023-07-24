@@ -5,11 +5,12 @@ import { Fragment, useState, useEffect } from "react";
 import { styled } from '@mui/material/styles';
 import images from "../../images/image_link.json";
 import '../../styles/App.css';
-let maintenanceButtons
-let ownerButtons
+// let maintenanceButtons
+// let ownerButtons
 
 export default function CarSelectScreen({user, auth, username, setMessages, setMenuButtons, handleUserInput, justSelect, selectedCar, setSelectedCar, onResaleButton}){
-    const [updated, setUpdated] = useState(false);
+    const [maintenanceButtons, setMaintenanceButtons] = useState();
+    const [ownerButtons, setOwnerButtons] = useState();
     const [myCars, setMyCars] = useState([
         {
             model: "Edge",
@@ -60,7 +61,8 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
         </div>
       )
       useEffect(()=>{
-        maintenanceButtons = (
+        setMaintenanceButtons(
+        (
             <div className="buttons">
               <button classname="menu button-standard" onClick={()=>{
                     setMessages(m=>{return [...m, {msg: "Schedule a maintenance appointment", author: "You"}, {msg: "What type of help with maintenance would you like?", author: "Ford Chat"}]})
@@ -77,35 +79,32 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
                 handleUserInput("maintenanceQuestions")
                 }}>Questions about maintenance</button>
             </div>
-          );
-          setUpdated(!updated);
+          ))
+          setOwnerButtons(
+          (
+              <div className="buttons">
+              <BigTooltip placement="top" title="Maintenance requests for cars are when you ask for repairs or services to keep your vehicle in good condition and running well. It's important to address issues promptly for safety and longevity.">
+                <button className = "menu" onClick={()=>{
+                      setMessages(m=>{return [...m, {msg: "Maintenance requests", author: "You"}, {msg: "What type of help with maintenance would you like?", author: "Ford Chat"}]})
+                      setMenuButtons([maintenanceButtons])
+                  }}>Maintenance requests</button>
+                  </BigTooltip>
+              <BigTooltip placement="top" title="Car resale value is the amount you can expect to get when you sell your car. Regular maintenance and proper care help maintain a higher resale value.">
+                <button className = "menu" onClick={()=>{
+                      onResaleButton(myCars[selectedCar]);
+                  }}>Car resale value</button>
+              </BigTooltip>
+              <BigTooltip placement="top" title="An owner service center is a facility provided by Ford dealerships exclusively for Ford vehicles. It offers specialized expertise, genuine Ford parts, and trained technicians for optimal maintenance and warranty support. Choosing this center helps maintain your Ford's value and ensure reliable service.">
+                <button className = "menu" onClick={()=>{
+                  }}>Owner service center</button>
+              </BigTooltip>
+              <BigTooltip placement="top" title="We will help you find the closest Ford dealerships to you based on your preferred radius.">
+                <button className = "menu" onClick={()=>{
+                  }}>Find a dealership</button>
+              </BigTooltip>
+              </div>
+            ))
       }, [selectedCar])
-
-      useEffect(()=>{
-        ownerButtons = (
-            <div className="buttons">
-            <BigTooltip placement="top" title="Maintenance requests for cars are when you ask for repairs or services to keep your vehicle in good condition and running well. It's important to address issues promptly for safety and longevity.">
-              <button className = "menu" onClick={()=>{
-                    setMessages(m=>{return [...m, {msg: "Maintenance requests", author: "You"}, {msg: "What type of help with maintenance would you like?", author: "Ford Chat"}]})
-                    setMenuButtons([maintenanceButtons])
-                }}>Maintenance requests</button>
-                </BigTooltip>
-            <BigTooltip placement="top" title="Car resale value is the amount you can expect to get when you sell your car. Regular maintenance and proper care help maintain a higher resale value.">
-              <button className = "menu" onClick={()=>{
-                    onResaleButton(myCars[selectedCar]);
-                }}>Car resale value</button>
-            </BigTooltip>
-            <BigTooltip placement="top" title="An owner service center is a facility provided by Ford dealerships exclusively for Ford vehicles. It offers specialized expertise, genuine Ford parts, and trained technicians for optimal maintenance and warranty support. Choosing this center helps maintain your Ford's value and ensure reliable service.">
-              <button className = "menu" onClick={()=>{
-                }}>Owner service center</button>
-            </BigTooltip>
-            <BigTooltip placement="top" title="We will help you find the closest Ford dealerships to you based on your preferred radius.">
-              <button className = "menu" onClick={()=>{
-                }}>Find a dealership</button>
-            </BigTooltip>
-            </div>
-          );
-      }, [updated])
 
       console.log("re-render", selectedCar)
     return (
