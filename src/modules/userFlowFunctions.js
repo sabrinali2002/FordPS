@@ -14,6 +14,7 @@ export function handleUserInputFn(
     buyACarButtons,
     setCalcButtons,
     model,
+    setModel,
     calcButtonHandler,
     setCalcStep,
     trim,
@@ -100,12 +101,13 @@ export function handleUserInputFn(
                                 value={model}
                                 onClick={() => {
                                     setQuery(model);
+                                    setModel(model);
                                     setMessages((m) => [...m, { msg: model, author: "You" }]);
                                     setCalcButtons([]);
                                     setShowCalcButtons(false);
                                 }}
                             >
-                                <img style={{ width: "160px", height: "auto" }} src={images[model]} />
+                                <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} />
                                 <br />
                                 {model}
                                 <BiRegistered />
@@ -250,7 +252,7 @@ export function handleUserFlow(
                     setVehicle(query);
                 } else if (infoMode === 2) {
                     setModel(query);
-                    setCalcHeadingText(query + " - Choose specific trim");
+                    setCalcHeadingText(query + ": Choose specific trim");
                     console.log("info");
                     setCalcButtons(
                         vehicles[vehicle][query].map((trim) => (
@@ -261,92 +263,75 @@ export function handleUserFlow(
                                 onClick={() => {
                                     setTrim(trim);
                                     handleInfoFlow(
-                                      handleMoreInfo,
-                                      forceUpdate,
-                                      setForceUpdate,
-                                      handleCarInfoButton,
-                                      model,
-                                      trim,
-                                      setMessages,
-                                      setModel,
-                                      setQuery,
-                                      setInfoMode,
-                                      setCalcButtons,
-                                      setMenuButtons,
-                                      handleUserInput,
-                                      setShowCalcButtons,
-                                      setCarInfoData,
-                                      infoMode,
-                                      selected,
-                                      changeSelected,
-                                      setDealers,
-                                      locateDealershipsFn,
-                                      setSelect,
-                                      setFind,
-                                      query,
-                                      setZipMode
+                                        tableForceUpdate,
+                                        setTableForceUpdate,
+                                        handleMoreInfo,
+                                        forceUpdate,
+                                        setForceUpdate,
+                                        handleCarInfoButton,
+                                        model,
+                                        trim,
+                                        setMessages,
+                                        setModel,
+                                        setQuery,
+                                        setInfoMode,
+                                        setCalcButtons,
+                                        setMenuButtons,
+                                        handleUserInput,
+                                        setShowCalcButtons,
+                                        setCarInfoData,
+                                        infoMode
                                     );
                                 }}
                             >
-                                {trim}
-                            </button>
+                            <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
+                              <br />{trim}
+                          </button>
                         ))
                     );
-                } else if (infoMode === 3) {
-                    handleInfoFlow(
-                      handleMoreInfo,
-                      forceUpdate,
-                      setForceUpdate,
-                      handleCarInfoButton,
-                      model,
-                      trim,
-                      setMessages,
-                      setModel,
-                      setQuery,
-                      setInfoMode,
-                      setCalcButtons,
-                      setMenuButtons,
-                      handleUserInput,
-                      setShowCalcButtons,
-                      setCarInfoData,
-                      infoMode,
-                      selected,
-                      changeSelected,
-                      setDealers,
-                      locateDealershipsFn,
-                      setSelect,
-                      setFind,
-                      query,
-                      setZipMode
-                    );
-                } else if (infoMode === 4) {
-                    handleInfoFlow(
-                      handleMoreInfo,
-                      forceUpdate,
-                      setForceUpdate,
-                      handleCarInfoButton,
-                      model,
-                      trim,
-                      setMessages,
-                      setModel,
-                      setQuery,
-                      setInfoMode,
-                      setCalcButtons,
-                      setMenuButtons,
-                      handleUserInput,
-                      setShowCalcButtons,
-                      setCarInfoData,
-                      infoMode,
-                      selected,
-                      changeSelected,
-                      setDealers,
-                      locateDealershipsFn,
-                      setSelect,
-                      setFind,
-                      query,
-                      setZipMode
-                    );
                 }
+                // } else if (infoMode === 3) {
+                //     handleInfoFlow(
+                //         model,
+                //         trim,
+                //         setMessages,
+                //         setModel,
+                //         setQuery,
+                //         setInfoMode,
+                //         setCalcButtons,
+                //         setMenuButtons,
+                //         handleUserInput,
+                //         setShowCalcButtons,
+                //         setCarInfoData,
+                //         infoMode,
+                //         selected,
+                //         changeSelected,
+                //         setDealers
+                //     );
+                // } else if (infoMode === 4) {
+                //     handleInfoFlow(
+                //         model,
+                //         trim,
+                //         setMessages,
+                //         setModel,
+                //         setQuery,
+                //         setInfoMode,
+                //         setCalcButtons,
+                //         setMenuButtons,
+                //         handleUserInput,
+                //         setShowCalcButtons,
+                //         setCarInfoData,
+                //         infoMode,
+                //         selected,
+                //         changeSelected,
+                //         setDealers,
+                //         locateDealershipsFn,
+                //         setSelect,
+                //         setFind,
+                //         query,
+                //         setZipMode
+                //     );
+                // }
                 blockQueries.current = false;
                 break;
             case "A":
@@ -361,7 +346,7 @@ export function handleUserFlow(
             case "C": {
                 if (findMode === 0) {
                     setZipCode(query);
-                    setMessages((m) => [...m, { msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line: true, zip: "" }]);
+                    setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you are looking for.", author: "Ford Chat", line: true, zip: "" }]);
                     setShowCalcButtons(true);
                     setCalcButtons(
                         Object.keys(trims).map((model) => (
@@ -439,7 +424,6 @@ export function handleUserFlow(
                 break;
             case "D":
                 setQuery("");
-                console.log('here');
                 handlePaymentFlow(
                     calcStep,
                     model,

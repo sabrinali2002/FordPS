@@ -97,7 +97,7 @@ function HourComponent({ hour, selectedDate, callback }) {
   );
 }
 
-export default function Sched2({ callback, maintenanceMode }) {
+export default function Sched2({ callback, maintenanceMode, backButton }) {
   const [now, setNow] = useState(new Date());
   const [currentHour, setCurrentHour] = useState(now.getHours());
   const [pendingSelectedDate, setPendingSelectedDate] = useState(now);
@@ -154,7 +154,7 @@ export default function Sched2({ callback, maintenanceMode }) {
         backgroundColor: "#113B7A1A",
         height: "auto",
         borderRadius: "30px",
-
+        marginLeft:'35px',
         position: "relative",
         justifyContent: "start",
         alignContent: "space-between",
@@ -291,6 +291,7 @@ export default function Sched2({ callback, maintenanceMode }) {
                 marginTop: 20,
                 fontSize: 18,
                 width: 300,
+                cursor: 'pointer'
               }}
               onClick={onSubmit}
             >
@@ -306,7 +307,9 @@ export default function Sched2({ callback, maintenanceMode }) {
           height: 22,
           marginTop: 10,
           marginLeft: 8,
+          cursor: 'pointer'
         }}
+        onClick={backButton}
       ></img>
     </div>
   );

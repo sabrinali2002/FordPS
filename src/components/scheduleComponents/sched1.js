@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import images from "../../images/image_link.json";
 
-export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode, model, trim }) {
+export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode, model, trim, backButton }) {
   const [time1, setTime1] = useState(null);
   const [date1, setDate1] = useState(null);
   const [name, setName] = useState("");
@@ -27,7 +27,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
         justifyContent: "flex-start",
         display: "flex",
         padding: 20,
-
+        marginLeft: '35px',
         boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
       }}
     >
@@ -210,6 +210,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
               fontSize: 18,
               width: 300,
               marginBottom: 10,
+              cursor: 'pointer'
             }}
           >
             Confirm appointment
@@ -224,7 +225,9 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
           height: 22,
           marginTop: -30,
           marginLeft: 8,
+          cursor:'pointer'
         }}
+        onClick={backButton}
       ></img>
     </div>
   );

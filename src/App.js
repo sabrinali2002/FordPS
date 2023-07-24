@@ -216,6 +216,7 @@ function App() {
         buyACarButtons,
         setCalcButtons,
         model,
+        setModel,
         calcButtonHandler,
         setCalcStep,
         trim,
@@ -348,7 +349,7 @@ function App() {
       <div className="topbar"><TopBar handleClick={()=>{
         setMessages([]);
         setMenuButtons([origButtons]);
-        setCalcButtons([])
+        setCalcButtons([]);
         }}/></div>
       <div className="topbarback"></div>
       <div className="divider"></div>
@@ -409,16 +410,6 @@ function App() {
             })}
             {optionButtons}
           </div>
-          {calcStep==5 && (<div className='payment-summary'>
-                <span style={{fontWeight:'bold',fontSize:'20px'}}>
-                    {(calcMode<3) ? ('Expected payment:') : ('Expected payment:')}
-                </span><br/>
-                <span style={{fontSize:'18px',paddingLeft:'10px'}}>
-                    $
-                    {Math.round(payment)}
-                    {(calcMode<3) && ('/month')}
-                </span>
-            </div>)}
             {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center',marginTop:'10px',marginBottom:'15px'}}>
                 <div className='model-box'>
                     <div style={{marginTop:'10px',color:'#322964',fontSize:'20px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>
@@ -504,7 +495,7 @@ function App() {
                             setOptionButtons);
                       }
                     }
-                    }><u>Back</u></button>}
+                    }><u style={{position:'absolute',left:'-304px',bottom:'0px',fontSize:'12px'}}>Back</u></button>}
                     </div>
                 </div>}
           <ThreeDots
