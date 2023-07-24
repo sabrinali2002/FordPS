@@ -349,7 +349,7 @@ function App() {
       <div className="topbar"><TopBar handleClick={()=>{
         setMessages([]);
         setMenuButtons([origButtons]);
-        setCalcButtons([])
+        setCalcButtons([]);
         }}/></div>
       <div className="topbarback"></div>
       <div className="divider"></div>
@@ -495,7 +495,7 @@ function App() {
                             setOptionButtons);
                       }
                     }
-                    }><u>Back</u></button>}
+                    }><u style={{position:'absolute',left:'-304px',bottom:'0px',fontSize:'12px'}}>Back</u></button>}
                     </div>
                 </div>}
           <ThreeDots

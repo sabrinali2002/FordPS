@@ -174,7 +174,6 @@
   width: 80%;
   background-color: rgb(205, 220, 232);
   border-radius: 15px;
-  box-shadow: 3px, rgb(203,225,231);
   margin-top: 10px;
   box-shadow: 0 4px 2px -2px gray;
 }
@@ -202,6 +201,7 @@
   height: 160px;
   padding-left: 10px;
   margin-top: 15px;
+  margin-bottom: 0px;
   overflow-X: auto;
   white-space: nowrap;
 }

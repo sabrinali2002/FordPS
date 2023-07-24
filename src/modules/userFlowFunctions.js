@@ -228,7 +228,7 @@ export function handleUserFlow(
                                     setInfoMode(2);
                                 }}
                             >
-                                <img style={{ width: "160px", height: "auto" }} src={images[model]} />
+                                <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} />
                                 <br />
                                 {model}
                             </button>
@@ -237,7 +237,7 @@ export function handleUserFlow(
                     setVehicle(query);
                 } else if (infoMode === 2) {
                     setModel(query);
-                    setCalcHeadingText(query + " - Choose specific trim");
+                    setCalcHeadingText(query + ": Choose specific trim");
                     console.log("info");
                     setCalcButtons(
                         vehicles[vehicle][query].map((trim) => (
@@ -269,8 +269,9 @@ export function handleUserFlow(
                                     );
                                 }}
                             >
-                                {trim}
-                            </button>
+                            <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
+                              <br />{trim}
+                          </button>
                         ))
                     );
                 }
@@ -330,7 +331,7 @@ export function handleUserFlow(
             case "C": {
                 if (findMode === 0) {
                     setZipCode(query);
-                    setMessages((m) => [...m, { msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line: true, zip: "" }]);
+                    setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you are looking for.", author: "Ford Chat", line: true, zip: "" }]);
                     setShowCalcButtons(true);
                     setCalcButtons(
                         Object.keys(trims).map((model) => (
