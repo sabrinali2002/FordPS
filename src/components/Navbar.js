@@ -180,12 +180,12 @@ const Navbar = ({onClick}) => {
         {knowOpen && (
           <div className="sub" style={{ backgroundColor: 'white' }}>
             <li>
-              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }}>
+              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }} onClick={onClick("Electric vehicles")}>
                 Electric vehicles
               </a>
             </li>
             <li>
-              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }}>
+              <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }} onClick={onClick("Dealer negotiation")}>
                 Dealer negotiation
               </a>
             </li>

@@ -1,5 +1,5 @@
 import trims from "../../jsons/trims.json";
-import EV from "../../jsons/EV.json";
+import electric from "../../jsons/EV.json";
 import carPrices from "../../jsons/carPrices.json";
 import '../../styles/App.css';
 import images from "../../images/image_link.json";
@@ -17,6 +17,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         setCalcButtons(trims[model].map(trim => 
             (<button className='model-button' key={trim} value={trim} onClick={() => 
                 {setQuery(trim);
+                    setTrim(trim);
                     setMessages((m) => [...m, { msg: trim, author: "You" }]);
                     setCalcButtons([]);
                     setShowCalcButtons(false);}}>
@@ -38,6 +39,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
             {options.map(option => (<button className='button-small' key={option} value={option} 
                 onClick={() => 
                     {setQuery(option);
+                        setCalcMode(option);
                         setMessages((m) => [...m, { msg: option, author: "You" }]);
                         setOptionButtons([]);}}>{option}</button>))}
         </div>);
@@ -150,8 +152,8 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                 //blockQueries.current = false;
                 break;
         }
-        if (Object.keys(EV).includes(model)) {
-            if (EV[model].includes(trim)) {
+        if (Object.keys(electric).includes(model)) {
+            if (electric[model].includes(trim)) {
                 //setCalcHeadingText('Place an order?');
                 setMessages((m) => [...m, { msg: "Would you like to place an order?", author: "Ford Chat", line: true }]);
                 const opts = ['Yes','No'];

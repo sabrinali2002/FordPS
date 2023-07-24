@@ -99,6 +99,17 @@ function App() {
     const [tableForceUpdate, setTableForceUpdate] = useState(false);
     const [selectedCars, setSelectedCars] = useState([]);
 
+    //know my price
+    const [vehicleMode, setVehicleMode] = useState('');
+    const [priceMode, setPriceMode] = useState(0);
+    const [priceStep, setPriceStep] = useState(0);
+    const [showPriceSummary, setShowPriceSummary] = useState(false);
+    const [priceSummary, setPriceSummary] = useState('');
+    const [EV,setEV] = useState(false);
+    const [leaseStep1,setLeaseStep1] = useState(0);
+    const [financeStep1, setFinanceStep1] = useState(0);
+
+
     const blockQueries = useRef(false);
     const recognition = useRef(null);
     //map functions -------------------------------------------------------->
@@ -122,6 +133,9 @@ function App() {
     handleUserInput(parameter);
     if(parameter!=="A")
     setMenuButtons([]);
+    setOptionButtons([]);
+    setCalcButtons([]);
+    setShowCalcButtons(false);
     // Perform any other logic or function in the parent component using the parameter
   };
   const origButtons = (
@@ -139,10 +153,25 @@ function App() {
         setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
         }}>Info about Ford</button>
       <button className = "menu button-standard" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You"}]})
-        }}>Negotiation Assistance</button>
+        setMessages(m=>{return [...m, {msg: "Know my car's price", author: "You"}]});
+        setMessages(m=>{return [...m, {msg: "What vehicle would you like to inquire about?", author: "Ford Chat"}]});
+        setMenuButtons(myPriceButtons);
+        }}>Know My Car's Price</button>
     </div>
   );
+
+  const myPriceButtons = (
+    <div className="buttons">
+        <button className="menu button-standard" onClick={() => {
+            handleUserInput('electric');
+            setMenuButtons([]);
+        }}>Electric vehicles</button>
+        <button className="menu button-standard" onClick={() => {
+            handleUserInput('combustion');
+            setMenuButtons([]);
+        }}>Combustion vehicles with negotiation assistance</button>
+    </div>
+  )
   const buyingFordButtons = (
     <div className = "buttons">
        <button className = "menu button-standard" onClick={() => {
@@ -227,7 +256,10 @@ function App() {
         setCalcHeadingText,
         setInfoMode,
         cat,
-        setCat
+        setCat,
+        setPriceMode,
+        setPriceStep,
+        setVehicleMode
     );
 
     useEffect(() => {
@@ -340,7 +372,20 @@ function App() {
             cat,
             setCat,
             origButtons,
-            setOptionButtons
+            setOptionButtons,
+            priceStep,
+            setPriceStep,
+            priceMode,
+            setPriceMode,
+            setPriceSummary,
+            setShowPriceSummary,
+            EV,
+            vehicleMode,
+            setVehicleMode,
+            setLeaseStep1,
+            setFinanceStep1, 
+            leaseStep1, 
+            financeStep1,
         );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
@@ -402,14 +447,18 @@ function App() {
                 carSpecInfo = {message.carInfo}
                 selectedCar = {selectedCar}
                 setSelectedCar = {setSelectedCar}
-                                    tableFunctions={tableFunctions}
-                                    messageIndex={index}
-                                    selectedCars={selectedCars}
+                tableFunctions={tableFunctions}
+                messageIndex={index}
+                selectedCars={selectedCars}
+                key={index}
               />
               );
             })}
             {optionButtons}
           </div>
+          {showPriceSummary && <div className='price-summary'>
+                {priceSummary}
+                </div>}
             {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center',marginTop:'10px',marginBottom:'15px'}}>
                 <div className='model-box'>
                     <div style={{marginTop:'10px',color:'#322964',fontSize:'20px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>

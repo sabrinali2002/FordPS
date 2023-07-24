@@ -4,6 +4,7 @@ import { sendBotResponse, sendRecommendRequestToServer } from "./botResponseFunc
 import handleDealerFlow from "./user_flows/handleDealerFlow";
 import handlePaymentFlow from "./user_flows/handlePaymentFlow";
 import handleInfoFlow from "./user_flows/handleInfoFlow";
+import handlePriceFlow from "./user_flows/handlePriceFlow";
 import { BiRegistered } from "react-icons/bi";
 import images from "../images/image_link.json";
 
@@ -25,7 +26,10 @@ export function handleUserInputFn(
     setCalcHeadingText,
     setInfoMode,
     cat,
-    setCat
+    setCat,
+    setPriceMode,
+    setPriceStep,
+    setVehicleMode
 ) {
     return (option) => {
         // Outputs a response to based on input user selects
@@ -80,6 +84,7 @@ export function handleUserInputFn(
                 setMessages((m) => [...m, { msg: "Find a dealership", author: "You" }]);
                 setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line: true, zip: {} }]);
                 changeChoice("B");
+                blockQueries.current = false;
                 break;
             case "C":
                 setMessages((m) => [...m, { msg: "Schedule a test drive", author: "You" }]);
@@ -126,6 +131,20 @@ export function handleUserInputFn(
                 }
                 changeChoice("D");
                 //setMenuButtons([]);
+                break;
+            case "electric":
+                changeChoice("electric");
+                setVehicleMode("electric");
+                setPriceStep(1);
+                setQuery("electric");
+                setMessages((m) => [...m, { msg: "Electric vehicles", author: "You", line: true, zip: {} }]);
+                break;
+            case "combustion":
+                changeChoice("combustion");
+                setVehicleMode("combustion");
+                setPriceStep(1);
+                setQuery("combustion");
+                setMessages((m) => [...m, { msg: "Combustion vehicles with negotiation assistance", author: "You", line: true, zip: {} }]);
                 break;
             case "maintenanceQuestions":
                 changeChoice("maintenanceQuestions");
@@ -207,7 +226,20 @@ export function handleUserFlow(
     cat,
     setCat,
     origButtons,
-    setOptionButtons
+    setOptionButtons,
+    priceStep,
+    setPriceStep,
+    priceMode,
+    setPriceMode,
+    setPriceSummary,
+    setShowPriceSummary,
+    EV,
+    vehicleMode,
+    setVehicleMode,
+    setLeaseStep1, 
+    setFinanceStep1, 
+    leaseStep1, 
+    financeStep1,
 ) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
@@ -219,7 +251,7 @@ export function handleUserFlow(
             handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, maintenanceMode.split("MODEL:")[0], model, trim);
             blockQueries.current = false;
         }
-        else
+        else {
         switch (choice) {
             case "maintenanceQuestions":
                 sendBotResponse("I am looking to schedule maintenance for my Ford car and I have a question about maintenance. Here it is: " + query, history, "maint").then((res) => {
@@ -227,7 +259,12 @@ export function handleUserFlow(
                     blockQueries.current = false;
                 });
                 break;
-
+            case "electric":
+              handlePriceFlow("electric",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary);
+              break;
+            case "combustion":
+              handlePriceFlow("combustion",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary);
+              break;
             case "I":
                 if (infoMode === 1) {
                     setCalcHeadingText("Choose specific model");
@@ -468,6 +505,7 @@ export function handleUserFlow(
                     blockQueries.current = false;
                 });
                 break;
-        }
+          }
+      }
     }
   }

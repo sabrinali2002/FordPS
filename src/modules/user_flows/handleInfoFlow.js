@@ -52,7 +52,7 @@ export default function handleInfoFlow(
                 <button
                     className="button-small"
                     onClick={() => {
-                        setMenuButtons([]);
+                        setOptionButtons([]);
                         setInfoMode(3);
                     }}
                 >
@@ -61,7 +61,7 @@ export default function handleInfoFlow(
                 <button
                     className="button-small"
                     onClick={() => {
-                        setMenuButtons([]);
+                        setOptionButtons([]);
                         setCarInfoData(arr);
                         setMessages((m) => [...m, { msg: "", author: "Table", line: true, zip: "" }]);
                     }}
@@ -71,7 +71,7 @@ export default function handleInfoFlow(
                 <button
                     className="button-small"
                     onClick={() => {
-                        setMenuButtons([]);
+                        setOptionButtons([]);
                         handleCarInfoButton(model, trim);
                         setForceUpdate(!forceUpdate);
                         handleMoreInfo();

@@ -257,3 +257,16 @@
 .button-small:hover{
   background-color:rgb(205, 220, 232);
  }
+
+ .price-summary {
+  position:relative;
+  background-color:rgb(206, 216, 224);
+  border-radius:10px;
+  margin-left:90px;
+  box-shadow: 1px 4px 2px rgba(95, 112, 133, 0.5);
+  align-items:left;
+  margin-bottom:10px;
+  padding:10px;
+  width:50%;
+  height:50%;
+ }

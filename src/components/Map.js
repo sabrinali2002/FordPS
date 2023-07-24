@@ -528,7 +528,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
         />
       )}
       {isScheduler2Visible && (
-        <Sched1 dealer={dealer1} date={date} time={time} handleAppointment={handleAppointment} backButton={backButton}/>
+        <Sched1 dealer={dealer1} date={date} time={time} handleAppointment={handleAppointment} maintenanceMode={maintenanceMode} backButton={backButton}/>
         )}
       {vis3 && (
         <Sched3
@@ -543,6 +543,9 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
           address={address1}
           link={link1}
           hours={hour1}
+          maintenanceMode={maintenanceMode}
+          trim={trim}
+          model={model}
         />
       )}
       {!showWindow && !isSchedulerVisible && !isScheduler2Visible && !vis3 && (
