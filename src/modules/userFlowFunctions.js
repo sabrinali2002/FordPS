@@ -203,7 +203,12 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
               }
               else if(findMode === 1){
                   setShowCalcButtons(true);
-                  setCalcButtons(trims[query].map(trim => (<button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>)));
+                  console.log(trims[query])
+                  setCalcButtons(trims[query].map(trim => (
+                    <button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
+                    // trims[query].contains(trim)) ? <button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
+                    // : <button className='model-button-selected' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
+                  )))
                   setSelect(true);
               }
               blockQueries.current = false;
