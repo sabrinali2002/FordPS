@@ -83,6 +83,11 @@ function Map({ zip, dist, loc, deal, coords }) {
   };
 
   const returnCars = (dealer, n) => {
+    const similar = {"Bronco":"Bronco Sport","Bronco Sport":"Bronco","E-Transit Cargo Van":"Transit Cargo Van",
+        "Transit Cargo Van":"E-Transit Cargo Van","Edge":"Escape","Escape":"Edge","Explorer":"Expedition",
+        "Expedition":"Explorer","F-150":"F-150 Lightning","Mustang Mach-E":"Edge","Ranger":"F-150",
+        "Transit Cargo Van":"Transit Connect Cargo Van","Transit Connect Cargo Van":"Transit Cargo Van",
+        "Transit Passenger Van":"Transit Crew Van","Transit Crew Van":"Transit Passenger Van"};
     let models = [];
     if (model !== "" && trim !== "") {
       // know model & trim
@@ -101,10 +106,13 @@ function Map({ zip, dist, loc, deal, coords }) {
             models.push([model, trims]);
           }
         }
+        let sim = similar[model];
+        let i = 0;
         while (models.length < n) {
           // not enough trims of model
-          let x = 0;
-          // append first trim of similar model
+          models.push(dealerToTrim[dealer][sim][i]);
+          i = i + 1;
+          // append trims of similar model
         }
       }
     } else if (model !== "") {
@@ -223,7 +231,7 @@ function Map({ zip, dist, loc, deal, coords }) {
           <span style={{ paddingLeft: '20px' }}><MdOutlineArrowForwardIos /></span>
           <div className='modelprev-container'>
             {models.map(model => (<div className='modelprev-map'>
-                <img style={{justifySelf: 'center',position:'relative',right:'10px',width:'120px',height:'auto'}} src={images["Default"][model[0]]}/>
+                <img style={{justifySelf: 'center',position:'relative',right:'10px',width:'120px',height:'auto'}} src={images[model[0]][model[1]]}/>
               <div>
                 {model[0]}<BiRegistered/>{` ${model[1]}`}
               </div>
@@ -342,7 +350,7 @@ function Map({ zip, dist, loc, deal, coords }) {
       <div className='models-container'>
         <div style={{listStyleType: 'none',display: 'flex'}}>
           {models.map(model => (<div key={model} className='window-model'>
-          <img style={{width:'140px',height:'auto'}} src={images["default"][model[0]]}/><br/>
+          <img style={{width:'140px',height:'auto'}} src={images[model[0]][model[1]]}/><br/>
                 {model[0]}<BiRegistered/>{` ${model[1]}`}
               </div>))}
           </div>
