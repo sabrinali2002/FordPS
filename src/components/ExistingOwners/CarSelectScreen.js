@@ -42,20 +42,20 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
       const scheduleButtons = (
         <div className="buttons">
             <BigTooltip placement="top" title="Regular maintenance keeps your car in great shape. It includes routine tasks like oil changes, tire rotations, and brake inspections. Proper maintenance ensures your vehicle stays safe and reliable.">
-                <button classname="menu button-standard" onClick={()=>{
-                }}>Regular maintenance</button>
+                <button classname="menu button-standard" onClick={()=>{handleUserInput('SCHEDRegular maintenance MODEL:'+myCars[selectedCar].model+"TRIM:"+myCars[selectedCar].trim);}}>
+                    Regular maintenance
+                </button>
             </BigTooltip>
             <BigTooltip placement="top" title="Tire service involves routine tasks and maintenance to keep your car's tires in excellent condition. This includes services like tire rotations, balancing, and checking tire pressure regularly. Proper tire maintenance ensures better handling, longer tire life, and improved safety while driving.">
-            <button classname="menu button-standard" onClick={()=>{
-            }}>Tire service</button>
+            <button classname="menu button-standard" onClick={()=>{handleUserInput('SCHEDTire service MODEL:'+myCars[selectedCar].model+"TRIM:"+myCars[selectedCar].trim);}}>Tire service</button>
             </BigTooltip>
             <BigTooltip placement="top" title="Brake service involves routine maintenance and repairs to ensure your car's braking system operates effectively. It includes inspections, brake pad replacements, and brake fluid checks. Proper brake service is crucial for your safety and the overall performance of your vehicle.">
-            <button classname="menu button-standard" onClick={()=>{
-            }}>Brake service</button>
+            <button classname="menu button-standard" onClick={()=>{handleUserInput('SCHEDBrake service MODEL:'+myCars[selectedCar].model+"TRIM:"+myCars[selectedCar].trim);}}>
+                Brake service</button>
             </BigTooltip>
             <BigTooltip placement="top" title="Vehicle diagnostics refer to the process of identifying and troubleshooting any issues or malfunctions in your car's systems. Using specialized tools and software, technicians can pinpoint problems, allowing for accurate and efficient repairs.">
-            <button classname="menu button-standard" onClick={()=>{
-            }}>Vehicle diagnostics</button>
+            <button classname="menu button-standard" onClick={()=>{handleUserInput('SCHEDVehicle diagnostics MODEL:'+myCars[selectedCar].model+"TRIM:"+myCars[selectedCar].trim);}}>
+                Vehicle diagnostics</button>
             </BigTooltip>
         </div>
       )

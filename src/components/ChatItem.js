@@ -96,7 +96,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
           </div>
         {author === "Ford Chat.." && <Table loc={locs}></Table>}
       {author === "Ford Chat." && (
-        <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal} coords = {zip.coordinates}></Map>
+        <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal} coords = {zip.coordinates} maintenanceMode={zip.maintenanceMode} selectedModel={zip.model} selectedTrim={zip.trim}></Map>
       )}
       {
         author === "Info" && <div>

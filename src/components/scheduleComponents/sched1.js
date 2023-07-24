@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-export default function Sched1({ dealer, date, time, handleAppointment, backButton }) {
+import images from "../../images/image_link.json";
+
+export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode, model, trim, backButton }) {
   const [time1, setTime1] = useState(null);
   const [date1, setDate1] = useState(null);
   const [name, setName] = useState("");
@@ -38,7 +40,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, backButt
           marginBottom: 10,
         }}
       >
-        Schedule Test Drive Appointment
+        Schedule a {maintenanceMode.length==0?"Test Drive":maintenanceMode} Appointment
       </div>
       <div
         style={{
@@ -173,14 +175,14 @@ export default function Sched1({ dealer, date, time, handleAppointment, backButt
               textAlign: "start",
             }}
           >
-            Trims to Test Drive
+            {maintenanceMode.length===0?"Trims to Test Drive":"This Appointment is for:"}
           </div>
 
           <div style={{ marginTop: 10, marginBottom: 10, color: "#575757" }}>
-            limited to 2 cars to test drive during your appointment.
+          {maintenanceMode.length===0?"limited to 2 cars to test drive during your appointment.":"Your "+model+" "+trim}
           </div>
-          <img src="/bronco.png" style={{ alignSelf: "start" }}></img>
-          <div style={{ marginBottom: 0, marginTop: 10 }}>
+          <img src={model.lengh===0?"/bronco.png":`${images[model][trim]}`} style={{ alignSelf: "start" }}></img>
+          {maintenanceMode.length==0 && <div style={{ marginBottom: 0, marginTop: 10 }}>
             <a
               href="https://www.example.com"
               target="_blank"
@@ -189,7 +191,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, backButt
             >
               {`Select more cars available at ${dealer}`}
             </a>
-          </div>
+          </div>}
           <button
             onClick={() => handleAppointment(name, email, phoneNumber, notes)}
             style={{

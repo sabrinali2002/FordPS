@@ -97,7 +97,7 @@ function HourComponent({ hour, selectedDate, callback }) {
   );
 }
 
-export default function Sched2({ callback, backButton }) {
+export default function Sched2({ callback, maintenanceMode, backButton }) {
   const [now, setNow] = useState(new Date());
   const [currentHour, setCurrentHour] = useState(now.getHours());
   const [pendingSelectedDate, setPendingSelectedDate] = useState(now);
@@ -174,7 +174,7 @@ export default function Sched2({ callback, backButton }) {
           marginBottom: 10,
         }}
       >
-        Schedule a Test Drive Appointment
+        Schedule a {maintenanceMode.length==0?"Test Drive":maintenanceMode} Appointment
       </div>
       <div
         style={{

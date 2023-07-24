@@ -29,6 +29,13 @@ export function handleUserInputFn(
 ) {
     return (option) => {
         // Outputs a response to based on input user selects
+        if(option.includes("SCHED")){
+            setMessages((m) => [...m, { msg: option.replace("SCHED", ""), author: "You" }]);
+            setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line: true, zip: {} }]);
+            setMenuButtons([])
+            changeChoice(option);
+        }
+        else
         switch (option) {
             case "I":
                 if (cat === "") {
@@ -205,6 +212,14 @@ export function handleUserFlow(
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
         setForceUpdate(!forceUpdate);
+        if(choice.includes("SCHED")){
+            const maintenanceMode=choice.replace("SCHED", "")
+            const model=maintenanceMode.split("MODEL:")[1].split("TRIM:")[0]
+            const trim=maintenanceMode.split("MODEL:")[1].split("TRIM:")[1]
+            handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, maintenanceMode.split("MODEL:")[0], model, trim);
+            blockQueries.current = false;
+        }
+        else
         switch (choice) {
             case "maintenanceQuestions":
                 sendBotResponse("I am looking to schedule maintenance for my Ford car and I have a question about maintenance. Here it is: " + query, history, "maint").then((res) => {
