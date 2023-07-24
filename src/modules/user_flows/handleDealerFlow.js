@@ -1,5 +1,5 @@
 
-export default function handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance) {
+export default function handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, maintenanceMode="", model="", trim="") {
   switch(zipMode){
     case 0: {
         const numberRegex = /\d+/g;
@@ -28,9 +28,12 @@ export default function handleDealerFlow(zipMode, dealerList, setZipCode, query,
         break; 
     }
     case 2:{
-      setDistance((query==="NONE")?10:query);
-        setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealerList}}]);
+      setDistance(10);
+      findLocations(query, distance).then(loc => {
+        const places = loc.split('..');
+        setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealerList, maintenanceMode: maintenanceMode, model: model, trim: trim}}]);
         setZipMode(0);
-    }
+    })
 }
   }
+}

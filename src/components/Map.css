@@ -121,7 +121,7 @@
     position: relative;
     background-color: #113B7A1A;
     width: 75%;
-    height: 220px;
+    height: auto;
     border-radius: 15px;
     padding: 20px;
     padding-top: 15px;
@@ -133,7 +133,19 @@
     position: relative;
     background-color: #113B7A1A;
     width: 75%;
-    height: 200px;
+    height: auto;
+    border-radius: 15px;
+    padding: 20px;
+    padding-top: 15px;
+    margin-top: 15px;
+    left: 150px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.dealer-window3 {
+    position: relative;
+    background-color: #113B7A1A;
+    width: auto;
+    height: auto;
     border-radius: 15px;
     padding: 20px;
     padding-top: 15px;
@@ -177,6 +189,10 @@
     border-radius: 10px;
     margin: 5px;
     cursor: auto;
+}
+
+.time-slot:hover {
+    background-color:lightgrey;
 }
 
 .schedule-button {

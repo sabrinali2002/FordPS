@@ -6,20 +6,28 @@ import { styled } from '@mui/material/styles';
 import images from "../../images/image_link.json";
 import '../../styles/App.css';
 let maintenanceButtons
+let ownerButtons
 
-export default function CarSelectScreen({user, auth, username, setMessages, setMenuButtons, handleUserInput, justSelect, selectedCar, setSelectedCar}){
+export default function CarSelectScreen({user, auth, username, setMessages, setMenuButtons, handleUserInput, justSelect, selectedCar, setSelectedCar, onResaleButton}){
+    const [updated, setUpdated] = useState(false);
     const [myCars, setMyCars] = useState([
         {
-            model: "Bronco",
-            trim: "Base",
+            model: "Edge",
+            trim: "Sport",
+            vin: "2FMDK4AKXDBB80428",
+            year: "2013"
         },
         {
             model: "F-150",
-            trim: "Raptor",
+            trim: "FX-2 Sport",
+            vin: "1FTFX1ET9BFC21014",
+            year: "2010"
         },
         {
             model: "Escape",
-            trim: "Platinum",
+            trim: "Limited",
+            vin: "1FMCU0E74BK291268",
+            year: "2011"
         }
     ])
     const BigTooltip = styled(({ className, ...props }) => (
@@ -31,45 +39,23 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
         },
       }));
       
-    const ownerButtons = (
-        <div className="buttons">
-        <BigTooltip placement="top" title="Maintenance requests for cars are when you ask for repairs or services to keep your vehicle in good condition and running well. It's important to address issues promptly for safety and longevity.">
-          <button classname="menu button-standard" onClick={()=>{
-                setMessages(m=>{return [...m, {msg: "Maintenance requests", author: "You"}, {msg: "What type of help with maintenance would you like?", author: "Ford Chat"}]})
-                setMenuButtons([maintenanceButtons])
-            }}>Maintenance requests</button>
-            </BigTooltip>
-        <BigTooltip placement="top" title="Car resale value is the amount you can expect to get when you sell your car. Regular maintenance and proper care help maintain a higher resale value.">
-          <button classname="menu button-standard" onClick={()=>{
-            }}>Car resale value</button>
-        </BigTooltip>
-        <BigTooltip placement="top" title="An owner service center is a facility provided by Ford dealerships exclusively for Ford vehicles. It offers specialized expertise, genuine Ford parts, and trained technicians for optimal maintenance and warranty support. Choosing this center helps maintain your Ford's value and ensure reliable service.">
-          <button classname="menu button-standard" onClick={()=>{
-            }}>Owner service center</button>
-        </BigTooltip>
-        <BigTooltip placement="top" title="We will help you find the closest Ford dealerships to you based on your preferred radius.">
-          <button classname="menu button-standard" onClick={()=>{
-            }}>Find a dealership</button>
-        </BigTooltip>
-        </div>
-      );
       const scheduleButtons = (
         <div className="buttons">
             <BigTooltip placement="top" title="Regular maintenance keeps your car in great shape. It includes routine tasks like oil changes, tire rotations, and brake inspections. Proper maintenance ensures your vehicle stays safe and reliable.">
-                <button classname="menu button-standard" onClick={()=>{
-                }}>Regular maintenance</button>
+                <button classname="menu button-standard" onClick={()=>{handleUserInput('SCHEDRegular maintenance MODEL:'+myCars[selectedCar].model+"TRIM:"+myCars[selectedCar].trim);}}>
+                    Regular maintenance
+                </button>
             </BigTooltip>
             <BigTooltip placement="top" title="Tire service involves routine tasks and maintenance to keep your car's tires in excellent condition. This includes services like tire rotations, balancing, and checking tire pressure regularly. Proper tire maintenance ensures better handling, longer tire life, and improved safety while driving.">
-            <button classname="menu button-standard" onClick={()=>{
-            }}>Tire service</button>
+            <button classname="menu button-standard" onClick={()=>{handleUserInput('SCHEDTire service MODEL:'+myCars[selectedCar].model+"TRIM:"+myCars[selectedCar].trim);}}>Tire service</button>
             </BigTooltip>
             <BigTooltip placement="top" title="Brake service involves routine maintenance and repairs to ensure your car's braking system operates effectively. It includes inspections, brake pad replacements, and brake fluid checks. Proper brake service is crucial for your safety and the overall performance of your vehicle.">
-            <button classname="menu button-standard" onClick={()=>{
-            }}>Brake service</button>
+            <button classname="menu button-standard" onClick={()=>{handleUserInput('SCHEDBrake service MODEL:'+myCars[selectedCar].model+"TRIM:"+myCars[selectedCar].trim);}}>
+                Brake service</button>
             </BigTooltip>
             <BigTooltip placement="top" title="Vehicle diagnostics refer to the process of identifying and troubleshooting any issues or malfunctions in your car's systems. Using specialized tools and software, technicians can pinpoint problems, allowing for accurate and efficient repairs.">
-            <button classname="menu button-standard" onClick={()=>{
-            }}>Vehicle diagnostics</button>
+            <button classname="menu button-standard" onClick={()=>{handleUserInput('SCHEDVehicle diagnostics MODEL:'+myCars[selectedCar].model+"TRIM:"+myCars[selectedCar].trim);}}>
+                Vehicle diagnostics</button>
             </BigTooltip>
         </div>
       )
@@ -92,7 +78,35 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
                 }}>Questions about maintenance</button>
             </div>
           );
+          setUpdated(!updated);
       }, [selectedCar])
+
+      useEffect(()=>{
+        ownerButtons = (
+            <div className="buttons">
+            <BigTooltip placement="top" title="Maintenance requests for cars are when you ask for repairs or services to keep your vehicle in good condition and running well. It's important to address issues promptly for safety and longevity.">
+              <button className = "menu" onClick={()=>{
+                    setMessages(m=>{return [...m, {msg: "Maintenance requests", author: "You"}, {msg: "What type of help with maintenance would you like?", author: "Ford Chat"}]})
+                    setMenuButtons([maintenanceButtons])
+                }}>Maintenance requests</button>
+                </BigTooltip>
+            <BigTooltip placement="top" title="Car resale value is the amount you can expect to get when you sell your car. Regular maintenance and proper care help maintain a higher resale value.">
+              <button className = "menu" onClick={()=>{
+                    onResaleButton(myCars[selectedCar]);
+                }}>Car resale value</button>
+            </BigTooltip>
+            <BigTooltip placement="top" title="An owner service center is a facility provided by Ford dealerships exclusively for Ford vehicles. It offers specialized expertise, genuine Ford parts, and trained technicians for optimal maintenance and warranty support. Choosing this center helps maintain your Ford's value and ensure reliable service.">
+              <button className = "menu" onClick={()=>{
+                }}>Owner service center</button>
+            </BigTooltip>
+            <BigTooltip placement="top" title="We will help you find the closest Ford dealerships to you based on your preferred radius.">
+              <button className = "menu" onClick={()=>{
+                }}>Find a dealership</button>
+            </BigTooltip>
+            </div>
+          );
+      }, [updated])
+
       console.log("re-render", selectedCar)
     return (
         <div>
@@ -119,7 +133,7 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
                                         <CardContent>
                                             <CardMedia
                                             component="img"
-                                            image={`${images[myCars[index].model]}`}
+                                            image={`${images[myCars[index].model][myCars[index].trim]}`}
                                             height="160"
                                             alt="your car"
                                             />
@@ -128,6 +142,12 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
                                             </Typography>
                                             <Typography>
                                                 {car.trim}
+                                            </Typography>
+                                            <Typography>
+                                                {car.year}
+                                            </Typography>
+                                            <Typography>
+                                                {car.vin}
                                             </Typography>
                                         </CardContent>
                                     </CardActionArea>
