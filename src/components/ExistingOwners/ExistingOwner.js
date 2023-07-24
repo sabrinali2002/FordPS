@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 
 const auth = getAuth(firebase);
 
-function ExistingOwner({ setMessages, setMenuButtons, handleUserInput, justSelect, selectedCar, setSelectedCar, hide }) {
+function ExistingOwner({ setMessages, setMenuButtons, handleUserInput, justSelect, selectedCar, setSelectedCar, hide, setOptionButtons }) {
     const [user, loading, error] = useAuthState(auth);
     const [username, setUsername] = useState("");
 
@@ -57,6 +57,7 @@ function ExistingOwner({ setMessages, setMenuButtons, handleUserInput, justSelec
                     selectedCar={selectedCar}
                     setSelectedCar={setSelectedCar}
                     onResaleButton={handleResaleButton}
+                    setOptionButtons={setOptionButtons}
                 />
             ) : (
                 <Login username={username} setUsername={setUsername} />

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import images from "../../images/image_link.json";
 
-export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode, model, trim, backButton }) {
+export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode, model, trim, backButton, dispName, userEmail }) {
   const [time1, setTime1] = useState(null);
   const [date1, setDate1] = useState(null);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(dispName);
+  const [email, setEmail] = useState(userEmail);
   const [notes, setNotes] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   useEffect(() => {
@@ -88,15 +88,16 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
           >
             Guest Information
           </div>
-          <a
+          {maintenanceMode.length===0&&<a
             style={{ marginBottom: 10, color: "#575757", fontWeight: 100 }}
             href="https://www.example.com"
             target="_blank"
             rel="noopener noreferrer"
           >
             Or login/create a Ford account{" "}
-          </a>
+          </a>}
           <input
+          value={name}
             onChange={(e) => setName(e.target.value)}
             style={{
               backgroundColor: "white",
@@ -112,6 +113,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
             placeholder=" Name*"
           ></input>
           <input
+          value={email}
             onChange={(e) => setEmail(e.target.value)}
             style={{
               backgroundColor: "white",
@@ -181,7 +183,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
           <div style={{ marginTop: 10, marginBottom: 10, color: "#575757" }}>
           {maintenanceMode.length===0?"limited to 2 cars to test drive during your appointment.":"Your "+model+" "+trim}
           </div>
-          <img src={model.lengh===0?"/bronco.png":`${images[model][trim]}`} style={{ alignSelf: "start" }}></img>
+          <img src={model.lengh===0?"/bronco.png":`${images[model][trim]}`} style={{ alignSelf: "start", width: '300px' }}></img>
           {maintenanceMode.length==0 && <div style={{ marginBottom: 0, marginTop: 10 }}>
             <a
               href="https://www.example.com"

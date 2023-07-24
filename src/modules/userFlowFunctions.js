@@ -25,14 +25,16 @@ export function handleUserInputFn(
     setCalcHeadingText,
     setInfoMode,
     cat,
-    setCat
+    setCat,
+    setOptionButtons
 ) {
     return (option) => {
         // Outputs a response to based on input user selects
         if(option.includes("SCHED")){
-            setMessages((m) => [...m, { msg: option.replace("SCHED", ""), author: "You" }]);
+            setMessages((m) => [...m, { msg: option.replace("SCHED", "").split("MODEL")[0], author: "You" }]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line: true, zip: {} }]);
             setMenuButtons([])
+            setOptionButtons([])
             changeChoice(option);
         }
         else

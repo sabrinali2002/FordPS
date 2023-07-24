@@ -227,7 +227,8 @@ function App() {
         setCalcHeadingText,
         setInfoMode,
         cat,
-        setCat
+        setCat,
+        setOptionButtons
     );
 
     useEffect(() => {
@@ -402,9 +403,10 @@ function App() {
                 carSpecInfo = {message.carInfo}
                 selectedCar = {selectedCar}
                 setSelectedCar = {setSelectedCar}
-                                    tableFunctions={tableFunctions}
-                                    messageIndex={index}
-                                    selectedCars={selectedCars}
+                tableFunctions={tableFunctions}
+                messageIndex={index}
+                selectedCars={selectedCars}
+                setOptionButtons={setOptionButtons}
               />
               );
             })}
