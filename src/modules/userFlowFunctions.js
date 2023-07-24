@@ -193,17 +193,23 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
           case "C":
             {
               if(findMode === 0){
-                setZipCode(query)
-                setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
-                setShowCalcButtons(true);
-                setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>
-                <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>{model}
-                  <BiRegistered/></button>)));
-                setFind(1);
+                const numberRegex = /\d+/g;
+                if(extractFiveDigitString(query)===null || query.match(numberRegex)[0].length != 5){
+                  setMessages((m)=>[...m,{msg: "Please input a valid zipcode", author: "Ford Chat", line:false,zip:""}]);
+                }
+                else{
+                  setZipCode(query)
+                  setMessages((m)=>[...m,{msg: "Please select 1-3 models/trims of the specific cars you are looking for.", author: "Ford Chat", line:true,zip:""}]);
+                  setShowCalcButtons(true);
+                  console.log(trims);
+                  setCalcButtons(Object.keys(trims).map(model => (<button className='model-button' key={model} value={model} onClick={selectHandler}>
+                  <img style={{width:'160px',height:'auto'}} src={images[model]}/><br/>{model}
+                    <BiRegistered/></button>)));
+                  setFind(1);
+                }
               }
               else if(findMode === 1){
                   setShowCalcButtons(true);
-                  console.log(trims[query])
                   setCalcButtons(trims[query].map(trim => (
                     <button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
                     // trims[query].contains(trim)) ? <button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
