@@ -216,6 +216,7 @@ function App() {
         buyACarButtons,
         setCalcButtons,
         model,
+        setModel,
         calcButtonHandler,
         setCalcStep,
         trim,

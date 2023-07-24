@@ -14,6 +14,7 @@ export function handleUserInputFn(
     buyACarButtons,
     setCalcButtons,
     model,
+    setModel,
     calcButtonHandler,
     setCalcStep,
     trim,
@@ -93,6 +94,7 @@ export function handleUserInputFn(
                                 value={model}
                                 onClick={() => {
                                     setQuery(model);
+                                    setModel(model);
                                     setMessages((m) => [...m, { msg: model, author: "You" }]);
                                     setCalcButtons([]);
                                     setShowCalcButtons(false);

@@ -11,20 +11,18 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         if (model === '') {
             setModel(query);
         }
-        console.log(trims[query]);
-        console.log(Object.keys(images[query]));
-        //console.log(images["E-Transit Cargo Van"]);
         setCalcHeadingText("Choose specific trim");
         setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true }]);
         setShowCalcButtons(true);
-        setCalcButtons(trims[query].map(trim => 
+        setCalcButtons(trims[model].map(trim => 
             (<button className='model-button' key={trim} value={trim} onClick={() => 
                 {setQuery(trim);
                     setMessages((m) => [...m, { msg: trim, author: "You" }]);
                     setCalcButtons([]);
                     setShowCalcButtons(false);}}>
-                        <img style={{ width: "160px", height: "auto" }} src={images[model][trim.toString()]} />
-                    <br />{trim}</button>)));
+                        <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
+                    <br />{trim}</button>)
+            ));
         blockQueries.current = false;
         setCalcStep(2);
         break;
