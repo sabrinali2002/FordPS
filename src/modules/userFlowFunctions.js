@@ -287,7 +287,8 @@ export function handleUserFlow(
                                         setSelect,
                                         setFind,
                                         query,
-                                        setZipMode
+                                        setZipMode,
+                                        setOptionButtons
                                     );
                                 }}
                             >

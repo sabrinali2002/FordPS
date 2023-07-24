@@ -25,7 +25,8 @@ export default function handleInfoFlow(
     setSelect,
     setFind,
     query,
-    setZipMode
+    setZipMode,
+    setOptionButtons
 ) {
     if (infoMode === 2) {
         if (trim === "All Trims") {
@@ -46,10 +47,10 @@ export default function handleInfoFlow(
             }
         }
         setMessages((m) => [...m, { msg: "What other information/services would you like for this car?", author: "", line: true, zip: "" }]);
-        setMenuButtons(
-          <div className="buttons">
+        setOptionButtons(
+          <div className="option-buttons">
                 <button
-                    className="menu"
+                    className="button-small"
                     onClick={() => {
                         setMenuButtons([]);
                         setInfoMode(3);
@@ -58,7 +59,7 @@ export default function handleInfoFlow(
                     Schedule a test drive
                 </button>
                 <button
-                    className="menu"
+                    className="button-small"
                     onClick={() => {
                         setMenuButtons([]);
                         setCarInfoData(arr);
@@ -68,7 +69,7 @@ export default function handleInfoFlow(
                     Pricing estimation
                 </button>
                 <button
-                    className="menu"
+                    className="button-small"
                     onClick={() => {
                         setMenuButtons([]);
                         handleCarInfoButton(model, trim);
