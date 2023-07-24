@@ -453,8 +453,9 @@ function Map({ zip, dist, loc, deal, coords }) {
           }}
         >
           <MapContainer
+            key={latlong.toString()}
             center={latlong}
-            zoom={3}
+            zoom={8}
             style={{
               height: "400px",
               width: "50%", // Increase width to desired value
