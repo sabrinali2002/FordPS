@@ -72,6 +72,7 @@ export default function handleInfoFlow(
                     className="button-small"
                     onClick={() => {
                         setMenuButtons([]);
+                        setOptionButtons([]);
                         handleCarInfoButton(model, trim);
                         setForceUpdate(!forceUpdate);
                         handleMoreInfo();
@@ -89,6 +90,7 @@ export default function handleInfoFlow(
         setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line: true, zip: {} }]);
         setInfoMode(4);
     } else if (infoMode === 5){
+        setOptionButtons([]);
         return;
     } else {
         const selectedCopy = selected;
