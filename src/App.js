@@ -497,7 +497,7 @@ function App() {
                             setOptionButtons);
                       }
                     }
-                    }><u style={{position:'absolute',left:'-304px',bottom:'0px',fontSize:'12px'}}>Back</u></button>}
+                    }><u style={{position:'relative',marginLeft:'0px',bottom:'0px',fontSize:'12px'}}>Back</u></button>}
                     </div>
                 </div>}
           <ThreeDots

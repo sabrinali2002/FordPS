@@ -243,6 +243,7 @@ export function handleUserFlow(
                                 onClick={() => {
                                     setQuery(model);
                                     setInfoMode(2);
+                                    setModel(model);
                                 }}
                             >
                                 <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} />
@@ -253,11 +254,9 @@ export function handleUserFlow(
                     );
                     setVehicle(query);
                 } else if (infoMode === 2) {
-                    setModel(query);
                     setCalcHeadingText(query + ": Choose specific trim");
-                    console.log("info");
                     setCalcButtons(
-                        vehicles[vehicle][query].map((trim) => (
+                        vehicles[vehicle][model].map((trim) => (
                             <button
                                 className="model-button"
                                 key={trim}
@@ -265,9 +264,9 @@ export function handleUserFlow(
                                 onClick={() => {
                                     setTrim(trim);
                                     handleInfoFlow(
+                                        handleMoreInfo,
                                         tableForceUpdate,
                                         setTableForceUpdate,
-                                        handleMoreInfo,
                                         forceUpdate,
                                         setForceUpdate,
                                         handleCarInfoButton,
@@ -282,11 +281,20 @@ export function handleUserFlow(
                                         handleUserInput,
                                         setShowCalcButtons,
                                         setCarInfoData,
-                                        infoMode
+                                        infoMode,
+                                        selected,
+                                        changeSelected,
+                                        setDealers,
+                                        locateDealershipsFn,
+                                        setSelect,
+                                        setFind,
+                                        query,
+                                        setZipMode,
+                                        setOptionButtons
                                     );
                                 }}
                             >
-                            <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
+                            <img style={{ width: "160px", height: "auto" }} src={images[model][trim]}/>
                               <br />{trim}
                           </button>
                         ))
