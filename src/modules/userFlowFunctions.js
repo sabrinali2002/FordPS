@@ -237,7 +237,7 @@ export function handleUserFlow(
                     setVehicle(query);
                 } else if (infoMode === 2) {
                     setModel(query);
-                    setCalcHeadingText(query + " - Choose specific trim");
+                    setCalcHeadingText(query + ": Choose specific trim");
                     console.log("info");
                     setCalcButtons(
                         vehicles[vehicle][query].map((trim) => (
