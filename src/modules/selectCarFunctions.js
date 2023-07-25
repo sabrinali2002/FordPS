@@ -12,7 +12,7 @@ export function handleCarInfo(tableForceUpdate, setTableForceUpdate, selectedMod
         sqlQuery = fixTrimQueryQuotation(selectedModel, sqlQuery);
         console.log(sqlQuery);
         let dataArr = [];
-        let data = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
+        let data = await fetch(`https://fordchat.franklinyin.com:5000/data?query=${sqlQuery}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -30,7 +30,7 @@ export function handleCarInfo(tableForceUpdate, setTableForceUpdate, selectedMod
       if (carInfoMode === "compare") {
             sqlQuery = `SELECT * FROM car_info WHERE model = "${compareModel}" AND trim = "${compareTrim}"`;
             sqlQuery = fixTrimQueryQuotation(compareModel, sqlQuery);
-            data2 = await fetch(`http://fordchat.franklinyin.com/data?query=${sqlQuery}`, {
+            data2 = await fetch(`https://fordchat.franklinyin.com:5000/data?query=${sqlQuery}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

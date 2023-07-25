@@ -12,7 +12,7 @@ export async function sendBotResponse(query, history, mode) {
   } else
     newQuery=query
   console.log(newQuery);
-  const response = await fetch("http://fordchat.franklinyin.com/quer", {
+  const response = await fetch("https://fordchat.franklinyin.com:5000/quer", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export function sendRecommendRequestToServer(query, history, carInfoData, messag
         createRecommendTable(res).forEach(car=>{
           console.log(car.model, car.trim)
           const query=fixTrimQueryQuotation(car.model, `SELECT * FROM car_info WHERE model = "${car.model}" AND trim = "${car.trim}" AND msrp = "${car.msrp}" LIMIT 2`)
-          promises.push(fetch(`http://fordchat.franklinyin.com/data?query=${query}`, {
+          promises.push(fetch(`https://fordchat.franklinyin.com:5000/data?query=${query}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

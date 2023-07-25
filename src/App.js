@@ -1,5 +1,5 @@
 import "./styles/App.css";
-import { TextField, InputAdornment, IconButton } from "@mui/material";
+import { TextField, InputAdornment, IconButton, Tooltip } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
 import AccessibilityButton from "./components/AccessibilityButton";
@@ -405,9 +405,11 @@ function App() {
                 carSpecInfo = {message.carInfo}
                 selectedCar = {selectedCar}
                 setSelectedCar = {setSelectedCar}
-                                    tableFunctions={tableFunctions}
-                                    messageIndex={index}
-                                    selectedCars={selectedCars}
+                tableFunctions={tableFunctions}
+                messageIndex={index}
+                selectedCars={selectedCars}
+                messages={messages}
+                setOptionButtons={setOptionButtons}
               />
               );
             })}
@@ -572,14 +574,18 @@ function App() {
                   ></div>
                 ) : (
                   <InputAdornment position="end">
-                    <Mic
-                      className="mic-icon"
-                      size="2rem"
-                      onClick={() => {
-                        toggleRecording();
-                      }}
-                    />
-                    <BoxArrowLeft size="2rem" style={{marginLeft: "10px", cursor: "pointer"}} onClick={handleUserFeedback}/>
+                    <Tooltip title="Chat With Voice" placement="top">
+                      <Mic
+                        className="mic-icon"
+                        size="2rem"
+                        onClick={() => {
+                          toggleRecording();
+                        }}
+                      />
+                    </Tooltip>
+                    <Tooltip title="Exit Chatbot" placement="top">
+                      <BoxArrowLeft size="2rem" style={{marginLeft: "10px", cursor: "pointer"}} onClick={handleUserFeedback}/>
+                    </Tooltip>
                   </InputAdornment>
                 ),
               }}

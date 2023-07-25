@@ -68,7 +68,7 @@ function dictate(message, toggleIsSpeaking) {
   speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, messages, setOptionButtons}){
   const textPartStyle = {
     display: "flex", flexDirection:"row",
     width:"100%",
@@ -116,7 +116,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
           setSelectedCar={setSelectedCar} hide={message.length==0}/>
         }
         {
-          author==="Feedback" && <Feedback/>
+          author==="Feedback" && <Feedback messages={messages} setMessages={setMessages} setOptionButtons={setOptionButtons} setMenuButtons={setMenuButtons}/>
         }
     </div>
     </div>)
