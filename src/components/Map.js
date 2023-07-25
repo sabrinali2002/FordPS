@@ -21,9 +21,13 @@ import { BiRegistered } from "react-icons/bi";
 import images from "../images/image_link.json";
 import { FaMapMarked } from "react-icons/fa";
 import SchedDisp from "./scheduleComponents/SchedDisp";
+import { setDate } from "date-fns";
+import Sched1 from './scheduleComponents/sched1';
+import Sched3 from './scheduleComponents/sched3';
+
 //import { scheduler } from "timers/promises";
 
-function Map({ zip, dist, loc, deal, coords }) {
+function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, selectedTrim }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
@@ -43,6 +47,15 @@ function Map({ zip, dist, loc, deal, coords }) {
   const [link1, setLink1] = useState("");
   const [hour1, setHours1] = useState("");
   const [address1, setAddress1] = useState("");
+  const [isScheduler2Visible, setIsScheduler2Visible] = useState('');
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [notes, setNotes] = useState("");
+  const [vis2, setVis2] = useState(false);
+  const [vis3, setVis3] = useState(false);
 
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
@@ -62,13 +75,18 @@ function Map({ zip, dist, loc, deal, coords }) {
     setBlockPopup(false);
   };
 
-  const openScheduler = (dealer) => {
+  const openScheduler = (dealer, maintenanceMode) => {
     setIsSchedulerVisible(true);
-    setShowWindow(false);
+    setShowWindow(false); 
     setPickedLoc(dealer);
   };
 
   const returnCars = (dealer, n) => {
+    const similar = {"Bronco":"Bronco Sport","Bronco Sport":"Bronco","E-Transit Cargo Van":"Transit Cargo Van",
+        "Transit Cargo Van":"E-Transit Cargo Van","Edge":"Escape","Escape":"Edge","Explorer":"Expedition",
+        "Expedition":"Explorer","F-150":"F-150 Lightning","Mustang Mach-E":"Edge","Ranger":"F-150",
+        "Transit Cargo Van":"Transit Connect Cargo Van","Transit Connect Cargo Van":"Transit Cargo Van",
+        "Transit Passenger Van":"Transit Crew Van","Transit Crew Van":"Transit Passenger Van"};
     let models = [];
     if (model !== "" && trim !== "") {
       // know model & trim
@@ -87,10 +105,13 @@ function Map({ zip, dist, loc, deal, coords }) {
             models.push([model, trims]);
           }
         }
+        let sim = similar[model];
+        let i = 0;
         while (models.length < n) {
           // not enough trims of model
-          let x = 0;
-          // append first trim of similar model
+          models.push(dealerToTrim[dealer][sim][i]);
+          i = i + 1;
+          // append trims of similar model
         }
       }
     } else if (model !== "") {
@@ -157,6 +178,9 @@ function Map({ zip, dist, loc, deal, coords }) {
         useTime = currTime-12;
         ending = 'pm';
       }
+      if (currTime == 12) {
+        ending = 'pm';
+      }
       appts.push([`${dayOfWeek} ${currMonth}/${currDay}`,`${useTime.toString()}:${currMin.toString()}0${ending}`])
       if (currMin == 3) {
         currTime = currTime + 1;
@@ -182,6 +206,9 @@ function Map({ zip, dist, loc, deal, coords }) {
     let addr = info[dealer]["address"];
     let phone = info[dealer]["number"];
     let rating = info[dealer]["rating"];
+    if (rating == '') {
+      rating = '4';
+    }
     let link = `www.${dealer
       .replaceAll(" ", "")
       .replaceAll("'", "")
@@ -203,19 +230,19 @@ function Map({ zip, dist, loc, deal, coords }) {
         <AiFillClockCircle /><span style={{ fontSize:'14px',paddingLeft: '8px' }}>{hrStr}</span><br />
       </span>
       <div style={{ display: 'flex' }}>
-        <span style={{ width: '50%' }}>
+        {maintenanceMode.length==0&&<span style={{ width: '50%' }}>
           <span style={{ color: '#322964', fontSize: '14px', textDecoration: 'underline' }}>
             Available models/trims </span>
           <span style={{ paddingLeft: '20px' }}><MdOutlineArrowForwardIos /></span>
           <div className='modelprev-container'>
             {models.map(model => (<div className='modelprev-map'>
-                <img style={{justifySelf: 'center',position:'relative',right:'10px',width:'120px',height:'auto'}} src={images[model[0]]}/>
+                <img style={{justifySelf: 'center',position:'relative',right:'10px',width:'120px',height:'auto'}} src={images[model[0]][model[1]]}/>
               <div>
                 {model[0]}<BiRegistered/>{` ${model[1]}`}
               </div>
               </div>))}
           </div>
-        </span>
+        </span>}
         <span style={{ width: '50%', right: '-40%' }}>
           <span style={{ color: '#322964', fontSize: '14px', textDecoration: 'underline', paddingLeft:'10px' }}>
             Available appointments
@@ -242,6 +269,28 @@ function Map({ zip, dist, loc, deal, coords }) {
     //setShowPopup(false);
   };
 
+  const backButton = () => {
+    setIsScheduler2Visible(false);
+    setIsSchedulerVisible(false);
+    setShowWindow(true);
+  }
+
+  const handleAppointment = (name, email, phoneNumber, notes) => {
+    console.log('here');
+    setName(name);
+    setEmail(email);
+    setPhoneNumber(phoneNumber);
+    setNotes(notes);
+    setVis2(false);
+    setVis3(true);
+    setIsScheduler2Visible(false);
+  };
+
+  const showScheduler2 = (event) => {
+    setIsScheduler2Visible(true);
+    setShowWindow(false);
+  }
+
   const onExit = () => {
     setShowWindow(false);
     setBlockPopup(false);
@@ -254,6 +303,9 @@ function Map({ zip, dist, loc, deal, coords }) {
     let addr = info[dealer]["address"];
     let phone = info[dealer]["number"];
     let rating = info[dealer]["rating"];
+    if (rating == '') {
+      rating = '4';
+    }
     let link = `www.${dealer
       .replaceAll(" ", "")
       .replaceAll("'", "")
@@ -270,7 +322,7 @@ function Map({ zip, dist, loc, deal, coords }) {
     }
     let appts = returnAppts(6);
     setShowWindow(true);
-    let window1 = (<div className='dealer-window1'>
+    let window1 = (<div className={'dealer-window'+(maintenanceMode.length==0?'1':'3')}>
       <button className='close-button' onClick={onExit}>
         <span style={{position:'relative',right:'6px',top:'0px'}}><IoMdClose/></span>
       </button>
@@ -286,35 +338,72 @@ function Map({ zip, dist, loc, deal, coords }) {
         <AiFillStar /><span style={{ paddingLeft: '8px' }}>{rating + ' stars'}</span><br />
         <AiFillClockCircle /><span style={{ paddingLeft: '8px' }}>{hrStr}</span><br /></span>
     </div>)
-    let window2 = (<div className='dealer-window2'>
+    let window2 = maintenanceMode.length==0?(<div className='dealer-window2'>
       <span style={{fontWeight:'bold',fontSize:'18px',color:'#322964'}}>Models & trims available</span>
       <span style={{paddingLeft:'7px',fontSize:'14px'}}>{selection}</span>
-      <span className='view-more' onClick={() => openScheduler(dealer)}>View more
+      <span className='view-more' onClick={() => {
+              openScheduler(dealer, maintenanceMode);
+              setDealer1(dealer);
+              setAddress1(addr);
+              setPhone1(phone);
+              setHours1(hrStr);
+              setLink1(link);
+            }}>View more
       <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
       <br/>
       <div className='models-container'>
         <div style={{listStyleType: 'none',display: 'flex'}}>
-          {models.map(model => (<div className='window-model'>
-          <img style={{width:'140px',height:'auto'}} src={images[model[0]]}/><br/>
+          {models.map(model => (<div key={model} className='window-model'>
+          <img style={{width:'140px',height:'auto'}} src={images[model[0]][model[1]]}/><br/>
                 {model[0]}<BiRegistered/>{` ${model[1]}`}
               </div>))}
           </div>
       </div>
-    </div>)
-    let window3 = (<div className='dealer-window2'>
+    </div>):(<></>)
+    let window3 = (<div className={'dealer-window'+(maintenanceMode.length==0?'2':'3')}>
           <span style={{fontWeight:'bold',fontSize:'18px',color:'#322964'}}>Next appointments available</span>
-          <span className='view-more' onClick={() => openScheduler(dealer)}>View more
+          <span className='view-more' onClick={() => {openScheduler(dealer, maintenanceMode)
+                              setDealer1(dealer);
+                              setAddress1(addr);
+                              setPhone1(phone);
+                              setHours1(hrStr);
+                              setLink1(link);}}>View more
           <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
           <br/>
           <div style={{display:'flex',marginTop:'5px',marginLeft:'8px'}}>
-            <button className='schedule-button' onClick={() => openScheduler(dealer)}>Click here to schedule an appointment</button>
+            <button className='schedule-button' onClick={() => 
+              {openScheduler(dealer, maintenanceMode)
+                setDealer1(dealer);
+                setAddress1(addr);
+                setPhone1(phone);
+                setHours1(hrStr);
+                setLink1(link);
+                }}>Click here to schedule an appointment</button>
             <span>
               <div className='timeslot-container'>
-                {appts.slice(0,3).map(appt => (<button key={appt[1]} className='time-slot'>{appt[0]}<br/>
+                {appts.slice(0,3).map(appt => (<button key={appt[1]} date={appt[0]} time={appt[1]} onClick={
+                  () => {showScheduler2();
+                        setDealer1(dealer);
+                        setDate(appt[0]);
+                        setTime(appt[1]);
+                        setAddress1(addr);
+                        setPhone1(phone);
+                        setHours1(hrStr);
+                        setLink1(link);
+                        }} className='time-slot'>{appt[0]}<br/>
                   <span style={{fontWeight:'bold'}}>{appt[1]}</span></button>))}
               </div>
               <div className='timeslot-container'>
-                {appts.slice(3,6).map(appt => (<button key={appt[1]} className='time-slot'>{appt[0]}<br/>
+                {appts.slice(3,6).map(appt => (<button key={appt[1]} date={appt[0]} time={appt[1]} onClick={
+                  () => {showScheduler2();
+                        setDealer1(dealer);
+                        setDate(appt[0]);
+                        setTime(appt[1]);
+                        setAddress1(addr);
+                        setPhone1(phone);
+                        setHours1(hrStr);
+                        setLink1(link);
+                        }} className='time-slot'>{appt[0]}<br/>
                   <span style={{fontWeight:'bold'}}>{appt[1]}</span></button>))}
               </div>              
             </span>            
@@ -437,9 +526,31 @@ function Map({ zip, dist, loc, deal, coords }) {
           address={address1}
           link={link1}
           hours={hour1}
+          maintenanceMode={maintenanceMode}
+          model={selectedModel}
+          trim={selectedTrim}
+          backButton={backButton}
         />
       )}
-      {!showWindow && !isSchedulerVisible && (
+      {isScheduler2Visible && (
+        <Sched1 dealer={dealer1} date={date} time={time} handleAppointment={handleAppointment} backButton={backButton}/>
+        )}
+      {vis3 && (
+        <Sched3
+          dealer={dealer1}
+          date={date}
+          time={time}
+          name={name}
+          email={email}
+          phoneNumber={phoneNumber}
+          notes={notes}
+          phone={phone1}
+          address={address1}
+          link={link1}
+          hours={hour1}
+        />
+      )}
+      {!showWindow && !isSchedulerVisible && !isScheduler2Visible && !vis3 && (
         <div
           style={{
             position: "relative",

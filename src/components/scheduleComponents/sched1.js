@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-export default function Sched1({ dealer, date, time, handleAppointment }) {
+import images from "../../images/image_link.json";
+
+export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode="", model="", trim="", backButton, dispName, userEmail }) {
   const [time1, setTime1] = useState(null);
   const [date1, setDate1] = useState(null);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(dispName);
+  const [email, setEmail] = useState(userEmail);
   const [notes, setNotes] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   useEffect(() => {
@@ -25,7 +27,7 @@ export default function Sched1({ dealer, date, time, handleAppointment }) {
         justifyContent: "flex-start",
         display: "flex",
         padding: 20,
-
+        marginLeft: '35px',
         boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
       }}
     >
@@ -38,7 +40,7 @@ export default function Sched1({ dealer, date, time, handleAppointment }) {
           marginBottom: 10,
         }}
       >
-        Schedule Test Drive Appointment
+        Schedule a {maintenanceMode.length==0?"Test Drive":maintenanceMode} Appointment
       </div>
       <div
         style={{
@@ -86,15 +88,16 @@ export default function Sched1({ dealer, date, time, handleAppointment }) {
           >
             Guest Information
           </div>
-          <a
+          {maintenanceMode.length===0&&<a
             style={{ marginBottom: 10, color: "#575757", fontWeight: 100 }}
             href="https://www.example.com"
             target="_blank"
             rel="noopener noreferrer"
           >
             Or login/create a Ford account{" "}
-          </a>
+          </a>}
           <input
+          value={name}
             onChange={(e) => setName(e.target.value)}
             style={{
               backgroundColor: "white",
@@ -110,6 +113,7 @@ export default function Sched1({ dealer, date, time, handleAppointment }) {
             placeholder=" Name*"
           ></input>
           <input
+          value={email}
             onChange={(e) => setEmail(e.target.value)}
             style={{
               backgroundColor: "white",
@@ -173,14 +177,14 @@ export default function Sched1({ dealer, date, time, handleAppointment }) {
               textAlign: "start",
             }}
           >
-            Trims to Test Drive
+            {maintenanceMode.length===0?"Trims to Test Drive":"This Appointment is for:"}
           </div>
 
           <div style={{ marginTop: 10, marginBottom: 10, color: "#575757" }}>
-            limited to 2 cars to test drive during your appointment.
+          {maintenanceMode.length===0?"limited to 2 cars to test drive during your appointment.":"Your "+model+" "+trim}
           </div>
-          <img src="/bronco.png" style={{ alignSelf: "start" }}></img>
-          <div style={{ marginBottom: 0, marginTop: 10 }}>
+          <img src={model.length===0?"/bronco.png":`${images[model][trim]}`} style={{ alignSelf: "start", width: '300px' }}></img>
+          {maintenanceMode.length==0 && <div style={{ marginBottom: 0, marginTop: 10 }}>
             <a
               href="https://www.example.com"
               target="_blank"
@@ -189,7 +193,7 @@ export default function Sched1({ dealer, date, time, handleAppointment }) {
             >
               {`Select more cars available at ${dealer}`}
             </a>
-          </div>
+          </div>}
           <button
             onClick={() => handleAppointment(name, email, phoneNumber, notes)}
             style={{
@@ -208,6 +212,7 @@ export default function Sched1({ dealer, date, time, handleAppointment }) {
               fontSize: 18,
               width: 300,
               marginBottom: 10,
+              cursor: 'pointer'
             }}
           >
             Confirm appointment
@@ -222,7 +227,9 @@ export default function Sched1({ dealer, date, time, handleAppointment }) {
           height: 22,
           marginTop: -30,
           marginLeft: 8,
+          cursor:'pointer'
         }}
+        onClick={backButton}
       ></img>
     </div>
   );

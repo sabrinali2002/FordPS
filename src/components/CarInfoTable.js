@@ -3,6 +3,9 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
 import images from "../images/image_link.json";
+import Checkbox from '@mui/material/Checkbox';
+import { Button } from "react-bootstrap";
+
 
 //Style functions -----------------------------------------------------
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -57,21 +60,33 @@ const specList = [
 
 const specListSQL = specList.map((spec) => spec.toLowerCase().replace(/ /g, "_"));
 
-const CarInfoTable = ({ data, mode, intro }) => {
+const moneyFormatter = new Intl.NumberFormat('en-US', {
+    style: "currency",
+    currency: "USD"
+})
+
+const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selectedCars, onCompare, onTableBack }) => {
     let car1data, car2data;
+    console.log("received data" + data);
     if (data[0] !== undefined) {
         car1data = data[0][0];
     }
     if (data[1] !== undefined) car2data = data[1][0];
-    console.log("tabledata" + data);
     return (
         <Fragment>
             {intro !== undefined && <p>{intro}</p>}
+            {data[0].length !== 0 && mode === "single" && selectedCars.length < 2 && (
+                <Button disabled>Select Cars to Compare</Button>
+            )}
+            {data[0].length !== 0 && mode === "single" && selectedCars.length >= 2 && (
+                <Button onClick={onCompare}>Compare These Cars</Button>
+            )}
             {data[0].length !== 0 && mode === "single" && (
                 <TableContainer component={Paper} className="mt-2">
                     <Table>
                         <TableHead>
                             <TableRow>
+                                <StyledTableCell></StyledTableCell>
                                 <StyledTableCell>Image</StyledTableCell>
                                 <StyledTableCell>Model</StyledTableCell>
                                 <StyledTableCell>Trim</StyledTableCell>
@@ -105,13 +120,14 @@ const CarInfoTable = ({ data, mode, intro }) => {
                         <TableBody>
                             {data[0].map((item) => (
                                 <StyledTableRow key={item.id}>
+                                    <Checkbox onClick={()=>onCheckboxSelect(item.id, messageIndex)} checked={item.isChecked}/>
                                     <StyledTableCell>
-                                        <img src={`${images[item.model]}`} style={{ width: "200px" }} alt={`${item.model} image`}></img>
+                                        <img src={`${images[item.model][item.trim]}`} style={{ width: "200px" }} alt={`${item.model} image`}></img>
                                     </StyledTableCell>
                                     <StyledTableCell>{item.model}</StyledTableCell>
                                     <StyledTableCell>{item.trim}</StyledTableCell>
                                     <StyledTableCell>{item.year}</StyledTableCell>
-                                    <StyledTableCell>{item.msrp}</StyledTableCell>
+                                    <StyledTableCell>{moneyFormatter.format(item.msrp)}</StyledTableCell>
                                     <StyledTableCell>{item.body_size}</StyledTableCell>
                                     <StyledTableCell>{item.body_style}</StyledTableCell>
                                     <StyledTableCell>{item.cylinders}</StyledTableCell>
@@ -160,10 +176,18 @@ const CarInfoTable = ({ data, mode, intro }) => {
                                 <StyledTableCell>
                                     <img src={`${images[car2data.model]}`} style={{ width: "200px" }} alt={`${car2data.model} image`}></img>
                                 </StyledTableCell>
+                                <StyledTableCell>
+                                    <img src={`${images[car1data.model]}`} style={{ width: "200px" }} alt={`${car1data.model} image`}></img>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <img src={`${images[car2data.model]}`} style={{ width: "200px" }} alt={`${car2data.model} image`}></img>
+                                </StyledTableCell>
                             </StyledTableRow>
                             {specList.map((spec, index) => (
                                 <StyledTableRow key={spec}>
                                     <StyledTableCell>{spec}</StyledTableCell>
+                                    <StyledTableCell>{car1data[`${specListSQL[index]}`]}</StyledTableCell>
+                                    <StyledTableCell>{car2data[`${specListSQL[index]}`]}</StyledTableCell>
                                     <StyledTableCell>{car1data[`${specListSQL[index]}`]}</StyledTableCell>
                                     <StyledTableCell>{car2data[`${specListSQL[index]}`]}</StyledTableCell>
                                 </StyledTableRow>
@@ -171,6 +195,46 @@ const CarInfoTable = ({ data, mode, intro }) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+            )}
+            {mode === "multiple" && (
+                <Fragment>
+                    <Button variant="secondary" onClick={onTableBack}>Back</Button>
+                    <TableContainer component={Paper} className="mt-2">
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell></StyledTableCell>
+                                    {selectedCars.map((car) => {
+                                        return <StyledTableCell key={car.id}>{`${car.model} ${car.trim}`}</StyledTableCell>;
+                                    })}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <StyledTableRow>
+                                    <StyledTableCell>Image</StyledTableCell>
+                                    {selectedCars.map((car) => {
+                                        return (
+                                            <StyledTableCell key={car.id}>
+                                                <img src={`${images[car.model][car.trim]}`} style={{ width: "200px" }} alt={`${car.model} image`}></img>
+                                            </StyledTableCell>
+                                        );
+                                    })}
+                                </StyledTableRow>
+                                {specList.map((spec, index) => (
+                                    <StyledTableRow key={spec}>
+                                        <StyledTableCell>{spec}</StyledTableCell>
+                                        {selectedCars.map((car) => {
+                                            if(spec === "MSRP") {
+                                                return <StyledTableCell key={car.id}>{moneyFormatter.format(car[`${specListSQL[index]}`])}</StyledTableCell>
+                                            }
+                                            return <StyledTableCell key={car.id}>{car[`${specListSQL[index]}`]}</StyledTableCell>
+                                        })}
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Fragment>
             )}
         </Fragment>
     );
