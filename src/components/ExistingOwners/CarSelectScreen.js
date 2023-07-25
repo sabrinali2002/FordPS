@@ -79,7 +79,7 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
                 setMessages(m=>{return [...m, {msg: "When is my service due?", author: "You"}, {msg: "Based on the information we have on your "+myCars[selectedCar].model+" "+myCars[selectedCar].trim+", you should schedule a maintenance appointment before August 11th. This is one year after the purchase date, following a regular schedule of maintenance annually.", author: "Ford Chat"}, {msg:"Or, you can schedule maintenance before you hit 10,000 miles.", author: "Ford Chat"}, {msg: "Please select a maintenance option for your "+myCars[selectedCar].model+" "+myCars[selectedCar].trim+", or select another car to restart the flow.", author: "Login"}]})
                 setMenuButtons([])
                 setOptionButtons([scheduleButtons])
-                }}>When is my service due? + {selectedCar}</button>
+                }}>When is my service due?</button>
               <button className="button-small" onClick={()=>{
                 setMessages(m=>{return [...m, {msg: "Questions about maintenance", author: "You"}, {msg: "What would you like to know for maintenance?", author: "Ford Chat"}]})
                 setMenuButtons([])

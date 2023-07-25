@@ -22,7 +22,7 @@ const processLocations = async () => {
       const address = val[loc];
       const zip = address.city.substring(address.city.length - 6);
       const url =
-        'http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q=' +
+        'https://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q=' +
         zip;
 
       try {

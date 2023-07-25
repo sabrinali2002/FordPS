@@ -25,7 +25,7 @@ function ExistingOwner({ setMessages, setMenuButtons, handleUserInput, justSelec
             redirect: "follow",
         };
 
-        let data = await fetch(`http://marketvalue.vinaudit.com/getmarketvalue.php?key=VA_DEMO_KEY&vin=${car.vin}&format=json&period=90&mileage=average`, requestOptions).then((response) => {
+        let data = await fetch(`https://marketvalue.vinaudit.com/getmarketvalue.php?key=VA_DEMO_KEY&vin=${car.vin}&format=json&period=90&mileage=average`, requestOptions).then((response) => {
             return response.json();
         });
         console.log(data)
