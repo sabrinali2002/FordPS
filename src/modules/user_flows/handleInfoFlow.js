@@ -1,33 +1,8 @@
-import data from "../../jsons/data.json";
-export default function handleInfoFlow(
-    handleMoreInfo,
-    tableForceUpdate,
-    setTableForceUpdate,
-    forceUpdate,
-    setForceUpdate,
-    handleCarInfoButton,
-    model,
-    trim,
-    setMessages,
-    setModel,
-    setQuery,
-    setInfoMode,
-    setCalcButtons,
-    setMenuButtons,
-    handleUserInput,
-    setShowCalcButtons,
-    setCarInfoData,
-    infoMode,
-    selected,
-    changeSelected,
-    setDealers,
-    locateDealershipsFn,
-    setSelect,
-    setFind,
-    query,
-    setZipMode,
-    setOptionButtons
-) {
+import data from '../../jsons/data.json'
+export default function handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
+  setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
+  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons){
+
     if (infoMode === 2) {
         if (trim === "All Trims") {
           setMessages((m) => [...m, { msg: "Here are all the trims", author: "", line: true, zip: "" }]);
@@ -47,12 +22,14 @@ export default function handleInfoFlow(
             }
         }
         setMessages((m) => [...m, { msg: "What other information/services would you like for this car?", author: "", line: true, zip: "" }]);
+        setShowCalcButtons(false);
         setOptionButtons(
           <div className="option-buttons">
                 <button
                     className="button-small"
                     onClick={() => {
                         setMenuButtons([]);
+                        setOptionButtons([]);
                         setInfoMode(3);
                     }}
                 >
@@ -62,8 +39,7 @@ export default function handleInfoFlow(
                     className="button-small"
                     onClick={() => {
                         setMenuButtons([]);
-                        setCarInfoData(arr);
-                        setMessages((m) => [...m, { msg: "", author: "Table", line: true, zip: "" }]);
+                        setInfoMode(10);
                     }}
                 >
                     Pricing estimation
@@ -82,9 +58,6 @@ export default function handleInfoFlow(
                 </button>
             </div>
         );
-        setShowCalcButtons(false);
-        setInfoMode(5);
-        return;
     } else if (infoMode === 3) {
         setShowCalcButtons(false);
         setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line: true, zip: {} }]);
@@ -92,11 +65,19 @@ export default function handleInfoFlow(
     } else if (infoMode === 5){
         setOptionButtons([]);
         return;
-    } else {
+    }
+    else if(infoMode ===4){
+      const regex = /\b\d{5}\b/g;
+      const matches = query.match(regex);
+      if (matches && matches.length > 0) {
         const selectedCopy = selected;
         selectedCopy[model].push(trim);
         changeSelected(selectedCopy);
-        locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, 20, setMessages, setZipMode)();
+        locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, 20, setMessages, setZipMode, setShowCalcButtons)();
         setShowCalcButtons(false);
-    }
-}
+      }
+      else{
+        setMessages((m) => [...m, { msg: "Please enter a valid zip", author: "Ford Chat", line:true,zip:{} }]);
+      }
+    } 
+} 

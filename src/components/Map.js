@@ -4,7 +4,6 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import data from "../jsons/zipLocations.json";
 import "./Map.css";
-import Modal from "react-modal";
 import TestDriveScheduler from "./TestDriveScheduler";
 import dealerToTrim from "../jsons/dealerToTrim.json";
 import info from "../jsons/dealerInfo.json";
@@ -149,8 +148,14 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
     let currDay = today.getDate();
     let currTime = currHr;
     let currMin = today.getMinutes();
-    if (currMin < 30) {
-      currMin = 3;
+    if (currMin < 15) {
+      currMin = 15;
+    }
+    else if (currMin < 30) {
+      currMin = 30;
+    }
+    else if (currMin < 45) {
+      currMin = 45;
     }
     else if (currMin < 60) {
       currMin = 0;
@@ -322,7 +327,6 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
         <span style={{position:'relative',right:'6px',top:'0px'}}><IoMdClose/></span>
       </button>
       <span style={{color:'#322964',fontSize:'24px',fontWeight:'bold'}}>{dealer}</span>
-      <img style={{width:'200px',height:'auto',position:'absolute',right:'50px',top:'50px',borderRadius:'10px',boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'}} src={url}/>
       <span style={{position:'absolute',right:'220px'}}><FaMapMarked/></span>
       <span style={{textDecoration:'underline',fontSize:'16px',position:'absolute',right:'70px',cursor:'pointer'}} onClick={() => goToMap(`${dealer}, ${addr}`)}>
         View on Google Maps</span>
@@ -412,7 +416,6 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
 
   const findLocations = async (distance) => {
     const result = await findLatLong(zip);
-    // const result = coords === "" ? (await findLatLong(zip)) : coords;
     const distances = {};
     const l = [result.latitude, result.longitude];
     for (const coords in data) {
@@ -497,6 +500,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
   };
   useEffect(() => {
     async function fetchInfo() {
+      if(locations.length ===0){
       findLatLong(zip).then((res) => {
         findLocations(dist).then((locas) => {
           changeLocations(locas);
@@ -504,6 +508,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
         });
       });
     }
+  }
     fetchInfo();
   }, [zip, latlong]);
   return (
@@ -559,8 +564,9 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
           }}
         >
           <MapContainer
+            key={latlong.toString()}
             center={latlong}
-            zoom={3}
+            zoom={8}
             style={{
               height: "400px",
               width: "50%", // Increase width to desired value
