@@ -66,7 +66,7 @@ function dictate(message, toggleIsSpeaking) {
   speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, model, trim, pickup}){
   const textPartStyle = {
     display: "flex", flexDirection:"row",
     width:"100%",
@@ -95,7 +95,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
           </div>
         {author === "Ford Chat.." && <Table loc={locs}></Table>}
       {author === "Ford Chat." && (
-        <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal} coords = {zip.coordinates} maintenanceMode={zip.maintenanceMode} selectedModel={zip.model} selectedTrim={zip.trim}></Map>
+        <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal} coords = {zip.coordinates} maintenanceMode={zip.maintenanceMode} selectedModel={zip.model} selectedTrim={zip.trim} requestInfo={zip.requestInfo} model={model} trim={trim} pickup={pickup}></Map>
       )}
       {
         author === "Info" && <div>

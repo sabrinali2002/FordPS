@@ -108,6 +108,9 @@ function App() {
     const [EV,setEV] = useState(false);
     const [leaseStep1,setLeaseStep1] = useState(0);
     const [financeStep1, setFinanceStep1] = useState(0);
+    const [dura, setDura] = useState('');
+    const [down, setDown] = useState(0);
+    const [pickup, setPickup] = useState(false);
 
 
     const blockQueries = useRef(false);
@@ -154,7 +157,7 @@ function App() {
         }}>Info about Ford</button>
       <button className = "menu button-standard" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Know my car's price", author: "You"}]});
-        setMessages(m=>{return [...m, {msg: "What vehicle would you like to inquire about?", author: "Ford Chat"}]});
+        setMessages(m=>{return [...m, {msg: "What type of car would you like to know the price for?", author: "Ford Chat"}]});
         setMenuButtons(myPriceButtons);
         }}>Know My Car's Price</button>
     </div>
@@ -386,6 +389,12 @@ function App() {
             setFinanceStep1, 
             leaseStep1, 
             financeStep1,
+            dura,
+            setDura,
+            down,
+            setDown,
+            pickup,
+            setPickup
         );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
@@ -451,6 +460,9 @@ function App() {
                 messageIndex={index}
                 selectedCars={selectedCars}
                 key={index}
+                model={model}
+                trim={trim}
+                pickup={pickup}
               />
               );
             })}
@@ -472,7 +484,7 @@ function App() {
                         setQuery(cat);
                         setInfoMode(infoMode-1)
                         handleUserFlow(
-                            tableForceUpdate,
+                            tableForceUpdate, 
                             setTableForceUpdate,
                             handleMoreInfo,
                             handleCarInfoButton,
@@ -541,7 +553,26 @@ function App() {
                             cat,
                             setCat,
                             origButtons,
-                            setOptionButtons);
+                            setOptionButtons,
+                            priceStep,
+                            setPriceStep,
+                            priceMode,
+                            setPriceMode,
+                            setPriceSummary,
+                            setShowPriceSummary,
+                            EV,
+                            vehicleMode,
+                            setVehicleMode,
+                            setLeaseStep1,
+                            setFinanceStep1, 
+                            leaseStep1, 
+                            financeStep1,
+                            dura,
+                            setDura,
+                            down,
+                            setDown,
+                            pickup,
+                            setPickup);
                       }
                     }
                     }><u style={{position:'relative',marginLeft:'0px',bottom:'0px',fontSize:'12px'}}>Back</u></button>}

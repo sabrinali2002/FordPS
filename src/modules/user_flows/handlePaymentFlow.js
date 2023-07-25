@@ -93,6 +93,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                         setLeaseStep(3);
                         break;
                     case 3: // miles
+                        setPayment(payment => {return (payment/(query*2))})
                         setMessages((m) => [...m, { msg: "Please enter the expected miles driven annually", author: "Ford Chat", line: true }]);
                         blockQueries.current = false;
                         setLeaseStep(0);

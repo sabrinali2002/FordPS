@@ -240,6 +240,12 @@ export function handleUserFlow(
     setFinanceStep1, 
     leaseStep1, 
     financeStep1,
+    dura,
+    setDura,
+    down,
+    setDown,
+    pickup,
+    setPickup
 ) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
@@ -260,11 +266,14 @@ export function handleUserFlow(
                 });
                 break;
             case "electric":
-              handlePriceFlow("electric",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary);
+              handlePriceFlow("electric",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,setPickup);
               break;
             case "combustion":
-              handlePriceFlow("combustion",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary);
+              handlePriceFlow("combustion",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,setPickup);
               break;
+            case "request":
+              handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, true,model,trim,pickup);
+              blockQueries.current = false;
             case "I":
                 if (infoMode === 1) {
                     setCalcHeadingText("Choose specific model");
