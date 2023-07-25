@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
 import AccessibilityButton from "./components/AccessibilityButton";
 import { ThreeDots } from "react-loader-spinner";
-import { Mic } from "react-bootstrap-icons";
+import { Mic, BoxArrowLeft } from "react-bootstrap-icons";
 import Autofill from './components/Autofill';
 import trims from "./jsons/trims.json";
 import TopBar from "./components/TopBar";
@@ -268,6 +268,9 @@ function App() {
     };
 
     // useEffect(()=>{handleMoreInfo()}, [tableForceUpdate]);
+    const handleUserFeedback =  () => { 
+      setMessages((m) => [...m, {msg: "", author: "Feedback"}])
+    }
 
     useEffect(() => {
         handleUserFlow(
@@ -576,6 +579,7 @@ function App() {
                         toggleRecording();
                       }}
                     />
+                    <BoxArrowLeft size="2rem" style={{marginLeft: "10px", cursor: "pointer"}} onClick={handleUserFeedback}/>
                   </InputAdornment>
                 ),
               }}
