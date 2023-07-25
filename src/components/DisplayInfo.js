@@ -28,7 +28,7 @@ export default function DisplayInfo({ info , handler }) {
               boxShadow: "0 4px 2px -2px gray"
             }}
           >
-            <img src={data[info.model]} alt={info.model}></img>
+            <img src={data[info.model][info.trim]} alt={info.model}></img>
           </div>
           <div style={{ marginLeft: "20px", marginTop: "10px"}}>
             <h2 style = {{ marginBottom:"20px"}}>
