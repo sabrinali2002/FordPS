@@ -213,6 +213,8 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
                 blockQueries.current = false;
                 break;
             }
+            blockQueries.current = false;
+            break;
           case 'A':
             setQuery("");
             sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
