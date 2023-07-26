@@ -19,7 +19,7 @@ export default function handleDealerFlow(zipMode, dealerList, setZipCode, query,
         const numberRegex = /^[0-9]+$/;
         if(query != "0" && (numberRegex.test(query) || query === "NONE")){
         setDistance((query==="NONE")?10:query);
-        setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {requestInfo: requestInfo, zipcode: extractFiveDigitString(zipCode), dist:(query==="NONE")?10:query, deal: dealerList}}]);
+        setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:(query==="NONE")?10:query, deal: dealerList, maintenanceMode: maintenanceMode, model: model, trim: trim, requestInfo:requestInfo}}]);
         setZipMode(0);
         }
         else{
@@ -28,10 +28,8 @@ export default function handleDealerFlow(zipMode, dealerList, setZipCode, query,
         break; 
     }
     case 2:{
-      setDistance(10);
-      findLocations(query, distance).then(loc => {
-        const places = loc.split('..');
-        setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealerList, maintenanceMode: maintenanceMode, model: model, trim: trim,requestInfo:requestInfo}}]);
+      setDistance((query==="NONE")?10:query);
+        setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealerList, maintenanceMode: maintenanceMode, model: model, trim: trim, requestInfo:requestInfo}}]);
         setZipMode(0);
     })
 }

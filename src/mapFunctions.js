@@ -1,7 +1,7 @@
 import data from './jsons/zipLocations.json';
 //finds the longitude and latitude of the user
 const findLatLong = (zip) => {
-    const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
+    const s = "https://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
     return fetch(s).then((response)=>response.json()).then((data) => {
         let latitude = data.location.lat;
         let longitude = data.location.lon;

@@ -3,8 +3,13 @@ import Sched1 from "./sched1";
 import Sched2 from "./sched2";
 import Sched3 from "./sched3";
 import { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { firebase } from "../../firebase";
+import { getAuth } from "firebase/auth";
 
-function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode, model, trim, backButton }) {
+const auth = getAuth(firebase);
+
+function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode="", model="", trim="", backButton }) {
   const [hour, setHour] = useState(null);
   const [date, setDate] = useState(null);
   const [name, setName] = useState(null);
@@ -14,6 +19,7 @@ function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode, model
   const [vis1, setVis1] = useState(true);
   const [vis2, setVis2] = useState(false);
   const [vis3, setVis3] = useState(false);
+  const [user, loading, error] = useAuthState(auth);
 
   const handleCallback = (hr, dt) => {
     setHour(hr);
@@ -34,6 +40,7 @@ function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode, model
     setVis2(false);
     setVis3(true);
   };
+  console.log("APPT TIME"+model, trim)
   return ( 
     <div className="App">
       {vis1 && <Sched2 callback={handleCallback} maintenanceMode={maintenanceMode} backButton={backButton} />}
@@ -47,6 +54,7 @@ function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode, model
           model={model}
           trim={trim}
           backButton={backButton}
+          dispName={user.displayName} userEmail={user.email}
         />
       )}
       {vis3 && (

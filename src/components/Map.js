@@ -602,7 +602,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
   }
   const findLatLong = (zip) => {
     const s =
-      "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q=" +
+      "https://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q=" +
       zip;
     return fetch(s)
       .then((response) => response.json())
@@ -690,8 +690,9 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
           }}
         >
           <MapContainer
+            key={latlong.toString()}
             center={latlong}
-            zoom={3}
+            zoom={8}
             style={{
               height: "400px",
               width: "50%", // Increase width to desired value

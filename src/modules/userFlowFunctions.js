@@ -7,36 +7,19 @@ import handleInfoFlow from "./user_flows/handleInfoFlow";
 import handlePriceFlow from "./user_flows/handlePriceFlow";
 import { BiRegistered } from "react-icons/bi";
 import images from "../images/image_link.json";
+import Checkbox from '@mui/material/Checkbox';
 
-export function handleUserInputFn(
-    setMessages,
-    changeChoice,
-    setMenuButtons,
-    buyACarButtons,
-    setCalcButtons,
-    model,
-    setModel,
-    calcButtonHandler,
-    setCalcStep,
-    trim,
-    setQuery,
-    blockQueries,
-    setResponse,
-    setShowCalcButtons,
-    setCalcHeadingText,
-    setInfoMode,
-    cat,
-    setCat,
+export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACarButtons,setCalcButtons,model,setModel,calcButtonHandler,setCalcStep,trim,setQuery,blockQueries,setResponse,setShowCalcButtons,setCalcHeadingText,setInfoMode,cat,setCat,
     setPriceMode,
     setPriceStep,
-    setVehicleMode
-) {
+    setVehicleMode, setOptionButtons) {
     return (option) => {
         // Outputs a response to based on input user selects
         if(option.includes("SCHED")){
-            setMessages((m) => [...m, { msg: option.replace("SCHED", ""), author: "You" }]);
+            setMessages((m) => [...m, { msg: option.replace("SCHED", "").split("MODEL")[0], author: "You" }]);
             setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line: true, zip: {} }]);
             setMenuButtons([])
+            setOptionButtons([])
             changeChoice(option);
         }
         else

@@ -10,6 +10,7 @@ import ExistingOwner from "./ExistingOwners/ExistingOwner";
 import DisplayInfo from "./DisplayInfo"
 import circleHenrai from "./henraicircle.jpg";
 import DeliveryRegistration from './DeliveryRegistration';
+import Feedback from "./Feedback";
 
 function extractLinkFromText(messageText, author, darkMode){
     const wordsArray = messageText.split(" ")
@@ -67,7 +68,7 @@ function dictate(message, toggleIsSpeaking) {
   speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, model, trim, orig}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, model, trim, orig, messages, setOptionButtons}){
   const textPartStyle = {
     display: "flex", flexDirection:"row",
     width:"100%",
@@ -114,8 +115,11 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
         <CarInfoTable data={carInfoData} mode={carInfoMode} intro={message} onCheckboxSelect={tableFunctions[0]} messageIndex={messageIndex} selectedCars={selectedCars} onCompare={tableFunctions[1]} onTableBack={tableFunctions[2]}/>
           </Fragment>}
         {
-          author==="Login" && <ExistingOwner setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput} justSelect={message.length>0} selectedCar={selectedCar}
-          setSelectedCar={setSelectedCar} hide={message.length==0}/>
+          author==="Login" && <ExistingOwner setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput} justSelect={message.length>0} selectedCar={selectedCar} 
+          setSelectedCar={setSelectedCar} hide={message.length==0} setOptionButtons={setOptionButtons}/>
+        }
+        {
+          author==="Feedback" && <Feedback messages={messages} setMessages={setMessages} setOptionButtons={setOptionButtons} setMenuButtons={setMenuButtons}/>
         }
     </div>
     </div>)

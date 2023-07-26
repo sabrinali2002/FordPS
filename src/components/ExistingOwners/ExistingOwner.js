@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 
 const auth = getAuth(firebase);
 
-function ExistingOwner({ setMessages, setMenuButtons, handleUserInput, justSelect, selectedCar, setSelectedCar, hide }) {
+function ExistingOwner({ setMessages, setMenuButtons, handleUserInput, justSelect, selectedCar, setSelectedCar, hide, setOptionButtons }) {
     const [user, loading, error] = useAuthState(auth);
     const [username, setUsername] = useState("");
 
@@ -25,7 +25,7 @@ function ExistingOwner({ setMessages, setMenuButtons, handleUserInput, justSelec
             redirect: "follow",
         };
 
-        let data = await fetch(`http://marketvalue.vinaudit.com/getmarketvalue.php?key=VA_DEMO_KEY&vin=${car.vin}&format=json&period=90&mileage=average`, requestOptions).then((response) => {
+        let data = await fetch(`https://marketvalue.vinaudit.com/getmarketvalue.php?key=VA_DEMO_KEY&vin=${car.vin}&format=json&period=90&mileage=average`, requestOptions).then((response) => {
             return response.json();
         });
         console.log(data)
@@ -57,6 +57,7 @@ function ExistingOwner({ setMessages, setMenuButtons, handleUserInput, justSelec
                     selectedCar={selectedCar}
                     setSelectedCar={setSelectedCar}
                     onResaleButton={handleResaleButton}
+                    setOptionButtons={setOptionButtons}
                 />
             ) : (
                 <Login username={username} setUsername={setUsername} />

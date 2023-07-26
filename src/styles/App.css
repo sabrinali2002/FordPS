@@ -169,7 +169,7 @@
 
 .model-box {
   justify-content: center;
-  height: 260px;
+  height: auto;
   width: 80%;
   background-color: rgb(205, 220, 232);
   border-radius: 15px;
@@ -190,6 +190,20 @@
   margin: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+.model-button-selected {
+  height: 120px;
+  width: 180px;
+  background-color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 10px;
+  text-align:center;
+  word-wrap:wrap;
+  overflow-wrap:wrap;  
+  margin: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: rgb(121, 118, 119);
+}
 
 .model-button:hover {
   background-color: rgb(121, 118, 119);
@@ -197,10 +211,10 @@
 
 .button-container {
   justify-content: center;
-  height: 160px;
+  height: auto;
   padding-left: 10px;
   margin-top: 15px;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   overflow-X: auto;
   white-space: nowrap;
 }

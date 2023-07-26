@@ -97,7 +97,7 @@ function HourComponent({ hour, selectedDate, callback }) {
   );
 }
 
-export default function Sched2({ callback, maintenanceMode, backButton }) {
+export default function Sched2({ callback, maintenanceMode="", backButton }) {
   const [now, setNow] = useState(new Date());
   const [currentHour, setCurrentHour] = useState(now.getHours());
   const [pendingSelectedDate, setPendingSelectedDate] = useState(now);

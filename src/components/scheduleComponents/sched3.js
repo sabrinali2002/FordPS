@@ -13,9 +13,9 @@ export default function Sched3({
   address,
   link,
   hours,
-  maintenanceMode,
-  trim,
-  model
+  maintenanceMode="",
+  trim="",
+  model=""
 }) {
   return (
     <div
@@ -187,7 +187,7 @@ export default function Sched3({
           >
             {maintenanceMode.length==0?"Trims to Test Drive":maintenanceMode+" for your "+trim+" "+model}
           </div>
-          <img src={model.lengh===0?"/bronco.png":`${images[model][trim]}`}></img>
+          <img src={model.length===0?"/bronco.png":`${images[trim.length>0?model:"Default"][trim.length>0?trim:model]}`} style={{ width: '300px'}}></img>
         </div>
         <div style={{ width: "100%" }}>
           <div
