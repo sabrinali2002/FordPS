@@ -9,7 +9,7 @@ import { getAuth } from "firebase/auth";
 
 const auth = getAuth(firebase);
 
-function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode, model, trim, backButton }) {
+function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode="", model="", trim="", backButton }) {
   const [hour, setHour] = useState(null);
   const [date, setDate] = useState(null);
   const [name, setName] = useState(null);
@@ -40,6 +40,7 @@ function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode, model
     setVis2(false);
     setVis3(true);
   };
+  console.log("APPT TIME"+model, trim)
   return ( 
     <div className="App">
       {vis1 && <Sched2 callback={handleCallback} maintenanceMode={maintenanceMode} backButton={backButton} />}

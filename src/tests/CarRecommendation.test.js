@@ -10,27 +10,27 @@ beforeAll(()=>{
 test('clicking on "Car recommendation" brings up "Ask my own questions" and "Questionnaire', async()=>{
     render(<App/>)
     
-    const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="menu button-standard")[0]
+    const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="button-small")[0]
     await userEvent.click(fordButton)
     
-    const carRecButton=screen.getAllByText('Car recommendation').filter(el=>el.className==="menu button-standard")[0]
+    const carRecButton=screen.getAllByText('Car recommendation').filter(el=>el.className==="button-small")[0]
     await userEvent.click(carRecButton)
   
     expect(screen.getByText("Happy to help! Do you have specific needs in mind, or would you like to fill out our questionnaire?")).toBeInTheDocument()
-    expect(screen.getAllByText('Ask my own questions').filter(el=>el.className==="menu button-standard")[0]).toBeInTheDocument()
-    expect(screen.getAllByText('Take questionnaire').filter(el=>el.className==="menu button-standard")[0]).toBeInTheDocument()
+    expect(screen.getAllByText('Ask my own questions').filter(el=>el.className==="button-small")[0]).toBeInTheDocument()
+    expect(screen.getAllByText('Take questionnaire').filter(el=>el.className==="button-small")[0]).toBeInTheDocument()
 })
 
 test('clicking "Questionnaire" brings up budget question', async()=>{
     render(<App/>)
     
-    const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="menu button-standard")[0]
+    const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="button-small")[0]
     await userEvent.click(fordButton)
     
-    const carRecButton=screen.getAllByText('Car recommendation').filter(el=>el.className==="menu button-standard")[0]
+    const carRecButton=screen.getAllByText('Car recommendation').filter(el=>el.className==="button-small")[0]
     await userEvent.click(carRecButton)
 
-    const questionnaireButton=screen.getAllByText('Take questionnaire').filter(el=>el.className==="menu button-standard")[0]
+    const questionnaireButton=screen.getAllByText('Take questionnaire').filter(el=>el.className==="button-small")[0]
     await userEvent.click(questionnaireButton)
     
     expect(screen.getByText("Great! What is your budget range for purchasing a car?")).toBeInTheDocument()
@@ -40,13 +40,13 @@ test('clicking "Questionnaire" brings up budget question', async()=>{
 test('inputting budget brings up type of vehicle question', async()=>{
     render(<App/>)
     
-    const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="menu button-standard")[0]
+    const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="button-small")[0]
     await userEvent.click(fordButton)
     
-    const carRecButton=screen.getAllByText('Car recommendation').filter(el=>el.className==="menu button-standard")[0]
+    const carRecButton=screen.getAllByText('Car recommendation').filter(el=>el.className==="button-small")[0]
     await userEvent.click(carRecButton)
 
-    const questionnaireButton=screen.getAllByText('Take questionnaire').filter(el=>el.className==="menu button-standard")[0]
+    const questionnaireButton=screen.getAllByText('Take questionnaire').filter(el=>el.className==="button-small")[0]
     await userEvent.click(questionnaireButton)
     
     const budgetInput=screen.getByLabelText('Ask me anything...')
@@ -58,13 +58,13 @@ test('inputting budget brings up type of vehicle question', async()=>{
 test('inputting type of vehicle brings up usage question', async()=>{
     render(<App/>)
     
-    const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="menu button-standard")[0]
+    const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="button-small")[0]
     await userEvent.click(fordButton)
     
-    const carRecButton=screen.getAllByText('Car recommendation').filter(el=>el.className==="menu button-standard")[0]
+    const carRecButton=screen.getAllByText('Car recommendation').filter(el=>el.className==="button-small")[0]
     await userEvent.click(carRecButton)
 
-    const questionnaireButton=screen.getAllByText('Take questionnaire').filter(el=>el.className==="menu button-standard")[0]
+    const questionnaireButton=screen.getAllByText('Take questionnaire').filter(el=>el.className==="button-small")[0]
     await userEvent.click(questionnaireButton)
     
     const budgetInput=screen.getByLabelText('Ask me anything...')
@@ -79,13 +79,13 @@ test('inputting type of vehicle brings up usage question', async()=>{
 test('inputting usage brings up passenger question', async()=>{
     render(<App/>)
     
-    const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="menu button-standard")[0]
+    const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="button-small")[0]
     await userEvent.click(fordButton)
     
-    const carRecButton=screen.getAllByText('Car recommendation').filter(el=>el.className==="menu button-standard")[0]
+    const carRecButton=screen.getAllByText('Car recommendation').filter(el=>el.className==="button-small")[0]
     await userEvent.click(carRecButton)
 
-    const questionnaireButton=screen.getAllByText('Take questionnaire').filter(el=>el.className==="menu button-standard")[0]
+    const questionnaireButton=screen.getAllByText('Take questionnaire').filter(el=>el.className==="button-small")[0]
     await userEvent.click(questionnaireButton)
     
     const budgetInput=screen.getByLabelText('Ask me anything...')

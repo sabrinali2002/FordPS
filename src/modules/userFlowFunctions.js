@@ -6,7 +6,7 @@ import handlePaymentFlow from "./user_flows/handlePaymentFlow";
 import handleInfoFlow from "./user_flows/handleInfoFlow";
 import { BiRegistered } from "react-icons/bi";
 import images from "../images/image_link.json";
-
+import Checkbox from '@mui/material/Checkbox';
 
 export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACarButtons,setCalcButtons,model,setModel,calcButtonHandler,setCalcStep,trim,setQuery,blockQueries,setResponse,setShowCalcButtons,setCalcHeadingText,setInfoMode,cat,setCat, setOptionButtons) {
     return (option) => {
@@ -122,9 +122,9 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
 }
 
 export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,handleMoreInfo,handleCarInfoButton,fixTrimQueryQuotation,query,dealerList,carInfoData,setCarInfoData,extractFiveDigitString,findLocations,handleUserInput,blockQueries,choice,setQuery,zipMode,setZipCode,messages,setMessages,setZipMode,setDistance,
-    setCalcButtons,calcButtonHandler,zipCode,distance,findMode,selectHandler,setFind,appendSelect, setSelect,questionnaireStep,
+    setCalcButtons,zipCode,distance,findMode,setFind,setSelect,questionnaireStep,
     setQuestionnaireAnswers,setQuestionnaireStep,questionnaireAnswers,setForceUpdate,forceUpdate,calcStep,model,setModel,setCalcStep, trim,setTrim,calcMode,setCalcMode,setLeaseStep,setFinanceStep,leaseStep,financeStep,
-    changeChoice,history,setHistory,infoMode,setInfoMode,vehicle,setVehicle,showCalcButtons,setShowCalcButtons,calcHeadingText,setCalcHeadingText,payment,setPayment,setMenuButtons,locateDealershipsFn,changeSelected,setDealers,selected,cat,setCat,setOptionButtons
+    changeChoice,history,setHistory,infoMode,setInfoMode,vehicle,setVehicle,setShowCalcButtons,setCalcHeadingText,payment,setPayment,setMenuButtons,locateDealershipsFn,changeSelected,setDealers,selected,cat,setOptionButtons, changeFind
 ) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
@@ -213,6 +213,8 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
                 blockQueries.current = false;
                 break;
             }
+            blockQueries.current = false;
+            break;
           case 'A':
             setQuery("");
             sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
@@ -236,11 +238,15 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
                     setShowCalcButtons(true);
                     setCalcButtons(
                         Object.keys(trims).map((model) => (
-                            <button className="model-button" key={model} value={model} onClick={selectHandler}>
+                            <button className="model-button" key={model} value={model} onClick={()=>{
+                                setQuery(model);
+                                setModel(model);
+                                setCalcButtons([]);
+                                setFind(1);
+                                }}>
                                 <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} />
                                 <br />
                                 {model}
-                                <BiRegistered />
                             </button>
                         )));
                     setFind(1);
@@ -248,11 +254,40 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
             }
               else if(findMode === 1){
                   setShowCalcButtons(true);
-                  setCalcButtons(trims[query].map(trim => (
-                    <button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
+                  setCalcButtons(<div>
+                    {   
+                    trims[query].map(trim => (
+                    <button className='model-button' style={{backgroundColor: selected[model].includes(trim)?'red':'white'}} key={trim} value={trim} onClick={()=>{
+                        let copy, copy2
+                        if (trim in selected[model]) {
+                            copy = selected[model];
+                            delete copy[trim];
+                            copy2 = selected;
+                            delete copy2[model];
+                            copy2[model] = copy;
+                            changeSelected(copy2);
+                          } else {
+                            copy = selected[model];
+                            copy.push(trim);
+                            copy2 = selected;
+                            delete copy2[model];
+                            copy2[model] = copy;
+                            changeSelected(copy2);
+                          }
+                          setForceUpdate(!forceUpdate)
+                          console.log(copy2, selected[model].includes(trim))
+                    }}>
+                        {trim}
+                    </button>
                     // trims[query].contains(trim)) ? <button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
                     // : <button className='model-button-selected' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
-                  )))
+                  ))
+                }
+                <div>
+              <button className="button-small" onClick= {changeFind}>back</button>
+              <button className="button-small" onClick = {locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons, model, selected[model][0])}>Locate the nearest dealerships</button>
+            </div>
+                </div>)
                   setSelect(true);
               }
               blockQueries.current = false;

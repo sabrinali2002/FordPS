@@ -2,6 +2,7 @@ import data from '../images/image_link.json'
 import dealerships from "../jsons/trimToDealer.json"
 
 export default function DisplayInfo({ info , handler }) {
+  console.log("info:", info)
   return (
     <div
       style={{
@@ -28,7 +29,7 @@ export default function DisplayInfo({ info , handler }) {
               boxShadow: "0 4px 2px -2px gray"
             }}
           >
-            <img src={data[info.model][info.trim]} alt={info.model}></img>
+            <img src={data[info.model][info.trim]} alt={info.model} style={{width:"340px"}}></img>
           </div>
           <div style={{ marginLeft: "20px", marginTop: "10px"}}>
             <h2 style = {{ marginBottom:"20px"}}>
@@ -78,16 +79,16 @@ export default function DisplayInfo({ info , handler }) {
               <strong>Your Vehicle</strong>
             </h2>
             <h3 style={{ fontSize: "20px" }}>
-              <strong>Engine</strong>{" " + info["engine_aspiration"]}
+              <strong>Engine:</strong>{" " + info["engine_aspiration"]}
             </h3>
             <h3 style={{ fontSize: "20px" }}>
-              <strong>Drivetrain</strong>{" " + info["drivetrain"]}
+              <strong>Drivetrain:</strong>{" " + info["drivetrain"]}
             </h3>
             <h3 style={{ fontSize: "20px" }}>
-              <strong>Transmission</strong>{" " + info["transmission"]}
+              <strong>Transmission:</strong>{" " + info["transmission"]}
             </h3>
             <h3 style={{ fontSize: "20px", marginBottom:"30px" }}>
-              <strong>Body Style</strong>{" " + info["body_style"]}
+              <strong>Body Style:</strong>{" " + info["body_style"]}
             </h3>
             </div>
             <div style={{ textAlign: "left", margin: "3px" }}>
@@ -96,9 +97,9 @@ export default function DisplayInfo({ info , handler }) {
         </button>
         </div>
             <div style={{ textAlign: "right", paddingRight: "10px", margin: "3px" }}>
-        <button style={{ float: "right" }}>
+        {/* <button style={{ float: "right" }}>
           <u>Detailed info</u>&#10148;
-        </button>
+        </button> */}
       </div>
           </div>
         </div>

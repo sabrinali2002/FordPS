@@ -27,7 +27,7 @@ import Sched3 from './scheduleComponents/sched3';
 
 //import { scheduler } from "timers/promises";
 
-function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, selectedTrim }) {
+function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="", selectedTrim="" }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
@@ -484,7 +484,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
   }
   const findLatLong = (zip) => {
     const s =
-      "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q=" +
+      "https://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q=" +
       zip;
     return fetch(s)
       .then((response) => response.json())

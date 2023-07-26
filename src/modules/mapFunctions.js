@@ -46,7 +46,7 @@ export const findLocationsGiven = async (query, distance, dealers) => {
 }
 //finds the longitude and latitude of the user
 const findLatLong = (zip) => {
-    const s = "http://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
+    const s = "https://api.weatherapi.com/v1/current.json?key=c722ececb1094322a31191318231606&q="+zip;
     return fetch(s).then((response)=>response.json()).then((data) => {
         let latitude = data.location.lat;
         let longitude = data.location.lon;
@@ -131,7 +131,8 @@ export const findLocations = async (query, distance) => {
       setFind(1);
     };
   }
-  export const locateDealershipsFn=function(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons) {
+  export const locateDealershipsFn=function(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons, model="", trim="") {
+    console.log("HERE"+model, trim)
     return () => {
       //go through the dealerships that have the cars we want
       //pass in the list of dealership names
@@ -148,14 +149,13 @@ export const findLocations = async (query, distance) => {
       }
       setDealers(dealers);
       findLocationsGiven(zipCode,distance, dealers).then(loc=>{
-        setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers}}]);
+        setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers, model: model, trim: trim}}]);
           setZipMode(0);
   })
   setCalcButtons([]);
   setShowCalcButtons(false);
   setSelect(false);
   setFind(0);
-  changeSelected({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]});
   };
   }
 

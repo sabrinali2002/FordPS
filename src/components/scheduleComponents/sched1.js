@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from "react";
 import images from "../../images/image_link.json";
+import { TextField } from "@mui/material";
 
-export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode="", model="", trim="", backButton, dispName, userEmail }) {
+export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode="", model="", trim="", backButton, dispName="", userEmail="" }) {
   const [time1, setTime1] = useState(null);
   const [date1, setDate1] = useState(null);
   const [name, setName] = useState(dispName);
   const [email, setEmail] = useState(userEmail);
   const [notes, setNotes] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  function checkForValidEmail(email){
+    return email.split("@").length===2 && email.split("@")[1].split(".").length===2
+  }
+
+  function checkForValidUsername(username){
+      return username.match("^[A-Za-z ]+$");
+  }
+
+  function checkForValidPhoneNumber(phoneNum){
+    return phoneNum.length===10 && phoneNum.match("^[0-9]+$");
+  }
   useEffect(() => {
     if (time && date) {
       setTime1(time);
@@ -96,68 +108,58 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
           >
             Or login/create a Ford account{" "}
           </a>}
-          <input
+
+          <TextField
+          error={name.length>0 && !checkForValidUsername(name)}
           value={name}
             onChange={(e) => setName(e.target.value)}
-            style={{
-              backgroundColor: "white",
-              borderRadius: 5,
+            sx={{
+              input: { boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", backgroundColor: 'white' },
               width: 400,
-              height: 40,
               border: "none",
-              marginBottom: 10,
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
               fontSize: 18,
-              paddingLeft: 5,
             }}
-            placeholder=" Name*"
-          ></input>
-          <input
+            margin="dense"
+            label=" Name*"
+            helperText={name.length>0 && !checkForValidUsername(name)?"Please enter a valid name":""}
+          ></TextField>
+          <TextField
           value={email}
+          error={email.length>0 && !checkForValidEmail(email)}
+            helperText={email.length>0 && !checkForValidEmail(email)?"Please enter a valid email":""}
             onChange={(e) => setEmail(e.target.value)}
-            style={{
-              backgroundColor: "white",
-              borderRadius: 5,
+            sx={{
+              input: { boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", backgroundColor: 'white' },
               width: 400,
-              height: 40,
               border: "none",
-              marginBottom: 10,
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
               fontSize: 18,
-              paddingLeft: 5,
             }}
-            placeholder=" Email*"
+            margin="dense"
+            label=" Email*"
           />
-          <input
+          <TextField
             onChange={(e) => setPhoneNumber(e.target.value)}
-            style={{
-              backgroundColor: "white",
-              borderRadius: 5,
+            sx={{
+              input: { boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", backgroundColor: 'white' },
               width: 400,
-              height: 40,
               border: "none",
-              marginBottom: 10,
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
               fontSize: 18,
-              paddingLeft: 5,
             }}
-            placeholder=" Phone number*"
+            margin="dense"
+            error={phoneNumber.length>0 && !checkForValidPhoneNumber(phoneNumber)}
+            helperText={phoneNumber.length>0 && !checkForValidPhoneNumber(phoneNumber)?"Please enter a valid phone number":""}
+            label=" Phone number*"
           />
-          <input
+          <TextField
             onChange={(e) => setNotes(e.target.value)}
-            style={{
-              backgroundColor: "white",
-              borderRadius: 5,
+            sx={{
+              input: { boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", backgroundColor: 'white' },
               width: 400,
-              height: 50,
               border: "none",
-              marginBottom: 10,
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
               fontSize: 18,
-              paddingLeft: 5,
-              marginBottom: 50,
             }}
-            placeholder=" Notes/Requests"
+            margin="dense"
+            label=" Notes/Requests"
           />
         </div>
         <div
@@ -183,7 +185,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
           <div style={{ marginTop: 10, marginBottom: 10, color: "#575757" }}>
           {maintenanceMode.length===0?"limited to 2 cars to test drive during your appointment.":"Your "+model+" "+trim}
           </div>
-          <img src={model.length===0?"/bronco.png":`${images[model][trim]}`} style={{ alignSelf: "start", width: '300px' }}></img>
+          <img src={model.length===0?"/bronco.png":`${images[trim.length>0?model:"Default"][trim.length>0?trim:model]}`} style={{ alignSelf: "start", width: '300px' }}></img>
           {maintenanceMode.length==0 && <div style={{ marginBottom: 0, marginTop: 10 }}>
             <a
               href="https://www.example.com"
@@ -195,7 +197,13 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
             </a>
           </div>}
           <button
-            onClick={() => handleAppointment(name, email, phoneNumber, notes)}
+            onClick={() => {
+              if(name.length===0 || email.length===0 || phoneNumber.length===0 || !checkForValidEmail(email) || !checkForValidPhoneNumber(phoneNumber) || !checkForValidUsername(name)){
+                alert("Please fill out all required fields with valid information")
+                return
+              }
+              handleAppointment(name, email, phoneNumber, notes)
+            }}
             style={{
               marginTop: 0,
               color: "white",
