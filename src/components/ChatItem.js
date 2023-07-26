@@ -9,6 +9,7 @@ import CarInfoDropdownSection from "./CarInfoDropdownSection";
 import ExistingOwner from "./ExistingOwners/ExistingOwner";
 import DisplayInfo from "./DisplayInfo"
 import circleHenrai from "./henrai.jpg";
+import Feedback from "./Feedback";
 
 function extractLinkFromText(messageText, author, darkMode){
     const wordsArray = messageText.split(" ")
@@ -66,7 +67,7 @@ function dictate(message, toggleIsSpeaking) {
   speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, setOptionButtons}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, messages, setOptionButtons}){
   const textPartStyle = {
     display: "flex", flexDirection:"row",
     width:"100%",
@@ -112,6 +113,9 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
         {
           author==="Login" && <ExistingOwner setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput} justSelect={message.length>0} selectedCar={selectedCar} 
           setSelectedCar={setSelectedCar} hide={message.length==0} setOptionButtons={setOptionButtons}/>
+        }
+        {
+          author==="Feedback" && <Feedback messages={messages} setMessages={setMessages} setOptionButtons={setOptionButtons} setMenuButtons={setMenuButtons}/>
         }
     </div>
     </div>)
