@@ -86,7 +86,27 @@ const Feedback = ({ messages, setMessages, setOptionButtons, setMenuButtons }) =
         setOptionButtons([])
         setTimeout(()=>{window.location.href="javascript:history.back()"}, 3000)
     };
-
+    
+    const updateAverage = (arr) => {
+        let satisfactionSum = 0;
+        let difficultySum = 0;
+        let helpfulnessSum = 0;
+        let speedSum = 0;
+        const len = arr.length;
+        for(const item of arr) {
+            satisfactionSum += item.satisfaction;
+            difficultySum += item.difficulty;
+            helpfulnessSum += item.helpfulness;
+            speedSum += item.speed;
+        }
+        const average = {
+            satisfaction: satisfactionSum / len,
+            difficulty: difficultySum / len,
+            helpfulness: helpfulnessSum / len,
+            speed: speedSum / len
+        }
+        set(ref(database, "averageRatings/"), average);
+    }
     const handleRatingSubmit = async (satisfaction, difficulty, helpfulness, speed) => {
         const ratingData = {
             satisfaction: satisfaction,
@@ -104,6 +124,7 @@ const Feedback = ({ messages, setMessages, setOptionButtons, setMenuButtons }) =
             oldArr = [];
         }
         const newArr = [...oldArr, ratingData];
+        updateAverage(newArr);
         set(ref(database, "ratings/"), newArr);
         setDisplaySurvey(false);
         setMessages((m) => {
@@ -120,6 +141,7 @@ const Feedback = ({ messages, setMessages, setOptionButtons, setMenuButtons }) =
         setOptionButtons(transcriptButtons);
         setMenuButtons([]);
     };
+
     
     const transcriptButtons = (
         <div className="option-buttons">
