@@ -31,15 +31,12 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         if (trim === '') {
             setTrim(query);
         }
-        //setCalcHeadingText('Choose purchase type');
         const options = ['Lease', 'Finance', 'Buy'];
         setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat", line: true }]);
-        //setShowCalcButtons(true);
         setOptionButtons(<div className='option-buttons'>
             {options.map(option => (<button className='button-small' key={option} value={option} 
                 onClick={() => 
                     {setQuery(option);
-                        setCalcMode(option);
                         setMessages((m) => [...m, { msg: option, author: "You" }]);
                         setOptionButtons([]);}}>{option}</button>))}
         </div>);
@@ -47,7 +44,6 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         setCalcStep(3);
         break;
     case 3:
-        //setShowCalcButtons(false);
         setPayment(carPrices[model][trim]);
         switch (calcMode) {
             case 0:

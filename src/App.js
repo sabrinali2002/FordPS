@@ -115,7 +115,6 @@ function App() {
     const blockQueries = useRef(false);
     const recognition = useRef(null);
     //map functions -------------------------------------------------------->
-
   const [distance, setDistance] = useState("10");
   const [findMode, setFind] = useState(0);
   const [selectMode, setSelect] = useState(false);
@@ -123,103 +122,186 @@ function App() {
   const [dealerList, setDealers] = useState(s);
   const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
   
-  const messagesEndRef = useRef(null)
+  const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages]);
-  
-  const handleMenuClick = (parameter) => {
-    handleUserInput(parameter);
-    if(parameter!=="A")
-    setMenuButtons([]);
-    setOptionButtons([]);
-    setCalcButtons([]);
-    setShowCalcButtons(false);
-    // Perform any other logic or function in the parent component using the parameter
+      if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
-  const origButtons = (
-    <div className="buttons">
-      <button className = "menu button-standard" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You"}]})
-        setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]})
-        setMenuButtons(buyingFordButtons)
-        }}>Buying a Ford</button>
-      <button className = "menu button-standard" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]})
-        setMessages(m=>{return [...m, {msg: "", author: "Login"}]})
-        }}>I'm an Existing Owner</button>
-      <button className = "menu button-standard" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
-        }}>Info about Ford</button>
-      <button className = "menu button-standard" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Know my car's price", author: "You"}]});
-        setMessages(m=>{return [...m, {msg: "What type of car would you like to know the price for?", author: "Ford Chat"}]});
-        setMenuButtons(myPriceButtons);
-        }}>Know My Car's Price</button>
-    </div>
-  );
+  useEffect(() => {
+      scrollToBottom();
+  }, [messages]);
 
-  const myPriceButtons = (
-    <div className="buttons">
-        <button className="menu button-standard" onClick={() => {
-            handleUserInput('electric');
-            setMenuButtons([]);
-        }}>Electric vehicles</button>
-        <button className="menu button-standard" onClick={() => {
-            handleUserInput('combustion');
-            setMenuButtons([]);
-        }}>Combustion vehicles with negotiation assistance</button>
-    </div>
-  )
-  const buyingFordButtons = (
-    <div className = "buttons">
-       <button className = "menu button-standard" onClick={() => {
-        handleUserInput('I');
+  const handleMenuClick = (parameter) => {
         setMenuButtons([]);
-        }}>Info about a specific car</button>
-      <button className = "menu button-standard" onClick={() => {
-        handleUserInput('A');
-        }}>Car recommendation</button>
-      <button className = "menu button-standard" onClick={() => {
-        handleUserInput('D');
-        setMenuButtons([]);
-        }}>Car pricing estimator</button>
-      <button className = "menu button-standard" onClick={() => {
-        handleUserInput('B');
-        setMenuButtons([]);
-        }}>Find a dealership</button>
-      <button className = "menu button-standard" onClick={() => {
-        handleUserInput('C');
-        setMenuButtons([]);
-        }}>Schedule a test drive</button>
-    </div>
-  )
-  const buyACarButtons = (
-    <div className="buttons">
-      <button className="menu button-standard" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
-        changeChoice("A");
-        setMenuButtons([])
-        }}>Ask my own questions</button>
-      <button className="menu button-standard" onClick={()=>{
-        setMessages((m) => [...m,{ msg: "Take questionnaire", author: "You", line: true }]);
-        setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
-        changeChoice("Q");
-        setMenuButtons([])
-        setQuestionnaireStep(1)
-      }}>Take questionnaire</button>
-    </div>
-  );
-  const [menuButtons, setMenuButtons] = useState(origButtons);
+        setShowCalcButtons(false);
+        setModel("");
+        setTrim("");
+        setInfoMode(0);
+        setQuery("");
+        handleUserInput(parameter);
+        // Perform any other logic or function in the parent component using the parameter
+    };
+    const origButtons = (
+        <div className="buttons">
+            <button
+                className="menu button-standard"
+                onClick={() => {
+                    setMessages((m) => {
+                        return [...m, { msg: "Buying a Ford", author: "You", line: true }];
+                    });
+                    setMessages((m) => {
+                        return [...m, { msg: "What info would you like to know?", author: "Ford Chat", line: true }];
+                    });
+                    setMenuButtons(buyingFordButtons);
+                }}
+            >
+                Buying a Ford
+            </button>
+            <button
+                className="menu button-standard"
+                onClick={() => {
+                    setMessages((m) => {
+                        return [...m, { msg: "I'm an Existing Owner", author: "You" }];
+                    });
+                    setMessages((m) => {
+                        return [...m, { msg: "", author: "Login" }];
+                    });
+                }}
+            >
+                I'm an Existing Owner
+            </button>
+            <button
+                className="menu button-standard"
+                onClick={() => {
+                    setMessages((m) => {
+                        return [...m, { msg: "Info about Ford", author: "You", line: true }];
+                    });
+                }}
+            >
+                Info about Ford
+            </button>
+            
+        <button className = "menu button-standard" onClick={()=>{
+            setMessages(m=>{return [...m, {msg: "Know my car's price", author: "You"}]});
+            setMessages(m=>{return [...m, {msg: "What type of car would you like to know the price for?", author: "Ford Chat"}]});
+            setMenuButtons(myPriceButtons);
+        }}>Know My Car's Price</button>
+        </div>
+    );
+
+    const myPriceButtons = (
+        <div className="buttons">
+            <button className="menu button-standard" onClick={() => {
+                handleUserInput('electric');
+                setMenuButtons([]);
+            }}>Electric vehicles</button>
+            <button className="menu button-standard" onClick={() => {
+                handleUserInput('combustion');
+                setMenuButtons([]);
+            }}>Combustion vehicles with negotiation assistance</button>
+        </div>
+      )
+
+    const buyingFordButtons = (
+        <div className="buttons">
+          <button
+                className="menu button-standard"
+                onClick={() => {
+                  setMenuButtons([origButtons])
+                }}
+            >
+                Back
+            </button>
+            <button
+                className="menu button-standard"
+                onClick={() => {
+                    handleUserInput("I");
+                    setMenuButtons([]);
+                }}
+            >
+                Info about a specific car
+            </button>
+            <button
+                className="menu button-standard"
+                onClick={() => {
+                    handleUserInput("A");
+                }}
+            >
+                Car recommendation
+            </button>
+            <button
+                className="menu button-standard"
+                onClick={() => {
+                    handleUserInput("D");
+                    setMenuButtons([]);
+                }}
+            >
+                Car pricing estimator
+            </button>
+            <button
+                className="menu button-standard"
+                onClick={() => {
+                    handleUserInput("B");
+                    setMenuButtons([]);
+                }}
+            >
+                Find a dealership
+            </button>
+            <button
+                className="menu button-standard"
+                onClick={() => {
+                    handleUserInput("C");
+                    setMenuButtons([]);
+                }}
+            >
+                Schedule a test drive
+            </button>
+        </div>
+    );
+    const buyACarButtons = (
+        <div className="buttons">
+          <button
+                className="menu button-standard"
+                onClick={() => {
+                  setMenuButtons(buyingFordButtons);
+                }}
+            >
+                Back
+            </button>
+            <button
+                className="menu button-standard"
+                onClick={() => {
+                    setMessages((m) => {
+                        return [...m, { msg: "Great! What kind of car are you looking for?", author: "Ford Chat" }];
+                    });
+                    changeChoice("A");
+                    setMenuButtons([]);
+                }}
+            >
+                Ask my own questions
+            </button>
+            <button
+                className="menu button-standard"
+                onClick={() => {
+                    setMessages((m) => [...m, { msg: "Take questionnaire", author: "You", line: true }]);
+                    setMessages((m) => {
+                        return [...m, { msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat" }];
+                    });
+                    changeChoice("Q");
+                    setMenuButtons([]);
+                    setQuestionnaireStep(1);
+                }}
+            >
+                Take questionnaire
+            </button>
+        </div>
+    );
+    const [menuButtons, setMenuButtons] = useState(origButtons);
     //map functions -------------------------------------------------------->
-    const selectHandler = selectHandlerFn(setQuery, setModel, setCalcButtons, setFind);
-    const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode);
-    const changeFind = changeFindFn(setFind, setSelect, setCalcButtons, selectHandler);
-    const appendSelect = appendSelectFn(selected, model, changeSelected);
-    const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons, setShowCalcButtons);
+  const selectHandler = selectHandlerFn(setQuery, setModel, setCalcButtons, setFind);
+  const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons);
+  const changeFind = changeFindFn(setFind, setSelect, setCalcButtons, selectHandler);
+  const appendSelect = appendSelectFn(selected, model, changeSelected);
+  const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons,setShowCalcButtons);
     //Car Info functions  -------------------------------------------------------------
     let compareTrimOptions =
         compareModel === "" || compareModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[compareModel].map((trim) => ({ value: trim, label: trim }));
@@ -567,7 +649,8 @@ function App() {
                             dura,
                             setDura,
                             down,
-                            setDown);
+                            setDown,
+                            changeFind);
                       }
                     }
                     }><u style={{position:'relative',marginLeft:'0px',bottom:'0px',fontSize:'12px'}}>Back</u></button>}

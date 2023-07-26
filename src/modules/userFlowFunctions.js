@@ -42,6 +42,7 @@ export function handleUserInputFn(
         else
         switch (option) {
             case "I":
+              setInfoMode(0);
                 if (cat === "") {
                     setMessages((m) => [...m, { msg: "Info on a specific car", author: "You", line: true, zip: {} }]);
                     setMessages((m) => [...m, { msg: "Please select a model/trim of the specific car you're looking for", author: "Ford Chat", line: true, zip: "" }]);
@@ -244,6 +245,7 @@ export function handleUserFlow(
     setDura,
     down,
     setDown,
+    changeFind
 ) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
@@ -274,10 +276,9 @@ export function handleUserFlow(
             case "request":
               handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, true,model,trim);
               blockQueries.current = false;
-            case "I":
+              case "I":
                 if (infoMode === 1) {
                     setCalcHeadingText("Choose specific model");
-                    console.log(vehicles[cat]);
                     setCalcButtons(
                         Object.keys(vehicles[cat]).map((model) => (
                             <button
@@ -294,10 +295,11 @@ export function handleUserFlow(
                                 <br />
                                 {model}
                             </button>
-                        ))
-                    );
+                        )));
                     setVehicle(query);
-                } else if (infoMode === 2) {
+                    blockQueries.current = false;
+                    break;}
+                else if(infoMode === 2){
                     setCalcHeadingText(query + ": Choose specific trim");
                     setCalcButtons(
                         vehicles[vehicle][model].map((trim) => (
@@ -306,215 +308,209 @@ export function handleUserFlow(
                                 key={trim}
                                 value={trim}
                                 onClick={() => {
-                                    setTrim(trim);
-                                    handleInfoFlow(
-                                        handleMoreInfo,
-                                        tableForceUpdate,
-                                        setTableForceUpdate,
-                                        forceUpdate,
-                                        setForceUpdate,
-                                        handleCarInfoButton,
-                                        model,
-                                        trim,
-                                        setMessages,
-                                        setModel,
-                                        setQuery,
-                                        setInfoMode,
-                                        setCalcButtons,
-                                        setMenuButtons,
-                                        handleUserInput,
-                                        setShowCalcButtons,
-                                        setCarInfoData,
-                                        infoMode,
-                                        selected,
-                                        changeSelected,
-                                        setDealers,
-                                        locateDealershipsFn,
-                                        setSelect,
-                                        setFind,
-                                        query,
-                                        setZipMode,
-                                        setOptionButtons
+                                    handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
+                                        setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
+                                        infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons
                                     );
+                                    setTrim(trim);
                                 }}
                             >
                             <img style={{ width: "160px", height: "auto" }} src={images[model][trim]}/>
                               <br />{trim}
-                          </button>
-                        ))
-                    );
+                          </button>)));
+                          blockQueries.current = false;
+                          break;
                 }
-                // } else if (infoMode === 3) {
-                //     handleInfoFlow(
-                //         model,
-                //         trim,
-                //         setMessages,
-                //         setModel,
-                //         setQuery,
-                //         setInfoMode,
-                //         setCalcButtons,
-                //         setMenuButtons,
-                //         handleUserInput,
-                //         setShowCalcButtons,
-                //         setCarInfoData,
-                //         infoMode,
-                //         selected,
-                //         changeSelected,
-                //         setDealers
-                //     );
-                // } else if (infoMode === 4) {
-                //     handleInfoFlow(
-                //         model,
-                //         trim,
-                //         setMessages,
-                //         setModel,
-                //         setQuery,
-                //         setInfoMode,
-                //         setCalcButtons,
-                //         setMenuButtons,
-                //         handleUserInput,
-                //         setShowCalcButtons,
-                //         setCarInfoData,
-                //         infoMode,
-                //         selected,
-                //         changeSelected,
-                //         setDealers,
-                //         locateDealershipsFn,
-                //         setSelect,
-                //         setFind,
-                //         query,
-                //         setZipMode
-                //     );
-                // }
+                else if(infoMode === 3){
+                  handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
+                    setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
+                    infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons);
+                  blockQueries.current = false;
+                break;
+                }
+                else if(infoMode === 4){
+                  handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton, model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
+                  blockQueries.current = false;
+                  break;
+                }
+                else if(infoMode === 10){
+                    setCalcStep(2);
+                    changeChoice('D');
+                    handlePaymentFlow(calcStep,model,setModel,query,setQuery,
+                        setMessages,setMenuButtons,setCalcButtons,blockQueries,setCalcStep,trim,setTrim,calcMode,
+                        setCalcMode,setLeaseStep,setFinanceStep,leaseStep,financeStep,changeChoice,
+                        setShowCalcButtons,setCalcHeadingText,payment,setPayment,origButtons,setOptionButtons
+                    );
+                    blockQueries.current = false;
+                    break;
+                }
                 blockQueries.current = false;
                 break;
-            case "A":
+              case 'A':
                 setQuery("");
                 sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
                 break;
-            case "B": {
+              case "B": {
+                setZipMode(1);
                 handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance);
                 blockQueries.current = false;
                 break;
-            }
-            case "C": {
-                if (findMode === 0) {
-                    setZipCode(query);
-                    setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you are looking for.", author: "Ford Chat", line: true, zip: "" }]);
-                    setShowCalcButtons(true);
-                    setCalcButtons(
-                        Object.keys(trims).map((model) => (
-                            <button className="model-button" key={model} value={model} onClick={selectHandler}>
-                                {model}
-                                <img style={{ width: "160px", height: "auto" }} src={images[model]} />
-                                <br />
-                                {model}
-                                <BiRegistered />
-                            </button>
-                        ))
-                    );
-                    setFind(1);
-                } else if (findMode === 1) {
-                    setShowCalcButtons(true);
-                    setCalcButtons(
-                        trims[query].map((trim) => (
-                            <button className="model-button" key={trim} value={trim} onClick={appendSelect}>
-                                {trim}
-                            </button>
-                        ))
-                    );
-                    setSelect(true);
+              }
+              case "C":
+                {
+                  if(findMode === 0){
+                    const numberRegex = /\d+/g;
+                    if(extractFiveDigitString(query)===null || query.match(numberRegex)[0].length != 5){
+                      setMessages((m)=>[...m,{msg: "Please input a valid zipcode", author: "Ford Chat", line:false,zip:""}]);
+                    }
+                    else{
+                        setZipCode(query);
+                        setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you are looking for.", author: "Ford Chat", line: true, zip: "" }]);
+                        setShowCalcButtons(true);
+                        setCalcButtons(
+                            Object.keys(trims).map((model) => (
+                                <button className="model-button" key={model} value={model} onClick={()=>{
+                                    setQuery(model);
+                                    setModel(model);
+                                    setCalcButtons([]);
+                                    setFind(1);
+                                    }}>
+                                    <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} />
+                                    <br />
+                                    {model}
+                                </button>
+                            )));
+                        setFind(1);
+                    }
                 }
-                blockQueries.current = false;
-                break;
+                  else if(findMode === 1){
+                      setShowCalcButtons(true);
+                      setCalcButtons(<div>
+                        {   
+                        trims[query].map(trim => (
+                        <button className='model-button' style={{backgroundColor: selected[model].includes(trim)?'red':'white'}} key={trim} value={trim} onClick={()=>{
+                            let copy, copy2
+                            if (trim in selected[model]) {
+                                copy = selected[model];
+                                delete copy[trim];
+                                copy2 = selected;
+                                delete copy2[model];
+                                copy2[model] = copy;
+                                changeSelected(copy2);
+                              } else {
+                                copy = selected[model];
+                                copy.push(trim);
+                                copy2 = selected;
+                                delete copy2[model];
+                                copy2[model] = copy;
+                                changeSelected(copy2);
+                              }
+                              setForceUpdate(!forceUpdate)
+                              console.log(copy2, selected[model].includes(trim))
+                        }}>
+                            {trim}
+                        </button>
+                        // trims[query].contains(trim)) ? <button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
+                        // : <button className='model-button-selected' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
+                      ))
+                    }
+                    <div>
+                  <button className="button-small" onClick= {changeFind}>back</button>
+                  <button className="button-small" onClick = {locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons, model, selected[model][0])}>Locate the nearest dealerships</button>
+                </div>
+                    </div>)
+                      setSelect(true);
+                  }
+                  blockQueries.current = false;
+                  break;
+              }
+                case "Q":
+                    switch (questionnaireStep) {
+                        case 1:
+                            setMessages((m) => [...m, { msg: "Are you interested in a specific type of vehicle, such as a cargo van, SUV, hatchback, or pickup truck?", author: "Ford Chat" }]);
+                            setQuestionnaireAnswers((q) => [...q, query]);
+                            setQuestionnaireStep(2);
+                            blockQueries.current = false;
+                            break;
+                        case 2:
+                            setMessages((m) => [...m, { msg: "How do you plan to use the car? Will it be primarily for commuting, family use, off-roading, or business purposes?", author: "Ford Chat" }]);
+                            setQuestionnaireAnswers((q) => [...q, query]);
+                            setQuestionnaireStep(3);
+                            blockQueries.current = false;
+                            break;
+                        case 3:
+                            setMessages((m) => [...m, { msg: "How many passengers do you need to accommodate regularly? ", author: "Ford Chat" }]);
+                            setQuestionnaireAnswers((q) => [...q, query]);
+                            setQuestionnaireStep(4);
+                            blockQueries.current = false;
+                            break;
+                        case 4:
+                            //setQuestionnaireAnswers(q=>[...q, query])
+                            let questionnaireAnswersCopy = [...questionnaireAnswers, query];
+                            setForceUpdate(!forceUpdate);
+                            const ultimateQueryString =
+                                "Here is my budget: " +
+                                questionnaireAnswersCopy[0] +
+                                ". I am looking for a " +
+                                questionnaireAnswersCopy[1] +
+                                ". I will primarily use it for the following: " +
+                                questionnaireAnswersCopy[2] +
+                                ". I need a seating capacity of at least: " +
+                                questionnaireAnswersCopy[3];
+                            sendRecommendRequestToServer(
+                                ultimateQueryString,
+                                history,
+                                carInfoData,
+                                messages,
+                                forceUpdate,
+                                blockQueries,
+                                setCarInfoData,
+                                setMessages,
+                                setForceUpdate,
+                                setHistory,
+                                fixTrimQueryQuotation
+                            );
+                    }
+                    break;
+                case "D":
+                    setQuery("");
+                    handlePaymentFlow(
+                        calcStep,
+                        model,
+                        setModel,
+                        query,
+                        setQuery,
+                        setMessages,
+                        setMenuButtons,
+                        setCalcButtons,
+                        blockQueries,
+                        setCalcStep,
+                        trim,
+                        setTrim,
+                        calcMode,
+                        setCalcMode,
+                        setLeaseStep,
+                        setFinanceStep,
+                        leaseStep,
+                        financeStep,
+                        changeChoice,
+                        setShowCalcButtons,
+                        setCalcHeadingText,
+                        payment,
+                        setPayment,
+                        origButtons,
+                        setOptionButtons
+                    );
+                    break;
+                default:
+                    setQuery("");
+                    sendBotResponse(query, history, "chat").then((res) => {
+                        setMessages((m) => [...m, { msg: res, author: "Ford Chat", line: true, zip: {} }]);
+                        setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+                        blockQueries.current = false;
+                    });
+                    break;
             }
-            case "Q":
-                switch (questionnaireStep) {
-                    case 1:
-                        setMessages((m) => [...m, { msg: "Are you interested in a specific type of vehicle, such as a cargo van, SUV, hatchback, or pickup truck?", author: "Ford Chat" }]);
-                        setQuestionnaireAnswers((q) => [...q, query]);
-                        setQuestionnaireStep(2);
-                        blockQueries.current = false;
-                        break;
-                    case 2:
-                        setMessages((m) => [...m, { msg: "How do you plan to use the car? Will it be primarily for commuting, family use, off-roading, or business purposes?", author: "Ford Chat" }]);
-                        setQuestionnaireAnswers((q) => [...q, query]);
-                        setQuestionnaireStep(3);
-                        blockQueries.current = false;
-                        break;
-                    case 3:
-                        setMessages((m) => [...m, { msg: "How many passengers do you need to accommodate regularly? ", author: "Ford Chat" }]);
-                        setQuestionnaireAnswers((q) => [...q, query]);
-                        setQuestionnaireStep(4);
-                        blockQueries.current = false;
-                        break;
-                    case 4:
-                        //setQuestionnaireAnswers(q=>[...q, query])
-                        let questionnaireAnswersCopy = [...questionnaireAnswers, query];
-                        setForceUpdate(!forceUpdate);
-                        const ultimateQueryString =
-                            "Here is my budget: " +
-                            questionnaireAnswersCopy[0] +
-                            ". I am looking for a " +
-                            questionnaireAnswersCopy[1] +
-                            ". I will primarily use it for the following: " +
-                            questionnaireAnswersCopy[2] +
-                            ". I need a seating capacity of at least: " +
-                            questionnaireAnswersCopy[3];
-                        sendRecommendRequestToServer(
-                            ultimateQueryString,
-                            history,
-                            carInfoData,
-                            messages,
-                            forceUpdate,
-                            blockQueries,
-                            setCarInfoData,
-                            setMessages,
-                            setForceUpdate,
-                            setHistory,
-                            fixTrimQueryQuotation
-                        );
-                }
-                break;
-            case "D":
-                setQuery("");
-                handlePaymentFlow(
-                    calcStep,
-                    model,
-                    setModel,
-                    query,
-                    setQuery,
-                    setMessages,
-                    setMenuButtons,
-                    setCalcButtons,
-                    blockQueries,
-                    setCalcStep,
-                    trim,
-                    setTrim,
-                    calcMode,
-                    setCalcMode,
-                    setLeaseStep,
-                    setFinanceStep,
-                    leaseStep,
-                    financeStep,
-                    changeChoice,
-                    setShowCalcButtons,
-                    setCalcHeadingText,
-                    payment,
-                    setPayment,
-                    origButtons,
-                    setOptionButtons
-                );
-                break;
-            default:
-                setQuery("");
-                sendBotResponse(query, history, "chat").then((res) => {
-                    setMessages((m) => [...m, { msg: res, author: "Ford Chat", line: true, zip: {} }]);
-                    setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
-                    blockQueries.current = false;
-                });
-                break;
-          }
+        }
       }
     }
-  }
