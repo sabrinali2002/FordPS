@@ -11,10 +11,10 @@ describe('clicking car info', ()=>{
     test('brings up "Please select a model/trim...', async()=>{
         render(<App/>)
         
-        const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="menu button-standard")[0]
+        const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="button-small")[0]
         await userEvent.click(fordButton)
         
-        const carInfoButton=screen.getAllByText('Info about a specific car').filter(el=>el.className==="menu button-standard")[0]
+        const carInfoButton=screen.getAllByText('Info about a specific car').filter(el=>el.className==="button-small")[0]
         await userEvent.click(carInfoButton)
       
         expect(screen.getByText("Please select a model/trim of the specific car you're looking for")).toBeInTheDocument()
@@ -22,10 +22,10 @@ describe('clicking car info', ()=>{
     test('brings up five buttons to select vehicle type', async()=>{
         render(<App/>)
         
-        const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="menu button-standard")[0]
+        const fordButton=screen.getAllByText('Buying a Ford').filter(el=>el.className==="button-small")[0]
         await userEvent.click(fordButton)
         
-        const carInfoButton=screen.getAllByText('Info about a specific car').filter(el=>el.className==="menu button-standard")[0]
+        const carInfoButton=screen.getAllByText('Info about a specific car').filter(el=>el.className==="button-small")[0]
         await userEvent.click(carInfoButton)
         expect(screen.getByRole('button', {name: 'SUVs and Cars'})).toBeInTheDocument()
         expect(screen.getByRole('button', {name: 'Trucks and Vans'})).toBeInTheDocument()

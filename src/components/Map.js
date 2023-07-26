@@ -27,7 +27,7 @@ import Sched3 from './scheduleComponents/sched3';
 
 //import { scheduler } from "timers/promises";
 
-function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, selectedTrim }) {
+function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel, selectedTrim }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);

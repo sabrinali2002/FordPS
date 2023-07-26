@@ -9,7 +9,7 @@ import { getAuth } from "firebase/auth";
 
 const auth = getAuth(firebase);
 
-function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode, model, trim, backButton }) {
+function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode="", model="", trim="", backButton }) {
   const [hour, setHour] = useState(null);
   const [date, setDate] = useState(null);
   const [name, setName] = useState(null);

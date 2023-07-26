@@ -13,9 +13,9 @@ export default function Sched3({
   address,
   link,
   hours,
-  maintenanceMode,
-  trim,
-  model
+  maintenanceMode="",
+  trim="",
+  model=""
 }) {
   return (
     <div

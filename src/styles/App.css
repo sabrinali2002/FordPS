@@ -170,7 +170,7 @@
 
 .model-box {
   justify-content: center;
-  height: 260px;
+  height: auto;
   width: 80%;
   background-color: rgb(205, 220, 232);
   border-radius: 15px;
@@ -212,10 +212,10 @@
 
 .button-container {
   justify-content: center;
-  height: 160px;
+  height: auto;
   padding-left: 10px;
   margin-top: 15px;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   overflow-X: auto;
   white-space: nowrap;
 }

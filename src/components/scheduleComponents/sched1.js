@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import images from "../../images/image_link.json";
 import { TextField } from "@mui/material";
 
-export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode="", model="", trim="", backButton, dispName, userEmail }) {
+export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode="", model="", trim="", backButton, dispName="", userEmail="" }) {
   const [time1, setTime1] = useState(null);
   const [date1, setDate1] = useState(null);
   const [name, setName] = useState(dispName);

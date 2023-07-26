@@ -102,6 +102,7 @@ function App() {
     const blockQueries = useRef(false);
     const recognition = useRef(null);
     //map functions -------------------------------------------------------->
+
   const [distance, setDistance] = useState("10");
   const [findMode, setFind] = useState(0);
   const [selectMode, setSelect] = useState(false);
@@ -109,176 +110,85 @@ function App() {
   const [dealerList, setDealers] = useState(s);
   const [selected, changeSelected] = useState({"Bronco": [],"Bronco Sport":[],"E-Transit Cargo Van":[],"Edge":[],"Escape":[],"Expedition":[],"Explorer":[],"F-150":[],"F-150 Lightning":[],"Mustang Mach-E":[],"Ranger":[],"Transit Cargo Van":[]})
   
-  const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef(null)
   const scrollToBottom = () => {
-      if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  };
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
   useEffect(() => {
-      scrollToBottom();
+    scrollToBottom()
   }, [messages]);
-
+  
   const handleMenuClick = (parameter) => {
+    handleUserInput(parameter);
+    if(parameter!=="A")
+    setMenuButtons([]);
+    // Perform any other logic or function in the parent component using the parameter
+  };
+  const origButtons = (
+    <div className="buttons">
+      <button className = "button-small" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]})
+        setMenuButtons(buyingFordButtons)
+        }}>Buying a Ford</button>
+      <button className = "button-small" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "", author: "Login"}]})
+        }}>I'm an Existing Owner</button>
+      <button className = "button-small" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
+        }}>Info about Ford</button>
+      <button className = "button-small" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You"}]})
+        }}>Negotiation Assistance</button>
+    </div> 
+  );
+  const buyingFordButtons = (
+    <div className = "buttons">
+       <button className = "button-small" onClick={() => {
+        handleUserInput('I');
         setMenuButtons([]);
-        setShowCalcButtons(false);
-        setModel("");
-        setTrim("");
-        setInfoMode(0);
-        setQuery("");
-        handleUserInput(parameter);
-        // Perform any other logic or function in the parent component using the parameter
-    };
-    const origButtons = (
-        <div className="buttons">
-            <button
-                className="menu"
-                onClick={() => {
-                    setMessages((m) => {
-                        return [...m, { msg: "Buying a Ford", author: "You", line: true }];
-                    });
-                    setMessages((m) => {
-                        return [...m, { msg: "What info would you like to know?", author: "Ford Chat", line: true }];
-                    });
-                    setMenuButtons(buyingFordButtons);
-                }}
-            >
-                Buying a Ford
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    setMessages((m) => {
-                        return [...m, { msg: "I'm an Existing Owner", author: "You" }];
-                    });
-                    setMessages((m) => {
-                        return [...m, { msg: "", author: "Login" }];
-                    });
-                }}
-            >
-                I'm an Existing Owner
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    setMessages((m) => {
-                        return [...m, { msg: "Info about Ford", author: "You", line: true }];
-                    });
-                }}
-            >
-                Info about Ford
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    setMessages((m) => {
-                        return [...m, { msg: "Negotiation assistance", author: "You", line: true }];
-                    });
-                }}
-            >
-                Negotiation assistance
-            </button>
-        </div>
-    );
-    const buyingFordButtons = (
-        <div className="buttons">
-          <button
-                className="menu"
-                onClick={() => {
-                  setMenuButtons([origButtons])
-                }}
-            >
-                Back
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    handleUserInput("I");
-                    setMenuButtons([]);
-                }}
-            >
-                Info about a specific car
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    handleUserInput("A");
-                }}
-            >
-                Car recommendation
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    handleUserInput("D");
-                    setMenuButtons([]);
-                }}
-            >
-                Car pricing estimator
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    handleUserInput("B");
-                    setMenuButtons([]);
-                }}
-            >
-                Find a dealership
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    handleUserInput("C");
-                    setMenuButtons([]);
-                }}
-            >
-                Schedule a test drive
-            </button>
-        </div>
-    );
-    const buyACarButtons = (
-        <div className="buttons">
-          <button
-                className="menu"
-                onClick={() => {
-                  setMenuButtons(buyingFordButtons);
-                }}
-            >
-                Back
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    setMessages((m) => {
-                        return [...m, { msg: "Great! What kind of car are you looking for?", author: "Ford Chat" }];
-                    });
-                    changeChoice("A");
-                    setMenuButtons([]);
-                }}
-            >
-                Ask my own questions
-            </button>
-            <button
-                className="menu"
-                onClick={() => {
-                    setMessages((m) => [...m, { msg: "Take questionnaire", author: "You", line: true }]);
-                    setMessages((m) => {
-                        return [...m, { msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat" }];
-                    });
-                    changeChoice("Q");
-                    setMenuButtons([]);
-                    setQuestionnaireStep(1);
-                }}
-            >
-                Take questionnaire
-            </button>
-        </div>
-    );
-    const [menuButtons, setMenuButtons] = useState(origButtons);
+        }}>Info about a specific car</button>
+      <button className = "button-small" onClick={() => {
+        handleUserInput('A');
+        }}>Car recommendation</button>
+      <button className = "button-small" onClick={() => {
+        handleUserInput('D');
+        setMenuButtons([]);
+        }}>Car pricing estimator</button>
+      <button className = "button-small" onClick={() => {
+        handleUserInput('B');
+        setMenuButtons([]);
+        }}>Find a dealership</button>
+      <button className = "button-small" onClick={() => {
+        handleUserInput('C');
+        setMenuButtons([]);
+        }}>Schedule a test drive</button>
+    </div>
+  )
+  const buyACarButtons = (
+    <div className="option-buttons">
+      <button className="button-small" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
+        changeChoice("A");
+        setMenuButtons([])
+        }}>Ask my own questions</button>
+      <button className="button-small" onClick={()=>{
+        setMessages((m) => [...m,{ msg: "Take questionnaire", author: "You", line: true }]);
+        setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
+        changeChoice("Q");
+        setMenuButtons([])
+        setQuestionnaireStep(1)
+      }}>Take questionnaire</button>
+    </div>
+  );
+  const [menuButtons, setMenuButtons] = useState(origButtons);
     //map functions -------------------------------------------------------->
-  const selectHandler = selectHandlerFn(setQuery, setModel, setCalcButtons, setFind);
-  const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons);
-  const changeFind = changeFindFn(setFind, setSelect, setCalcButtons, selectHandler);
-  const appendSelect = appendSelectFn(selected, model, changeSelected);
-  const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons,setShowCalcButtons);
+    const selectHandler = selectHandlerFn(setQuery, setModel, setCalcButtons, setFind);
+    const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode);
+    const changeFind = changeFindFn(setFind, setSelect, setCalcButtons, selectHandler);
+    const appendSelect = appendSelectFn(selected, model, changeSelected);
+    const calcButtonHandler = calcButtonHandlerFn(setQuery, setMessages, setCalcButtons, setShowCalcButtons);
     //Car Info functions  -------------------------------------------------------------
     let compareTrimOptions =
         compareModel === "" || compareModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[compareModel].map((trim) => ({ value: trim, label: trim }));
@@ -362,78 +272,12 @@ function App() {
 
     useEffect(() => {
         handleUserFlow(
-          origButtons,
-            tableForceUpdate, 
-            setTableForceUpdate,
-            handleMoreInfo,
-            handleCarInfoButton,
-            fixTrimQueryQuotation,
-            query,
-            dealerList,
-            carInfoData,
-            setCarInfoData,
-            extractFiveDigitString,
-            findLocations,
-            handleUserInput,
-            blockQueries,
-            choice,
-            setQuery,
-            zipMode,
-            setZipCode,
-            messages,
-            setMessages,
-            setZipMode,
-            setDistance,
-            setCalcButtons,
-            calcButtonHandler,
-            zipCode,
-            distance,
-            findMode,
-            selectHandler,
-            setFind,
-            appendSelect,
-            setSelect,
-            questionnaireStep,
-            setQuestionnaireAnswers,
-            setQuestionnaireStep,
-            questionnaireAnswers,
-            setForceUpdate,
-            forceUpdate,
-            calcStep,
-            model,
-            setModel,
-            setCalcStep,
-            trim,
-            setTrim,
-            calcMode,
-            setCalcMode,
-            setLeaseStep,
-            setFinanceStep,
-            leaseStep,
-            financeStep,
-            changeChoice,
-            history,
-            setHistory,
-            infoMode,
-            setInfoMode,
-            vehicle,
-            setVehicle,
-            showCalcButtons,
-            setShowCalcButtons,
-            calcHeadingText,
-            setCalcHeadingText,
-            payment,
-            setPayment,
-            setMenuButtons,
-            locateDealershipsFn,
-            changeSelected,
-            setDealers,
-            selected,
-            cat,
-            setCat,
-            setOptionButtons
+          origButtons,tableForceUpdate,setTableForceUpdate,handleMoreInfo,handleCarInfoButton,fixTrimQueryQuotation,query,dealerList,carInfoData,setCarInfoData,extractFiveDigitString,findLocations,handleUserInput,blockQueries,choice,setQuery,zipMode,setZipCode,messages,setMessages,setZipMode,setDistance,
+          setCalcButtons,zipCode,distance,findMode,setFind,setSelect,questionnaireStep,
+          setQuestionnaireAnswers,setQuestionnaireStep,questionnaireAnswers,setForceUpdate,forceUpdate,calcStep,model,setModel,setCalcStep, trim,setTrim,calcMode,setCalcMode,setLeaseStep,setFinanceStep,leaseStep,financeStep,
+          changeChoice,history,setHistory,infoMode,setInfoMode,vehicle,setVehicle,setShowCalcButtons,setCalcHeadingText,payment,setPayment,setMenuButtons,locateDealershipsFn,changeSelected,setDealers,selected,cat,setOptionButtons, changeFind
         );
-    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim, choice]);
+    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
   return (
     <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
@@ -507,96 +351,20 @@ function App() {
                     <div style={{marginTop:'10px',color:'#322964',fontSize:'20px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>
                     <div style={{color:'#322964',fontSize:'12px',fontWeight:'bold',lineHeight:'20px'}}>Select from the options to specify which cars you are looking for</div>
                     <div className='button-container'>{calcButtons}</div>
-                    {
-                                    <button
-                                        style={{ position: "relative", bottom: 0, alignSelf: "start", marginLeft: -40, alignSelf: "start" }}
-                                        onClick={() => {
-                                            if (infoMode === 0){
-                                              setShowCalcButtons(false)
-                                              setMenuButtons(buyingFordButtons)
-                                            }
-                                            if (infoMode === 1) {
-                                                handleUserInput("I");
-                                                setInfoMode(0);
-                                            } else {
-                                                setQuery(cat);
-                                                setInfoMode(infoMode - 1);
-                                                handleUserFlow(
-                                                  origButtons,
-                                                  tableForceUpdate, 
-                                                  setTableForceUpdate,
-                                                  handleMoreInfo,
-                                                  handleCarInfoButton,
-                                                  fixTrimQueryQuotation,
-                                                  query,
-                                                  dealerList,
-                                                  carInfoData,
-                                                  setCarInfoData,
-                                                  extractFiveDigitString,
-                                                  findLocations,
-                                                  handleUserInput,
-                                                  blockQueries,
-                                                  choice,
-                                                  setQuery,
-                                                  zipMode,
-                                                  setZipCode,
-                                                  messages,
-                                                  setMessages,
-                                                  setZipMode,
-                                                  setDistance,
-                                                  setCalcButtons,
-                                                  calcButtonHandler,
-                                                  zipCode,
-                                                  distance,
-                                                  findMode,
-                                                  selectHandler,
-                                                  setFind,
-                                                  appendSelect,
-                                                  setSelect,
-                                                  questionnaireStep,
-                                                  setQuestionnaireAnswers,
-                                                  setQuestionnaireStep,
-                                                  questionnaireAnswers,
-                                                  setForceUpdate,
-                                                  forceUpdate,
-                                                  calcStep,
-                                                  model,
-                                                  setModel,
-                                                  setCalcStep,
-                                                  trim,
-                                                  setTrim,
-                                                  calcMode,
-                                                  setCalcMode,
-                                                  setLeaseStep,
-                                                  setFinanceStep,
-                                                  leaseStep,
-                                                  financeStep,
-                                                  changeChoice,
-                                                  history,
-                                                  setHistory,
-                                                  infoMode,
-                                                  setInfoMode,
-                                                  vehicle,
-                                                  setVehicle,
-                                                  showCalcButtons,
-                                                  setShowCalcButtons,
-                                                  calcHeadingText,
-                                                  setCalcHeadingText,
-                                                  payment,
-                                                  setPayment,
-                                                  setMenuButtons,
-                                                  locateDealershipsFn,
-                                                  changeSelected,
-                                                  setDealers,
-                                                  selected,
-                                                  cat,
-                                                  setCat
-                                                );
-                                            }
-                                        }}
-                                    >
-                                        <u>Back</u>
-                                    </button>}
+                    {vehicle !== "" && <button style = {{position: "relative", bottom: 0, alignSelf:'start', marginLeft:-40, alignSelf:'start'}} onClick = {() => {
+                      if(infoMode === 1){
+                        handleUserInput('I')
+                      }
+                      else{
+                        setQuery(cat);
+                        setInfoMode(infoMode-1)
+                        handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,handleMoreInfo,handleCarInfoButton,fixTrimQueryQuotation,query,dealerList,carInfoData,setCarInfoData,extractFiveDigitString,findLocations,handleUserInput,blockQueries,choice,setQuery,zipMode,setZipCode,messages,setMessages,setZipMode,setDistance,
+                          setCalcButtons,zipCode,distance,findMode,setFind,setSelect,questionnaireStep,
+                          setQuestionnaireAnswers,setQuestionnaireStep,questionnaireAnswers,setForceUpdate,forceUpdate,calcStep,model,setModel,setCalcStep, trim,setTrim,calcMode,setCalcMode,setLeaseStep,setFinanceStep,leaseStep,financeStep,
+                          changeChoice,history,setHistory,infoMode,setInfoMode,vehicle,setVehicle,setShowCalcButtons,setCalcHeadingText,payment,setPayment,setMenuButtons,locateDealershipsFn,changeSelected,setDealers,selected,cat,setOptionButtons, changeFind);
+                      }
+                    }
+                    }><u style={{position:'relative',marginLeft:'0px',bottom:'0px',fontSize:'12px'}}>Back</u></button>}
                     </div>
                 </div>}
           <ThreeDots
@@ -634,12 +402,10 @@ function App() {
                 flexWrap: "wrap",
               }}
             >
-              {
-                selectMode && <button onClick= {changeFind}>back</button>
-            }
-            {
-                selectMode && <button onClick = {locateDealerships}>Locate the nearest dealerships</button>
-            }
+              {/* {selectMode && <div className="option-buttons">
+              <button className="button-small" onClick= {changeFind}>back</button>
+              <button className="button-small" onClick = {locateDealerships}>Locate the nearest dealerships</button>
+            </div>} */}
             </div>
             <div className="textfield">
             <TextField
