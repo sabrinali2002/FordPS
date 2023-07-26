@@ -8,7 +8,7 @@ import CarInfoTable from "./CarInfoTable";
 import CarInfoDropdownSection from "./CarInfoDropdownSection";
 import ExistingOwner from "./ExistingOwners/ExistingOwner";
 import DisplayInfo from "./DisplayInfo"
-import circleHenrai from "./henraicircle.jpg";
+import circleHenrai from "./henrai.jpg";
 
 function extractLinkFromText(messageText, author, darkMode){
     const wordsArray = messageText.split(" ")
@@ -80,7 +80,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
         <div style={{display: "flex", flexDirection:"row", width:"100%", }}>
         <div style={(author==="You"||author==="Ford Chat")?textPartStyle:{}}>
           <div style={textPartStyle}>
-          {author === "Ford Chat" && <div><img src={circleHenrai} style={{height:"48px", width:"75px"}}></img></div>}
+          {author === "Ford Chat" && <div><img src={circleHenrai} style={{height:"48px", width:"48px", marginRight:"6px"}}></img></div>}
           {(author!=="DropDown" && author!=="Table" && author !== "Info" && message.length>0) && <Fragment>
             <div style={{display: 'flex', flexDirection: 'row', clear:'both',}}>
                 {extractLinkFromText(message, author, darkMode)}
