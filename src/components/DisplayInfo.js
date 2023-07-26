@@ -2,6 +2,7 @@ import data from '../images/image_link.json'
 import dealerships from "../jsons/trimToDealer.json"
 
 export default function DisplayInfo({ info , handler }) {
+  console.log("info:", info)
   return (
     <div
       style={{
