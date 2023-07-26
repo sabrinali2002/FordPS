@@ -40,6 +40,7 @@ function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode="", mo
     setVis2(false);
     setVis3(true);
   };
+  console.log("APPT TIME"+model, trim)
   return ( 
     <div className="App">
       {vis1 && <Sched2 callback={handleCallback} maintenanceMode={maintenanceMode} backButton={backButton} />}

@@ -255,7 +255,7 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
               else if(findMode === 1){
                   setShowCalcButtons(true);
                   setCalcButtons(<div>
-                    {
+                    {   
                     trims[query].map(trim => (
                     <button className='model-button' style={{backgroundColor: selected[model].includes(trim)?'red':'white'}} key={trim} value={trim} onClick={()=>{
                         let copy, copy2
@@ -285,7 +285,7 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
                 }
                 <div>
               <button className="button-small" onClick= {changeFind}>back</button>
-              <button className="button-small" onClick = {locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode)}>Locate the nearest dealerships</button>
+              <button className="button-small" onClick = {locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons, model, selected[model][0])}>Locate the nearest dealerships</button>
             </div>
                 </div>)
                   setSelect(true);

@@ -131,6 +131,9 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
                                         </BigTooltip>
                                         <BigTooltip placement="top" title="We will help you find the closest Ford dealerships to you based on your preferred radius.">
                                           <button className = "button-small" onClick={()=>{
+                                            handleUserInput('B');
+                                            setMenuButtons([]);
+                                            setOptionButtons([])
                                             }}>Find a dealership</button>
                                         </BigTooltip>
                                         </div>])

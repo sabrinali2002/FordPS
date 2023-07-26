@@ -185,7 +185,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
           <div style={{ marginTop: 10, marginBottom: 10, color: "#575757" }}>
           {maintenanceMode.length===0?"limited to 2 cars to test drive during your appointment.":"Your "+model+" "+trim}
           </div>
-          <img src={model.length===0?"/bronco.png":`${images[model][trim]}`} style={{ alignSelf: "start", width: '300px' }}></img>
+          <img src={model.length===0?"/bronco.png":`${images[trim.length>0?model:"Default"][trim.length>0?trim:model]}`} style={{ alignSelf: "start", width: '300px' }}></img>
           {maintenanceMode.length==0 && <div style={{ marginBottom: 0, marginTop: 10 }}>
             <a
               href="https://www.example.com"
