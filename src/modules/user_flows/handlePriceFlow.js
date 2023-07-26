@@ -6,16 +6,15 @@ import handlePaymentFlow from './handlePaymentFlow.js';
 import carPrices from '../../jsons/carPrices.json';
 import { useState } from 'react';
 
-export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,setPickup) {
+export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown) {
     const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
-    console.log("heree");
     switch(priceStep) {
         case 1: // model
             let dict = trims;
             if (vehicleMode == 'electric') {
                 dict = electric;
             }
-            setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat", line: true }]);
+            setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat", line: true, zip: {} }]);
             setShowCalcButtons(true);
             setCalcHeadingText("Choose specific model");
             setCalcButtons(
@@ -48,7 +47,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                 setModel(query);
             }
             setCalcHeadingText("Choose specific trim");
-            setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true }]);
+            setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true, zip: {} }]);
             setShowCalcButtons(true);
             setCalcButtons(dict1[model].map(trim => 
                 (<button className='model-button' key={trim} value={trim} onClick={() => 
@@ -58,7 +57,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                         setCalcButtons([]);
                         setShowCalcButtons(false);}}>
                             <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
-                        <br />{trim}</button>)
+                        <br/>{trim}</button>)
                 ));
             blockQueries.current = false;
             setPriceStep(3);
@@ -68,7 +67,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                 setTrim(query);
             }
             const options = ['Lease', 'Finance', 'Buy'];
-            setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat", line: true }]);
+            setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat", line: true, zip: {} }]);
             setOptionButtons(<div className='option-buttons'>
                 {options.map(option => (<button className='button-small' key={option} value={option} 
                     onClick={() => 
@@ -84,17 +83,17 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
             switch (priceMode) {
                 case 0:
                     if (query === "Lease") {
-                        setMessages((m) => [...m, { msg: "Please enter your down payment (enter 0 for none)", author: "Ford Chat", line: true }]);
+                        setMessages((m) => [...m, { msg: "Please enter your down payment (enter 0 for none)", author: "Ford Chat", line: true, zip: {} }]);
                         setPriceMode(1);
                         setLeaseStep1(1);
                     }
                     else if (query === "Finance") {
-                        setMessages((m) => [...m, { msg: "Please enter your down payment (enter 0 for none)", author: "Ford Chat", line: true }]);
+                        setMessages((m) => [...m, { msg: "Please enter your down payment (enter 0 for none)", author: "Ford Chat", line: true, zip: {} }]);
                         setPriceMode(2);
                         setFinanceStep1(1);
                     }
                     else if (query === "Buy") {
-                        setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true }]);
+                        setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true, zip: {} }]);
                         setPriceStep(5);
                         setPriceMode(3);
                     }
@@ -105,14 +104,14 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                         case 1: // trade-in
                             setDown(query);
                             setPayment(payment => {return (payment - query)});
-                            setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true }]);
+                            setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true, zip: {} }]);
                             blockQueries.current = false;
                             setLeaseStep1(2);
                             break;
                         case 2: // months
                             setPayment(payment => {return (payment - query)});
                             let durations = [24, 36, 39, 48];
-                            setMessages((m) => [...m, { msg: "Please select your desired lease duration, in months", author: "Ford Chat", line: true }]);
+                            setMessages((m) => [...m, { msg: "Please select your desired lease duration, in months", author: "Ford Chat", line: true, zip: {} }]);
                             setOptionButtons(<div className='option-buttons'>
                                 {durations.map(dur => (<button className='button-small' key={dur.toString()} value={dur} 
                                 onClick={() => 
@@ -126,7 +125,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                             break;
                         case 3: // miles
                             setPayment(payment => {return (payment/(query*2))});
-                            setMessages((m) => [...m, { msg: "Please enter the expected miles driven annually", author: "Ford Chat", line: true }]);
+                            setMessages((m) => [...m, { msg: "Please enter the expected miles driven annually", author: "Ford Chat", line: true, zip: {} }]);
                             blockQueries.current = false;
                             setLeaseStep1(0);
                             setPriceStep(5);
@@ -138,7 +137,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                         case 1: // trade-in
                             setDown(query);
                             setPayment(payment => {return (payment - query)});
-                            setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true }]);
+                            setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true, zip: {} }]);
                             setFinanceStep1(2);
                             blockQueries.current = false;
                             break;
@@ -146,7 +145,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                             setPayment(payment => {return (payment - query)});
                             let durations = [36, 48, 60, 72, 84];
                             //setCalcHeadingText('Choose loan duration (months)');
-                            setMessages((m) => [...m, { msg: "Please select your desired loan duration, in months", author: "Ford Chat", line: true }]);
+                            setMessages((m) => [...m, { msg: "Please select your desired loan duration, in months", author: "Ford Chat", line: true, zip: {} }]);
                             //setShowCalcButtons(true);
                             setOptionButtons(<div className='option-buttons'>
                                 {durations.map(dur => (<button className='button-small' key={dur.toString()} value={dur} 
@@ -172,20 +171,20 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                     apr = mosToAPR[query];
                     setPayment(payment);
                     final = payment;
-                    setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true }]);
+                    setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true, zip: {} }]);
                     //blockQueries.current = false;
                     break;
                 case 2: // finance 
                     apr = mosToAPR[query];
                     setPayment(payment => {return (((apr/12)*payment)/(1-((1+(apr/12))**(0-query))))});
                     final = ((apr/12)*payment)/(1-((1+(apr/12))**(0-query)));
-                    setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true }]);
+                    setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true, zip: {} }]);
                     //blockQueries.current = false;
                     break;
                 case 3: // buy
                     setPayment(payment => { return (payment - query)});
                     final = payment - query;
-                    setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true }]);
+                    setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true, zip: {} }]);
                     //blockQueries.current = false;
                     break;
             }
@@ -196,7 +195,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
             let text = (<div>
                 <span style={{fontSize:'22px'}}>2023 <span style={{fontWeight:'bold'}}>{model}<BiRegistered/> {trim}<BiRegistered/></span> model</span><br/>
                 <div style={{display:'flex',flexDirection:'x',justifyContent:'center'}}>{buttons.map(val => 
-                    <button style={{backgroundColor: buttons.indexOf(val)+1 == priceMode ? 'rgb(208,208,208)' : 'white',
+                    <button key={val} style={{backgroundColor: buttons.indexOf(val)+1 == priceMode ? 'rgb(208,208,208)' : 'white',
                         borderRadius:'10px',textAlign:'center',width:'120px',height:'50px',margin:'10px',boxShadow: '1px 2px 1px rgba(95, 112, 133, 0.5)'
                     }}>{val}</button>)}
                 </div>
@@ -220,8 +219,8 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
             setPriceSummary(text);
             switch(vehicleMode) {
                 case "electric":
-                    setMessages((m) => [...m, { msg: "Would you like to purchase this car?", author: "Ford Chat", line: true }]);
-                    let opts = ['Yes','No, choose a new car'];
+                    setMessages((m) => [...m, { msg: "Would you like to purchase this car?", author: "Ford Chat", line: true, zip: {} }]);
+                    let opts = ['Yes, contact a dealer','No'];
                     setOptionButtons(<div className='option-buttons'>
                         {opts.map(o => (<button className='button-small' key={o.toString()} value={o} 
                         onClick={() => 
@@ -229,13 +228,12 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                                 setMessages((m) => [...m, { msg: o, author: "You" }]);
                                 setOptionButtons([]);}}>{o}</button>))}
                         </div>);
-                    //setShowCalcButtons(true);
                     blockQueries.current = false;
                     setPriceStep(6);
                     break;
                 case "combustion":
-                    setMessages((m) => [...m, { msg: "Would you like to send a request to the dealer?", author: "Ford Chat", line: true }]);
-                    let opts1 = ['Yes','No'];
+                    setMessages((m) => [...m, { msg: "Based on these prices, would you like to contact a dealer to find availability?", author: "Ford Chat", line: true, zip: {} }]);
+                    let opts1 = ['Yes, contact a dealer','No'];
                     setOptionButtons(<div className='option-buttons'>
                         {opts1.map(o => (<button className='button-small' key={o.toString()} value={o} 
                         onClick={() => 
@@ -244,48 +242,61 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                                 setOptionButtons([]);}}>{o}</button>))}
                         </div>);                
                     blockQueries.current = false;
-                    //setShowCalcButtons(true);
-                    setPriceStep(7);
+                    setPriceStep(6);
                     break;
             }
+            break;
         case 6:
             switch(query) {
-                case 'Yes':
+                case 'Yes, contact a dealer':
                     setPriceSummary('');
                     setShowPriceSummary(false);
-                    setMessages((m) => [...m, { msg: "Would you like pickup or delivery?", author: "Ford Chat", line: true, zip: {requestInfo:true} }]);
+                    setMessages((m) => [...m, { msg: "Would you like pickup or delivery?", author: "Ford Chat", line: true, zip: {} }]);
                     let opts2 = ['Pickup','Delivery'];
                     setOptionButtons(<div className='option-buttons'>
                         {opts2.map(o => (<button className='button-small' key={o.toString()} value={o} 
                         onClick={() => 
                             {setQuery(o);
-                                o=='Pickup' && setPickup(true);
                                 setMessages((m) => [...m, { msg: o, author: "You" }]);
                                 setOptionButtons([]);}}>{o}</button>))}
                         </div>);  
                     blockQueries.current = false;
                     setPriceStep(7);
                     break;
-                case 'No, choose a new car':
-                    setPriceStep(1);
+                case 'No':
+                    setMessages((m) => [...m, { msg: "Is there anything else I can help you with?", author: "Ford Chat", line: true }]);
+                    setPriceSummary('');
+                    setShowPriceSummary(false);
+                    setMenuButtons(origButtons);
+                    setPriceStep(0);
                     setPriceMode(0);
-                    //blockQueries.current = false;
-                    //setMenuButtons(origButtons);
+                    blockQueries.current = false;
                     break;
             }
             break;
         case 7:
-            setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to find dealers to send your offer to:", author: "Ford Chat", line: true, zip: {requestInfo:true} }]);
-            blockQueries.current = false;
-            setPriceStep(8);
+            switch(query) {
+                case 'Pickup':
+                    setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to find dealers to send your offer to:", author: "Ford Chat", line: true, zip: { requestInfo:true} }]);
+                    blockQueries.current = false;
+                    setPriceStep(8);
+                    break;
+                case 'Delivery':
+                    setMessages((m) => [...m, { msg: "Please fill in the following form to send your request", author: "Ford Chat...", line: true }]);
+                    blockQueries.current = false;
+                    setPriceStep(9);
+                    break;
+            }
             break;
         case 8:
             changeChoice('request');
             blockQueries.current = false;
-            setPriceStep(9);
+            setPriceStep(0);
             break;
-        case 9: 
-            console.log('back');
+        case 9:
+            setMessages((m) => [...m, { msg: "Is there anything else I can help you with?", author: "Ford Chat", line: true }]);
+            setPriceStep(0);
+            blockQueries.current = false;
             break;
         }
 }

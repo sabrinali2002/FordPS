@@ -110,7 +110,6 @@ function App() {
     const [financeStep1, setFinanceStep1] = useState(0);
     const [dura, setDura] = useState('');
     const [down, setDown] = useState(0);
-    const [pickup, setPickup] = useState(false);
 
 
     const blockQueries = useRef(false);
@@ -392,9 +391,7 @@ function App() {
             dura,
             setDura,
             down,
-            setDown,
-            pickup,
-            setPickup
+            setDown
         );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
@@ -459,10 +456,10 @@ function App() {
                 tableFunctions={tableFunctions}
                 messageIndex={index}
                 selectedCars={selectedCars}
-                key={index}
                 model={model}
                 trim={trim}
-                pickup={pickup}
+                orig={origButtons}
+                key={index}
               />
               );
             })}
@@ -570,9 +567,7 @@ function App() {
                             dura,
                             setDura,
                             down,
-                            setDown,
-                            pickup,
-                            setPickup);
+                            setDown);
                       }
                     }
                     }><u style={{position:'relative',marginLeft:'0px',bottom:'0px',fontSize:'12px'}}>Back</u></button>}

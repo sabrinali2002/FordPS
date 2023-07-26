@@ -28,7 +28,7 @@ import Sched3 from './scheduleComponents/sched3';
 
 //import { scheduler } from "timers/promises";
 
-function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, selectedTrim, requestInfo, model, trim, pickup }) {
+function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="", selectedTrim="", requestInfo}) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
@@ -58,6 +58,12 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
   const [window4Content, setWindow4Content] = useState('');
   const [requestSent, setRequestSent] = useState(false);
   const [showRequestInfo, setShowRequestInfo] = useState(requestInfo);
+  const [address, setAddress] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [numError, setNumError] = useState('');
+
+
 
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
@@ -89,24 +95,24 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
         "Transit Cargo Van":"Transit Connect Cargo Van","Transit Connect Cargo Van":"Transit Cargo Van",
         "Transit Passenger Van":"Transit Crew Van","Transit Crew Van":"Transit Passenger Van"};
     let models = [];
-    if (model !== "" && trim !== "") {
+    if (selectedModel !== "" && selectedTrim !== "") {
       // know model & trim
-      if (Object.values(dealerToTrim[dealer][model]).includes(trim)) {
-        models.push([model, trim]);
-        for (let trims of dealerToTrim[dealer][model]) {
-          if (trims != trim) {
-            models.push([model, trims]);
+      if (Object.values(dealerToTrim[dealer][selectedModel]).includes(selectedTrim)) {
+        models.push([selectedModel, selectedTrim]);
+        for (let trims of dealerToTrim[dealer][selectedModel]) {
+          if (trims != selectedTrim) {
+            models.push([selectedModel, trims]);
             break;
           }
         }
       } else {
         // trim unavailable
-        for (let trims of dealerToTrim[dealer][model]) {
+        for (let trims of dealerToTrim[dealer][selectedModel]) {
           if (models.length < n) {
-            models.push([model, trims]);
+            models.push([selectedModel, trims]);
           }
         }
-        let sim = similar[model];
+        let sim = similar[selectedModel];
         let i = 0;
         while (models.length < n) {
           // not enough trims of model
@@ -115,11 +121,11 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
           // append trims of similar model
         }
       }
-    } else if (model !== "") {
+    } else if (selectedModel !== "") {
       // know model, not trim
-      for (let trims of dealerToTrim[dealer][model]) {
+      for (let trims of dealerToTrim[dealer][selectedModel]) {
         if (models.length < n) {
-          models.push([model, trims]);
+          models.push([selectedModel, trims]);
         }
       }
       while (models.length < n) {
@@ -193,9 +199,34 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
   }
 
   const handleRequest = () => {
-    setRequestSent(true);
-    //setWindow4Content('');
-    //setShowRequestInfo(false);
+    let errors = 0;
+    let num = phoneNumber.replaceAll('-','').replaceAll('/','').replaceAll('(','').replaceAll(')','');
+    const regex = /^\d{10}$/;   
+    console.log(name);
+    console.log(email);
+    console.log(phoneNumber); 
+    setNameError('');
+    setEmailError('');
+    setNumError('');
+    if (name == '') {
+      setNameError("Please enter a name");
+      errors = errors + 1;
+    }
+    if (!email.includes('@')) {
+      setEmailError("Please enter a valid email");
+      errors = errors + 1;
+    }
+    if (!regex.test(num)) {
+      setNumError("Please enter a valid phone number");
+      errors = errors + 1;
+    }
+    console.log(errors);
+    if (errors == 0) {
+      setRequestSent(true);
+      setName('');
+      setEmail('');
+      setPhoneNumber('');
+    }
   }
 
   const markerHoverOver = (d) => {
@@ -295,6 +326,9 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
     setShowWindow(false);
     setBlockPopup(false);
     setRequestSent(false);
+    setNumError('');
+    setNameError('');
+    setEmailError('');
   };
 
   const locClickHandler = (d) => {
@@ -319,11 +353,12 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
       hrStr = "Closed - opens at 8am";
     }
     let selection = "based on your selection";
-    if (model == "" && trim == "") {
+    if (selectedModel == "" && selectedTrim == "") {
       selection = "";
     }
     let appts = returnAppts(6);
     setShowWindow(true);
+    console.log(maintenanceMode);
     let window1 = (<div className={'dealer-window'+(maintenanceMode.length==0?'1':'3')}>
       <button className='close-button' onClick={onExit}>
         <span style={{position:'relative',right:'6px',top:'0px'}}><IoMdClose/></span>
@@ -412,26 +447,26 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
             </span>            
           </div>
       </div>);
-    setWindow1Content(window1);
     setWindow2Content(window2);
     setWindow3Content(window3);
+    setWindow1Content(window1);
     if (requestInfo) {
       window4(dealer);
     }
   };
   useEffect(() => {
       window4(dealer1)
-    },[requestSent]);
+    },[requestSent,emailError,nameError,numError]);
 
   const window4 = (dealer) => {
-    let content = (<div className='dealer-window1'>
+    let content = (<div className='dealer-window4'>
       <span style={{fontWeight:'bold',fontSize:'25px',color:'#322964'}}>
           {requestSent ? "Your request has been sent" : "Send a request"}</span><br/>
         <span style={{fontSize:'14px'}}>{requestSent ? "A confirmation email has been sent" : "Please fill out the following fields"}</span>
         <div
         style={{backgroundColor: "white",width: "100%",color: "#00095B",borderRadius: 5,marginRight: 10,marginLeft: 10,
           fontWeight:500,fontSize:20,padding:3,marginBottom:10,marginTop:10,boxShadow:"0px 2px 4px rgba(0, 0, 0, 0.2)",justifyText:'center'
-        }}><span style={{marginLeft:330}}>{dealer1}</span></div>
+        }}><span style={{marginLeft:330}}>{dealer}</span></div>
       <div style={{display: "flex",flexDirection: "row",justifyContent: "start",marginBottom:10}}>
         <div style={{display: "flex",flexDirection: "column",marginRight:50,justifyContent: "start",
             alignItems: "start",marginLeft: 10,}}>
@@ -446,36 +481,41 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
             Or login/create a Ford account{" "}
           </a>
           <input
+            onChange={e => {setName(e.target.value);
+                            setNameError('');}}
             style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
               marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Name*"/>
+            {nameError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{nameError}</span>}
           <input
+            onChange={e => {setEmail(e.target.value);
+                            setEmailError('');}}
             style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
               marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Email*"/>
+            {emailError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{emailError}</span>}
           <input
+            onChange={e => {setPhoneNumber(e.target.value);
+                            setNumError('');}}
             style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
               marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Phone number*"/>
-            {!pickup && <input
-            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
-              marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
-            placeholder=" Address*"/>}
+            {numError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{numError}</span>}
           <input
             style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",marginBottom: 10,
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5,marginBottom: 20}}
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5,marginBottom: 10}}
             placeholder=" Notes/Requests"/>
         </div>
         <div
           style={{alignItems: "start",display: "flex",flexDirection: "column",width: "100%"}}>
           <div
             style={{fontWeight: 500,color: "#00095B",fontSize: 23,alignSelf:"start",textAlign: "start",marginBottom:'10px',marginTop:'10px'}}>
-            Car to be {pickup ? "picked up:" : "delivered:"}
+            Car to be picked up:
           </div>
           <div style={{width:'200px',height:'150px',backgroundColor:'white',boxShadow:'1px 4px 2px rgba(0, 0, 0, 0.5)',
                 borderRadius:'10px',wordWrap:'wrap',overflowWrap:'wrap',textAlign:'center'}}>
-            <img src={images[model][trim]} style={{width:'250px',height:'auto',paddingRight:58}}></img>
-            <span style={{fontSize:'11px',color:'#322964',paddingRight:'5px',lineHeight:'0px'}}>2023 Ford {model}<BiRegistered/> {trim}</span>
+            <img src={images[selectedModel][selectedTrim]} style={{width:'250px',height:'auto',paddingRight:58}}></img>
+            <span style={{fontSize:'11px',color:'#322964',paddingRight:'5px',lineHeight:'0px'}}>2023 Ford {selectedModel}<BiRegistered/> {selectedTrim}</span>
           </div>
           <button
             onClick={handleRequest}
@@ -589,11 +629,11 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
   }, [zip, latlong]);
   return (
   <div style={{alignItems:'flex-start'}}>
-      {(showWindow && requestInfo) && (<div style={{width:'1100px',marginBottom:'15px'}}>
-          <div style={{marginBottom:'15px'}}>{window1Content}</div>
+      {(showWindow && requestInfo) && 
+          <div>{window1Content}
           {window4Content}
         </div>
-      )}
+      }
       {(showWindow && !showRequestInfo && !requestInfo) && (<div>
           {window1Content}
           {window2Content}
@@ -630,8 +670,8 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode, selectedModel, sel
           link={link1}
           hours={hour1}
           maintenanceMode={maintenanceMode}
-          trim={trim}
-          model={model}
+          trim={selectedTrim}
+          model={selectedModel}
         />
       )}
       {!showWindow && !isSchedulerVisible && !isScheduler2Visible && !vis3 && (

@@ -236,7 +236,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                 break;
             case 'Pickup':
                 setMessages((m) => [...m, { msg: "You will now be directed to the dealership finder", author: "Ford Chat", line: true }]);
-                setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
+                setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{model:model, trim:trim} }]);
                 blockQueries.current = false;
                 changeChoice('B');
                 //handleUserInput('B');
@@ -244,7 +244,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                 break;                
             case 'Yes':
                 setMessages((m) => [...m, { msg: "You will now be directed to the dealership finder", author: "Ford Chat", line: true }]);
-                setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
+                setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{model:model, trim:trim} }]);
                 blockQueries.current = false;
                 changeChoice('B');
                 //handleUserInput('B');

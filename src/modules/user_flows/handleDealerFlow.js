@@ -1,5 +1,5 @@
 
-export default function handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, requestInfo, model="", trim="", pickup=false, maintenanceMode="") {
+export default function handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, requestInfo, model="", trim="", maintenanceMode="") {
   switch(zipMode){
     case 0: {
         setZipCode(query)
