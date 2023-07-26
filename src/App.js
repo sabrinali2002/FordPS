@@ -137,12 +137,60 @@ function App() {
         }}>I'm an Existing Owner</button>
       <button className = "button-small" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "I'd be happy to tell you more about Ford! Feel free to ask any of your own questions or choose from the following options to learn more on a specific path.", author: "Ford Chat"}]})
+        setMenuButtons(infoButtons)
         }}>Info about Ford</button>
       <button className = "button-small" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You"}]})
         }}>Negotiation Assistance</button>
     </div> 
   );
+
+  //ford info buttons 
+  const infoButtons = ( 
+    <div className = "buttons"> 
+      <button className = "menu button-standard" onClick={() => { 
+        handleUserInput('SU');
+        setMenuButtons(sustainButtons)
+      }}>Sustainability</button>
+      <button className = "menu button-standard" onClick={() => { 
+        handleUserInput('INN');
+        setMenuButtons(innovateButtons)
+      }}>Innovation</button>
+    </div>
+  )
+  const innovateButtons = (
+    <div className = "buttons">
+      <button className = "menu button-standard" onClick={() => { 
+        handleUserInput('NM'); }}>New models</button> 
+      <button className = "menu button-standard" onClick={() => { 
+        handleUserInput('NF'); }}>New features</button> 
+      <button className = "menu button-standard" onClick={() => { 
+        handleUserInput('EV'); }}>EV Market</button> 
+    </div>
+    )
+    const sustainButtons = (
+      <div className = "buttons">
+        <button className = "menu button-standard" onClick={() => { 
+          handleUserInput('Cer'); }}>
+            Certifications</button> 
+        <button className = "menu button-standard" onClick={() => {
+          handleUserInput('Em'); }}>
+            Emissions</button> 
+        <button className = "menu button-standard" onClick={() => { 
+          handleUserInput('Comm'); }}>
+            Our Commitments</button> 
+        <button className = "menu button-standard" onClick={() => { 
+          handleUserInput('Pr'); }}
+          >Production management</button> 
+        <button className = "menu button-standard" onClick={() => { 
+          handleUserInput('EOF'); }}>
+            End of life management</button> 
+      </div>
+      )
+      
+
+
   const buyingFordButtons = (
     <div className = "buttons">
        <button className = "button-small" onClick={() => {
