@@ -10,7 +10,6 @@
     justify-content:stretch;
     margin-top: auto;
     height: 100vh;
-    background-color:white;
 }
 
 .bar{
@@ -43,4 +42,36 @@
 .fordpic{
     height:100%;
     z-index:0;
+}
+
+.fakeinfo{
+    z-index:1;
+    position:absolute;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    bottom:6%;
+    left:6%;
+    color:white;
+
+
+}
+
+.text{
+    font-family:'Antenna', sans-serif;
+    font-size: 70px;
+}
+
+.fakebtn{
+    z-index: 5;
+    color: blue;
+            background-color: white;
+            font-family: 'Antenna', sans-serif;
+            border-radius: 50%;
+            width: 100px; /* Adjust width and height as needed */
+            height: 100px;
+            text-align: center;
+            line-height: 100px;
+            cursor: default;
 }

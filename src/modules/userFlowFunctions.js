@@ -8,7 +8,7 @@ import handleInfoFlow from "./user_flows/handleInfoFlow";
 import { BiRegistered } from "react-icons/bi";
 import images from "../images/image_link.json";
 import Checkbox from '@mui/material/Checkbox';
-import { certifications, evmarket } from './info.js';
+import { certifications, evmarket, commitments, emissions, endoflife, pm, newfeatures } from './info.js';
 
 export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACarButtons,setCalcButtons,model,setModel,calcButtonHandler,setCalcStep,trim,setQuery,blockQueries,setResponse,setShowCalcButtons,setCalcHeadingText,setInfoMode,cat,setCat, setOptionButtons) {
 
@@ -142,7 +142,7 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                     break; 
                 case "NF":
                     setMessages((m) => [...m, { msg: "New features", author: "You", line: true, zip: {} }]);
-                    setMessages((m) => [...m, { msg: "Take a look at our new features", author: "Ford Chat", line: true, zip: "" }]); 
+                    setMessages((m) => [...m, { msg: newfeatures, author: "Ford Chat", line: true, zip: "" }]); 
                     setMenuButtons([])
                     break; 
                 case "EV":
@@ -157,22 +157,22 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                     break; 
                 case "Em":
                     setMessages((m) => [...m, { msg: "Emissions", author: "You", line: true, zip: {} }]);
-                    setMessages((m) => [...m, { msg: "Emissions details:", author: "Ford Chat", line: true, zip: "" }]); 
+                    setMessages((m) => [...m, { msg: emissions, author: "Ford Chat", line: true, zip: "" }]); 
                     setMenuButtons([])
                     break; 
                 case "Comm":
                     setMessages((m) => [...m, { msg: "Our Commitments", author: "You", line: true, zip: {} }]);
-                    setMessages((m) => [...m, { msg: "Ford is committed to..", author: "Ford Chat", line: true, zip: "" }]); 
+                    setMessages((m) => [...m, { msg: commitments, author: "Ford Chat", line: true, zip: "" }]); 
                     setMenuButtons([])
                     break; 
                 case "Pr":
                     setMessages((m) => [...m, { msg: "Production management", author: "You", line: true, zip: {} }]);
-                    setMessages((m) => [...m, { msg: "Our production management: ", author: "Ford Chat", line: true, zip: "" }]); 
+                    setMessages((m) => [...m, { msg: pm, author: "Ford Chat", line: true, zip: "" }]); 
                     setMenuButtons([])
                     break; 
                 case "EOF":
                     setMessages((m) => [...m, { msg: "End of life management", author: "You", line: true, zip: {} }]);
-                    setMessages((m) => [...m, { msg: "Our end of life management:", author: "Ford Chat", line: true, zip: "" }]); 
+                    setMessages((m) => [...m, { msg: endoflife, author: "Ford Chat", line: true, zip: "" }]); 
                     
                     break;
                     
