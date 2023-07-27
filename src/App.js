@@ -1,10 +1,10 @@
 import "./styles/App.css";
-import { TextField, InputAdornment, IconButton } from "@mui/material";
+import { TextField, InputAdornment, IconButton, Tooltip } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import ChatItem from "./components/ChatItem";
 import AccessibilityButton from "./components/AccessibilityButton";
 import { ThreeDots } from "react-loader-spinner";
-import { Mic } from "react-bootstrap-icons";
+import { Mic, BoxArrowLeft } from "react-bootstrap-icons";
 import Autofill from './components/Autofill';
 import trims from "./jsons/trims.json";
 import TopBar from "./components/TopBar";
@@ -271,6 +271,9 @@ function App() {
     };
 
     // useEffect(()=>{handleMoreInfo()}, [tableForceUpdate]);
+    const handleUserFeedback =  () => { 
+      setMessages((m) => [...m, {msg: "", author: "Feedback"}])
+    }
 
     useEffect(() => {
         handleUserFlow(
@@ -342,6 +345,7 @@ function App() {
                 tableFunctions={tableFunctions}
                 messageIndex={index}
                 selectedCars={selectedCars}
+                messages={messages}
                 setOptionButtons={setOptionButtons}
               />
               );
@@ -438,13 +442,18 @@ function App() {
                   ></div>
                 ) : (
                   <InputAdornment position="end">
-                    <Mic
-                      className="mic-icon"
-                      size="2rem"
-                      onClick={() => {
-                        toggleRecording();
-                      }}
-                    />
+                    <Tooltip title="Chat With Voice" placement="top">
+                      <Mic
+                        className="mic-icon"
+                        size="2rem"
+                        onClick={() => {
+                          toggleRecording();
+                        }}
+                      />
+                    </Tooltip>
+                    <Tooltip title="Exit Chatbot" placement="top">
+                      <BoxArrowLeft size="2rem" style={{marginLeft: "10px", cursor: "pointer"}} onClick={handleUserFeedback}/>
+                    </Tooltip>
                   </InputAdornment>
                 ),
               }}

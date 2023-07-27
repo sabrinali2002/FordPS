@@ -72,9 +72,19 @@ const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selec
         car1data = data[0][0];
     }
     if (data[1] !== undefined) car2data = data[1][0];
+
+    const handleSelectAll = () => {
+        for(const item of data[0]) {
+            onCheckboxSelect(item.id, messageIndex);
+        }
+    }
+
     return (
         <Fragment>
             {intro !== undefined && <p>{intro}</p>}
+            {data[0].length !== 0 && mode === "single" && (
+                <Button variant="secondary" style={{marginRight:"1rem"}} onClick={handleSelectAll}>Select All</Button>
+            )}
             {data[0].length !== 0 && mode === "single" && selectedCars.length < 2 && (
                 <Button disabled>Select Cars to Compare</Button>
             )}
