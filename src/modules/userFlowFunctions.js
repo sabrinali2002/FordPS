@@ -58,7 +58,8 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                         zip: {},
                     },
                 ]);
-                setMenuButtons(buyACarButtons);
+                setOptionButtons(buyACarButtons);
+                setMenuButtons([])
                 break;
             case "B":
                 setMessages((m) => [...m, { msg: "Find a dealership", author: "You" }]);
@@ -339,6 +340,12 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
                             setHistory,
                             fixTrimQueryQuotation
                         );
+                        setQuestionnaireStep(0)
+                        break;
+                    default:
+                        setQuery("")
+                        changeChoice("")
+                        blockQueries.current=false
                 }
                 break;
             case "D":
@@ -372,12 +379,13 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
                 );
                 break;
             default:
-                setQuery("");
+                if(query.length>0)
                 sendBotResponse(query, history, "chat").then((res) => {
                     setMessages((m) => [...m, { msg: res, author: "Ford Chat", line: true, zip: {} }]);
                     setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
                     blockQueries.current = false;
                 });
+                setQuery("");
                 break;
         }
     }
