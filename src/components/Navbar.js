@@ -43,6 +43,7 @@ const Navbar = ({onClick}) => {
   }
 
   function knowListener() {
+    console.log("know");
     changeKnow(!knowOpen);
   }
 
@@ -186,7 +187,7 @@ const Navbar = ({onClick}) => {
             </li>
             <li>
               <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }} onClick={onClick("combustion")}>
-                Dealer negotiation
+                Combustion vehicles
               </a>
             </li>
           </div>

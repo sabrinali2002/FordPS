@@ -262,6 +262,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                         </div>);  
                     blockQueries.current = false;
                     setPriceStep(7);
+                    setPriceMode(0);
                     break;
                 case 'No':
                     setMessages((m) => [...m, { msg: "Is there anything else I can help you with?", author: "Ford Chat", line: true }]);

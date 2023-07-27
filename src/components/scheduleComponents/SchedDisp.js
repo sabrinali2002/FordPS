@@ -54,7 +54,8 @@ function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode="", mo
           model={model}
           trim={trim}
           backButton={backButton}
-          dispName={user.displayName} userEmail={user.email}
+          dispName={user === null ? '' : user.displayName} 
+          userEmail={user === null ? '' : user.email}
         />
       )}
       {vis3 && (

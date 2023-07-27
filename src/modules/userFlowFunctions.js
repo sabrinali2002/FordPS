@@ -121,14 +121,12 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                 setVehicleMode("electric");
                 setPriceStep(1);
                 setQuery("electric");
-                setMessages((m) => [...m, { msg: "Electric vehicles", author: "You", line: true, zip: {} }]);
                 break;
             case "combustion":
                 changeChoice("combustion");
                 setVehicleMode("combustion");
                 setPriceStep(1);
                 setQuery("combustion");
-                setMessages((m) => [...m, { msg: "Combustion vehicles with negotiation assistance", author: "You", line: true, zip: {} }]);
                 break;
             case "maintenanceQuestions":
                 changeChoice("maintenanceQuestions");

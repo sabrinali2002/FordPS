@@ -21,7 +21,7 @@ import { handleCarInfo, handleCarComparison, onModelChange, onTrimChange, onChec
 import { handleUserInputFn, handleUserFlow } from "./modules/userFlowFunctions";
 
 import QuestionButton from "./components/QuestionButton";
-import HamburgerMenu from "./components/Navbar.js";
+import Navbar from "./components/Navbar.js";
 
 const fixTrimQueryQuotation = (model, query) => {
     console.log("model: " + model, "original query: " + query);
@@ -140,22 +140,26 @@ function App() {
   const origButtons = (
     <div className="buttons">
       <button className = "button-small" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You"}]})
-        setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]})
-        setMenuButtons(buyingFordButtons)
+        setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You"}]});
+        setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]});
+        setMenuButtons(buyingFordButtons);
+        setShowCalcButtons(false);
         }}>Buying a Ford</button>
       <button className = "button-small" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]})
-        setMessages(m=>{return [...m, {msg: "", author: "Login"}]})
+        setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]});
+        setMessages(m=>{return [...m, {msg: "", author: "Login"}]});
+        setShowCalcButtons(false);
         }}>I'm an Existing Owner</button>
       <button className = "button-small" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]});
+        setShowCalcButtons(false);
         }}>Info about Ford</button>
       <button className = "button-small" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Know my car's price", author: "You"}]})
-        setMessages(m=>{return [...m, {msg: "What kind of car would you like to know the price for?", author: "Ford Chat"}]})
+        setMessages(m=>{return [...m, {msg: "Negotiation assistance", author: "You"}]});
+        setMessages(m=>{return [...m, {msg: "What kind of car would you like to know the price for?", author: "Ford Chat"}]});
         setMenuButtons(knowMyPriceButtons);
-        }}>Know my car's price</button>
+        setShowCalcButtons(false);
+        }}>Negotiation assistance</button>
     </div> 
   );
   const buyingFordButtons = (
@@ -195,7 +199,7 @@ function App() {
         setMessages(m=>{return [...m, {msg: "Combustion vehicles with negotiation assistance", author: "You"}]});
         handleUserInput("combustion");
         setMenuButtons([]);
-      }}>Combustion vehicles with negotiation assistance</button>
+      }}>Combustion vehicles</button>
     </div>
   );
   const buyACarButtons = (
@@ -409,7 +413,7 @@ function App() {
         }}/></div>
       <div className="topbarback"></div>
       <div className="divider"></div>
-      <div className="burger"><HamburgerMenu onClick = {handleMenuClick}/></div>
+      <div className="burger"><Navbar onClick = {handleMenuClick}/></div>
       <AccessibilityButton 
           toggleTextSize={toggleTextSize} 
           toggleDarkMode={toggleDarkMode} 
@@ -464,6 +468,8 @@ function App() {
                 model={model}
                 trim={trim}
                 orig={origButtons}
+                messages={messages}
+                setOptionButtons={setOptionButtons}
                 key={index}
               />
               );

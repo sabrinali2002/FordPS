@@ -3,7 +3,7 @@ export default function handleDealerFlow(zipMode, dealerList, setZipCode, query,
   switch(zipMode){
     case 0: {
         const numberRegex = /\d+/g;
-        if(extractFiveDigitString(query)===null || query.match(numberRegex)[0].length != 5){
+        if((extractFiveDigitString(query)===null || query.match(numberRegex)[0].length != 5) && !requestInfo){
           setMessages((m)=>[...m,{msg: "Please input a valid zipcode", author: "Ford Chat", line:false,zip:""}]);
           break;
         }

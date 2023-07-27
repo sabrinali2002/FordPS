@@ -62,7 +62,6 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
   const [nameError, setNameError] = useState('');
   const [numError, setNumError] = useState('');
 
-  console.log(requestInfo);
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
     iconSize: [20, 20], // Adjust the icon size if necessary
@@ -158,9 +157,6 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
     }
     else if (currMin < 30) {
       currMin = 30;
-    }
-    else if (currMin < 45) {
-      currMin = 45;
     }
     else if (currMin < 60) {
       currMin = 0;
@@ -282,12 +278,12 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
           </span>
           <span style={{ paddingLeft: '20px' }}><MdOutlineArrowForwardIos /></span>
           <div>
-            <div style={{display:'flex',marginTop:'5px',alignContent:'left'}}>
-              <div>
+            <div style={{display:'flex',marginTop:'1px',alignContent:'left',flexDirection:'column'}}>
+              <div style={{display:'flex',flexDirection:'row'}}>
                 {appts.slice(0,2).map(appt => (<div className='time-slot-mini'>{appt[0]}<br/>
                     <span style={{fontWeight:'bold'}}>{appt[1]}</span></div>))}
               </div>
-              <div>
+              <div style={{display:'flex',flexDirection:'row'}}>
               {appts.slice(2,4).map(appt => (<div className='time-slot-mini'>{appt[0]}<br/>
                     <span style={{fontWeight:'bold'}}>{appt[1]}</span></div>))}
               </div>
@@ -361,20 +357,24 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
     setShowWindow(true);
     let window1 = (<div className={'dealer-window'+(maintenanceMode.length==0?'1':'3')}>
       <button className='close-button' onClick={onExit}>
-        <span style={{position:'relative',right:'6px',top:'0px'}}><IoMdClose/></span>
+        <span style={{position:'relative',right:'6px',bottom:'0px'}}><IoMdClose/></span>
       </button>
       <span style={{color:'#322964',fontSize:'24px',fontWeight:'bold'}}>{dealer}</span>
       <span style={{position:'absolute',right:'220px'}}><FaMapMarked/></span>
       <span style={{textDecoration:'underline',fontSize:'16px',position:'absolute',right:'70px',cursor:'pointer'}} onClick={() => goToMap(`${dealer}, ${addr}`)}>
         View on Google Maps</span>
       <br/>
+      <div style={{display:'flex',flexDirection:'row'}}>
       <span style={{fontSize:'16px',lineHeight:'1.8',position:'relative',left:'4px',top:'5px'}}>
         <FaLocationArrow /><span style={{ paddingLeft: '8px' }}>{addr}</span><br />
         <BsTelephoneFill /><span style={{ paddingLeft: '8px' }}>{phone}</span><br />
         <FiLink2 /><span style={{ paddingLeft: '8px' }}>{link}</span><br />
         <AiFillStar /><span style={{ paddingLeft: '8px' }}>{rating + ' stars'}</span><br />
         <AiFillClockCircle /><span style={{ paddingLeft: '8px' }}>{hrStr}</span><br /></span>
-    </div>)
+        <img style={{display:'flex',marginLeft:'285px',marginTop:'10px',height:'150px',width:'auto'}} alt='' src={url}/>
+      </div>
+    </div>
+    )
     let window2 = maintenanceMode.length==0?(<div className='dealer-window2'>
       <span style={{fontWeight:'bold',fontSize:'18px',color:'#322964'}}>Models & trims available</span>
       <span style={{paddingLeft:'7px',fontSize:'14px'}}>{selection}</span>
@@ -515,9 +515,9 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
             Car to be picked up:
           </div>
           <div style={{width:'200px',height:'150px',backgroundColor:'white',boxShadow:'1px 4px 2px rgba(0, 0, 0, 0.5)',
-                borderRadius:'10px',wordWrap:'wrap',overflowWrap:'wrap',textAlign:'center'}}>
+                borderRadius:'10px',wordWrap:'wrap',overflowWrap:'wrap',textAlign:'center',lineHeight:.5}}>
             <img src={images[selectedModel][selectedTrim]} style={{width:'250px',height:'auto',paddingRight:58}}></img>
-            <span style={{fontSize:'11px',color:'#322964',paddingRight:'5px',lineHeight:'0px'}}>2023 Ford {selectedModel}<BiRegistered/> {selectedTrim}</span>
+            <span style={{fontSize:'11px',color:'#322964',paddingRight:'5px',lineHeight:.5}}>2023 Ford {selectedModel}<BiRegistered/> {selectedTrim}</span>
           </div>
           <button
             onClick={handleRequest}
@@ -633,11 +633,11 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
   return (
   <div style={{alignItems:'flex-start'}}>
       {(showWindow && requestInfo) && 
-          <div>{window1Content}
+          <div style={{width:'92%'}}>{window1Content}
           {window4Content}
         </div>
       }
-      {(showWindow && !showRequestInfo && !requestInfo) && (<div>
+      {(showWindow && !showRequestInfo && !requestInfo) && (<div style={{marginRight:'100px',width:'68%'}}>
           {window1Content}
           {window2Content}
           {window3Content}
@@ -673,8 +673,8 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
           link={link1}
           hours={hour1}
           maintenanceMode={maintenanceMode}
-          trim={selectedTrim}
           model={selectedModel}
+          trim={selectedTrim}
         />
       )}
       {!showWindow && !isSchedulerVisible && !isScheduler2Visible && !vis3 && (

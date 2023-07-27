@@ -63,7 +63,7 @@ export default function DeliveryRegistration({model,trim,setMenuButtons,origButt
     return (show && (<div style={{alignItems:'flex-start',marginLeft:'50px'}}>
          <div className='dealer-window4'>
         <button className='close-button' onClick={onExit}>
-            <span style={{position:'relative',right:'6px',top:'0px'}}><IoMdClose/></span>
+            <span style={{position:'relative',right:'6px',bottom:'0px'}}><IoMdClose/></span>
         </button>
         <span style={{fontWeight:'bold',fontSize:'25px',color:'#322964'}}>
             {requestSent ? "Your request has been sent" : "Send a request"}</span><br/>
@@ -121,9 +121,9 @@ export default function DeliveryRegistration({model,trim,setMenuButtons,origButt
             Car to be delivered:
             </div>
             <div style={{width:'200px',height:'150px',backgroundColor:'white',boxShadow:'1px 4px 2px rgba(0, 0, 0, 0.5)',
-                borderRadius:'10px',wordWrap:'wrap',overflowWrap:'wrap',textAlign:'center'}}>
+                borderRadius:'10px',wordWrap:'wrap',overflowWrap:'wrap',textAlign:'center',lineHeight:.5}}>
             <img src={images[model][trim]} style={{width:'250px',height:'auto',paddingRight:58}}></img>
-            <span style={{fontSize:'11px',color:'#322964',paddingRight:'5px',lineHeight:'0px'}}>2023 Ford {model}<BiRegistered/> {trim}</span>
+            <span style={{fontSize:'11px',color:'#322964',paddingRight:'5px',lineHeight:.5}}>2023 Ford {model}<BiRegistered/> {trim}</span>
             </div>
             <button
             onClick={handleRequest}
