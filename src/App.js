@@ -220,12 +220,14 @@ function App() {
         setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
         changeChoice("A");
         setMenuButtons([])
+        setOptionButtons([])
         }}>Ask my own questions</button>
       <button className="button-small" onClick={()=>{
         setMessages((m) => [...m,{ msg: "Take questionnaire", author: "You", line: true }]);
         setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
         changeChoice("Q");
         setMenuButtons([])
+        setOptionButtons([])
         setQuestionnaireStep(1)
       }}>Take questionnaire</button>
     </div>
