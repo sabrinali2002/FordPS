@@ -7,6 +7,7 @@
   margin:0;
   padding:0;
   background-color: rgb(211, 204, 255);
+  height:100vh;
 }
 
 .hometop{
@@ -27,6 +28,8 @@
 
 .back{
   position: absolute;
+  height:100vh;
+  width:100%;
   z-index:-1;
 }
 
@@ -43,7 +46,7 @@
   .home{
     position:relative;
     width:100%;
-    min-height: 100vh;
+    height: 100vh;
   }
 
 .center {
@@ -52,8 +55,7 @@
     justify-content: center;
     text-align: center;
     align-items: center;
-    padding-top: 15%;
-  
+    height: 100vh;
 }
 
 .enter {
