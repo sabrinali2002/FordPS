@@ -9,6 +9,7 @@ import CarInfoDropdownSection from "./CarInfoDropdownSection";
 import ExistingOwner from "./ExistingOwners/ExistingOwner";
 import DisplayInfo from "./DisplayInfo"
 import circleHenrai from "./henraicircle.jpg";
+import DeliveryRegistration from './DeliveryRegistration';
 import Feedback from "./Feedback";
 
 function extractLinkFromText(messageText, author, darkMode){
@@ -67,7 +68,7 @@ function dictate(message, toggleIsSpeaking) {
   speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, messages, setOptionButtons}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, model, trim, orig, messages, setOptionButtons}){
   const textPartStyle = {
     display: "flex", flexDirection:"row",
     width:"100%",
@@ -77,11 +78,12 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
     paddingTop: "5px",
   }
     const [isSpeaking, toggleIsSpeaking] = useState(false);
+    console.log(zip);
     return (
         <div style={{display: "flex", flexDirection:"row", width:"100%", }}>
         <div style={(author==="You"||author==="Ford Chat")?textPartStyle:{}}>
           <div style={textPartStyle}>
-          {author === "Ford Chat" && <div><img src={circleHenrai} style={{height:"48px", width:"75px"}}></img></div>}
+          {author.includes("Ford Chat") && <div><img src={circleHenrai} style={{height:"48px", width:"75px"}}></img></div>}
           {(author!=="DropDown" && author!=="Table" && author !== "Info" && message.length>0) && <Fragment>
             <div style={{display: 'flex', flexDirection: 'row', clear:'both',}}>
                 {extractLinkFromText(message, author, darkMode)}
@@ -96,8 +98,10 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
           </div>
         {author === "Ford Chat.." && <Table loc={locs}></Table>}
       {author === "Ford Chat." && (
-        <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal} coords = {zip.coordinates} maintenanceMode={zip.maintenanceMode} selectedModel={zip.model} selectedTrim={zip.trim}></Map>
+        <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal} coords = {zip.coordinates} maintenanceMode={zip.maintenanceMode} selectedModel={model} selectedTrim={trim} requestInfo={zip.requestInfo} setMenuButtons={setMenuButtons} origButtons={orig}></Map>
       )}
+      {author=== "Ford Chat..." && 
+        <DeliveryRegistration model={model} trim={trim}setMenuButtons={setMenuButtons} origButtons={orig}/>}
       {
         author === "Info" && <Fragment>
         <DisplayInfo info = {carSpecInfo} handler = {handleUserInput} style = {{width:"80%"}}></DisplayInfo></Fragment>

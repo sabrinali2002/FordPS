@@ -4,11 +4,15 @@ import { sendBotResponse, sendRecommendRequestToServer } from "./botResponseFunc
 import handleDealerFlow from "./user_flows/handleDealerFlow";
 import handlePaymentFlow from "./user_flows/handlePaymentFlow";
 import handleInfoFlow from "./user_flows/handleInfoFlow";
+import handlePriceFlow from "./user_flows/handlePriceFlow";
 import { BiRegistered } from "react-icons/bi";
 import images from "../images/image_link.json";
 import Checkbox from '@mui/material/Checkbox';
 
-export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACarButtons,setCalcButtons,model,setModel,calcButtonHandler,setCalcStep,trim,setQuery,blockQueries,setResponse,setShowCalcButtons,setCalcHeadingText,setInfoMode,cat,setCat, setOptionButtons) {
+export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACarButtons,setCalcButtons,model,setModel,calcButtonHandler,setCalcStep,trim,setQuery,blockQueries,setResponse,setShowCalcButtons,setCalcHeadingText,setInfoMode,cat,setCat,
+    setPriceMode,
+    setPriceStep,
+    setVehicleMode, setOptionButtons) {
     return (option) => {
         // Outputs a response to based on input user selects
         if(option.includes("SCHED")){
@@ -65,6 +69,7 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                 setMessages((m) => [...m, { msg: "Find a dealership", author: "You" }]);
                 setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line: true, zip: {} }]);
                 changeChoice("B");
+                blockQueries.current = false;
                 break;
             case "C":
                 setMessages((m) => [...m, { msg: "Schedule a test drive", author: "You" }]);
@@ -112,6 +117,20 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                 changeChoice("D");
                 //setMenuButtons([]);
                 break;
+            case "electric":
+                changeChoice("electric");
+                setVehicleMode("electric");
+                setPriceStep(1);
+                setQuery("electric");
+                setMessages((m) => [...m, { msg: "Electric vehicles", author: "You", line: true, zip: {} }]);
+                break;
+            case "combustion":
+                changeChoice("combustion");
+                setVehicleMode("combustion");
+                setPriceStep(1);
+                setQuery("combustion");
+                setMessages((m) => [...m, { msg: "Combustion vehicles with negotiation assistance", author: "You", line: true, zip: {} }]);
+                break;
             case "maintenanceQuestions":
                 changeChoice("maintenanceQuestions");
                 break;
@@ -122,10 +141,96 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
     };
 }
 
-export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,handleMoreInfo,handleCarInfoButton,fixTrimQueryQuotation,query,dealerList,carInfoData,setCarInfoData,extractFiveDigitString,findLocations,handleUserInput,blockQueries,choice,setQuery,zipMode,setZipCode,messages,setMessages,setZipMode,setDistance,
-    setCalcButtons,zipCode,distance,findMode,setFind,setSelect,questionnaireStep,
-    setQuestionnaireAnswers,setQuestionnaireStep,questionnaireAnswers,setForceUpdate,forceUpdate,calcStep,model,setModel,setCalcStep, trim,setTrim,calcMode,setCalcMode,setLeaseStep,setFinanceStep,leaseStep,financeStep,
-    changeChoice,history,setHistory,infoMode,setInfoMode,vehicle,setVehicle,setShowCalcButtons,setCalcHeadingText,payment,setPayment,setMenuButtons,locateDealershipsFn,changeSelected,setDealers,selected,cat,setOptionButtons, changeFind
+export function handleUserFlow(
+    tableForceUpdate,
+    setTableForceUpdate,
+    handleMoreInfo,
+    handleCarInfoButton,
+    fixTrimQueryQuotation,
+    query,
+    dealerList,
+    carInfoData,
+    setCarInfoData,
+    extractFiveDigitString,
+    findLocations,
+    handleUserInput,
+    blockQueries,
+    choice,
+    setQuery,
+    zipMode,
+    setZipCode,
+    messages,
+    setMessages,
+    setZipMode,
+    setDistance,
+    setCalcButtons,
+    calcButtonHandler,
+    zipCode,
+    distance,
+    findMode,
+    selectHandler,
+    setFind,
+    appendSelect,
+    setSelect,
+    questionnaireStep,
+    setQuestionnaireAnswers,
+    setQuestionnaireStep,
+    questionnaireAnswers,
+    setForceUpdate,
+    forceUpdate,
+    calcStep,
+    model,
+    setModel,
+    setCalcStep,
+    trim,
+    setTrim,
+    calcMode,
+    setCalcMode,
+    setLeaseStep,
+    setFinanceStep,
+    leaseStep,
+    financeStep,
+    changeChoice,
+    history,
+    setHistory,
+    infoMode,
+    setInfoMode,
+    vehicle,
+    setVehicle,
+    showCalcButtons,
+    setShowCalcButtons,
+    calcHeadingText,
+    setCalcHeadingText,
+    payment,
+    setPayment,
+    setMenuButtons,
+    locateDealershipsFn,
+    changeSelected,
+    setDealers,
+    selected,
+    cat,
+    setCat,
+    origButtons,
+    setOptionButtons,
+    priceStep,
+    setPriceStep,
+    priceMode,
+    setPriceMode,
+    setPriceSummary,
+    setShowPriceSummary,
+    EV,
+    vehicleMode,
+    setVehicleMode,
+    setLeaseStep1, 
+    setFinanceStep1, 
+    leaseStep1, 
+    financeStep1,
+    dura,
+    setDura,
+    down,
+    setDown,
+    changeFind
+    
 ) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
@@ -134,10 +239,10 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
             const maintenanceMode=choice.replace("SCHED", "")
             const model=maintenanceMode.split("MODEL:")[1].split("TRIM:")[0]
             const trim=maintenanceMode.split("MODEL:")[1].split("TRIM:")[1]
-            handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, maintenanceMode.split("MODEL:")[0], model, trim);
+            handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model, trim, maintenanceMode.split("MODEL:")[0], );
             blockQueries.current = false;
         }
-        else
+        else {
         switch (choice) {
             case "maintenanceQuestions":
                 sendBotResponse("I am looking to schedule maintenance for my Ford car and I have a question about maintenance. Here it is: " + query, history, "maint").then((res) => {
@@ -145,248 +250,252 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
                     blockQueries.current = false;
                 });
                 break;
-            
-            case "I":
-            if (infoMode === 1) {
-                setCalcHeadingText("Choose specific model");
-                setCalcButtons(
-                    Object.keys(vehicles[cat]).map((model) => (
-                        <button
-                            className="model-button"
-                            key={model}
-                            value={model}
-                            onClick={() => {
-                                setQuery(model);
-                                setInfoMode(2);
-                                setModel(model);
-                            }}
-                        >
-                            <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} />
-                            <br />
-                            {model}
-                        </button>
-                    )));
-                setVehicle(query);
-                blockQueries.current = false;
-                break;}
-            else if(infoMode === 2){
-                setCalcHeadingText(query + ": Choose specific trim");
-                setCalcButtons(
-                    vehicles[vehicle][model].map((trim) => (
-                        <button
-                            className="model-button"
-                            key={trim}
-                            value={trim}
-                            onClick={() => {
-                                handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
-                                    setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
-                                    infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons
-                                );
-                                setTrim(trim);
-                            }}
-                        >
-                        <img style={{ width: "160px", height: "auto" }} src={images[model][trim]}/>
-                          <br />{trim}
-                      </button>)));
-                      blockQueries.current = false;
-                      break;
-            }
-            else if(infoMode === 3){
-              handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
-                setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
-                infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons);
-              blockQueries.current = false;
-            break;
-            }
-            else if(infoMode === 4){
-              handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton, model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
+            case "electric":
+              handlePriceFlow("electric",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown);
               blockQueries.current = false;
               break;
-            }
-            else if(infoMode === 10){
-                setCalcStep(2);
-                changeChoice('D');
-                handlePaymentFlow(calcStep,model,setModel,query,setQuery,
-                    setMessages,setMenuButtons,setCalcButtons,blockQueries,setCalcStep,trim,setTrim,calcMode,
-                    setCalcMode,setLeaseStep,setFinanceStep,leaseStep,financeStep,changeChoice,
-                    setShowCalcButtons,setCalcHeadingText,payment,setPayment,origButtons,setOptionButtons
-                );
-                blockQueries.current = false;
-                break;
-            }
-            blockQueries.current = false;
-            break;
-          case 'A':
-            setQuery("");
-            sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
-            break;
-          case "B": {
-            setZipMode(1);
-            handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance);
-            blockQueries.current = false;
-            break;
-          }
-          case "C":
-            {
-              if(findMode === 0){
-                const numberRegex = /\d+/g;
-                if(extractFiveDigitString(query)===null || query.match(numberRegex)[0].length != 5){
-                  setMessages((m)=>[...m,{msg: "Please input a valid zipcode", author: "Ford Chat", line:false,zip:""}]);
-                }
-                else{
-                    setZipCode(query);
-                    setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you are looking for.", author: "Ford Chat", line: true, zip: "" }]);
-                    setShowCalcButtons(true);
+            case "combustion":
+              handlePriceFlow("combustion",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown);
+              blockQueries.current = false;
+              break;
+            case "request":
+              handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model,trim,true);
+              blockQueries.current = false;
+              case "I":
+                if (infoMode === 1) {
+                    setCalcHeadingText("Choose specific model");
                     setCalcButtons(
-                        Object.keys(trims).map((model) => (
-                            <button className="model-button" key={model} value={model} onClick={()=>{
-                                setQuery(model);
-                                setModel(model);
-                                setCalcButtons([]);
-                                setFind(1);
-                                }}>
+                        Object.keys(vehicles[cat]).map((model) => (
+                            <button
+                                className="model-button"
+                                key={model}
+                                value={model}
+                                onClick={() => {
+                                    setQuery(model);
+                                    setInfoMode(2);
+                                    setModel(model);
+                                }}
+                            >
                                 <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} />
                                 <br />
                                 {model}
                             </button>
                         )));
-                    setFind(1);
-                }
-            }
-              else if(findMode === 1){
-                  setShowCalcButtons(true);
-                  setCalcButtons(<div>
-                    {   
-                    trims[query].map(trim => (
-                    <button className='model-button' style={{backgroundColor: selected[model].includes(trim)?'red':'white'}} key={trim} value={trim} onClick={()=>{
-                        let copy, copy2
-                        if (trim in selected[model]) {
-                            copy = selected[model];
-                            delete copy[trim];
-                            copy2 = selected;
-                            delete copy2[model];
-                            copy2[model] = copy;
-                            changeSelected(copy2);
-                          } else {
-                            copy = selected[model];
-                            copy.push(trim);
-                            copy2 = selected;
-                            delete copy2[model];
-                            copy2[model] = copy;
-                            changeSelected(copy2);
-                          }
-                          setForceUpdate(!forceUpdate)
-                          console.log(copy2, selected[model].includes(trim))
-                    }}>
-                        {trim}
-                    </button>
-                    // trims[query].contains(trim)) ? <button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
-                    // : <button className='model-button-selected' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
-                  ))
-                }
-                <div>
-              <button className="button-small" onClick= {changeFind}>back</button>
-              <button className="button-small" onClick = {locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons, model, selected[model][0])}>Locate the nearest dealerships</button>
-            </div>
-                </div>)
-                  setSelect(true);
-              }
-              blockQueries.current = false;
-              break;
-          }
-            case "Q":
-                switch (questionnaireStep) {
-                    case 1:
-                        setMessages((m) => [...m, { msg: "Are you interested in a specific type of vehicle, such as a cargo van, SUV, hatchback, or pickup truck?", author: "Ford Chat" }]);
-                        setQuestionnaireAnswers((q) => [...q, query]);
-                        setQuestionnaireStep(2);
-                        blockQueries.current = false;
-                        break;
-                    case 2:
-                        setMessages((m) => [...m, { msg: "How do you plan to use the car? Will it be primarily for commuting, family use, off-roading, or business purposes?", author: "Ford Chat" }]);
-                        setQuestionnaireAnswers((q) => [...q, query]);
-                        setQuestionnaireStep(3);
-                        blockQueries.current = false;
-                        break;
-                    case 3:
-                        setMessages((m) => [...m, { msg: "How many passengers do you need to accommodate regularly? ", author: "Ford Chat" }]);
-                        setQuestionnaireAnswers((q) => [...q, query]);
-                        setQuestionnaireStep(4);
-                        blockQueries.current = false;
-                        break;
-                    case 4:
-                        //setQuestionnaireAnswers(q=>[...q, query])
-                        let questionnaireAnswersCopy = [...questionnaireAnswers, query];
-                        setForceUpdate(!forceUpdate);
-                        const ultimateQueryString =
-                            "Here is my budget: " +
-                            questionnaireAnswersCopy[0] +
-                            ". I am looking for a " +
-                            questionnaireAnswersCopy[1] +
-                            ". I will primarily use it for the following: " +
-                            questionnaireAnswersCopy[2] +
-                            ". I need a seating capacity of at least: " +
-                            questionnaireAnswersCopy[3];
-                        sendRecommendRequestToServer(
-                            ultimateQueryString,
-                            history,
-                            carInfoData,
-                            messages,
-                            forceUpdate,
-                            blockQueries,
-                            setCarInfoData,
-                            setMessages,
-                            setForceUpdate,
-                            setHistory,
-                            fixTrimQueryQuotation
-                        );
-                        setQuestionnaireStep(0)
-                        break;
-                    default:
-                        setQuery("")
-                        changeChoice("")
-                        blockQueries.current=false
-                }
-                break;
-            case "D":
-                setQuery("");
-                handlePaymentFlow(
-                    calcStep,
-                    model,
-                    setModel,
-                    query,
-                    setQuery,
-                    setMessages,
-                    setMenuButtons,
-                    setCalcButtons,
-                    blockQueries,
-                    setCalcStep,
-                    trim,
-                    setTrim,
-                    calcMode,
-                    setCalcMode,
-                    setLeaseStep,
-                    setFinanceStep,
-                    leaseStep,
-                    financeStep,
-                    changeChoice,
-                    setShowCalcButtons,
-                    setCalcHeadingText,
-                    payment,
-                    setPayment,
-                    origButtons,
-                    setOptionButtons
-                );
-                break;
-            default:
-                if(query.length>0)
-                sendBotResponse(query, history, "chat").then((res) => {
-                    setMessages((m) => [...m, { msg: res, author: "Ford Chat", line: true, zip: {} }]);
-                    setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+                    setVehicle(query);
                     blockQueries.current = false;
-                });
-                setQuery("");
+                    break;}
+                else if(infoMode === 2){
+                    setCalcHeadingText(query + ": Choose specific trim");
+                    setCalcButtons(
+                        vehicles[vehicle][model].map((trim) => (
+                            <button
+                                className="model-button"
+                                key={trim}
+                                value={trim}
+                                onClick={() => {
+                                    handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
+                                        setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
+                                        infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons
+                                    );
+                                    setTrim(trim);
+                                }}
+                            >
+                            <img style={{ width: "160px", height: "auto" }} src={images[model][trim]}/>
+                              <br />{trim}
+                          </button>)));
+                          blockQueries.current = false;
+                          break;
+                }
+                else if(infoMode === 3){
+                  handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
+                    setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
+                    infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons);
+                  blockQueries.current = false;
                 break;
+                }
+                else if(infoMode === 4){
+                  handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton, model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
+                  blockQueries.current = false;
+                  break;
+                }
+                else if(infoMode === 10){
+                    setCalcStep(2);
+                    changeChoice('D');
+                    handlePaymentFlow(calcStep,model,setModel,query,setQuery,
+                        setMessages,setMenuButtons,setCalcButtons,blockQueries,setCalcStep,trim,setTrim,calcMode,
+                        setCalcMode,setLeaseStep,setFinanceStep,leaseStep,financeStep,changeChoice,
+                        setShowCalcButtons,setCalcHeadingText,payment,setPayment,origButtons,setOptionButtons
+                    );
+                    blockQueries.current = false;
+                    break;
+                }
+                blockQueries.current = false;
+                break;
+              case 'A':
+                setQuery("");
+                sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
+                break;
+              case "B": {
+                setZipMode(1);
+                handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance);
+                blockQueries.current = false;
+                break;
+              }
+              case "C":
+                {
+                  if(findMode === 0){
+                    const numberRegex = /\d+/g;
+                    if(extractFiveDigitString(query)===null || query.match(numberRegex)[0].length != 5){
+                      setMessages((m)=>[...m,{msg: "Please input a valid zipcode", author: "Ford Chat", line:false,zip:""}]);
+                    }
+                    else{
+                        setZipCode(query);
+                        setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you are looking for.", author: "Ford Chat", line: true, zip: "" }]);
+                        setShowCalcButtons(true);
+                        setCalcButtons(
+                            Object.keys(trims).map((model) => (
+                                <button className="model-button" key={model} value={model} onClick={()=>{
+                                    setQuery(model);
+                                    setModel(model);
+                                    setCalcButtons([]);
+                                    setFind(1);
+                                    }}>
+                                    <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} />
+                                    <br />
+                                    {model}
+                                </button>
+                            )));
+                        setFind(1);
+                    }
+                }
+                  else if(findMode === 1){
+                      setShowCalcButtons(true);
+                      setCalcButtons(<div>
+                        {   
+                        trims[query].map(trim => (
+                        <button className='model-button' style={{backgroundColor: selected[model].includes(trim)?'red':'white'}} key={trim} value={trim} onClick={()=>{
+                            let copy, copy2
+                            if (trim in selected[model]) {
+                                copy = selected[model];
+                                delete copy[trim];
+                                copy2 = selected;
+                                delete copy2[model];
+                                copy2[model] = copy;
+                                changeSelected(copy2);
+                              } else {
+                                copy = selected[model];
+                                copy.push(trim);
+                                copy2 = selected;
+                                delete copy2[model];
+                                copy2[model] = copy;
+                                changeSelected(copy2);
+                              }
+                              setForceUpdate(!forceUpdate)
+                              console.log(copy2, selected[model].includes(trim))
+                        }}>
+                            {trim}
+                        </button>
+                        // trims[query].contains(trim)) ? <button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
+                        // : <button className='model-button-selected' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
+                      ))
+                    }
+                    <div>
+                  <button className="button-small" onClick= {changeFind}>back</button>
+                  <button className="button-small" onClick = {locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons, model, selected[model][0])}>Locate the nearest dealerships</button>
+                </div>
+                    </div>)
+                      setSelect(true);
+                  }
+                  blockQueries.current = false;
+                  break;
+              }
+                case "Q":
+                    switch (questionnaireStep) {
+                        case 1:
+                            setMessages((m) => [...m, { msg: "Are you interested in a specific type of vehicle, such as a cargo van, SUV, hatchback, or pickup truck?", author: "Ford Chat" }]);
+                            setQuestionnaireAnswers((q) => [...q, query]);
+                            setQuestionnaireStep(2);
+                            blockQueries.current = false;
+                            break;
+                        case 2:
+                            setMessages((m) => [...m, { msg: "How do you plan to use the car? Will it be primarily for commuting, family use, off-roading, or business purposes?", author: "Ford Chat" }]);
+                            setQuestionnaireAnswers((q) => [...q, query]);
+                            setQuestionnaireStep(3);
+                            blockQueries.current = false;
+                            break;
+                        case 3:
+                            setMessages((m) => [...m, { msg: "How many passengers do you need to accommodate regularly? ", author: "Ford Chat" }]);
+                            setQuestionnaireAnswers((q) => [...q, query]);
+                            setQuestionnaireStep(4);
+                            blockQueries.current = false;
+                            break;
+                        case 4:
+                            //setQuestionnaireAnswers(q=>[...q, query])
+                            let questionnaireAnswersCopy = [...questionnaireAnswers, query];
+                            setForceUpdate(!forceUpdate);
+                            const ultimateQueryString =
+                                "Here is my budget: " +
+                                questionnaireAnswersCopy[0] +
+                                ". I am looking for a " +
+                                questionnaireAnswersCopy[1] +
+                                ". I will primarily use it for the following: " +
+                                questionnaireAnswersCopy[2] +
+                                ". I need a seating capacity of at least: " +
+                                questionnaireAnswersCopy[3];
+                            sendRecommendRequestToServer(
+                                ultimateQueryString,
+                                history,
+                                carInfoData,
+                                messages,
+                                forceUpdate,
+                                blockQueries,
+                                setCarInfoData,
+                                setMessages,
+                                setForceUpdate,
+                                setHistory,
+                                fixTrimQueryQuotation
+                            );
+                    }
+                    break;
+                case "D":
+                    setQuery("");
+                    handlePaymentFlow(
+                        calcStep,
+                        model,
+                        setModel,
+                        query,
+                        setQuery,
+                        setMessages,
+                        setMenuButtons,
+                        setCalcButtons,
+                        blockQueries,
+                        setCalcStep,
+                        trim,
+                        setTrim,
+                        calcMode,
+                        setCalcMode,
+                        setLeaseStep,
+                        setFinanceStep,
+                        leaseStep,
+                        financeStep,
+                        changeChoice,
+                        setShowCalcButtons,
+                        setCalcHeadingText,
+                        payment,
+                        setPayment,
+                        origButtons,
+                        setOptionButtons
+                    );
+                    break;
+                default:
+                    setQuery("");
+                    sendBotResponse(query, history, "chat").then((res) => {
+                        setMessages((m) => [...m, { msg: res, author: "Ford Chat", line: true, zip: {} }]);
+                        setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
+                        blockQueries.current = false;
+                    });
+                    break;
+            }
         }
+      }
     }
-  }

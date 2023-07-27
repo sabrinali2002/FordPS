@@ -1,5 +1,5 @@
 import trims from "../../jsons/trims.json";
-import EV from "../../jsons/EV.json";
+import electric from "../../jsons/EV.json";
 import carPrices from "../../jsons/carPrices.json";
 import '../../styles/App.css';
 import images from "../../images/image_link.json";
@@ -17,6 +17,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         setCalcButtons(trims[model].map(trim => 
             (<button className='model-button' key={trim} value={trim} onClick={() => 
                 {setQuery(trim);
+                    setTrim(trim);
                     setMessages((m) => [...m, { msg: trim, author: "You" }]);
                     setCalcButtons([]);
                     setShowCalcButtons(false);}}>
@@ -30,10 +31,8 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         if (trim === '') {
             setTrim(query);
         }
-        //setCalcHeadingText('Choose purchase type');
         const options = ['Lease', 'Finance', 'Buy'];
         setMessages((m) => [...m, { msg: "Would you like to lease, finance, or buy?", author: "Ford Chat", line: true }]);
-        //setShowCalcButtons(true);
         setOptionButtons(<div className='option-buttons'>
             {options.map(option => (<button className='button-small' key={option} value={option} 
                 onClick={() => 
@@ -45,7 +44,6 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         setCalcStep(3);
         break;
     case 3:
-        //setShowCalcButtons(false);
         setPayment(carPrices[model][trim]);
         switch (calcMode) {
             case 0:
@@ -91,6 +89,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                         setLeaseStep(3);
                         break;
                     case 3: // miles
+                        setPayment(payment => {return (payment/(query*2))})
                         setMessages((m) => [...m, { msg: "Please enter the expected miles driven annually", author: "Ford Chat", line: true }]);
                         blockQueries.current = false;
                         setLeaseStep(0);
@@ -150,8 +149,8 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                 //blockQueries.current = false;
                 break;
         }
-        if (Object.keys(EV).includes(model)) {
-            if (EV[model].includes(trim)) {
+        if (Object.keys(electric).includes(model)) {
+            if (electric[model].includes(trim)) {
                 //setCalcHeadingText('Place an order?');
                 setMessages((m) => [...m, { msg: "Would you like to place an order?", author: "Ford Chat", line: true }]);
                 const opts = ['Yes','No'];
@@ -233,7 +232,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                 break;
             case 'Pickup':
                 setMessages((m) => [...m, { msg: "You will now be directed to the dealership finder", author: "Ford Chat", line: true }]);
-                setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
+                setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{model:model, trim:trim} }]);
                 blockQueries.current = false;
                 changeChoice('B');
                 //handleUserInput('B');
@@ -241,7 +240,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                 break;                
             case 'Yes':
                 setMessages((m) => [...m, { msg: "You will now be directed to the dealership finder", author: "Ford Chat", line: true }]);
-                setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{} }]);
+                setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line:true,zip:{model:model, trim:trim} }]);
                 blockQueries.current = false;
                 changeChoice('B');
                 //handleUserInput('B');

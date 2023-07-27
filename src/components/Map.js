@@ -27,13 +27,11 @@ import Sched3 from './scheduleComponents/sched3';
 
 //import { scheduler } from "timers/promises";
 
-function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="", selectedTrim="" }) {
+function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="", selectedTrim="", requestInfo, setMenuButtons, origButtons}) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
   const [pickedLoc, setPickedLoc] = useState("");
-  const [model, setModel] = useState("");
-  const [trim, setTrim] = useState("");
   const [showWindow, setShowWindow] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [popupText, setPopupText] = useState("");
@@ -56,7 +54,15 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
   const [notes, setNotes] = useState("");
   const [vis2, setVis2] = useState(false);
   const [vis3, setVis3] = useState(false);
+  const [window4Content, setWindow4Content] = useState('');
+  const [requestSent, setRequestSent] = useState(false);
+  const [showRequestInfo, setShowRequestInfo] = useState(requestInfo);
+  const [address, setAddress] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [numError, setNumError] = useState('');
 
+  console.log(requestInfo);
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
     iconSize: [20, 20], // Adjust the icon size if necessary
@@ -65,7 +71,6 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
   const goToMap = (address) => {
     const encodedAddress = encodeURIComponent(address);
     const mapsUrl = `https://www.google.com/maps?q=${encodedAddress}`;
-
     window.open(mapsUrl, "_blank"); // Open the Google Maps link in a new tab/window
   };
 
@@ -88,37 +93,37 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
         "Transit Cargo Van":"Transit Connect Cargo Van","Transit Connect Cargo Van":"Transit Cargo Van",
         "Transit Passenger Van":"Transit Crew Van","Transit Crew Van":"Transit Passenger Van"};
     let models = [];
-    if (model !== "" && trim !== "") {
+    if (selectedModel !== "" && selectedTrim !== "") {
       // know model & trim
-      if (Object.values(dealerToTrim[dealer][model]).includes(trim)) {
-        models.push([model, trim]);
-        for (let trims of dealerToTrim[dealer][model]) {
-          if (trims != trim) {
-            models.push([model, trims]);
+      if (Object.values(dealerToTrim[dealer][selectedModel]).includes(selectedTrim)) {
+        models.push([selectedModel, selectedTrim]);
+        for (let trims of dealerToTrim[dealer][selectedModel]) {
+          if (trims != selectedTrim) {
+            models.push([selectedModel, trims]);
             break;
           }
         }
       } else {
         // trim unavailable
-        for (let trims of dealerToTrim[dealer][model]) {
+        for (let trims of dealerToTrim[dealer][selectedModel]) {
           if (models.length < n) {
-            models.push([model, trims]);
+            models.push([selectedModel, trims]);
           }
         }
-        let sim = similar[model];
+        let sim = similar[selectedModel];
         let i = 0;
         while (models.length < n) {
           // not enough trims of model
-          models.push(dealerToTrim[dealer][sim][i]);
+          models.push([sim,dealerToTrim[dealer][sim][i]]);
           i = i + 1;
           // append trims of similar model
         }
       }
-    } else if (model !== "") {
+    } else if (selectedModel !== "") {
       // know model, not trim
-      for (let trims of dealerToTrim[dealer][model]) {
+      for (let trims of dealerToTrim[dealer][selectedModel]) {
         if (models.length < n) {
-          models.push([model, trims]);
+          models.push([selectedModel, trims]);
         }
       }
       while (models.length < n) {
@@ -195,6 +200,34 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
       }
     }
     return appts;
+  }
+
+  const handleRequest = () => {
+    let errors = 0;
+    let num = phoneNumber.replaceAll('-','').replaceAll('/','').replaceAll('(','').replaceAll(')','');
+    const regex = /^\d{10}$/;   
+    setNameError('');
+    setEmailError('');
+    setNumError('');
+    if (name === '') {
+      setNameError("Please enter a name");
+      errors = errors + 1;
+    }
+    if (!email.includes('@')) {
+      setEmailError("Please enter a valid email");
+      errors = errors + 1;
+    }
+    if (!regex.test(num)) {
+      setNumError("Please enter a valid phone number");
+      errors = errors + 1;
+    }
+    if (errors == 0) {
+      setRequestSent(true);
+      setName('');
+      setEmail('');
+      setPhoneNumber('');
+      setMenuButtons(origButtons);
+    }
   }
 
   const markerHoverOver = (d) => {
@@ -276,7 +309,6 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
   }
 
   const handleAppointment = (name, email, phoneNumber, notes) => {
-    console.log('here');
     setName(name);
     setEmail(email);
     setPhoneNumber(phoneNumber);
@@ -294,10 +326,15 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
   const onExit = () => {
     setShowWindow(false);
     setBlockPopup(false);
+    setRequestSent(false);
+    setNumError('');
+    setNameError('');
+    setEmailError('');
   };
 
   const locClickHandler = (d) => {
     let dealer = d[0];
+    setDealer1(dealer);
     let models = returnCars(dealer, 5);
     let url = "https://images.jazelc.com/uploads/robinsford-m2en/Ford_Service.jpeg";
     let addr = info[dealer]["address"];
@@ -317,7 +354,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
       hrStr = "Closed - opens at 8am";
     }
     let selection = "based on your selection";
-    if (model == "" && trim == "") {
+    if (selectedModel == "" && selectedTrim == "") {
       selection = "";
     }
     let appts = returnAppts(6);
@@ -409,10 +446,92 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
             </span>            
           </div>
       </div>);
-    setWindow1Content(window1);
     setWindow2Content(window2);
     setWindow3Content(window3);
+    setWindow1Content(window1);
+    if (requestInfo) {
+      window4(dealer);
+    }
   };
+  useEffect(() => {
+      window4(dealer1)
+    },[requestSent,emailError,nameError,numError]);
+
+  const window4 = (dealer) => {
+    if (!requestInfo) {
+      return;
+    }
+    let content = (<div className='dealer-window4'>
+      <span style={{fontWeight:'bold',fontSize:'25px',color:'#322964'}}>
+          {requestSent ? "Your request has been sent" : "Send a request"}</span><br/>
+        <span style={{fontSize:'14px'}}>{requestSent ? "A confirmation email has been sent" : "Please fill out the following fields"}</span>
+        <div
+        style={{backgroundColor: "white",width: "100%",color: "#00095B",borderRadius: 5,marginRight: 10,marginLeft: 10,
+          fontWeight:500,fontSize:20,padding:3,marginBottom:10,marginTop:10,boxShadow:"0px 2px 4px rgba(0, 0, 0, 0.2)",justifyText:'center'
+        }}><span style={{marginLeft:330}}>{dealer}</span></div>
+      <div style={{display: "flex",flexDirection: "row",justifyContent: "start",marginBottom:10}}>
+        <div style={{display: "flex",flexDirection: "column",marginRight:50,justifyContent: "start",
+            alignItems: "start",marginLeft: 10,}}>
+          <div style={{fontWeight: 500,color: "#00095B",fontSize:23,alignSelf: "start",textAlign: "start"}}>
+            Customer Information
+          </div>
+          <a
+            style={{ marginBottom: 10, color: "#575757", fontWeight: 100, fontSize:14}}
+            href="https://www.example.com"
+            target="_blank"
+            rel="noopener noreferrer">
+            Or login/create a Ford account{" "}
+          </a>
+          <input
+            onChange={e => {setName(e.target.value);
+                            setNameError('');}}
+            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
+              marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
+            placeholder=" Name*"/>
+            {nameError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{nameError}</span>}
+          <input
+            onChange={e => {setEmail(e.target.value);
+                            setEmailError('');}}
+            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
+              marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
+            placeholder=" Email*"/>
+            {emailError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{emailError}</span>}
+          <input
+            onChange={e => {setPhoneNumber(e.target.value);
+                            setNumError('');}}
+            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
+              marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
+            placeholder=" Phone number*"/>
+            {numError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{numError}</span>}
+          <input
+            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",marginBottom: 10,
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5,marginBottom: 10}}
+            placeholder=" Notes/Requests"/>
+        </div>
+        <div
+          style={{alignItems: "start",display: "flex",flexDirection: "column",width: "100%"}}>
+          <div
+            style={{fontWeight: 500,color: "#00095B",fontSize: 23,alignSelf:"start",textAlign: "start",marginBottom:'10px',marginTop:'10px'}}>
+            Car to be picked up:
+          </div>
+          <div style={{width:'200px',height:'150px',backgroundColor:'white',boxShadow:'1px 4px 2px rgba(0, 0, 0, 0.5)',
+                borderRadius:'10px',wordWrap:'wrap',overflowWrap:'wrap',textAlign:'center'}}>
+            <img src={images[selectedModel][selectedTrim]} style={{width:'250px',height:'auto',paddingRight:58}}></img>
+            <span style={{fontSize:'11px',color:'#322964',paddingRight:'5px',lineHeight:'0px'}}>2023 Ford {selectedModel}<BiRegistered/> {selectedTrim}</span>
+          </div>
+          <button
+            onClick={handleRequest}
+            style={{
+              marginTop: 0,color: "white",backgroundColor: "#322964",border: "none",borderRadius: 10,
+              paddingHorizontal: "10px",paddingTop: 5,paddingRight: 10,paddingLeft: 10,marginTop: 26,
+              fontSize: 18,width: 200,marginBottom: 10,cursor: 'pointer'}}>
+            {requestSent ? "Request sent" : "Send request"}
+          </button>
+        </div>
+      </div>
+      </div>);
+    setWindow4Content(content);
+  }
 
   const findLocations = async (distance) => {
     const result = await findLatLong(zip);
@@ -513,7 +632,12 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
   }, [zip, latlong]);
   return (
   <div style={{alignItems:'flex-start'}}>
-      {showWindow && (<div >
+      {(showWindow && requestInfo) && 
+          <div>{window1Content}
+          {window4Content}
+        </div>
+      }
+      {(showWindow && !showRequestInfo && !requestInfo) && (<div>
           {window1Content}
           {window2Content}
           {window3Content}
@@ -533,7 +657,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
         />
       )}
       {isScheduler2Visible && (
-        <Sched1 dealer={dealer1} date={date} time={time} handleAppointment={handleAppointment} backButton={backButton}/>
+        <Sched1 dealer={dealer1} date={date} time={time} handleAppointment={handleAppointment} maintenanceMode={maintenanceMode} backButton={backButton}/>
         )}
       {vis3 && (
         <Sched3
@@ -548,6 +672,9 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
           address={address1}
           link={link1}
           hours={hour1}
+          maintenanceMode={maintenanceMode}
+          trim={selectedTrim}
+          model={selectedModel}
         />
       )}
       {!showWindow && !isSchedulerVisible && !isScheduler2Visible && !vis3 && (

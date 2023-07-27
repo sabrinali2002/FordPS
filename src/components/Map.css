@@ -120,7 +120,7 @@
     align-self:flex-start;
     position: relative;
     background-color: #113B7A1A;
-    width: 75%;
+    width: 110%;
     height: auto;
     border-radius: 15px;
     padding: 20px;
@@ -132,7 +132,7 @@
 .dealer-window2 {
     position: relative;
     background-color: #113B7A1A;
-    width: 75%;
+    width: 110%;
     height: auto;
     border-radius: 15px;
     padding: 20px;
@@ -144,7 +144,7 @@
 .dealer-window3 {
     position: relative;
     background-color: #113B7A1A;
-    width: auto;
+    width: 110%;
     height: auto;
     border-radius: 15px;
     padding: 20px;
@@ -152,6 +152,22 @@
     margin-top: 15px;
     left: 150px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dealer-window4 {
+    align-items:flex-start;
+    align-self:flex-start;
+    position: relative;
+    background-color: #113B7A1A;
+    width: 110%;
+    height: auto;
+    border-radius: 15px;
+    padding: 20px;
+    padding-top: 15px;
+    left: 150px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .window-model {
