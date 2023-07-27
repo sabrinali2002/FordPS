@@ -1,5 +1,5 @@
 
-export default function handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, maintenanceMode="", model="", trim="", requestInfo=false) {
+export default function handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model="", trim="", requestInfo=false,maintenanceMode="") {
   switch(zipMode){
     case 0: {
         const numberRegex = /\d+/g;

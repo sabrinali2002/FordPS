@@ -152,12 +152,17 @@ function App() {
         setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
         }}>Info about Ford</button>
       <button className = "button-small" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You"}]})
-        }}>Negotiation Assistance</button>
+        setMessages(m=>{return [...m, {msg: "Know my car's price", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "What kind of car would you like to know the price for?", author: "Ford Chat"}]})
+        setMenuButtons(knowMyPriceButtons);
+        }}>Know my car's price</button>
     </div> 
   );
   const buyingFordButtons = (
     <div className = "buttons">
+        <button className = "button-small" onClick={() => {
+        setMenuButtons(origButtons);
+        }}>Back</button>
        <button className = "button-small" onClick={() => {
         handleUserInput('I');
         setMenuButtons([]);
@@ -179,8 +184,22 @@ function App() {
         }}>Schedule a test drive</button>
     </div>
   )
+  const knowMyPriceButtons = (
+    <div className="buttons">
+      <button className="button-small" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Electric vehicles", author: "You"}]});
+        handleUserInput("electric");
+        setMenuButtons([]);
+        }}>Electric vehicles</button>
+      <button className="button-small" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Combustion vehicles with negotiation assistance", author: "You"}]});
+        handleUserInput("combustion");
+        setMenuButtons([]);
+      }}>Combustion vehicles with negotiation assistance</button>
+    </div>
+  );
   const buyACarButtons = (
-    <div className="option-buttons">
+    <div className="buttons">
       <button className="button-small" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
         changeChoice("A");
@@ -376,7 +395,8 @@ function App() {
             dura,
             setDura,
             down,
-            setDown
+            setDown,
+            changeFind
         );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 

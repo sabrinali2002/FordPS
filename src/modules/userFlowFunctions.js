@@ -229,6 +229,7 @@ export function handleUserFlow(
     down,
     setDown,
     changeFind
+    
 ) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
@@ -237,7 +238,7 @@ export function handleUserFlow(
             const maintenanceMode=choice.replace("SCHED", "")
             const model=maintenanceMode.split("MODEL:")[1].split("TRIM:")[0]
             const trim=maintenanceMode.split("MODEL:")[1].split("TRIM:")[1]
-            handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, maintenanceMode.split("MODEL:")[0], model, trim);
+            handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model, trim, maintenanceMode.split("MODEL:")[0], );
             blockQueries.current = false;
         }
         else {
@@ -257,7 +258,7 @@ export function handleUserFlow(
               blockQueries.current = false;
               break;
             case "request":
-              handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, maintenanceMode, model,trim,true);
+              handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model,trim,true);
               blockQueries.current = false;
               case "I":
                 if (infoMode === 1) {

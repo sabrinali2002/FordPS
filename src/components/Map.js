@@ -62,6 +62,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
   const [nameError, setNameError] = useState('');
   const [numError, setNumError] = useState('');
 
+  console.log(requestInfo);
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
     iconSize: [20, 20], // Adjust the icon size if necessary
