@@ -57,6 +57,21 @@
         "ST-Line",
         "Titanium"
       ],
+      "Expedition": [
+        "All Trims",
+        "King Ranch",
+        "Limited",
+        "MAX King Ranch",
+        "MAX Limited",
+        "MAX Platinum",
+        "MAX XL Fleet",
+        "MAX XLT",
+        "Platinum",
+        "Timberline",
+        "XL Fleet",
+        "XL STX",
+        "XLT"
+    ],
       "Mustang Mach-E": [
         "All Trims",
         "California Route 1 w/Extended Range",
@@ -183,18 +198,6 @@
         "\"350 Low Roof w/130\"\" WB\"",
         "\"350 Medium Roof w/130\"\" WB\"",
         "\"350 Medium Roof w/148\"\" WB\""
-      ],
-      "F-150": [
-        "All Trims",
-        "King Ranch",
-        "Lariat",
-        "Limited",
-        "Platinum",
-        "Raptor",
-        "Raptor R",
-        "Tremor",
-        "XL",
-        "XLT"
       ],
       "Escape": [
         "All Trims",

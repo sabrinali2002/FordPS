@@ -34,6 +34,8 @@ export async function sendBotResponse(query, history, mode) {
 
 export function sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation) {
     sendBotResponse(query, history, "recommend").then((res) => {
+      blockQueries.current = false;
+      setForceUpdate(!forceUpdate)
       if(res.includes("RECOMMEND_TABLE")){
         let finalTableData=[]
         let promises=[]
@@ -69,7 +71,5 @@ export function sendRecommendRequestToServer(query, history, carInfoData, messag
         ]);
         setHistory((h) => [...h.slice(-4), { q: query, a: res }]);
       }
-      blockQueries.current = false;
-      setForceUpdate(!forceUpdate)
     });
   }

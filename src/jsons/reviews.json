@@ -1,0 +1,932 @@
+{
+    "Bronco": [
+        {
+            "date": "2022-08-15",
+            "star": 5,
+            "review": "I purchased the Ford Bronco earlier this year, and I couldn't be happier with my decision. The off-road capabilities are exceptional, and the interior is comfortable and spacious. It's a joy to drive on both city streets and rugged trails. Highly recommended!",
+            "name": "Alex"
+        },
+        {
+            "date": "2022-10-03",
+            "star": 4,
+            "review": "The Ford Bronco has exceeded my expectations in many ways. The retro-inspired design is a standout, and the performance on rough terrains is impressive. The only downside is the slightly stiff suspension, but it's a small trade-off for the overall driving experience.",
+            "name": "Emily"
+        },
+        {
+            "date": "2022-11-21",
+            "star": 3,
+            "review": "I had high hopes for the Ford Bronco, but it hasn't fully lived up to the hype for me. While it's undeniably capable off-road, the fuel efficiency leaves much to be desired. Additionally, the infotainment system can be a bit sluggish at times.",
+            "name": "David"
+        },
+        {
+            "date": "2023-01-07",
+            "star": 5,
+            "review": "I'm in love with my Ford Bronco! The rugged exterior design is matched by a well-appointed interior with modern features. It handles off-road challenges with ease and makes daily commuting enjoyable. Best purchase I've made in years.",
+            "name": "Sophia"
+        },
+        {
+            "date": "2023-03-18",
+            "star": 4,
+            "review": "The Ford Bronco is a fun and capable SUV, no doubt about it. The removable doors and roof are a fantastic feature for summer adventures. My only wish is for a more powerful engine option, as it feels a bit sluggish on highways.",
+            "name": "Michael"
+        },
+        {
+            "date": "2023-04-30",
+            "star": 5,
+            "review": "Absolutely thrilled with my Ford Bronco purchase! The vehicle is a head-turner with its classic looks and off-road prowess. It's well-equipped with safety features and tech, making it a practical and exciting choice for any adventure seeker.",
+            "name": "Olivia"
+        },
+        {
+            "date": "2023-05-15",
+            "star": 2,
+            "review": "I had high expectations for the Ford Bronco, but I've been disappointed with its reliability. I've had some issues with the electrical system, and the dealership's service hasn't been very helpful. Not the experience I was hoping for.",
+            "name": "Jonathan"
+        },
+        {
+            "date": "2023-06-02",
+            "star": 5,
+            "review": "The Ford Bronco is an absolute beast off-road! It handles rough terrains like a champ and provides a smooth ride on regular roads. The interior is well-designed and comfortable. I can't wait for my next off-road adventure!",
+            "name": "Isabella"
+        },
+        {
+            "date": "2023-07-11",
+            "star": 4,
+            "review": "I'm impressed with the Ford Bronco's performance and styling. It's a true head-turner, and its trail capabilities are commendable. The only improvement I'd suggest is a more spacious backseat, especially for taller passengers.",
+            "name": "Lucas"
+        },
+        {
+            "date": "2023-07-25",
+            "star": 3,
+            "review": "The Ford Bronco is a good all-around SUV, but it falls short in some areas. The fuel economy isn't great, and the interior materials could be of higher quality. It's decent for off-road excursions, but I expected a bit more for the price.",
+            "name": "Ava"
+        }
+    ],
+    "Bronco Sport": [
+        {
+            "date": "2022-09-05",
+            "star": 4,
+            "review": "The Ford Bronco Sport is a fantastic compact SUV. It offers a comfortable and quiet ride on city streets and performs surprisingly well off-road. The cargo space is versatile, making it great for weekend getaways. I wish the fuel efficiency were a bit better, but overall, it's a solid choice.",
+            "name": "Daniel"
+        },
+        {
+            "date": "2022-10-15",
+            "star": 5,
+            "review": "I'm loving my Ford Bronco Sport! It's the perfect size for urban driving and occasional adventures. The rugged design is eye-catching, and the interior feels premium. The handling is excellent, and the added safety features give me confidence on the road.",
+            "name": "Sophie"
+        },
+        {
+            "date": "2022-11-27",
+            "star": 3,
+            "review": "The Ford Bronco Sport has some great features, but I expected better off-road capabilities. It handles light trails fine, but it struggles with more challenging terrain. The cabin is spacious, though the infotainment system can be a bit confusing.",
+            "name": "Matthew"
+        },
+        {
+            "date": "2023-01-12",
+            "star": 5,
+            "review": "What a delightful SUV! The Ford Bronco Sport offers a smooth and comfortable ride. I'm impressed with its tech features and the user-friendly infotainment system. The fuel efficiency is decent, making it a practical choice for daily commuting.",
+            "name": "Emma"
+        },
+        {
+            "date": "2023-02-25",
+            "star": 4,
+            "review": "The Ford Bronco Sport is a stylish and versatile vehicle. It handles well on various road conditions, and the selectable drive modes are a nice touch. The interior design is modern and functional. My only complaint is that the engine can be a bit noisy under heavy acceleration.",
+            "name": "Benjamin"
+        },
+        {
+            "date": "2023-04-05",
+            "star": 5,
+            "review": "I can't praise the Ford Bronco Sport enough! It's a sporty and capable SUV that fits my adventurous lifestyle perfectly. The off-road performance is impressive, and the trail control feature is a game-changer. Plus, it's incredibly comfortable for long drives.",
+            "name": "Grace"
+        },
+        {
+            "date": "2023-05-20",
+            "star": 4,
+            "review": "The Ford Bronco Sport is a well-rounded SUV with a lot to offer. The interior is spacious and well-designed, and the infotainment system is easy to use. The ride quality is comfortable, but I wish there were more engine options for extra power.",
+            "name": "Lucas"
+        },
+        {
+            "date": "2023-06-10",
+            "star": 3,
+            "review": "I had high expectations for the Ford Bronco Sport, but it falls short in a few areas. While it's a good daily driver, I found the rear visibility to be limited. The fuel economy is average, and the interior materials could be of better quality.",
+            "name": "Ava"
+        },
+        {
+            "date": "2023-07-05",
+            "star": 5,
+            "review": "I'm absolutely thrilled with my Ford Bronco Sport! It's the perfect companion for my outdoor adventures. The cargo space is generous, and the 4x4 capabilities make it a breeze to tackle rough terrain. I couldn't have asked for a better SUV.",
+            "name": "Oliver"
+        },
+        {
+            "date": "2023-07-22",
+            "star": 4,
+            "review": "The Ford Bronco Sport is a fun and practical SUV. It's nimble in city traffic and comfortable on long drives. The off-road features are impressive for a vehicle of this size. My only minor gripe is that the base trim could use more standard safety options.",
+            "name": "Isabella"
+        }
+    ],
+    "E-Transit Cargo Van": [
+        {
+            "date": "2022-11-10",
+            "star": 4,
+            "review": "The Ford E-Transit Cargo Van is an impressive electric workhorse. Its zero-emission design aligns perfectly with my company's sustainability goals. The cargo space is ample and well-organized, making it easy to transport goods. The only improvement I'd suggest is a longer electric range for extended delivery routes.",
+            "name": "Michael"
+        },
+        {
+            "date": "2022-12-05",
+            "star": 5,
+            "review": "What a game-changer! The Ford E-Transit Cargo Van is an absolute winner for my business. It's smooth and quiet, making deliveries a breeze. The instant torque is excellent for city driving, and the charging infrastructure is becoming more accessible each day. I highly recommend it to all delivery businesses.",
+            "name": "Sophia"
+        },
+        {
+            "date": "2023-01-15",
+            "star": 3,
+            "review": "The Ford E-Transit Cargo Van has some great benefits, but it's not perfect. The electric powertrain is efficient and cost-effective, but the range can be limiting for long-distance deliveries. The cargo capacity is adequate, though I wish there were more customizable options for organizing the interior.",
+            "name": "David"
+        },
+        {
+            "date": "2023-02-28",
+            "star": 5,
+            "review": "I'm extremely satisfied with the Ford E-Transit Cargo Van! As a small business owner, the electric option has significantly reduced my operational costs. The van handles well and has enough space for all my deliveries. Charging is easy, and the regenerative braking is a nice touch.",
+            "name": "Emma"
+        },
+        {
+            "date": "2023-03-20",
+            "star": 4,
+            "review": "The Ford E-Transit Cargo Van is a practical choice for urban deliveries. The electric range is sufficient for most of my routes, and the van drives smoothly. I appreciate the advanced safety features that come standard. However, I'd love to see more charging stations available in remote areas.",
+            "name": "Benjamin"
+        },
+        {
+            "date": "2023-04-10",
+            "star": 5,
+            "review": "This electric cargo van is a game-changer! The Ford E-Transit Cargo Van has exceeded my expectations in every aspect. The cargo space is generous, and the electric range is more than enough for my daily deliveries. It's environmentally friendly and cost-effective—what more could I ask for?",
+            "name": "Grace"
+        },
+        {
+            "date": "2023-05-12",
+            "star": 4,
+            "review": "The Ford E-Transit Cargo Van is an excellent addition to my fleet. The electric drivetrain is smooth and quiet, enhancing the overall delivery experience. The cargo area is well-designed, but I'd appreciate more options for customization. Overall, a solid investment for my business.",
+            "name": "Lucas"
+        },
+        {
+            "date": "2023-06-05",
+            "star": 3,
+            "review": "The Ford E-Transit Cargo Van has its pros and cons. On the positive side, it's environmentally friendly and saves on fuel costs. However, the electric range falls short for long-distance deliveries, and the charging infrastructure in my area is not yet sufficient.",
+            "name": "Ava"
+        },
+        {
+            "date": "2023-07-15",
+            "star": 5,
+            "review": "I'm loving the Ford E-Transit Cargo Van! The electric powertrain is responsive and quiet, making my deliveries more enjoyable. The cargo space is generous and easily accommodates all my packages. It's a well-designed and efficient van for my business needs.",
+            "name": "Oliver"
+        },
+        {
+            "date": "2023-07-29",
+            "star": 4,
+            "review": "The Ford E-Transit Cargo Van is a step in the right direction for greener logistics. The electric range is sufficient for most of my routes, and the van itself is comfortable to drive. I'd appreciate more options for battery capacity, as it could help optimize my daily operations.",
+            "name": "Isabella"
+        }
+    ],
+    "Edge": [
+        {
+            "date": "2022-10-05",
+            "star": 4,
+            "review": "The Ford Edge is a reliable and comfortable SUV. It has ample space for both passengers and cargo, making it a great family vehicle. The ride quality is smooth, and the tech features are user-friendly. My only wish is for slightly better fuel efficiency.",
+            "name": "Sarah"
+        },
+        {
+            "date": "2022-11-20",
+            "star": 5,
+            "review": "I absolutely love my Ford Edge! The design is sleek and modern, and the interior is well-crafted. The performance is impressive, especially on highways, and the handling is precise. It's a top-notch SUV in every way.",
+            "name": "Jonathan"
+        },
+        {
+            "date": "2023-01-10",
+            "star": 3,
+            "review": "The Ford Edge is a decent SUV with a comfortable ride. However, I find the infotainment system to be a bit outdated, and the cabin noise could be reduced. It's a good option for daily commuting, but not necessarily the most exciting choice.",
+            "name": "David"
+        },
+        {
+            "date": "2023-02-15",
+            "star": 5,
+            "review": "I can't praise the Ford Edge enough! It's a well-rounded SUV with a perfect blend of comfort and performance. The safety features are top-notch, and the interior materials feel premium. This is the ideal vehicle for my family's needs.",
+            "name": "Sophia"
+        },
+        {
+            "date": "2023-03-28",
+            "star": 4,
+            "review": "The Ford Edge is a reliable and spacious SUV. It handles well on various road conditions, and the all-wheel-drive system provides extra confidence during bad weather. The only improvement I'd suggest is adding more USB ports for charging devices.",
+            "name": "Michael"
+        },
+        {
+            "date": "2023-05-02",
+            "star": 5,
+            "review": "What a fantastic ride! The Ford Edge offers a comfortable and smooth driving experience. The cabin is quiet, and the seats are supportive on long journeys. The technology features are intuitive and add to the overall enjoyment of the vehicle.",
+            "name": "Emily"
+        },
+        {
+            "date": "2023-06-10",
+            "star": 4,
+            "review": "The Ford Edge is a well-designed SUV with plenty of space for passengers and cargo. The exterior styling is attractive, and the handling is responsive. My only minor complaint is that the fuel economy could be slightly better.",
+            "name": "Alex"
+        },
+        {
+            "date": "2023-07-07",
+            "star": 3,
+            "review": "While the Ford Edge has its merits, I find it lacking in some areas. The ride can feel a bit stiff on rough roads, and the fuel efficiency isn't impressive. The technology features are decent, but they could be more modern.",
+            "name": "Ava"
+        },
+        {
+            "date": "2023-07-22",
+            "star": 5,
+            "review": "I'm extremely happy with my Ford Edge! The performance is outstanding, and the interior feels upscale. The infotainment system is easy to use, and the sound system is excellent. It's the perfect blend of luxury and practicality.",
+            "name": "Oliver"
+        },
+        {
+            "date": "2023-08-01",
+            "star": 4,
+            "review": "The Ford Edge is a solid midsize SUV. It's comfortable for daily commuting and has a good amount of cargo space. The safety features are reassuring, and the technology integration is convenient. Overall, a reliable choice for a family vehicle.",
+            "name": "Isabella"
+        }
+    ],
+    "Escape": [
+        {
+            "date": "2022-04-15",
+            "star": 5,
+            "review": "I purchased the Ford Escape last year, and it has exceeded my expectations in every way. The sleek design and comfortable interior make it a joy to drive. The handling is smooth and responsive, and the fuel efficiency is impressive. I love the advanced technology features, especially the infotainment system. Overall, I highly recommend the Ford Escape to anyone looking for a reliable and stylish SUV.",
+            "name": "Emily"
+        },
+        {
+            "date": "2022-06-10",
+            "star": 4,
+            "review": "The Ford Escape is a solid choice for a compact SUV. Its spacious interior and ample cargo space make it perfect for family trips. The ride quality is smooth, and the engine provides enough power for most driving situations. The fuel economy is decent, but I wish it could be a bit better. Nevertheless, it's a comfortable and practical vehicle that serves my daily commuting needs effectively.",
+            "name": "David"
+        },
+        {
+            "date": "2022-08-22",
+            "star": 3,
+            "review": "I had high hopes for the Ford Escape, but it falls short in some areas. The exterior design is attractive, but the interior feels a bit dated. The infotainment system is not as user-friendly as I would have liked. On the bright side, the handling is decent, and the safety features provide peace of mind. It's an okay option if you're looking for a basic SUV, but there are better choices in the market.",
+            "name": "Jessica"
+        },
+        {
+            "date": "2022-10-05",
+            "star": 5,
+            "review": "I absolutely love my Ford Escape! The sporty look and comfortable seats make it a pleasure to drive. The fuel efficiency is impressive, saving me money on gas. The technology features are top-notch, especially the voice-controlled commands. The car feels sturdy and safe, and I couldn't be happier with my purchase.",
+            "name": "Michael"
+        },
+        {
+            "date": "2022-11-30",
+            "star": 2,
+            "review": "Unfortunately, the Ford Escape didn't live up to my expectations. The interior materials feel cheap, and the cabin noise can be quite bothersome on long drives. The fuel economy is not as advertised, and I find myself frequently stopping at gas stations. The handling is average, and the infotainment system is slow and outdated. I regret choosing this car and would not recommend it.",
+            "name": "Sarah"
+        },
+        {
+            "date": "2023-01-12",
+            "star": 4,
+            "review": "The Ford Escape is a reliable and practical SUV that suits my family's needs. The interior is spacious, and the seats are comfortable. The technology features are intuitive, and I appreciate the inclusion of safety systems like blind-spot monitoring. The ride is smooth, and the engine provides enough power for daily driving. Overall, it's a great choice for those looking for a versatile and well-rounded SUV.",
+            "name": "Jason"
+        },
+        {
+            "date": "2023-03-05",
+            "star": 3,
+            "review": "The Ford Escape has its pros and cons. I like the exterior design and the comfortable seats, but the interior materials could be better. The infotainment system can be sluggish at times, and the touchscreen is not very responsive. On the positive side, the car handles well, and the fuel economy is reasonable. It's an average SUV, but there are competitors with better features and value.",
+            "name": "Melissa"
+        },
+        {
+            "date": "2023-04-20",
+            "star": 5,
+            "review": "I'm extremely satisfied with my Ford Escape! The compact size makes it easy to maneuver in city traffic, and the rearview camera is a great help. The interior is well-designed, and the seats are supportive for long journeys. The technology features are impressive, and I especially enjoy the smooth integration with my smartphone. Ford did an excellent job with this SUV!",
+            "name": "Alex"
+        },
+        {
+            "date": "2023-06-07",
+            "star": 4,
+            "review": "The Ford Escape is a dependable SUV with a stylish appearance. The ride is comfortable, and the cabin remains quiet even at high speeds. The fuel efficiency is commendable, and I appreciate the numerous safety features. However, the touchscreen interface can be a bit overwhelming to use while driving. Overall, it's a solid choice for families or individuals seeking a versatile and safe vehicle.",
+            "name": "Sophia"
+        },
+        {
+            "date": "2023-07-18",
+            "star": 3,
+            "review": "My experience with the Ford Escape has been mixed. The exterior design is attractive, and the handling is good. However, I've had some issues with the transmission, which is disappointing for a relatively new car. The interior is spacious, but the material quality is mediocre. The infotainment system can also be frustrating to operate. I expected better reliability and build quality from Ford.",
+            "name": "Ryan"
+        }
+    ],
+    "Expedition": [
+        {
+            "date": "2022-08-15",
+            "star": 5,
+            "review": "I've been driving the Ford Expedition for a year now, and I'm still in love with it. The spacious interior comfortably accommodates my whole family, and the third-row seating is a game-changer for road trips. The handling is surprisingly smooth for its size, making it a joy to drive. The advanced safety features also give me peace of mind on the road. Overall, the Ford Expedition is a fantastic SUV, and I highly recommend it!",
+            "name": "Emily"
+        },
+        {
+            "date": "2022-10-03",
+            "star": 4,
+            "review": "The Ford Expedition's performance and towing capacity are impressive. I often use it to tow my trailer for camping trips, and it handles the load effortlessly. The infotainment system is user-friendly, and the touchscreen is responsive. My only minor gripe is the fuel efficiency, but considering the vehicle's size and power, it's still reasonable. It's a reliable and sturdy SUV, perfect for outdoor enthusiasts like me.",
+            "name": "Jason"
+        },
+        {
+            "date": "2022-11-21",
+            "star": 3,
+            "review": "The Ford Expedition is undeniably spacious and comfortable, but the overall build quality doesn't match its price tag. I've noticed some rattling noises from the interior, and the materials used in the cabin could be of better quality. On the positive side, the engine provides sufficient power, and the large cargo capacity is a definite plus. If Ford addresses the build quality issues, this SUV would be a solid contender in its class.",
+            "name": "Mark"
+        },
+        {
+            "date": "2023-01-09",
+            "star": 5,
+            "review": "I upgraded to the Ford Expedition from a smaller SUV, and I'm extremely satisfied with my decision. The ride is smooth, and the seats are exceptionally comfortable on long drives. The tech features, including the voice-activated navigation, are intuitive and convenient. The fuel economy is surprisingly good for a vehicle of this size. I can confidently say that the Ford Expedition is the best SUV I've ever owned!",
+            "name": "Sarah"
+        },
+        {
+            "date": "2023-03-18",
+            "star": 4,
+            "review": "The Ford Expedition's design is bold and commanding, attracting attention wherever I go. The interior is well laid out and thoughtfully designed, creating a luxurious feel. The sound system is fantastic, providing an immersive experience. The only downside is the turning radius, which can be cumbersome in tight spaces. Nevertheless, this SUV delivers an enjoyable driving experience, and I'm pleased with my purchase.",
+            "name": "Alex"
+        },
+        {
+            "date": "2023-04-27",
+            "star": 2,
+            "review": "I had high hopes for the Ford Expedition, but it fell short of my expectations. The fuel consumption is excessive, and the large size makes parking in urban areas a real challenge. Additionally, I've experienced issues with the infotainment system freezing, which is frustrating. While the interior is spacious, I don't find it as comfortable as I anticipated. Sadly, I regret choosing this SUV.",
+            "name": "Kevin"
+        },
+        {
+            "date": "2023-05-08",
+            "star": 5,
+            "review": "As a growing family, the Ford Expedition has been a lifesaver. With plenty of legroom and cargo space, our road trips have become much more enjoyable. The safety features, such as blind-spot monitoring, add an extra layer of confidence while driving. Moreover, the towing capacity has allowed us to haul our camper effortlessly. We're beyond thrilled with the Ford Expedition's performance and reliability.",
+            "name": "Jennifer"
+        },
+        {
+            "date": "2023-06-12",
+            "star": 3,
+            "review": "I bought the Ford Expedition for its advertised off-road capabilities, but I'm slightly disappointed. While it can handle some rough terrain, it's not as capable as I hoped it would be. The engine performance is decent, but the acceleration could be better. On the bright side, the interior is comfortable and offers ample space for passengers and cargo. It's a decent SUV, but the off-road marketing may be a bit overstated.",
+            "name": "Ryan"
+        },
+        {
+            "date": "2023-07-05",
+            "star": 4,
+            "review": "The Ford Expedition's towing ability is truly impressive, and it has made hauling our boat to the lake a breeze. The cabin is well-insulated, providing a quiet and peaceful ride. The intuitive controls make it easy to navigate through the various features. However, I wish the fuel efficiency were better, especially during long road trips. Overall, the Ford Expedition is a powerful and reliable SUV for our outdoor adventures.",
+            "name": "Jessica"
+        },
+        {
+            "date": "2023-07-21",
+            "star": 5,
+            "review": "The Ford Expedition is the epitome of comfort and luxury. I've driven it on long journeys, and it remains incredibly comfortable throughout. The tech integration is seamless, and the touchscreen is responsive. The safety features, such as adaptive cruise control, have been a game-changer during highway drives. It's a top-notch SUV that exceeds expectations. The Ford Expedition is definitely worth the investment.",
+            "name": "Michael"
+        }
+    ],
+    "Explorer": [
+        {
+            "date": "2022-10-15",
+            "star": 4,
+            "review": "I bought the Ford Explorer last year, and it has been a reliable and comfortable SUV. The spacious interior is perfect for my family of four, and the third-row seating comes in handy during road trips. The fuel efficiency is better than I expected for a vehicle of this size. My only complaint is that the infotainment system can be a bit slow at times.",
+            "name": "David"
+        },
+        {
+            "date": "2022-12-02",
+            "star": 5,
+            "review": "I absolutely love my Ford Explorer! The powerful engine provides a smooth and enjoyable driving experience. The exterior design is stylish, and the interior is well-appointed with high-quality materials. The technology features are top-notch, and I appreciate the safety enhancements that come standard. Overall, a fantastic SUV that I highly recommend.",
+            "name": "Jessica"
+        },
+        {
+            "date": "2023-01-18",
+            "star": 3,
+            "review": "The Ford Explorer has been good overall, but I expected better fuel efficiency. The cabin is spacious, and the seats are comfortable for long drives. However, the infotainment system is not very user-friendly, and the touch screen can be unresponsive at times. I wish there were more advanced driver-assistance features available at the base trim level.",
+            "name": "Michael"
+        },
+        {
+            "date": "2023-03-06",
+            "star": 4,
+            "review": "I've been driving the Ford Explorer for six months now, and it has exceeded my expectations. The ride is smooth and stable, and the cabin remains quiet even at higher speeds. The technology integration is seamless, and the controls are intuitive. The only downside is the limited cargo space when all seats are in use.",
+            "name": "Sophia"
+        },
+        {
+            "date": "2023-04-22",
+            "star": 2,
+            "review": "I had high hopes for the Ford Explorer, but I've encountered several issues since purchasing it. The transmission occasionally feels jerky, and there have been some electrical glitches with the dashboard display. The seats are comfortable, but the legroom in the third row is cramped for adults. Disappointed with the overall build quality.",
+            "name": "Kevin"
+        },
+        {
+            "date": "2023-05-10",
+            "star": 5,
+            "review": "What a fantastic SUV! The Ford Explorer offers a smooth ride and handles exceptionally well for its size. The interior is roomy, and the panoramic sunroof adds a touch of luxury. The safety features are impressive, and I feel confident driving my family in this vehicle. So far, no complaints whatsoever!",
+            "name": "Emily"
+        },
+        {
+            "date": "2023-06-28",
+            "star": 4,
+            "review": "I recently upgraded to the Ford Explorer, and it has been a pleasant experience so far. The engine provides ample power for highway merging and overtaking. The infotainment system is user-friendly, but I wish there were more USB ports for charging devices. Overall, a solid SUV with good value for money.",
+            "name": "Andrew"
+        },
+        {
+            "date": "2023-07-05",
+            "star": 3,
+            "review": "The Ford Explorer looks great and offers a comfortable ride, but I've had some issues with the transmission shifting smoothly. The interior is spacious, and the optional features are nice to have. However, the fuel economy is not as good as I had hoped. It's an okay SUV, but I'm not sure I would buy it again.",
+            "name": "Olivia"
+        },
+        {
+            "date": "2023-07-18",
+            "star": 5,
+            "review": "I can't say enough good things about the Ford Explorer. The ride quality is excellent, and the cabin is quiet and refined. The technology package is impressive, and the adaptive cruise control makes long drives a breeze. The seats are supportive, making it a joy to take on road trips. Definitely one of the best SUVs I've owned.",
+            "name": "Daniel"
+        },
+        {
+            "date": "2023-08-02",
+            "star": 4,
+            "review": "The Ford Explorer is a well-rounded SUV that meets my family's needs. It provides a comfortable ride, and the standard safety features give me peace of mind. The touchscreen infotainment system is easy to navigate, but I wish there were physical buttons for climate control. Overall, a reliable choice for families.",
+            "name": "Ava"
+        }
+    ],
+    "F-150": [
+        {
+            "date": "2022-08-15",
+            "star": 5,
+            "review": "I absolutely love my Ford F-150! The powerful engine and smooth ride make it a joy to drive. The spacious interior and comfortable seats make long journeys a breeze. The towing capacity is impressive, and it handles well in all weather conditions. The sleek design adds to its appeal. This truck is a reliable workhorse and a perfect family vehicle.",
+            "name": "John"
+        },
+        {
+            "date": "2022-10-03",
+            "star": 4,
+            "review": "After owning the Ford F-150 for a few months, I'm quite satisfied with my purchase. The fuel efficiency is better than expected for a truck of this size. The technology features are intuitive and easy to use. The cabin is well-insulated, providing a quiet and comfortable ride. The only minor drawback is that the infotainment screen could be a bit larger, but overall, it's a fantastic truck.",
+            "name": "Emily"
+        },
+        {
+            "date": "2022-11-22",
+            "star": 3,
+            "review": "The Ford F-150's performance is decent, but I was expecting a bit more power. The interior is spacious and practical, with ample storage options. However, the materials used in the cabin feel a bit cheap and could use improvement. The fuel economy is acceptable for a truck of this size. Overall, it gets the job done, but there are better options available.",
+            "name": "David"
+        },
+        {
+            "date": "2023-01-07",
+            "star": 5,
+            "review": "Wow, what a beast of a truck! The Ford F-150's towing capacity is outstanding, and it handled our trailer like a champ. The ride quality is smooth, even on rough roads. The technology package is impressive, and the safety features gave me peace of mind while driving. I highly recommend this truck to anyone in need of a reliable and powerful workhorse.",
+            "name": "Sarah"
+        },
+        {
+            "date": "2023-02-18",
+            "star": 4,
+            "review": "I've been using the Ford F-150 for my construction business, and it hasn't disappointed me. The bed can handle a lot of heavy equipment, and the payload capacity is excellent. The interior is comfortable, and the infotainment system keeps me entertained during long drives. The only downside is the fuel economy, but that's expected from a truck of this size. Overall, it's a solid performer.",
+            "name": "Michael"
+        },
+        {
+            "date": "2023-03-09",
+            "star": 5,
+            "review": "The Ford F-150 is the best truck I've ever owned! The engine's power is remarkable, and it can handle any terrain with ease. The interior is well-designed and filled with modern features. The adaptive cruise control and lane-keeping assist are fantastic for highway driving. This truck has exceeded my expectations in every aspect.",
+            "name": "Jessica"
+        },
+        {
+            "date": "2023-04-26",
+            "star": 2,
+            "review": "I had high hopes for the Ford F-150, but unfortunately, it hasn't lived up to my expectations. The fuel economy is disappointing, and the handling feels sluggish. The interior design lacks sophistication, and the seats are not very comfortable for long drives. I'm considering trading it in for a different truck.",
+            "name": "Mark"
+        },
+        {
+            "date": "2023-05-15",
+            "star": 5,
+            "review": "The Ford F-150 is a beast on and off the road! It's incredibly versatile, and I love taking it on outdoor adventures. The interior is roomy and well-appointed, making it perfect for family road trips. The towing capabilities are top-notch, and the advanced safety features give me confidence while driving. This truck is a dream come true.",
+            "name": "Linda"
+        },
+        {
+            "date": "2023-06-04",
+            "star": 4,
+            "review": "I'm impressed with the Ford F-150's performance and reliability. The engine provides ample power, and the transmission shifts smoothly. The interior is spacious, but I wish the seats were a bit more supportive. The infotainment system is user-friendly and has excellent connectivity options. Overall, it's a dependable truck that meets my needs.",
+            "name": "Kevin"
+        },
+        {
+            "date": "2023-07-21",
+            "star": 5,
+            "review": "I'm thrilled with my Ford F-150 purchase! This truck is a workhorse during the week and a comfortable family vehicle on weekends. The build quality is excellent, and the exterior design is eye-catching. The towing and payload capacities are impressive, and the interior is well-designed with plenty of tech features. It's the perfect balance of utility and comfort.",
+            "name": "Amy"
+        }
+    ],
+    "F-150 Lightning": [
+        {
+            "date": "2022-04-15",
+            "star": 5,
+            "review": "I bought the Ford F-150 Lightning and I am blown away by its performance and efficiency. The electric motor is incredibly powerful, and the acceleration is smooth and instant. The range is impressive too, allowing me to go on long road trips without worrying about charging. The interior is spacious and comfortable, and the tech features are top-notch. This truck has exceeded my expectations, and I highly recommend it to anyone considering an electric vehicle.",
+            "name": "John"
+        },
+        {
+            "date": "2022-05-02",
+            "star": 4,
+            "review": "The Ford F-150 Lightning is a great electric truck with a perfect balance of power and practicality. The towing capacity is impressive, and it handles well both on and off-road. The interior is well-designed and feels upscale. My only minor gripe is with the charging time, which could be a bit faster. Overall, I'm happy with my purchase, and it feels good to contribute to a greener future.",
+            "name": "Emily"
+        },
+        {
+            "date": "2022-06-10",
+            "star": 3,
+            "review": "The Ford F-150 Lightning is a solid electric truck, but it didn't completely win me over. The range is decent, and it's fun to drive, but I found the infotainment system to be a bit clunky and difficult to use. Additionally, the bed size is slightly smaller than the traditional F-150. It's a good option for those looking for an electric truck, but I think there's room for improvement.",
+            "name": "Michael"
+        },
+        {
+            "date": "2022-07-22",
+            "star": 5,
+            "review": "Wow! The Ford F-150 Lightning is a game-changer. As a contractor, I use my truck daily, and this electric version has proven its worth. The instant torque and quiet operation make it a pleasure to drive, and I've noticed significant fuel cost savings. The battery range is more than enough for my needs, and the regenerative braking helps extend it even further. Highly recommended!",
+            "name": "Sarah"
+        },
+        {
+            "date": "2022-09-05",
+            "star": 4,
+            "review": "The Ford F-150 Lightning is an impressive electric truck that doesn't compromise on performance. It's surprisingly fast and handles well for its size. The interior is spacious, and the seats are comfortable. My only concern is the charging infrastructure, which is not as widespread as traditional gas stations. If Ford can work on expanding the charging network, it would make owning this truck even more convenient.",
+            "name": "David"
+        },
+        {
+            "date": "2022-10-15",
+            "star": 5,
+            "review": "I've been a loyal Ford F-150 owner for years, and the Lightning version has exceeded my expectations. The transition to electric was seamless, and the truck feels just as powerful as its gas counterparts. The battery range is more than sufficient for my daily commute, and I appreciate the innovative tech features. Kudos to Ford for creating a fantastic electric truck!",
+            "name": "Karen"
+        },
+        {
+            "date": "2023-01-09",
+            "star": 2,
+            "review": "I had high hopes for the Ford F-150 Lightning, but I've encountered several issues. The charging process has been inconsistent, and the truck occasionally experiences software glitches. The interior materials feel a bit cheap, which is disappointing for a vehicle at this price point. Ford needs to address these problems to live up to the reputation of their F-series trucks.",
+            "name": "Greg"
+        },
+        {
+            "date": "2023-03-25",
+            "star": 5,
+            "review": "The Ford F-150 Lightning is a brilliant electric truck. The dual-motor setup provides exceptional power and traction, making it ideal for both work and play. The interior is spacious and well-appointed, and the SYNC system is user-friendly. I love the fact that it's emission-free, and the savings on fuel costs are noticeable. I can't recommend this truck enough.",
+            "name": "Amy"
+        },
+        {
+            "date": "2023-05-12",
+            "star": 4,
+            "review": "Overall, the Ford F-150 Lightning is an impressive electric truck with great utility. The acceleration is swift, and it handles like a dream. The interior design is modern, and the technology integration is seamless. My only wish is for more variety in the bed and cab configurations. Otherwise, it's an excellent choice for eco-conscious truck enthusiasts.",
+            "name": "Jason"
+        },
+        {
+            "date": "2023-07-05",
+            "star": 3,
+            "review": "The Ford F-150 Lightning has some notable advantages, but it falls short in a few areas. The electric range is sufficient for my daily commute, but on longer trips, finding fast-charging stations can be a challenge. Additionally, the truck's handling feels a bit cumbersome compared to traditional F-150 models. It's a step in the right direction, but I hope Ford continues to improve future iterations.",
+            "name": "Linda"
+        }
+    ],
+    "Mustang Mach-E": [
+        {
+            "date": "2022-05-15",
+            "star": 5,
+            "review": "I bought the Ford Mustang Mach-E, and it has exceeded all my expectations. The acceleration is fantastic, and the electric range is impressive. The interior is sleek and modern, and the technology features are top-notch. I highly recommend this electric SUV to anyone looking for a thrilling driving experience.",
+            "name": "John"
+        },
+        {
+            "date": "2022-07-03",
+            "star": 4,
+            "review": "The Ford Mustang Mach-E is a stylish and powerful electric vehicle. The performance is excellent, and the handling is precise. The range is sufficient for most of my daily commutes, and the charging infrastructure is improving. The interior design is elegant, although the backseat legroom could be better. Overall, it's a great addition to the electric vehicle market.",
+            "name": "Emily"
+        },
+        {
+            "date": "2022-09-22",
+            "star": 3,
+            "review": "I had high expectations for the Ford Mustang Mach-E, but it fell a bit short. The performance is decent, but I expected more from a Mustang. The interior is comfortable, but some materials feel cheap. The electric range is acceptable, but charging times can be a hassle. It's a good electric SUV, but I'm not completely blown away.",
+            "name": "Michael"
+        },
+        {
+            "date": "2022-10-11",
+            "star": 5,
+            "review": "What an incredible electric vehicle! The Ford Mustang Mach-E delivers an exhilarating driving experience. The acceleration is mind-blowing, and the instant torque makes merging onto highways a breeze. The interior is spacious and comfortable, with a user-friendly infotainment system. This car truly lives up to the Mustang name.",
+            "name": "Samantha"
+        },
+        {
+            "date": "2023-01-07",
+            "star": 4,
+            "review": "The Ford Mustang Mach-E is a game-changer for electric vehicles. The sleek design turns heads wherever I go, and the driving dynamics are impressive. The range is suitable for my daily needs, and the regenerative braking system helps extend it further. The only downside is the lack of physical controls for some functions on the touchscreen.",
+            "name": "Robert"
+        },
+        {
+            "date": "2023-02-18",
+            "star": 5,
+            "review": "I am amazed by the Ford Mustang Mach-E. The all-electric powertrain delivers a smooth and quiet ride, and the handling is sharp. The interior is well-crafted with comfortable seats and ample cargo space. The Mustang Mach-E sets a new standard for electric vehicles and is an absolute joy to drive.",
+            "name": "Jessica"
+        },
+        {
+            "date": "2023-03-29",
+            "star": 2,
+            "review": "Disappointed with the Ford Mustang Mach-E. The advertised electric range is not achievable in real-world driving conditions. The touchscreen interface is clunky and unresponsive at times. Additionally, the build quality doesn't match the price tag. I expected better from Ford.",
+            "name": "Mark"
+        },
+        {
+            "date": "2023-04-02",
+            "star": 5,
+            "review": "The Ford Mustang Mach-E is the best car I've ever owned! The acceleration is exhilarating, and the handling is precise. The interior is spacious and luxurious, with a high-tech feel. The large touchscreen is intuitive to use, and the driving range is more than enough for my daily activities. Absolutely love it!",
+            "name": "Amanda"
+        },
+        {
+            "date": "2023-06-14",
+            "star": 4,
+            "review": "I've been driving the Ford Mustang Mach-E for a few months now, and it's been a joyride. The electric powertrain is zippy and efficient, and the driving range meets my needs for daily commuting. The cabin is well-designed with comfortable seats and plenty of legroom. However, the charging infrastructure in my area still needs improvement.",
+            "name": "David"
+        },
+        {
+            "date": "2023-07-19",
+            "star": 3,
+            "review": "The Ford Mustang Mach-E is a good electric SUV, but it lacks some key features. The range is adequate, but I expected better for a vehicle in this price range. The infotainment system can be sluggish, and the touch-sensitive buttons on the steering wheel are inconvenient to use while driving. The driving experience is decent overall, but it's not exceptional.",
+            "name": "Jennifer"
+        }
+    ],
+    "Ranger": [
+        {
+            "date": "2022-08-15",
+            "star": 5,
+            "review": "I purchased the Ford Ranger recently, and it has exceeded my expectations in every way. The powerful engine delivers impressive performance both on and off-road. The cabin is comfortable, and the tech features are intuitive to use. I'm thrilled with my decision to buy this truck!",
+            "name": "John"
+        },
+        {
+            "date": "2022-09-02",
+            "star": 4,
+            "review": "The Ford Ranger is a well-rounded pickup with a good balance of capability and comfort. The ride quality is smooth, and the interior feels refined. My only minor complaint is that the infotainment system could be more responsive, but overall, it's a great truck.",
+            "name": "Emily"
+        },
+        {
+            "date": "2022-10-18",
+            "star": 3,
+            "review": "I had high hopes for the Ford Ranger, but I find the fuel efficiency to be disappointing. The ride is bumpy on rough roads, and the cabin lacks some modern amenities found in competitors. It's an average truck, but I expected better.",
+            "name": "David"
+        },
+        {
+            "date": "2022-11-05",
+            "star": 5,
+            "review": "The Ford Ranger is a beast! Its towing capacity is impressive, and it handles heavy loads with ease. The interior is spacious, and the seats are comfortable for long drives. I can confidently say this is the best truck I've ever owned.",
+            "name": "Melissa"
+        },
+        {
+            "date": "2023-01-22",
+            "star": 4,
+            "review": "The Ford Ranger strikes a perfect balance between size and maneuverability. It's easy to navigate in tight city streets, and parking is a breeze. The only improvement I'd suggest is more sound insulation, as road noise can be noticeable at higher speeds.",
+            "name": "Daniel"
+        },
+        {
+            "date": "2023-03-11",
+            "star": 2,
+            "review": "I'm not impressed with the Ford Ranger's performance during off-road adventures. It struggles with steep inclines and lacks the advanced off-road features of some competitors. On the bright side, it's a comfortable daily driver for city use.",
+            "name": "Sophia"
+        },
+        {
+            "date": "2023-04-30",
+            "star": 5,
+            "review": "The Ford Ranger's exterior design is rugged and attractive. I constantly receive compliments on its looks. Beyond that, the interior offers a user-friendly experience, and the truck bed is spacious enough for all my gear. I love this truck!",
+            "name": "Michael"
+        },
+        {
+            "date": "2023-05-16",
+            "star": 3,
+            "review": "While the Ford Ranger has a comfortable cabin, I find the seats lack sufficient lumbar support for longer drives. Additionally, the base audio system could use an upgrade to match the overall quality of the truck. It's a decent option but not outstanding.",
+            "name": "Ava"
+        },
+        {
+            "date": "2023-06-25",
+            "star": 4,
+            "review": "The Ford Ranger's towing capabilities impressed me when I needed to haul a heavy load. The engine is responsive, and the transmission shifts smoothly. The interior is functional and practical, making it an excellent choice for work and leisure.",
+            "name": "Ryan"
+        },
+        {
+            "date": "2023-07-05",
+            "star": 5,
+            "review": "I am thrilled with the safety features of the Ford Ranger. The adaptive cruise control and lane-keeping assist provide peace of mind during long journeys. Furthermore, it's an enjoyable truck to drive, and the fuel economy is surprisingly good for its size.",
+            "name": "Isabella"
+        }
+    ],
+    "Transit Cargo Van": [
+        {
+            "date": "2022-10-15",
+            "star": 4,
+            "review": "I've been using the Ford Transit Cargo Van for my small delivery business, and it has been performing admirably. The spacious interior allows me to fit a lot of packages, and the handling is surprisingly smooth. However, I wish the fuel efficiency was a bit better.",
+            "name": "John"
+        },
+        {
+            "date": "2023-01-03",
+            "star": 5,
+            "review": "The Ford Transit Cargo Van is an absolute game-changer for my catering business. It offers plenty of room for transporting food trays and equipment. I love the modern tech features that keep me connected on the go. This van has truly made my work much more efficient.",
+            "name": "Emily"
+        },
+        {
+            "date": "2023-02-22",
+            "star": 3,
+            "review": "As a freelance photographer, I needed a reliable vehicle to carry my equipment to different locations. The Ford Transit Cargo Van fits the bill in terms of space, but I've experienced some mechanical issues that required repairs. It's a decent option, but the reliability could be improved.",
+            "name": "Michael"
+        },
+        {
+            "date": "2023-04-11",
+            "star": 5,
+            "review": "I absolutely love my Ford Transit Cargo Van! The interior is surprisingly comfortable, making long drives enjoyable. It's versatile enough to serve both as a work van and a family vehicle. The fuel economy is impressive for its size, and it's a pleasure to drive.",
+            "name": "Sarah"
+        },
+        {
+            "date": "2023-05-29",
+            "star": 4,
+            "review": "Using the Ford Transit Cargo Van for my delivery service has been great overall. The cargo space is fantastic, allowing me to handle large and bulky items with ease. The only drawback is the lack of advanced safety features that are becoming standard in newer vehicles.",
+            "name": "David"
+        },
+        {
+            "date": "2022-12-05",
+            "star": 2,
+            "review": "I had high hopes for the Ford Transit Cargo Van, but I've been disappointed with its performance. The engine feels underpowered, especially when fully loaded. The handling is a bit cumbersome, and the fuel consumption is higher than expected. Not my ideal choice.",
+            "name": "Laura"
+        },
+        {
+            "date": "2023-06-17",
+            "star": 5,
+            "review": "The Ford Transit Cargo Van is a true workhorse! I'm a plumber, and this van accommodates all my tools and equipment with ease. The ride quality is surprisingly smooth, and the engine is responsive. I highly recommend it to fellow tradespeople.",
+            "name": "Mark"
+        },
+        {
+            "date": "2023-03-08",
+            "star": 4,
+            "review": "The Ford Transit Cargo Van is a reliable and practical option for my small business needs. The cargo space is impressive, and the sliding door on the side is convenient. My only suggestion would be to improve the dashboard design and add more storage compartments.",
+            "name": "Jennifer"
+        },
+        {
+            "date": "2022-11-30",
+            "star": 5,
+            "review": "I've been using the Ford Transit Cargo Van for my mobile pet grooming service, and it's been exceptional. The interior is easy to clean, and there's ample space for all my grooming tools and supplies. It drives smoothly and has a solid build quality.",
+            "name": "Alex"
+        },
+        {
+            "date": "2023-07-20",
+            "star": 4,
+            "review": "The Ford Transit Cargo Van has been a dependable addition to our delivery fleet. It has reduced our transportation costs with its decent fuel efficiency. The only improvement I'd like to see is better insulation for the interior to keep the cabin quieter on the highways.",
+            "name": "Kevin"
+        }
+    ],
+    "Transit Crew Van": [
+        {
+            "date": "2022-08-15",
+            "star": 5,
+            "review": "I purchased the Ford Transit Crew Van for my small business, and it has been an absolute game-changer. The spacious interior allows me to transport both my crew and equipment comfortably. The handling is smooth, and the fuel efficiency is impressive. Highly recommended!",
+            "name": "Alex"
+        },
+        {
+            "date": "2022-09-02",
+            "star": 4,
+            "review": "As a contractor, the Ford Transit Crew Van has become an indispensable part of my daily work routine. The ample cargo space and the ability to seat my crew comfortably have made transportation a breeze. The only minor downside is the lack of some advanced features in the base model.",
+            "name": "Emily"
+        },
+        {
+            "date": "2022-10-10",
+            "star": 3,
+            "review": "I had high expectations for the Ford Transit Crew Van, but it fell a bit short. While it's functional and reliable, I found the ride quality to be a bit bumpy on rough roads. The interior design could also use some improvements to make it more appealing.",
+            "name": "Ryan"
+        },
+        {
+            "date": "2022-11-20",
+            "star": 5,
+            "review": "The Ford Transit Crew Van has exceeded my expectations in every aspect. It's incredibly spacious, comfortable, and handles like a dream. Whether I'm using it for work or a family trip, it never disappoints. The fuel efficiency is surprisingly good for a vehicle of this size.",
+            "name": "Sophia"
+        },
+        {
+            "date": "2022-12-05",
+            "star": 4,
+            "review": "I've been using the Ford Transit Crew Van as a mobile studio for my photography business, and it has served me well. The van's customization options allowed me to create a perfect setup for my needs. The only improvement I'd suggest is a more user-friendly infotainment system.",
+            "name": "Jacob"
+        },
+        {
+            "date": "2023-01-08",
+            "star": 2,
+            "review": "Unfortunately, my experience with the Ford Transit Crew Van has been disappointing. The transmission started acting up after a few months of use, and the repair process was frustrating. It's a shame because the van had great potential, but the reliability issues were a letdown.",
+            "name": "Linda"
+        },
+        {
+            "date": "2023-02-14",
+            "star": 5,
+            "review": "I've been using the Ford Transit Crew Van for my rideshare business, and I couldn't be happier. My passengers frequently compliment the spacious and comfortable interior. The van's reliability gives me peace of mind during long hours on the road. Five stars all the way!",
+            "name": "David"
+        },
+        {
+            "date": "2023-03-22",
+            "star": 4,
+            "review": "The Ford Transit Crew Van has been an excellent addition to our company's fleet. It handles well, and the fuel economy is impressive for a vehicle of this size. The interior is well-designed and can accommodate our entire crew comfortably. The only drawback is the limited color options.",
+            "name": "Melissa"
+        },
+        {
+            "date": "2023-04-30",
+            "star": 3,
+            "review": "I had high hopes for the Ford Transit Crew Van, but it hasn't been as reliable as I expected. The engine performance is decent, but I've experienced some electrical issues that required multiple trips to the service center. It's a mixed bag for me.",
+            "name": "Jason"
+        },
+        {
+            "date": "2023-05-19",
+            "star": 5,
+            "review": "I absolutely love the Ford Transit Crew Van. The cargo space is unmatched, and it comfortably seats all my crew members. The safety features are impressive, and it gives me confidence during long-distance drives. This van is a valuable asset to our business!",
+            "name": "Sarah"
+        }
+    ],
+    "Transit Passenger Van": [
+        {
+            "date": "2022-10-15",
+            "star": 4,
+            "review": "The Ford Transit Passenger Van is a solid choice for large families or groups. It comfortably seats up to 12 people, and the interior is well-designed with ample legroom and storage space. The ride is smooth, and the van handles well on the highway. My family loves the convenience of this van for road trips and outings. The only downside is that the fuel efficiency could be better.",
+            "name": "John"
+        },
+        {
+            "date": "2022-11-02",
+            "star": 5,
+            "review": "I recently purchased the Ford Transit Passenger Van for my shuttle service business, and it has exceeded my expectations. The van is spacious, comfortable, and has a refined interior that impresses my customers. The sliding doors make it easy for passengers to enter and exit. Additionally, the advanced safety features provide peace of mind while driving. I highly recommend this van to anyone in need of a reliable people carrier.",
+            "name": "Emily"
+        },
+        {
+            "date": "2022-12-09",
+            "star": 3,
+            "review": "The Ford Transit Passenger Van has a lot of space, but the seats could be more comfortable for long journeys. The van performs well on the road, but I feel that the engine could use some more power, especially when fully loaded. On the positive side, the infotainment system is user-friendly, and the van is surprisingly easy to maneuver in tight spaces.",
+            "name": "David"
+        },
+        {
+            "date": "2023-01-21",
+            "star": 5,
+            "review": "We bought the Ford Transit Passenger Van for our sports team, and it has been a game-changer. The van accommodates all our gear and players comfortably. The climate control system keeps everyone comfortable, and the van's stability is excellent even at high speeds. It has become an essential part of our team's success. Highly recommended!",
+            "name": "Rachel"
+        },
+        {
+            "date": "2023-02-14",
+            "star": 4,
+            "review": "The Ford Transit Passenger Van is an excellent choice for large families. It has plenty of room for both passengers and cargo. The seats are versatile and can be configured in various ways. The ride quality is smooth and refined, making long trips enjoyable. The only improvement I would suggest is adding more USB charging ports for modern devices.",
+            "name": "Michael"
+        },
+        {
+            "date": "2023-03-08",
+            "star": 2,
+            "review": "I had high expectations for the Ford Transit Passenger Van, but I'm disappointed with its fuel efficiency. The van guzzles gas, making it expensive to operate, especially for daily commuting. Although it offers plenty of space, the overall driving experience is lackluster. I wish Ford would address these fuel economy concerns in future models.",
+            "name": "Jennifer"
+        },
+        {
+            "date": "2023-04-05",
+            "star": 5,
+            "review": "As a tour guide, the Ford Transit Passenger Van is my go-to vehicle. It accommodates a large group comfortably, and the high roof provides ample headroom for passengers to move around. The van's reliability has been outstanding, and it has handled various road conditions with ease. My clients are always impressed with the comfort and smoothness of the ride.",
+            "name": "Daniel"
+        },
+        {
+            "date": "2023-05-12",
+            "star": 4,
+            "review": "The Ford Transit Passenger Van is a great option for family vacations. The spacious interior allows us to pack everything we need, and the van's safety features give us peace of mind during our travels. It drives like a dream, and the visibility is excellent. My only minor gripe is that the dashboard could use more intuitive controls.",
+            "name": "Sarah"
+        },
+        {
+            "date": "2023-06-03",
+            "star": 5,
+            "review": "I'm a rideshare driver, and the Ford Transit Passenger Van is perfect for my job. It comfortably fits larger groups, and passengers often compliment the comfortable seats and ample legroom. The van's fuel efficiency is impressive for its size, and it's a breeze to handle in city traffic. Overall, it's a fantastic choice for rideshare professionals.",
+            "name": "Jason"
+        },
+        {
+            "date": "2023-07-20",
+            "star": 4,
+            "review": "I use the Ford Transit Passenger Van for my catering business, and it has been a reliable workhorse. The van's cargo space is generous, and it keeps my food deliveries secure and fresh. It drives smoothly, and the suspension handles bumps well, preventing any spills. My only suggestion would be to include more tie-down hooks to secure items during transportation.",
+            "name": "Michelle"
+        }
+    ],
+    "Transit Connect Cargo Van": [
+        {
+            "date": "2022-10-15",
+            "star": 4,
+            "review": "I've been using the Ford Transit Connect Cargo Van for my small delivery business, and it has been reliable and efficient. The spacious cargo area easily accommodates all my packages, and the fuel economy is impressive. The only downside is that the seats could be more comfortable on long drives.",
+            "name": "John"
+        },
+        {
+            "date": "2022-12-05",
+            "star": 5,
+            "review": "The Ford Transit Connect Cargo Van is a game-changer for my catering business. It allows me to transport all my food and equipment with ease. The handling is smooth, and the backup camera is a great feature for parking in tight spots. I couldn't be happier with this van.",
+            "name": "Mary"
+        },
+        {
+            "date": "2023-01-22",
+            "star": 3,
+            "review": "I purchased the Ford Transit Connect Cargo Van for my plumbing business, and it has its pros and cons. The cargo space is excellent, but I find the engine lacks a bit of power, especially when carrying heavy loads. The overall build quality is decent, but it could use some improvements.",
+            "name": "Michael"
+        },
+        {
+            "date": "2023-02-14",
+            "star": 5,
+            "review": "The Ford Transit Connect Cargo Van is the perfect vehicle for my flower delivery service. It's compact enough to navigate through city streets, and the sliding side doors make loading and unloading a breeze. The fuel efficiency is a huge plus, and the van has a modern, attractive design.",
+            "name": "Emily"
+        },
+        {
+            "date": "2023-03-10",
+            "star": 4,
+            "review": "As a mobile dog groomer, I rely on the Ford Transit Connect Cargo Van to transport my grooming equipment and furry clients. The van's interior is easy to clean, which is essential for my business. It handles well on the road, but I wish there were more storage compartments inside.",
+            "name": "David"
+        },
+        {
+            "date": "2023-04-27",
+            "star": 2,
+            "review": "I had high hopes for the Ford Transit Connect Cargo Van, but it didn't live up to my expectations. The transmission felt jerky, and the cabin noise was bothersome during long drives. Additionally, the fuel efficiency was not as advertised. Disappointed with the overall experience.",
+            "name": "Jennifer"
+        },
+        {
+            "date": "2023-05-05",
+            "star": 5,
+            "review": "The Ford Transit Connect Cargo Van is a fantastic choice for my mobile photography studio. The ample space allows me to set up my equipment easily, and the van's smooth ride ensures my gear stays secure. The large windows provide plenty of natural light for my shoots.",
+            "name": "Sophia"
+        },
+        {
+            "date": "2023-06-18",
+            "star": 4,
+            "review": "I use the Ford Transit Connect Cargo Van for my bakery deliveries, and it has been a reliable workhorse. The compact size is ideal for navigating through busy streets, and the wide-opening rear doors make loading and unloading cakes a breeze. My only request would be a bit more engine power.",
+            "name": "Daniel"
+        },
+        {
+            "date": "2023-07-02",
+            "star": 3,
+            "review": "I purchased the Ford Transit Connect Cargo Van for my handyman services, and it's decent for the price. The cargo area is spacious, but the lack of standard safety features is concerning. It gets the job done, but I'm considering upgrading to a more advanced model soon.",
+            "name": "Robert"
+        },
+        {
+            "date": "2023-07-20",
+            "star": 5,
+            "review": "I absolutely love the Ford Transit Connect Cargo Van! It's the perfect vehicle for my mobile art studio. The van's smooth ride keeps my artwork safe during transportation, and the high roof allows me to stand and work comfortably inside. This van has become my creative sanctuary.",
+            "name": "Alexandra"
+        }
+    ]
+}

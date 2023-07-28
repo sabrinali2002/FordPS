@@ -6,6 +6,8 @@ import images from "../../images/image_link.json";
 
 export default function handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons) {
   const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
+  console.log("Top");
+  console.log(calcStep);
   switch (calcStep) {
     case 1: //trim 
         if (model === '') {
@@ -81,7 +83,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                         setOptionButtons(<div className='option-buttons'>
                             {durations.map(dur => (<button className='button-small' key={dur.toString()} value={dur} 
                             onClick={() => 
-                                {setQuery(dur.toString());
+                                {setQuery(dur);
                                     setMessages((m) => [...m, { msg: `${dur.toString()} months`, author: "You" }]);
                                     setOptionButtons([]);}}>{dur.toString()}</button>))}
                         </div>);
@@ -108,11 +110,11 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                     case 2: // months
                         setPayment(payment => {return (payment - query)});
                         let durations = [36, 48, 60, 72, 84];
-                        setMessages((m) => [...m, { msg: "Please select your desired loan duration, in months", author: "Ford Chat", line: true }]);
+                        setMessages((m) => [...m, { msg: "Please select your desired loan duration, in months", author: "Ford Chat", line: true, zip:"" }]);
                         setOptionButtons(<div className='option-buttons'>
                             {durations.map(dur => (<button className='button-small' key={dur.toString()} value={dur} 
                             onClick={() => 
-                                {setQuery(dur.toString());
+                                {setQuery(dur);
                                     setMessages((m) => [...m, { msg: `${dur.toString()} months`, author: "You" }]);
                                     setOptionButtons([]);}}>{dur.toString()}</button>))}
                         </div>);                        
@@ -125,6 +127,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         }
         break;
     case 4:
+        console.log("here");
         let final = 0;
         switch (calcMode) {
             case 1: // lease

@@ -8,7 +8,7 @@ import CarInfoTable from "./CarInfoTable";
 import CarInfoDropdownSection from "./CarInfoDropdownSection";
 import ExistingOwner from "./ExistingOwners/ExistingOwner";
 import DisplayInfo from "./DisplayInfo"
-import circleHenrai from "./henraicircle.jpg";
+import circleHenrai from "./henrai.jpg";
 import DeliveryRegistration from './DeliveryRegistration';
 import Feedback from "./Feedback";
 
@@ -68,7 +68,7 @@ function dictate(message, toggleIsSpeaking) {
   speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, model, trim, orig, messages, setOptionButtons, setRequestSent}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, model, trim, orig, messages, setOptionButtons, showCalcButtons, setRequestSent}){
   const textPartStyle = {
     display: "flex", flexDirection:"row",
     width:"100%",
@@ -78,12 +78,11 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
     paddingTop: "5px",
   }
     const [isSpeaking, toggleIsSpeaking] = useState(false);
-    console.log(zip);
     return (
-        <div style={{display: "flex", flexDirection:"row", width:"100%", }}>
+        <div style={{display: "flex", flexDirection:"row", width:"100%",}}>
         <div style={(author==="You"||author==="Ford Chat")?textPartStyle:{}}>
           <div style={textPartStyle}>
-          {author.includes("Ford Chat") && <div><img src={circleHenrai} style={{height:"48px", width:"75px"}}></img></div>}
+          {author === "Ford Chat" && <div><img src={circleHenrai} style={{height:"48px", width:"48px", marginRight:"6px"}}></img></div>}
           {(author!=="DropDown" && author!=="Table" && author !== "Info" && message.length>0) && <Fragment>
             <div style={{display: 'flex', flexDirection: 'row', clear:'both',}}>
                 {extractLinkFromText(message, author, darkMode)}

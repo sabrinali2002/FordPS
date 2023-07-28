@@ -154,6 +154,8 @@ function App() {
       <button className = "button-small" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]});
         setShowCalcButtons(false);
+        setMessages(m=>{return [...m, {msg: "I'd be happy to tell you more about Ford! Feel free to ask any of your own questions or choose from the following options to learn more on a specific path.", author: "Ford Chat"}]})
+        setMenuButtons(infoButtons)
         }}>Info about Ford</button>
       <button className = "button-small" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Negotiation assistance", author: "You"}]});
@@ -163,6 +165,52 @@ function App() {
         }}>Negotiation assistance</button>
     </div> 
   );
+
+  //ford info buttons 
+  const infoButtons = ( 
+    <div className = "buttons"> 
+      <button className = "menu button-standard" onClick={() => { 
+        handleUserInput('SU');
+        setMenuButtons(sustainButtons)
+      }}>Sustainability</button>
+      <button className = "menu button-standard" onClick={() => { 
+        handleUserInput('INN');
+        setMenuButtons(innovateButtons)
+      }}>Innovation</button>
+    </div>
+  )
+  const innovateButtons = (
+    <div className = "buttons">
+      <button className = "menu button-standard" onClick={() => { 
+        handleUserInput('NM'); }}>New models</button> 
+      <button className = "menu button-standard" onClick={() => { 
+        handleUserInput('NF'); }}>New features</button> 
+      <button className = "menu button-standard" onClick={() => { 
+        handleUserInput('EV'); }}>EV Market</button> 
+    </div>
+    )
+    const sustainButtons = (
+      <div className = "buttons">
+        <button className = "menu button-standard" onClick={() => { 
+          handleUserInput('Cer'); }}>
+            Certifications</button> 
+        <button className = "menu button-standard" onClick={() => {
+          handleUserInput('Em'); }}>
+            Emissions</button> 
+        <button className = "menu button-standard" onClick={() => { 
+          handleUserInput('Comm'); }}>
+            Our Commitments</button> 
+        <button className = "menu button-standard" onClick={() => { 
+          handleUserInput('Pr'); }}
+          >Production management</button> 
+        <button className = "menu button-standard" onClick={() => { 
+          handleUserInput('EOF'); }}>
+            End of life management</button> 
+      </div>
+      )
+      
+
+
   const buyingFordButtons = (
     <div className = "buttons">
         <button className = "button-small" onClick={() => {
@@ -209,12 +257,14 @@ function App() {
         setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
         changeChoice("A");
         setMenuButtons([])
+        setOptionButtons([])
         }}>Ask my own questions</button>
       <button className="button-small" onClick={()=>{
         setMessages((m) => [...m,{ msg: "Take questionnaire", author: "You", line: true }]);
         setMessages(m=>{return [...m, {msg: "Great! What is your budget range for purchasing a car?", author: "Ford Chat"}]})
         changeChoice("Q");
         setMenuButtons([])
+        setOptionButtons([])
         setQuestionnaireStep(1)
       }}>Take questionnaire</button>
     </div>
@@ -267,7 +317,8 @@ function App() {
         setCat,
         setPriceMode,
         setPriceStep,
-        setVehicleMode
+        setVehicleMode,
+        setOptionButtons
     );
 
     useEffect(() => {
@@ -439,7 +490,14 @@ function App() {
               : "22px",
         }}
       >
-        <div className="ChatArea">
+        <div className="ChatArea" style={{
+          width: "100vw",
+          height: "78vh",
+          paddingTop: "6%",
+          display: "flex",
+          flexDirection: "column",
+          overflowY: "auto",
+        }}>
 
         <div className="MessagesArea">
             <div>
@@ -472,6 +530,7 @@ function App() {
                 orig={origButtons}
                 messages={messages}
                 setOptionButtons={setOptionButtons}
+                showCalcButtons={showCalcButtons}
                 setRequestSent={setRequestSent}
                 key={index}
               />
