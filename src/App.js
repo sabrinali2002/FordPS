@@ -21,7 +21,7 @@ import { handleCarInfo, handleCarComparison, onModelChange, onTrimChange, onChec
 import { handleUserInputFn, handleUserFlow } from "./modules/userFlowFunctions";
 
 import QuestionButton from "./components/QuestionButton";
-import HamburgerMenu from "./components/Navbar.js";
+import Navbar from "./components/Navbar.js";
 
 const fixTrimQueryQuotation = (model, query) => {
     console.log("model: " + model, "original query: " + query);
@@ -99,6 +99,20 @@ function App() {
     const [tableForceUpdate, setTableForceUpdate] = useState(false);
     const [selectedCars, setSelectedCars] = useState([]);
 
+    //know my price
+    const [vehicleMode, setVehicleMode] = useState('');
+    const [priceMode, setPriceMode] = useState(0);
+    const [priceStep, setPriceStep] = useState(0);
+    const [showPriceSummary, setShowPriceSummary] = useState(false);
+    const [priceSummary, setPriceSummary] = useState('');
+    const [EV,setEV] = useState(false);
+    const [leaseStep1,setLeaseStep1] = useState(0);
+    const [financeStep1, setFinanceStep1] = useState(0);
+    const [dura, setDura] = useState('');
+    const [down, setDown] = useState(0);
+    const [requestSent, setRequestSent] = useState(false);
+
+
     const blockQueries = useRef(false);
     const recognition = useRef(null);
     //map functions -------------------------------------------------------->
@@ -127,22 +141,28 @@ function App() {
   const origButtons = (
     <div className="buttons">
       <button className = "button-small" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You"}]})
-        setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]})
-        setMenuButtons(buyingFordButtons)
+        setMessages(m=>{return [...m, {msg: "Buying a Ford", author: "You"}]});
+        setMessages(m=>{return [...m, {msg: "What info would you like to know?", author: "Ford Chat"}]});
+        setMenuButtons(buyingFordButtons);
+        setShowCalcButtons(false);
         }}>Buying a Ford</button>
       <button className = "button-small" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]})
-        setMessages(m=>{return [...m, {msg: "", author: "Login"}]})
+        setMessages(m=>{return [...m, {msg: "I'm an Existing Owner", author: "You"}]});
+        setMessages(m=>{return [...m, {msg: "", author: "Login"}]});
+        setShowCalcButtons(false);
         }}>I'm an Existing Owner</button>
       <button className = "button-small" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]})
+        setMessages(m=>{return [...m, {msg: "Info about Ford", author: "You"}]});
+        setShowCalcButtons(false);
         setMessages(m=>{return [...m, {msg: "I'd be happy to tell you more about Ford! Feel free to ask any of your own questions or choose from the following options to learn more on a specific path.", author: "Ford Chat"}]})
         setMenuButtons(infoButtons)
         }}>Info about Ford</button>
       <button className = "button-small" onClick={()=>{
-        setMessages(m=>{return [...m, {msg: "Negotiation Assistance", author: "You"}]})
-        }}>Negotiation Assistance</button>
+        setMessages(m=>{return [...m, {msg: "Negotiation assistance", author: "You"}]});
+        setMessages(m=>{return [...m, {msg: "What kind of car would you like to know the price for?", author: "Ford Chat"}]});
+        setMenuButtons(knowMyPriceButtons);
+        setShowCalcButtons(false);
+        }}>Negotiation assistance</button>
     </div> 
   );
 
@@ -193,6 +213,9 @@ function App() {
 
   const buyingFordButtons = (
     <div className = "buttons">
+        <button className = "button-small" onClick={() => {
+        setMenuButtons(origButtons);
+        }}>Back</button>
        <button className = "button-small" onClick={() => {
         handleUserInput('I');
         setMenuButtons([]);
@@ -214,8 +237,22 @@ function App() {
         }}>Schedule a test drive</button>
     </div>
   )
+  const knowMyPriceButtons = (
+    <div className="buttons">
+      <button className="button-small" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Electric vehicles", author: "You"}]});
+        handleUserInput("electric");
+        setMenuButtons([]);
+        }}>Electric vehicles</button>
+      <button className="button-small" onClick={()=>{
+        setMessages(m=>{return [...m, {msg: "Combustion vehicles with negotiation assistance", author: "You"}]});
+        handleUserInput("combustion");
+        setMenuButtons([]);
+      }}>Combustion vehicles</button>
+    </div>
+  );
   const buyACarButtons = (
-    <div className="option-buttons">
+    <div className="buttons">
       <button className="button-small" onClick={()=>{
         setMessages(m=>{return [...m, {msg: "Great! What kind of car are you looking for?", author: "Ford Chat"}]})
         changeChoice("A");
@@ -278,6 +315,9 @@ function App() {
         setInfoMode,
         cat,
         setCat,
+        setPriceMode,
+        setPriceStep,
+        setVehicleMode,
         setOptionButtons
     );
 
@@ -325,10 +365,95 @@ function App() {
 
     useEffect(() => {
         handleUserFlow(
-          origButtons,tableForceUpdate,setTableForceUpdate,handleMoreInfo,handleCarInfoButton,fixTrimQueryQuotation,query,dealerList,carInfoData,setCarInfoData,extractFiveDigitString,findLocations,handleUserInput,blockQueries,choice,setQuery,zipMode,setZipCode,messages,setMessages,setZipMode,setDistance,
-          setCalcButtons,zipCode,distance,findMode,setFind,setSelect,questionnaireStep,
-          setQuestionnaireAnswers,setQuestionnaireStep,questionnaireAnswers,setForceUpdate,forceUpdate,calcStep,model,setModel,setCalcStep, trim,setTrim,calcMode,setCalcMode,setLeaseStep,setFinanceStep,leaseStep,financeStep,
-          changeChoice,history,setHistory,infoMode,setInfoMode,vehicle,setVehicle,setShowCalcButtons,setCalcHeadingText,payment,setPayment,setMenuButtons,locateDealershipsFn,changeSelected,setDealers,selected,cat,setOptionButtons, changeFind
+            tableForceUpdate, 
+            setTableForceUpdate,
+            handleMoreInfo,
+            handleCarInfoButton,
+            fixTrimQueryQuotation,
+            query,
+            dealerList,
+            carInfoData,
+            setCarInfoData,
+            extractFiveDigitString,
+            findLocations,
+            handleUserInput,
+            blockQueries,
+            choice,
+            setQuery,
+            zipMode,
+            setZipCode,
+            messages,
+            setMessages,
+            setZipMode,
+            setDistance,
+            setCalcButtons,
+            calcButtonHandler,
+            zipCode,
+            distance,
+            findMode,
+            selectHandler,
+            setFind,
+            appendSelect,
+            setSelect,
+            questionnaireStep,
+            setQuestionnaireAnswers,
+            setQuestionnaireStep,
+            questionnaireAnswers,
+            setForceUpdate,
+            forceUpdate,
+            calcStep,
+            model,
+            setModel,
+            setCalcStep,
+            trim,
+            setTrim,
+            calcMode,
+            setCalcMode,
+            setLeaseStep,
+            setFinanceStep,
+            leaseStep,
+            financeStep,
+            changeChoice,
+            history,
+            setHistory,
+            infoMode,
+            setInfoMode,
+            vehicle,
+            setVehicle,
+            showCalcButtons,
+            setShowCalcButtons,
+            calcHeadingText,
+            setCalcHeadingText,
+            payment,
+            setPayment,
+            setMenuButtons,
+            locateDealershipsFn,
+            changeSelected,
+            setDealers,
+            selected,
+            cat,
+            setCat,
+            origButtons,
+            setOptionButtons,
+            priceStep,
+            setPriceStep,
+            priceMode,
+            setPriceMode,
+            setPriceSummary,
+            setShowPriceSummary,
+            EV,
+            vehicleMode,
+            setVehicleMode,
+            setLeaseStep1,
+            setFinanceStep1, 
+            leaseStep1, 
+            financeStep1,
+            dura,
+            setDura,
+            down,
+            setDown,
+            changeFind,
+            requestSent
         );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
@@ -342,7 +467,7 @@ function App() {
         }}/></div>
       <div className="topbarback"></div>
       <div className="divider"></div>
-      <div className="burger"><HamburgerMenu onClick = {handleMenuClick}/></div>
+      <div className="burger"><Navbar onClick = {handleMenuClick}/></div>
       <AccessibilityButton 
           toggleTextSize={toggleTextSize} 
           toggleDarkMode={toggleDarkMode} 
@@ -401,14 +526,22 @@ function App() {
                 tableFunctions={tableFunctions}
                 messageIndex={index}
                 selectedCars={selectedCars}
+                model={model}
+                trim={trim}
+                orig={origButtons}
                 messages={messages}
                 setOptionButtons={setOptionButtons}
                 showCalcButtons={showCalcButtons}
+                setRequestSent={setRequestSent}
+                key={index}
               />
               );
             })}
             {optionButtons}
           </div>
+          {showPriceSummary && <div className='price-summary'>
+                {priceSummary}
+                </div>}
             {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center',marginTop:'10px',marginBottom:'15px'}}>
                 <div className='model-box'>
                     <div style={{marginTop:'10px',color:'#322964',fontSize:'20px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>
@@ -421,10 +554,96 @@ function App() {
                       else{
                         setQuery(cat);
                         setInfoMode(infoMode-1)
-                        handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,handleMoreInfo,handleCarInfoButton,fixTrimQueryQuotation,query,dealerList,carInfoData,setCarInfoData,extractFiveDigitString,findLocations,handleUserInput,blockQueries,choice,setQuery,zipMode,setZipCode,messages,setMessages,setZipMode,setDistance,
-                          setCalcButtons,zipCode,distance,findMode,setFind,setSelect,questionnaireStep,
-                          setQuestionnaireAnswers,setQuestionnaireStep,questionnaireAnswers,setForceUpdate,forceUpdate,calcStep,model,setModel,setCalcStep, trim,setTrim,calcMode,setCalcMode,setLeaseStep,setFinanceStep,leaseStep,financeStep,
-                          changeChoice,history,setHistory,infoMode,setInfoMode,vehicle,setVehicle,setShowCalcButtons,setCalcHeadingText,payment,setPayment,setMenuButtons,locateDealershipsFn,changeSelected,setDealers,selected,cat,setOptionButtons, changeFind);
+                        handleUserFlow(
+                            tableForceUpdate, 
+                            setTableForceUpdate,
+                            handleMoreInfo,
+                            handleCarInfoButton,
+                            fixTrimQueryQuotation,
+                            query,
+                            dealerList,
+                            carInfoData,
+                            setCarInfoData,
+                            extractFiveDigitString,
+                            findLocations,
+                            handleUserInput,
+                            blockQueries,
+                            choice,
+                            setQuery,
+                            zipMode,
+                            setZipCode,
+                            messages,
+                            setMessages,
+                            setZipMode,
+                            setDistance,
+                            setCalcButtons,
+                            calcButtonHandler,
+                            zipCode,
+                            distance,
+                            findMode,
+                            selectHandler,
+                            setFind,
+                            appendSelect,
+                            setSelect,
+                            questionnaireStep,
+                            setQuestionnaireAnswers,
+                            setQuestionnaireStep,
+                            questionnaireAnswers,
+                            setForceUpdate,
+                            forceUpdate,
+                            calcStep,
+                            model,
+                            setModel,
+                            setCalcStep,
+                            trim,
+                            setTrim,
+                            calcMode,
+                            setCalcMode,
+                            setLeaseStep,
+                            setFinanceStep,
+                            leaseStep,
+                            financeStep,
+                            changeChoice,
+                            history,
+                            setHistory,
+                            infoMode,
+                            setInfoMode,
+                            vehicle,
+                            setVehicle,
+                            showCalcButtons,
+                            setShowCalcButtons,
+                            calcHeadingText,
+                            setCalcHeadingText,
+                            payment,
+                            setPayment,
+                            setMenuButtons,
+                            locateDealershipsFn,
+                            changeSelected,
+                            setDealers,
+                            selected,
+                            cat,
+                            setCat,
+                            origButtons,
+                            setOptionButtons,
+                            priceStep,
+                            setPriceStep,
+                            priceMode,
+                            setPriceMode,
+                            setPriceSummary,
+                            setShowPriceSummary,
+                            EV,
+                            vehicleMode,
+                            setVehicleMode,
+                            setLeaseStep1,
+                            setFinanceStep1, 
+                            leaseStep1, 
+                            financeStep1,
+                            dura,
+                            setDura,
+                            down,
+                            setDown,
+                            changeFind,
+                            requestSent);
                       }
                     }
                     }><u style={{position:'relative',marginLeft:'0px',bottom:'0px',fontSize:'12px'}}>Back</u></button>}

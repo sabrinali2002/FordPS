@@ -1,5 +1,8 @@
 
-export default function handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, maintenanceMode="", model="", trim="") {
+export default function handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model="", trim="", requestInfo=false,maintenanceMode="",requestSent=false) {
+  if (requestSent) {
+    return;
+  }
   switch(zipMode){
     case 0: {
         const numberRegex = /\d+/g;
@@ -19,7 +22,7 @@ export default function handleDealerFlow(zipMode, dealerList, setZipCode, query,
         const numberRegex = /^[0-9]+$/;
         if(query != "0" && (numberRegex.test(query) || query === "NONE")){
         setDistance((query==="NONE")?10:query);
-        setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:(query==="NONE")?10:query, deal: dealerList, maintenanceMode: maintenanceMode, model: model, trim: trim}}]);
+        setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {requestInfo:requestInfo, zipcode: extractFiveDigitString(zipCode), dist:(query==="NONE")?10:query, deal: dealerList, maintenanceMode: maintenanceMode, model: model, trim: trim}}]);
         setZipMode(0);
         }
         else{
@@ -29,7 +32,7 @@ export default function handleDealerFlow(zipMode, dealerList, setZipCode, query,
     }
     case 2:{
       setDistance((query==="NONE")?10:query);
-        setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealerList, maintenanceMode: maintenanceMode, model: model, trim: trim}}]);
+        setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {requestInfo:requestInfo, zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealerList, maintenanceMode: maintenanceMode, model: model, trim: trim}}]);
         setZipMode(0);
     }
 }
