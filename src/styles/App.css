@@ -50,15 +50,6 @@
   height: 100vh;
 }
 
-.ChatArea {
-  width: 100vw;
-  height: 85%;
-  padding-top: 6%;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
 .CardOutline {
   border: 4px solid #322964;
 }

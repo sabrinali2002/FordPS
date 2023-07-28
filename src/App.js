@@ -365,7 +365,14 @@ function App() {
               : "22px",
         }}
       >
-        <div className="ChatArea">
+        <div className="ChatArea" style={{
+          width: "100vw",
+          height: "78vh",
+          paddingTop: "6%",
+          display: "flex",
+          flexDirection: "column",
+          overflowY: "auto",
+        }}>
 
         <div className="MessagesArea">
             <div>
@@ -395,6 +402,7 @@ function App() {
                 selectedCars={selectedCars}
                 messages={messages}
                 setOptionButtons={setOptionButtons}
+                showCalcButtons={showCalcButtons}
               />
               );
             })}
