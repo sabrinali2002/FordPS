@@ -338,6 +338,7 @@ function App() {
         setMessages([]);
         setMenuButtons([origButtons]);
         setCalcButtons([]);
+        setOptionButtons([])
         }}/></div>
       <div className="topbarback"></div>
       <div className="divider"></div>
