@@ -5,7 +5,7 @@ import { IoMdClose } from 'react-icons/io';
 import '../styles/App.css';
 
 export default function DeliveryRegistration({model,trim,setMenuButtons,origButtons}) {
-    const [requestSent, setRequestSent] = useState(false);
+    const [requestSent1, setRequestSent1] = useState(false);
     const [address, setAddress] = useState('');
     const [emailError, setEmailError] = useState('');
     const [nameError, setNameError] = useState('');
@@ -41,7 +41,7 @@ export default function DeliveryRegistration({model,trim,setMenuButtons,origButt
           errors = errors + 1;
         }
         if (errors == 0) {
-          setRequestSent(true);
+          setRequestSent1(true);
           setName('');
           setAddress('');
           setEmail('');
@@ -51,7 +51,7 @@ export default function DeliveryRegistration({model,trim,setMenuButtons,origButt
       }
 
       const onExit = () => {
-        setRequestSent(false);
+        setRequestSent1(false);
         setNumError('');
         setNameError('');
         setEmailError('');
@@ -66,8 +66,8 @@ export default function DeliveryRegistration({model,trim,setMenuButtons,origButt
             <span style={{position:'relative',right:'6px',bottom:'0px'}}><IoMdClose/></span>
         </button>
         <span style={{fontWeight:'bold',fontSize:'25px',color:'#322964'}}>
-            {requestSent ? "Your request has been sent" : "Send a request"}</span><br/>
-        <span style={{fontSize:'14px'}}>{requestSent ? "A confirmation email has been sent" : "Please fill out the following fields"}</span>
+            {requestSent1 ? "Your request has been sent" : "Send a request"}</span><br/>
+        <span style={{fontSize:'14px'}}>{requestSent1 ? "A confirmation email has been sent" : "Please fill out the following fields"}</span>
         <div style={{display: "flex",flexDirection: "row",justifyContent: "start",marginBottom:10}}>
         <div style={{display: "flex",flexDirection: "column",marginRight:50,justifyContent: "start",
             alignItems: "start",marginLeft: 10,}}>
@@ -84,33 +84,33 @@ export default function DeliveryRegistration({model,trim,setMenuButtons,origButt
             <input
             onChange={e => {setName(e.target.value);
                             setNameError('');}}
-            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
+            style={{color:requestSent1 ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
                 marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Name*"/>
             {nameError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{nameError}</span>}
             <input
             onChange={e => {setEmail(e.target.value);
                             setEmailError('');}}
-            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
+            style={{color:requestSent1 ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
                 marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Email*"/>
             {emailError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{emailError}</span>}
             <input
             onChange={e => {setPhoneNumber(e.target.value);
                             setNumError('');}}
-            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
+            style={{color:requestSent1 ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
                 marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Phone number*"/>
             {numError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{numError}</span>}
             <input
             onChange={e => {setAddress(e.target.value);
                             setAddressError('');}}
-            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
+            style={{color:requestSent1 ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
                 marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Address*"/>
             {addressError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{addressError}</span>}
             <input
-            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",marginBottom: 10,
+            style={{color:requestSent1 ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",marginBottom: 10,
                 boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5,marginBottom: 10}}
             placeholder=" Notes/Requests"/>
         </div>
@@ -131,7 +131,7 @@ export default function DeliveryRegistration({model,trim,setMenuButtons,origButt
                 marginTop: 0,color: "white",backgroundColor: "#322964",border: "none",borderRadius: 10,
                 paddingHorizontal: "10px",paddingTop: 5,paddingRight: 10,paddingLeft: 10,marginTop: 26,
                 fontSize: 18,width: 200,marginBottom: 10,cursor: 'pointer'}}>
-            {requestSent ? "Request sent" : "Send request"}
+            {requestSent1 ? "Request sent" : "Send request"}
             </button>
         </div>
         </div>

@@ -110,6 +110,7 @@ function App() {
     const [financeStep1, setFinanceStep1] = useState(0);
     const [dura, setDura] = useState('');
     const [down, setDown] = useState(0);
+    const [requestSent, setRequestSent] = useState(false);
 
 
     const blockQueries = useRef(false);
@@ -400,7 +401,8 @@ function App() {
             setDura,
             down,
             setDown,
-            changeFind
+            changeFind,
+            requestSent
         );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
@@ -470,6 +472,7 @@ function App() {
                 orig={origButtons}
                 messages={messages}
                 setOptionButtons={setOptionButtons}
+                setRequestSent={setRequestSent}
                 key={index}
               />
               );
@@ -579,7 +582,8 @@ function App() {
                             setDura,
                             down,
                             setDown,
-                            changeFind);
+                            changeFind,
+                            requestSent);
                       }
                     }
                     }><u style={{position:'relative',marginLeft:'0px',bottom:'0px',fontSize:'12px'}}>Back</u></button>}

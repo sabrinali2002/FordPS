@@ -27,7 +27,7 @@ import Sched3 from './scheduleComponents/sched3';
 
 //import { scheduler } from "timers/promises";
 
-function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="", selectedTrim="", requestInfo, setMenuButtons, origButtons}) {
+function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="", selectedTrim="", requestInfo, setRequestSent, setMenuButtons, origButtons, setMessages}) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
@@ -55,12 +55,12 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
   const [vis2, setVis2] = useState(false);
   const [vis3, setVis3] = useState(false);
   const [window4Content, setWindow4Content] = useState('');
-  const [requestSent, setRequestSent] = useState(false);
   const [showRequestInfo, setShowRequestInfo] = useState(requestInfo);
   const [address, setAddress] = useState('');
   const [emailError, setEmailError] = useState('');
   const [nameError, setNameError] = useState('');
   const [numError, setNumError] = useState('');
+  const [requestSent1, setRequestSent1] = useState(false);
 
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
@@ -218,10 +218,12 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
       errors = errors + 1;
     }
     if (errors == 0) {
+      setRequestSent1(true);
       setRequestSent(true);
       setName('');
       setEmail('');
       setPhoneNumber('');
+      setMessages((m) => [...m, { msg: "Is there anything else I can help you with?", author: "Ford Chat", line: true, zip:{requestSent:true} }]);
       setMenuButtons(origButtons);
     }
   }
@@ -322,7 +324,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
   const onExit = () => {
     setShowWindow(false);
     setBlockPopup(false);
-    setRequestSent(false);
+    setRequestSent1(false);
     setNumError('');
     setNameError('');
     setEmailError('');
@@ -455,7 +457,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
   };
   useEffect(() => {
       window4(dealer1)
-    },[requestSent,emailError,nameError,numError]);
+    },[requestSent1,emailError,nameError,numError,email,name,phoneNumber]);
 
   const window4 = (dealer) => {
     if (!requestInfo) {
@@ -463,8 +465,8 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
     }
     let content = (<div className='dealer-window4'>
       <span style={{fontWeight:'bold',fontSize:'25px',color:'#322964'}}>
-          {requestSent ? "Your request has been sent" : "Send a request"}</span><br/>
-        <span style={{fontSize:'14px'}}>{requestSent ? "A confirmation email has been sent" : "Please fill out the following fields"}</span>
+          {requestSent1 ? "Your request has been sent" : "Send a request"}</span><br/>
+        <span style={{fontSize:'14px'}}>{requestSent1 ? "A confirmation email has been sent" : "Please fill out the following fields"}</span>
         <div
         style={{backgroundColor: "white",width: "100%",color: "#00095B",borderRadius: 5,marginRight: 10,marginLeft: 10,
           fontWeight:500,fontSize:20,padding:3,marginBottom:10,marginTop:10,boxShadow:"0px 2px 4px rgba(0, 0, 0, 0.2)",justifyText:'center'
@@ -485,26 +487,26 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
           <input
             onChange={e => {setName(e.target.value);
                             setNameError('');}}
-            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
+            style={{color:requestSent1 ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
               marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Name*"/>
             {nameError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{nameError}</span>}
           <input
             onChange={e => {setEmail(e.target.value);
                             setEmailError('');}}
-            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
+            style={{color:requestSent1 ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
               marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Email*"/>
             {emailError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{emailError}</span>}
           <input
             onChange={e => {setPhoneNumber(e.target.value);
                             setNumError('');}}
-            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
+            style={{color:requestSent1 ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 40,border: "none",
               marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Phone number*"/>
             {numError != '' && <span style={{fontSize:'10px',color:'black',padding:'0px',marginTop:'-6px'}}>{numError}</span>}
           <input
-            style={{color:requestSent ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",marginBottom: 10,
+            style={{color:requestSent1 ? 'gray' : 'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",marginBottom: 10,
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5,marginBottom: 10}}
             placeholder=" Notes/Requests"/>
         </div>
@@ -525,7 +527,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
               marginTop: 0,color: "white",backgroundColor: "#322964",border: "none",borderRadius: 10,
               paddingHorizontal: "10px",paddingTop: 5,paddingRight: 10,paddingLeft: 10,marginTop: 26,
               fontSize: 18,width: 200,marginBottom: 10,cursor: 'pointer'}}>
-            {requestSent ? "Request sent" : "Send request"}
+            {requestSent1 ? "Request sent" : "Send request"}
           </button>
         </div>
       </div>

@@ -226,7 +226,8 @@ export function handleUserFlow(
     setDura,
     down,
     setDown,
-    changeFind
+    changeFind,
+    requestSent
     
 ) {
     if (!blockQueries.current && query.length > 0) {
@@ -256,7 +257,7 @@ export function handleUserFlow(
               blockQueries.current = false;
               break;
             case "request":
-              handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model,trim,true);
+              handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model,trim,true,"",requestSent);
               blockQueries.current = false;
               case "I":
                 if (infoMode === 1) {
