@@ -5,12 +5,14 @@ import { sendBotResponse, sendRecommendRequestToServer } from "./botResponseFunc
 import handleDealerFlow from "./user_flows/handleDealerFlow";
 import handlePaymentFlow from "./user_flows/handlePaymentFlow";
 import handleInfoFlow from "./user_flows/handleInfoFlow";
+import handlePriceFlow from "./user_flows/handlePriceFlow";
 import { BiRegistered } from "react-icons/bi";
 import images from "../images/image_link.json";
 import Checkbox from '@mui/material/Checkbox';
 import { certifications, evmarket, commitments, emissions, endoflife, pm, newfeatures } from './info.js';
 
-export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACarButtons,setCalcButtons,model,setModel,calcButtonHandler,setCalcStep,trim,setQuery,blockQueries,setResponse,setShowCalcButtons,setCalcHeadingText,setInfoMode,cat,setCat, setOptionButtons, setShowingevs) {
+export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACarButtons,setCalcButtons,model,setModel,calcButtonHandler,setCalcStep,trim,setQuery,blockQueries,setResponse,setShowCalcButtons,setCalcHeadingText,setInfoMode,cat,setCat,setPriceMode,
+    setPriceStep,setVehicleMode, setOptionButtons, setShowingevs) {
 
     //for ev model logic 
     const jsonData = {
@@ -86,6 +88,7 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                 setMessages((m) => [...m, { msg: "Find a dealership", author: "You" }]);
                 setMessages((m) => [...m, { msg: "Please enter your zipcode below:", author: "Ford Chat", line: true, zip: {} }]);
                 changeChoice("B");
+                blockQueries.current = false;
                 break;
             case "C":
                 setMessages((m) => [...m, { msg: "Schedule a test drive", author: "You" }]);
@@ -260,6 +263,18 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                     
                     break;
                     
+            case "electric":
+                changeChoice("electric");
+                setVehicleMode("electric");
+                setPriceStep(1);
+                setQuery("electric");
+                break;
+            case "combustion":
+                changeChoice("combustion");
+                setVehicleMode("combustion");
+                setPriceStep(1);
+                setQuery("combustion");
+                break;
             case "maintenanceQuestions":
                 changeChoice("maintenanceQuestions");
                 break;
@@ -270,10 +285,97 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
     };
 }
 
-export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,handleMoreInfo,handleCarInfoButton,fixTrimQueryQuotation,query,dealerList,carInfoData,setCarInfoData,extractFiveDigitString,findLocations,handleUserInput,blockQueries,choice,setQuery,zipMode,setZipCode,messages,setMessages,setZipMode,setDistance,
-    setCalcButtons,zipCode,distance,findMode,setFind,setSelect,questionnaireStep,
-    setQuestionnaireAnswers,setQuestionnaireStep,questionnaireAnswers,setForceUpdate,forceUpdate,calcStep,model,setModel,setCalcStep, trim,setTrim,calcMode,setCalcMode,setLeaseStep,setFinanceStep,leaseStep,financeStep,
-    changeChoice,history,setHistory,infoMode,setInfoMode,vehicle,setVehicle,setShowCalcButtons,setCalcHeadingText,payment,setPayment,setMenuButtons,locateDealershipsFn,changeSelected,setDealers,selected,cat,setOptionButtons, changeFind
+export function handleUserFlow(
+    tableForceUpdate,
+    setTableForceUpdate,
+    handleMoreInfo,
+    handleCarInfoButton,
+    fixTrimQueryQuotation,
+    query,
+    dealerList,
+    carInfoData,
+    setCarInfoData,
+    extractFiveDigitString,
+    findLocations,
+    handleUserInput,
+    blockQueries,
+    choice,
+    setQuery,
+    zipMode,
+    setZipCode,
+    messages,
+    setMessages,
+    setZipMode,
+    setDistance,
+    setCalcButtons,
+    calcButtonHandler,
+    zipCode,
+    distance,
+    findMode,
+    selectHandler,
+    setFind,
+    appendSelect,
+    setSelect,
+    questionnaireStep,
+    setQuestionnaireAnswers,
+    setQuestionnaireStep,
+    questionnaireAnswers,
+    setForceUpdate,
+    forceUpdate,
+    calcStep,
+    model,
+    setModel,
+    setCalcStep,
+    trim,
+    setTrim,
+    calcMode,
+    setCalcMode,
+    setLeaseStep,
+    setFinanceStep,
+    leaseStep,
+    financeStep,
+    changeChoice,
+    history,
+    setHistory,
+    infoMode,
+    setInfoMode,
+    vehicle,
+    setVehicle,
+    showCalcButtons,
+    setShowCalcButtons,
+    calcHeadingText,
+    setCalcHeadingText,
+    payment,
+    setPayment,
+    setMenuButtons,
+    locateDealershipsFn,
+    changeSelected,
+    setDealers,
+    selected,
+    cat,
+    setCat,
+    origButtons,
+    setOptionButtons,
+    priceStep,
+    setPriceStep,
+    priceMode,
+    setPriceMode,
+    setPriceSummary,
+    setShowPriceSummary,
+    EV,
+    vehicleMode,
+    setVehicleMode,
+    setLeaseStep1, 
+    setFinanceStep1, 
+    leaseStep1, 
+    financeStep1,
+    dura,
+    setDura,
+    down,
+    setDown,
+    changeFind,
+    requestSent
+    
 ) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
@@ -282,10 +384,10 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
             const maintenanceMode=choice.replace("SCHED", "")
             const model=maintenanceMode.split("MODEL:")[1].split("TRIM:")[0]
             const trim=maintenanceMode.split("MODEL:")[1].split("TRIM:")[1]
-            handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, maintenanceMode.split("MODEL:")[0], model, trim);
+            handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model, trim, maintenanceMode.split("MODEL:")[0], );
             blockQueries.current = false;
         }
-        else
+        else {
         switch (choice) {
             case "maintenanceQuestions":
                 sendBotResponse("I am looking to schedule maintenance for my Ford car and I have a question about maintenance. Here it is: " + query, history, "maint").then((res) => {
@@ -293,7 +395,17 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
                     blockQueries.current = false;
                 });
                 break;
-            
+                case "electric":
+                    handlePriceFlow("electric",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate);
+                    blockQueries.current = false;
+                    break;
+                  case "combustion":
+                    handlePriceFlow("combustion",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate);
+                    blockQueries.current = false;
+                    break;
+                  case "request":
+                    handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model,trim,true,"",requestSent);
+                    blockQueries.current = false;
             case "I":
             if (infoMode === 1) {
                 setCalcHeadingText("Choose specific model");
@@ -538,3 +650,4 @@ export function handleUserFlow(origButtons,tableForceUpdate,setTableForceUpdate,
         }
     }
   }
+}

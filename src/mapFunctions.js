@@ -84,7 +84,7 @@ export const findLocationsGiven = async (query, distance, dealers) => {
 export const findLocations = async (query, distance) => {
     const zip = extractFiveDigitString(query);
     if(zip !=null){
-      try{
+      try
           const result = await findLatLong(zip);
           const distances = {}
         const l = [result.latitude,result.longitude];

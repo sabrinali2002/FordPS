@@ -54,7 +54,6 @@
 .CardOutline {
   border: 4px solid #322964;
 }
-
 .menu {
   cursor: pointer;
   display: inline-block;
@@ -263,6 +262,20 @@
 
 .button-small:hover{
   background-color:rgb(205, 220, 232);
+ }
+
+ .price-summary {
+  position:relative;
+  background-color:rgb(206, 216, 224);
+  border-radius:10px;
+  margin-left:177px;
+  box-shadow: 1px 4px 2px rgba(95, 112, 133, 0.5);
+  align-items:left;
+  margin-bottom:15px;
+  padding:15px;
+  width:500px;
+  height:300px;
+  color:#322964;
  }
 
 .ev-info{
