@@ -1,5 +1,6 @@
 import trims from "../jsons/trims.json";
 import vehicles from "../jsons/vehicleCategories.json";
+import evs from "../jsons/EV.json";
 import { sendBotResponse, sendRecommendRequestToServer } from "./botResponseFunctions";
 import handleDealerFlow from "./user_flows/handleDealerFlow";
 import handlePaymentFlow from "./user_flows/handlePaymentFlow";
@@ -7,8 +8,11 @@ import handleInfoFlow from "./user_flows/handleInfoFlow";
 import { BiRegistered } from "react-icons/bi";
 import images from "../images/image_link.json";
 import Checkbox from '@mui/material/Checkbox';
+import { certifications, evmarket, commitments, emissions, endoflife, pm, newfeatures } from './info.js';
 
 export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACarButtons,setCalcButtons,model,setModel,calcButtonHandler,setCalcStep,trim,setQuery,blockQueries,setResponse,setShowCalcButtons,setCalcHeadingText,setInfoMode,cat,setCat, setOptionButtons) {
+
+    
     return (option) => {
         // Outputs a response to based on input user selects
         if(option.includes("SCHED")){
@@ -112,6 +116,67 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                 changeChoice("D");
                 //setMenuButtons([]);
                 break;
+                case "SU":
+                    setMessages((m) => [...m, { msg: "Sustainability", author: "You", line: true, zip: {} }]);
+                    setMessages((m) => [...m, { msg: "Ford sustainability it super important to us. We have various certifications and a pledge to use 100% local, renewable electricity in all manufacturing by 2035. Click to learn more specifics.", author: "Ford Chat", line: true, zip: "" }]); 
+                    break; 
+                case "INN":
+                    setMessages((m) => [...m, { msg: "Innovation", author: "You", line: true, zip: {} }]);
+                    setMessages((m) => [...m, { msg: "Ford's up and coming innovation efforts.", author: "Ford Chat", line: true, zip: "" }]); 
+                    break; 
+                case "NM":
+                    setMessages((m) => [...m, { msg: "Our EV Models", author: "You", line: true, zip: {} }]);
+                    setCalcHeadingText("Here are our new EV models:");
+                    setShowCalcButtons(true);
+                    setCalcButtons(
+                        Object.keys(evs).map((vehicle) => (
+                            <button
+                                className="model-button"
+                                key={vehicle}
+                                value={vehicle}
+                            >
+                                {vehicle}
+                            </button>
+                        ))
+                    );
+                    setMenuButtons([])
+                    break; 
+                case "NF":
+                    setMessages((m) => [...m, { msg: "New features", author: "You", line: true, zip: {} }]);
+                    setMessages((m) => [...m, { msg: newfeatures, author: "Ford Chat", line: true, zip: "" }]); 
+                    setMenuButtons([])
+                    break; 
+                case "EV":
+                    setMessages((m) => [...m, { msg: "EV Market", author: "You", line: true, zip: {} }]);
+                    setMessages((m) => [...m, { msg: evmarket, author: "Ford Chat", line: true, zip: "" }]); 
+                    setMenuButtons([])
+                    break; 
+                case "Cer":
+                    setMessages((m) => [...m, { msg: "Certifications", author: "You", line: true, zip: {} }]);
+                    setMessages((m) => [...m, { msg: certifications, author: "Ford Chat", line: true, zip: "" }]); 
+                    setMenuButtons([])
+                    break; 
+                case "Em":
+                    setMessages((m) => [...m, { msg: "Emissions", author: "You", line: true, zip: {} }]);
+                    setMessages((m) => [...m, { msg: emissions, author: "Ford Chat", line: true, zip: "" }]); 
+                    setMenuButtons([])
+                    break; 
+                case "Comm":
+                    setMessages((m) => [...m, { msg: "Our Commitments", author: "You", line: true, zip: {} }]);
+                    setMessages((m) => [...m, { msg: commitments, author: "Ford Chat", line: true, zip: "" }]); 
+                    setMenuButtons([])
+                    break; 
+                case "Pr":
+                    setMessages((m) => [...m, { msg: "Production management", author: "You", line: true, zip: {} }]);
+                    setMessages((m) => [...m, { msg: pm, author: "Ford Chat", line: true, zip: "" }]); 
+                    setMenuButtons([])
+                    break; 
+                case "EOF":
+                    setMessages((m) => [...m, { msg: "End of life management", author: "You", line: true, zip: {} }]);
+                    setMessages((m) => [...m, { msg: endoflife, author: "Ford Chat", line: true, zip: "" }]); 
+                    
+                    break;
+                    
             case "maintenanceQuestions":
                 changeChoice("maintenanceQuestions");
                 break;
