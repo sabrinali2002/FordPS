@@ -11,6 +11,7 @@
   
   .question-button {
     padding-top: 8px;
+    padding-right:14px;
     background-color: transparent;
     border: none;
     color: rgb(138, 138, 147);
@@ -21,8 +22,8 @@
   
   .explanation-container {
     position:fixed;
-    bottom: 160px;
-    left: 90px;
+    bottom: 155px;
+    left: 55px;
     width: 300px;
     background-color: white;
     padding: 10px;
@@ -55,9 +56,9 @@
 
   .extra-information {
     position:fixed;
-    bottom: 160px;
-    left: 90px;
-    width: 500px;
+    bottom: 155px;
+    left: 55px;
+    width: 700px;
     background-color: white;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);

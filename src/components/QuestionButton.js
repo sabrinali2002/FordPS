@@ -35,12 +35,23 @@ const QuestionButton = () => {
       )}
       {expansion===2 && (
         <div className="extra-information">
-        <p>HenrAI, our AI tool is built on Google's Vertex AI machine learning platform. 
-            Generative AI, or the ability for AI to create information is the super cool new development
-             that allows HenrAI to hold a normal conversation! 
-             The genAI technology knows the statistics of certain words and phrases going together 
-             in a sentence which is why HenrAI's English is so good!
-              Play around with the 'ask me anything' to see what HenrAI can do!</p>
+        <p>HenrAI, our AI tool, is built on Google's Vertex AI machine learning platform. 
+          Generative AI, the ability for AI to create information, is a super cool new development
+           that allows HenrAI to hold natural conversations! Generative AI is a category of 
+           artificial intelligence that focuses on enabling machines to create original content, 
+           such as text, images, or even music. Unlike traditional AI models designed for
+            specific tasks, generative AI models can generate new content based on learned patterns 
+            from vast amounts of training data. GenAI utilizes the Transformer architecture,
+             which consists of multiple layers of self-attention and feed-forward neural networks.
+              Transformers are a type of deep learning architecture that excels at processing
+              sequences of data, like text. They use self-attention mechanisms to weigh the
+              importance of different elements in the sequence during processing, 
+              enabling better capture of long-range dependencies and context in the data. 
+              When users interact with HenrAI, GenAI processes user inputs, applies the learned 
+              patterns, and generates responses based on the context and knowledge it has acquired. 
+              Feel free to explore the 'ask me anything' feature to see what HenrAI can do!
+
+</p>
         <button onClick={handleMouseLeave}>
             x
             </button>

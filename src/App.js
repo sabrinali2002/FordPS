@@ -84,6 +84,7 @@ function App() {
     const [showCalcButtons, setShowCalcButtons] = useState(false);
     const [calcHeadingText, setCalcHeadingText] = useState("");
     const [payment, setPayment] = useState(0);
+    const [showingevs, setShowingevs] = useState(false);
 
     // Car Info states
     const [model, setModel] = useState("");
@@ -259,27 +260,8 @@ function App() {
 
     // --------------------------------------------------------------------->
     //handler for button user clicks
-    const handleUserInput = handleUserInputFn(
-        setMessages,
-        changeChoice,
-        setMenuButtons,
-        buyACarButtons,
-        setCalcButtons,
-        model,
-        setModel,
-        calcButtonHandler,
-        setCalcStep,
-        trim,
-        setQuery,
-        blockQueries,
-        setResponse,
-        setShowCalcButtons,
-        setCalcHeadingText,
-        setInfoMode,
-        cat,
-        setCat,
-        setOptionButtons
-    );
+    const handleUserInput = handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACarButtons,setCalcButtons,model,setModel,calcButtonHandler,setCalcStep,trim,setQuery,blockQueries,setResponse,setShowCalcButtons,setCalcHeadingText,setInfoMode,cat,setCat, setOptionButtons, setShowingevs);
+
 
     useEffect(() => {
         // Check if speech recognition is supported
@@ -332,6 +314,8 @@ function App() {
         );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
+    console.log("boolean val is" + showingevs);
+
   return (
     <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
       <div className="topbar"><TopBar handleClick={()=>{
@@ -341,7 +325,6 @@ function App() {
         }}/></div>
       <div className="topbarback"></div>
       <div className="divider"></div>
-      <div className="burger"><HamburgerMenu onClick = {handleMenuClick}/></div>
       <AccessibilityButton 
           toggleTextSize={toggleTextSize} 
           toggleDarkMode={toggleDarkMode} 
@@ -411,8 +394,11 @@ function App() {
             {showCalcButtons && <div style={{display:'flex',justifyContent:'center',textAlign:'center',marginTop:'10px',marginBottom:'15px'}}>
                 <div className='model-box'>
                     <div style={{marginTop:'10px',color:'#322964',fontSize:'20px',fontWeight:'bold',lineHeight:'30px'}}>{calcHeadingText}</div>
-                    <div style={{color:'#322964',fontSize:'12px',fontWeight:'bold',lineHeight:'20px'}}>Select from the options to specify which cars you are looking for</div>
-                    <div className='button-container'>{calcButtons}</div>
+                  { !showingevs ? ( 
+                    <div style={{ color: '#322964', fontSize: '12px', fontWeight: 'bold', lineHeight: '20px' }}>
+                    Select from the options to specify which cars you are looking for
+                    </div>
+                  ) : <div></div>}<div className='button-container' style={{ fontSize: textSize}}>{calcButtons}</div>
                     {vehicle !== "" && <button style = {{position: "relative", bottom: 0, alignSelf:'start', marginLeft:-40, alignSelf:'start'}} onClick = {() => {
                       if(infoMode === 1){
                         handleUserInput('I')
@@ -478,7 +464,7 @@ function App() {
               }}
               style={{
                 accentColor: "white",
-                width: "90%",
+                width: "100%",
                 marginTop: "1%",
                 marginLeft: "5%",
                 textSize: { textSize },
