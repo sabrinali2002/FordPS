@@ -24,7 +24,7 @@ const queryDatabase = async (model, trim) => {
 
 export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
   setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
-  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons){
+  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons,origButtons){
 
     if (infoMode === 2) {
         if (trim === "All Trims") {
@@ -81,6 +81,8 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
                         handleCarInfoButton(model, trim);
                         setForceUpdate(!forceUpdate);
                         handleMoreInfo();
+                        setMessages((m) => [...m, { msg: "Is there anything else I can help you with?", author: "Ford Chat", line: true }]);
+                        setMenuButtons(origButtons);
                     }}
                 >
                     More information
