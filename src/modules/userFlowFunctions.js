@@ -11,8 +11,31 @@ import images from "../images/image_link.json";
 import Checkbox from '@mui/material/Checkbox';
 import { certifications, evmarket, commitments, emissions, endoflife, pm, newfeatures } from './info.js';
 
-export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACarButtons,setCalcButtons,model,setModel,calcButtonHandler,setCalcStep,trim,setQuery,blockQueries,setResponse,setShowCalcButtons,setCalcHeadingText,setInfoMode,cat,setCat,setPriceMode,
-    setPriceStep,setVehicleMode, setOptionButtons, setShowingevs) {
+export function handleUserInputFn(
+    setMessages,
+    changeChoice,
+    setMenuButtons,
+    buyACarButtons,
+    setCalcButtons,
+    model,
+    setModel,
+    calcButtonHandler,
+    setCalcStep,
+    trim,
+    setQuery,
+    blockQueries,
+    setResponse,
+    setShowCalcButtons,
+    setCalcHeadingText,
+    setInfoMode,
+    cat,
+    setCat,
+    setPriceMode,
+    setPriceStep,
+    setVehicleMode,
+    setOptionButtons,
+    setShowingEvs
+) {
 
     //for ev model logic 
     const jsonData = {
@@ -146,7 +169,7 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                     break; 
                 case "NM":
                     setMessages((m) => [...m, { msg: "New Models", author: "You", line: true, zip: {} }]);
-                    setShowingevs(true);
+                    setShowingEvs(true);
                     setCalcHeadingText("Feel free to explore our new models below! Click on a model for more specific details.");
                     setShowCalcButtons(true);
                     setCalcButtons(
@@ -156,7 +179,7 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                                 key={vehicle}
                                 value={vehicle}
                                 onClick={() => {
-                                    setShowingevs(true);
+                                    setShowingEvs(true);
                                     setMessages((m) => [...m, { msg: vehicle, author: "You" }]);
                                     setCalcHeadingText(`The varieties of the ${vehicle} include:`);
                                     const varieties = getVarietiesByCategory(vehicle);
@@ -260,7 +283,6 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                 case "EOF":
                     setMessages((m) => [...m, { msg: "End of life management", author: "You", line: true, zip: {} }]);
                     setMessages((m) => [...m, { msg: endoflife, author: "Ford Chat", line: true, zip: "" }]); 
-                    
                     break;
                     
             case "electric":
@@ -268,12 +290,14 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                 setVehicleMode("electric");
                 setPriceStep(1);
                 setQuery("electric");
+                console.log("in electric");
                 break;
             case "combustion":
                 changeChoice("combustion");
                 setVehicleMode("combustion");
                 setPriceStep(1);
                 setQuery("combustion");
+                console.log("in comb");
                 break;
             case "maintenanceQuestions":
                 changeChoice("maintenanceQuestions");
@@ -286,7 +310,7 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
 }
 
 export function handleUserFlow(
-    tableForceUpdate,
+    tableForceUpdate, 
     setTableForceUpdate,
     handleMoreInfo,
     handleCarInfoButton,
@@ -320,8 +344,6 @@ export function handleUserFlow(
     setQuestionnaireAnswers,
     setQuestionnaireStep,
     questionnaireAnswers,
-    setForceUpdate,
-    forceUpdate,
     calcStep,
     model,
     setModel,
@@ -365,7 +387,7 @@ export function handleUserFlow(
     EV,
     vehicleMode,
     setVehicleMode,
-    setLeaseStep1, 
+    setLeaseStep1,
     setFinanceStep1, 
     leaseStep1, 
     financeStep1,
@@ -374,12 +396,12 @@ export function handleUserFlow(
     down,
     setDown,
     changeFind,
-    requestSent
+    requestSent,
+    setShowingEvs
     
 ) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
-        setForceUpdate(!forceUpdate);
         if(choice.includes("SCHED")){
             const maintenanceMode=choice.replace("SCHED", "")
             const model=maintenanceMode.split("MODEL:")[1].split("TRIM:")[0]
@@ -396,11 +418,12 @@ export function handleUserFlow(
                 });
                 break;
                 case "electric":
-                    handlePriceFlow("electric",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate);
+                    handlePriceFlow("electric",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown);
                     blockQueries.current = false;
+                    console.log("hit e 2")
                     break;
                   case "combustion":
-                    handlePriceFlow("combustion",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate);
+                    handlePriceFlow("combustion",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown);
                     blockQueries.current = false;
                     break;
                   case "request":
@@ -438,7 +461,7 @@ export function handleUserFlow(
                             key={trim}
                             value={trim}
                             onClick={() => {
-                                handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
+                                handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
                                     setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
                                     infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons
                                 );
@@ -452,14 +475,14 @@ export function handleUserFlow(
                       break;
             }
             else if(infoMode === 3){
-              handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
+              handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
                 setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
                 infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons);
               blockQueries.current = false;
             break;
             }
             else if(infoMode === 4){
-              handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton, model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
+              handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton, model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
               blockQueries.current = false;
               break;
             }
@@ -478,7 +501,7 @@ export function handleUserFlow(
             break;
           case 'A':
             setQuery("");
-            sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
+            sendRecommendRequestToServer(query, history, carInfoData, messages, blockQueries, setCarInfoData, setMessages, setHistory, fixTrimQueryQuotation);
             break;
           case "B": {
             setZipMode(1);
@@ -535,7 +558,6 @@ export function handleUserFlow(
                             copy2[model] = copy;
                             changeSelected(copy2);
                           }
-                          setForceUpdate(!forceUpdate)
                           console.log(copy2, selected[model].includes(trim))
                     }}>
                         {trim}
@@ -577,7 +599,6 @@ export function handleUserFlow(
                     case 4:
                         //setQuestionnaireAnswers(q=>[...q, query])
                         let questionnaireAnswersCopy = [...questionnaireAnswers, query];
-                        setForceUpdate(!forceUpdate);
                         const ultimateQueryString =
                             "Here is my budget: " +
                             questionnaireAnswersCopy[0] +
@@ -592,11 +613,9 @@ export function handleUserFlow(
                             history,
                             carInfoData,
                             messages,
-                            forceUpdate,
                             blockQueries,
                             setCarInfoData,
                             setMessages,
-                            setForceUpdate,
                             setHistory,
                             fixTrimQueryQuotation
                         );
