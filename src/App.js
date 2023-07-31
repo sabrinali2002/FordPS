@@ -668,7 +668,9 @@ const origButtons = (
           <div ref={messagesEndRef}/>
         </div>
         <div>
+          <div style={{paddingTop:'20px'}}>
             {menuButtons}
+          </div>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -703,12 +705,12 @@ const origButtons = (
               }}
               style={{
                 accentColor: "white",
-                width: "100%",
+                width: "90%",
                 marginTop: "1%",
                 marginLeft: "5%",
                 textSize: { textSize },
-                fontFamily: 'Antenna, sans-serif',
               }}
+              InputLabelProps={{style: {fontFamily: 'Antenna, sans-serif',}}}
               label={"Ask me anything..."}
               helperText={
                 blockQueries.current ? "Please wait!" : "Press enter to send."

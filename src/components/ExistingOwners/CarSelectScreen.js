@@ -127,6 +127,9 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
                                         </BigTooltip>
                                         <BigTooltip placement="top" title="An owner service center is a facility provided by Ford dealerships exclusively for Ford vehicles. It offers specialized expertise, genuine Ford parts, and trained technicians for optimal maintenance and warranty support. Choosing this center helps maintain your Ford's value and ensure reliable service.">
                                           <button className = "button-small" onClick={()=>{
+                                            setMessages(m=>{return [...m, {msg: "Owner service center", author: "You"}, {msg: "What would you like to know?", author: "Ford Chat"}]})
+                                            setMenuButtons([])
+                                            handleUserInput("maintenanceQuestions")
                                             }}>Owner service center</button>
                                         </BigTooltip>
                                         <BigTooltip placement="top" title="We will help you find the closest Ford dealerships to you based on your preferred radius.">
