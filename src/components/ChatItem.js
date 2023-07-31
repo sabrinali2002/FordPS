@@ -97,7 +97,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
           </div>
         {author === "Ford Chat.." && <Table loc={locs}></Table>}
       {author === "Ford Chat." && (
-        <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal} coords = {zip.coordinates} maintenanceMode={zip.maintenanceMode} selectedModel={model} selectedTrim={trim} requestInfo={zip.requestInfo} setRequestSent={setRequestSent} setMenuButtons={setMenuButtons} origButtons={orig} setMessages={setMessages}></Map>
+        <Map zip={zip.zipcode} dist={zip.dist} loc={locs} deal = {zip.deal} coords = {zip.coordinates} maintenanceMode={zip.maintenanceMode} selectedModel={zip.model?zip.model:model} selectedTrim={zip.trim?zip.trim:trim} requestInfo={zip.requestInfo} setRequestSent={setRequestSent} setMenuButtons={setMenuButtons} origButtons={orig} setMessages={setMessages}></Map>
       )}
       {author=== "Ford Chat..." && 
         <DeliveryRegistration model={model} trim={trim}setMenuButtons={setMenuButtons} origButtons={orig}/>}

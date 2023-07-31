@@ -27,7 +27,7 @@ import Sched3 from './scheduleComponents/sched3';
 
 //import { scheduler } from "timers/promises";
 
-function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="", selectedTrim="", requestInfo, setRequestSent, setMenuButtons, origButtons, setMessages}) {
+function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="Bronco", selectedTrim="Base", requestInfo, setRequestSent, setMenuButtons, origButtons, setMessages}) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
   const [isSchedulerVisible, setIsSchedulerVisible] = useState(false);
@@ -518,7 +518,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
           </div>
           <div style={{width:'200px',height:'150px',backgroundColor:'white',boxShadow:'1px 4px 2px rgba(0, 0, 0, 0.5)',
                 borderRadius:'10px',wordWrap:'wrap',overflowWrap:'wrap',textAlign:'center',lineHeight:.5}}>
-            <img src={images[selectedModel][selectedTrim]} style={{width:'250px',height:'auto',paddingRight:58}}></img>
+            <img src={images[selectedModel?selectedModel:"Bronco"][selectedTrim?selectedTrim:"Base"]} style={{width:'250px',height:'auto',paddingRight:58}}></img>
             <span style={{fontSize:'11px',color:'#322964',paddingRight:'5px',lineHeight:.5}}>2023 Ford {selectedModel}<BiRegistered/> {selectedTrim}</span>
           </div>
           <button
@@ -659,7 +659,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
         />
       )}
       {isScheduler2Visible && (
-        <Sched1 dealer={dealer1} date={date} time={time} handleAppointment={handleAppointment} maintenanceMode={maintenanceMode} backButton={backButton}/>
+        <Sched1 dealer={dealer1} date={date} time={time} handleAppointment={handleAppointment} maintenanceMode={maintenanceMode} model={selectedModel} trim={selectedTrim} backButton={backButton}/>
         )}
       {vis3 && (
         <Sched3

@@ -406,16 +406,20 @@ export function handleUserFlow(
             const maintenanceMode=choice.replace("SCHED", "")
             const model=maintenanceMode.split("MODEL:")[1].split("TRIM:")[0]
             const trim=maintenanceMode.split("MODEL:")[1].split("TRIM:")[1]
-            handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model, trim, maintenanceMode.split("MODEL:")[0], );
+            handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model, trim, false, maintenanceMode.split("MODEL:")[0], false);
             blockQueries.current = false;
         }
         else {
         switch (choice) {
+            case "DEFAULT":
+                blockQueries.current=false;
+                break;
             case "maintenanceQuestions":
                 sendBotResponse("I am looking to schedule maintenance for my Ford car and I have a question about maintenance. Here it is: " + query, history, "maint").then((res) => {
                     setMessages((m) => [...m, { msg: res, author: "Ford Chat", line: true, zip: {} }]);
                     blockQueries.current = false;
                 });
+                changeChoice("DEFAULT")
                 break;
                 case "electric":
                     handlePriceFlow("electric",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown);
@@ -429,6 +433,7 @@ export function handleUserFlow(
                   case "request":
                     handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model,trim,true,"",requestSent);
                     blockQueries.current = false;
+                break;
             case "I":
             if (infoMode === 1) {
                 setCalcHeadingText("Choose specific model");

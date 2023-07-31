@@ -234,6 +234,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
   
                         </div>
                         </div>);
+                        break;
                 case "combustion":
                     let msrp = Math.round(payment);
                     let avg = msrp+Math.round(4000*Math.random());
