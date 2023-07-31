@@ -463,8 +463,7 @@ export function handleUserFlow(
                             onClick={() => {
                                 handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
                                     setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
-                                    infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons
-                                );
+                                    infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons)
                                 setTrim(trim);
                             }}
                         >
@@ -475,15 +474,17 @@ export function handleUserFlow(
                       break;
             }
             else if(infoMode === 3){
-              handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
-                setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
-                infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons);
+                handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
+                    setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
+                    infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons)
               blockQueries.current = false;
             break;
             }
             else if(infoMode === 4){
-              handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton, model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
-              blockQueries.current = false;
+                handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
+                    setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
+                    infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons)
+                blockQueries.current = false;
               break;
             }
             else if(infoMode === 10){

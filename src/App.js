@@ -454,7 +454,6 @@ const origButtons = (
           changeFind,
           requestSent, 
           setShowingEvs
-      
           );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
