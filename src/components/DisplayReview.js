@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { useState } from "react";
 import images from "../images/image_link.json";
 import { Rating, Box, LinearProgress, Typography, Grid, Stack, Avatar, Divider } from "@mui/material";
 import ReviewItem from "./ReviewItem";
@@ -6,6 +6,15 @@ import { ChevronLeft } from "react-bootstrap-icons";
 
 export default function DisplayReview({ data, setScreen, reviews, starCount, average }) {
     let length = reviews.length;
+    const [filteredReviews, setFilteredReviews] = useState(reviews);
+    const [filteredStar, setFilteredStar] = useState(null);
+
+    const handleFilterReview = (star) => {
+        let filtered = reviews.filter((review) => review.star === star);
+        setFilteredReviews(filtered);
+        setFilteredStar(star);
+    };
+
     return (
         <div
             style={{
@@ -41,44 +50,44 @@ export default function DisplayReview({ data, setScreen, reviews, starCount, ave
                         <Rating value={average} precision={0.01} readOnly />
                         <p>{length} reviews</p>
                     </Box>
-                    <Grid spacing={1} container alignItems="center" marginTop="-30px">
+                    <Grid spacing={1} container alignItems="center" marginTop="-25px" onClick={() => handleFilterReview(5)}>
                         <Grid xs={2} item>
-                            <p>5 stars</p>
+                            <p style={{ cursor: "pointer", textDecoration: "underline" }}>5 stars</p>
                         </Grid>
                         <Grid xs item paddingBottom="15px">
-                            <LinearProgress variant="determinate" value={(starCount[4] / length) * 100} />
+                            <LinearProgress variant="determinate" style={{ cursor: "pointer" }} value={(starCount[4] / length) * 100} />
                         </Grid>
                     </Grid>
-                    <Grid spacing={1} container alignItems="center" marginTop="-30px">
+                    <Grid spacing={1} container alignItems="center" marginTop="-25px" onClick={() => handleFilterReview(4)}>
                         <Grid xs={2} item>
-                            <p>4 stars</p>
+                            <p style={{ cursor: "pointer", textDecoration: "underline" }}>4 stars</p>
                         </Grid>
                         <Grid xs item paddingBottom="15px">
-                            <LinearProgress variant="determinate" value={(starCount[3] / length) * 100} />
+                            <LinearProgress variant="determinate" style={{ cursor: "pointer" }} value={(starCount[3] / length) * 100} />
                         </Grid>
                     </Grid>
-                    <Grid spacing={1} container alignItems="center" marginTop="-30px">
+                    <Grid spacing={1} container alignItems="center" marginTop="-25px" onClick={() => handleFilterReview(3)}>
                         <Grid xs={2} item>
-                            <p>3 stars</p>
+                            <p style={{ cursor: "pointer", textDecoration: "underline" }}>3 stars</p>
                         </Grid>
                         <Grid xs item paddingBottom="15px">
-                            <LinearProgress variant="determinate" value={(starCount[2] / length) * 100} />
+                            <LinearProgress variant="determinate" style={{ cursor: "pointer" }} value={(starCount[2] / length) * 100} />
                         </Grid>
                     </Grid>
-                    <Grid spacing={1} container alignItems="center" marginTop="-30px">
+                    <Grid spacing={1} container alignItems="center" marginTop="-25px" onClick={() => handleFilterReview(2)}>
                         <Grid xs={2} item>
-                            <p>2 stars</p>
+                            <p style={{ cursor: "pointer", textDecoration: "underline" }}>2 stars</p>
                         </Grid>
                         <Grid xs item paddingBottom="15px">
-                            <LinearProgress variant="determinate" value={(starCount[1] / length) * 100} />
+                            <LinearProgress variant="determinate" style={{ cursor: "pointer" }} value={(starCount[1] / length) * 100} />
                         </Grid>
                     </Grid>
-                    <Grid spacing={1} container alignItems="center" marginTop="-30px">
+                    <Grid spacing={1} container alignItems="center" marginTop="-25px" onClick={() => handleFilterReview(1)}>
                         <Grid xs={2} item>
-                            <p>1 stars</p>
+                            <p style={{ cursor: "pointer", textDecoration: "underline" }}>1 stars</p>
                         </Grid>
                         <Grid xs item paddingBottom="15px">
-                            <LinearProgress variant="determinate" value={(starCount[0] / length) * 100} />
+                            <LinearProgress variant="determinate" style={{ cursor: "pointer" }} value={(starCount[0] / length) * 100} />
                         </Grid>
                     </Grid>
                 </div>
@@ -100,9 +109,22 @@ export default function DisplayReview({ data, setScreen, reviews, starCount, ave
             </div>
             <div style={{ marginLeft: "20px", marginTop: "-20px", height: "300px", overflowY: "scroll" }}>
                 <h4>Reviews</h4>
-                {reviews.map((review) => (
+                {filteredStar !== null && <div style={{ display: "flex" }}>
+                    <p style={{ textDecoration: "underline" }}>Filter: {filteredStar} stars</p>
+                    <p
+                        style={{ color: "blue", marginLeft: "10px", cursor: "pointer" }}
+                        onClick={() => {
+                            setFilteredStar(null);
+                            setFilteredReviews(reviews);
+                        }}
+                    >
+                        Clear filter
+                    </p>
+                </div>}
+                {filteredReviews.map((review) => (
                     <ReviewItem key={review.date} date={review.date} name={review.name} review={review.review} star={review.star} />
                 ))}
+                {filteredReviews.length === 0 && <h4>No Reviews To Show</h4>}
             </div>
         </div>
     );

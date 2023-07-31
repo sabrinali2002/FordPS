@@ -24,6 +24,7 @@
   color: #5a5858;
   font-size: 13px;
   width:100px;
+  background-color:white;
 }
 
 .toggle-button input {
@@ -59,7 +60,7 @@ input[type='checkbox'] {
 
 input[type='checkbox']:checked + .slider {
   
-  background-color:rgb(132, 132, 243)
+  background-color:#f0d6ff;
 }
 
 input[type='checkbox']:checked + .slider:before {

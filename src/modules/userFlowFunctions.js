@@ -11,10 +11,50 @@ import images from "../images/image_link.json";
 import Checkbox from '@mui/material/Checkbox';
 import { certifications, evmarket, commitments, emissions, endoflife, pm, newfeatures } from './info.js';
 
-export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACarButtons,setCalcButtons,model,setModel,calcButtonHandler,setCalcStep,trim,setQuery,blockQueries,setResponse,setShowCalcButtons,setCalcHeadingText,setInfoMode,cat,setCat,setPriceMode,
-    setPriceStep,setVehicleMode, setOptionButtons) {
+export function handleUserInputFn(
+    setMessages,
+    changeChoice,
+    setMenuButtons,
+    buyACarButtons,
+    setCalcButtons,
+    model,
+    setModel,
+    calcButtonHandler,
+    setCalcStep,
+    trim,
+    setQuery,
+    blockQueries,
+    setResponse,
+    setShowCalcButtons,
+    setCalcHeadingText,
+    setInfoMode,
+    cat,
+    setCat,
+    setPriceMode,
+    setPriceStep,
+    setVehicleMode,
+    setOptionButtons,
+    setShowingEvs
+) {
 
-    
+    //for ev model logic 
+    const jsonData = {
+        "E-Transit Cargo Van": ["350 High Roof w/148\" WB", "350 Low Roof w/148\" WB", "350 Low Roof w/130\" WB", "350 Medium Roof w/130\" WB", "350 Medium Roof w/148\" WB"],
+        "Escape": ["ST-Line Elite"],
+        "Explorer": ["Limited"],
+        "F-150 Lightning": ["Lariat", "Platinum", "Pro", "XLT"],
+        "Mustang Mach-E": ["Select w/Standard Range"]
+    };
+
+    function getVarietiesByCategory(mainCategory) {
+        // Check if the main category exists in the JSON data
+        if (jsonData.hasOwnProperty(mainCategory)) {
+          return jsonData[mainCategory];
+        } else {
+          return []; // Return an empty array if the main category is not found
+        }
+    }
+
     return (option) => {
         // Outputs a response to based on input user selects
         if(option.includes("SCHED")){
@@ -128,8 +168,9 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                     setMessages((m) => [...m, { msg: "Ford's up and coming innovation efforts.", author: "Ford Chat", line: true, zip: "" }]); 
                     break; 
                 case "NM":
-                    setMessages((m) => [...m, { msg: "Our EV Models", author: "You", line: true, zip: {} }]);
-                    setCalcHeadingText("Here are our new EV models:");
+                    setMessages((m) => [...m, { msg: "New Models", author: "You", line: true, zip: {} }]);
+                    setShowingEvs(true);
+                    setCalcHeadingText("Feel free to explore our new models below! Click on a model for more specific details.");
                     setShowCalcButtons(true);
                     setCalcButtons(
                         Object.keys(evs).map((vehicle) => (
@@ -137,8 +178,73 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                                 className="model-button"
                                 key={vehicle}
                                 value={vehicle}
+                                onClick={() => {
+                                    setShowingEvs(true);
+                                    setMessages((m) => [...m, { msg: vehicle, author: "You" }]);
+                                    setCalcHeadingText(`The varieties of the ${vehicle} include:`);
+                                    const varieties = getVarietiesByCategory(vehicle);
+                                    var description = "";
+                                    switch (vehicle) {
+                                        case "E-Transit Cargo Van":
+                                          description = (
+                                            <p>
+                                              The E-Transit Cargo Van is Ford's innovative all-electric cargo van, designed to revolutionize the delivery and transportation industry. With multiple roof heights and wheelbase options, it offers versatile cargo configurations to fit your business needs. Embrace sustainability, reduce emissions, and experience the future of commercial transportation with the E-Transit.
+                                            </p>
+                                          );
+                                          break;
+                                        case "Escape":
+                                          description = (
+                                            <p>
+                                              Introducing the brand new electric version of the Ford Escape. With its eco-friendly all-electric drivetrain, the Escape EV takes efficiency and sustainability to the next level. Experience a smooth and silent ride, advanced tech features, and a spacious cabin that delivers a truly modern driving experience. Get ready to embrace the future with the electrifying Escape EV.
+                                            </p>
+                                          );
+                                          break;
+                                        case "Explorer":
+                                          description = (
+                                            <p>
+                                              Unleash the power of electrification with the new electric version of the Ford Explorer. The Explorer EV offers the same rugged capability and luxury of its traditional counterparts but with zero tailpipe emissions. With its electric range and intelligent energy management, the Explorer EV takes you on an adventure while preserving the environment. Discover the electrifying Explorer and embark on a sustainable journey.
+                                            </p>
+                                          );
+                                          break;
+                                        case "F-150 Lightning":
+                                          description = (
+                                            <p>
+                                              The F-150 Lightning, Ford's all-electric pickup truck, brings unparalleled power and efficiency to the table. Choose from a range of trims, including the rugged Raptor and the luxurious Platinum. With lightning-fast acceleration and a reliable electric range, the F-150 Lightning marks a new era of electric trucks that redefine the possibilities of work and play.
+                                            </p>
+                                          );
+                                          break;
+                                        case "Mustang Mach-E":
+                                          description = (
+                                            <p>
+                                              The Mustang Mach-E is a revolutionary all-electric SUV that embraces the iconic Mustang heritage. The Select trim with Standard Range delivers impressive efficiency without sacrificing performance. Enjoy a thrilling driving experience with instant torque, advanced tech, and a spacious interior. Experience the future of Mustang with the Mach-E.
+                                            </p>
+                                          );
+                                          break;
+                                        default:
+                                          description = (
+                                            <p>
+                                              Welcome to the world of new Ford cars - where innovation, performance, and style meet. Experience the thrill of driving with cutting-edge features and unmatched craftsmanship that define each Ford model.
+                                            </p>
+                                          );
+                                      }
+                                    setCalcButtons(
+                                        <div className="ev-info">
+                                            <div className='ev-top'>
+                                            {varieties.map((variety, index) => (
+                                                <li key={index}>{variety}</li>
+                                            ))}
+                                            <img style={{ width: "160px", height: "auto" }} src={images["Default"][vehicle]} />
+                                            </div>
+                                            <div className="ev-description">{description}</div>
+                                        </div>
+                                    );
+                                    setShowCalcButtons(true);
+                                }}
                             >
+                                <img style={{ width: "160px", height: "auto" }} src={images["Default"][vehicle]} />
+                                <br /> 
                                 {vehicle}
+                            
                             </button>
                         ))
                     );
@@ -177,7 +283,6 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                 case "EOF":
                     setMessages((m) => [...m, { msg: "End of life management", author: "You", line: true, zip: {} }]);
                     setMessages((m) => [...m, { msg: endoflife, author: "Ford Chat", line: true, zip: "" }]); 
-                    
                     break;
                     
             case "electric":
@@ -185,12 +290,14 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
                 setVehicleMode("electric");
                 setPriceStep(1);
                 setQuery("electric");
+                console.log("in electric");
                 break;
             case "combustion":
                 changeChoice("combustion");
                 setVehicleMode("combustion");
                 setPriceStep(1);
                 setQuery("combustion");
+                console.log("in comb");
                 break;
             case "maintenanceQuestions":
                 changeChoice("maintenanceQuestions");
@@ -203,7 +310,7 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
 }
 
 export function handleUserFlow(
-    tableForceUpdate,
+    tableForceUpdate, 
     setTableForceUpdate,
     handleMoreInfo,
     handleCarInfoButton,
@@ -237,8 +344,6 @@ export function handleUserFlow(
     setQuestionnaireAnswers,
     setQuestionnaireStep,
     questionnaireAnswers,
-    setForceUpdate,
-    forceUpdate,
     calcStep,
     model,
     setModel,
@@ -282,7 +387,7 @@ export function handleUserFlow(
     EV,
     vehicleMode,
     setVehicleMode,
-    setLeaseStep1, 
+    setLeaseStep1,
     setFinanceStep1, 
     leaseStep1, 
     financeStep1,
@@ -291,12 +396,12 @@ export function handleUserFlow(
     down,
     setDown,
     changeFind,
-    requestSent
+    requestSent,
+    setShowingEvs
     
 ) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
-        setForceUpdate(!forceUpdate);
         if(choice.includes("SCHED")){
             const maintenanceMode=choice.replace("SCHED", "")
             const model=maintenanceMode.split("MODEL:")[1].split("TRIM:")[0]
@@ -313,11 +418,12 @@ export function handleUserFlow(
                 });
                 break;
                 case "electric":
-                    handlePriceFlow("electric",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate);
+                    handlePriceFlow("electric",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown);
                     blockQueries.current = false;
+                    console.log("hit e 2")
                     break;
                   case "combustion":
-                    handlePriceFlow("combustion",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate);
+                    handlePriceFlow("combustion",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown);
                     blockQueries.current = false;
                     break;
                   case "request":
@@ -355,7 +461,7 @@ export function handleUserFlow(
                             key={trim}
                             value={trim}
                             onClick={() => {
-                                handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
+                                handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
                                     setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
                                     infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons
                                 );
@@ -369,14 +475,14 @@ export function handleUserFlow(
                       break;
             }
             else if(infoMode === 3){
-              handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
+              handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
                 setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
                 infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons);
               blockQueries.current = false;
             break;
             }
             else if(infoMode === 4){
-              handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton, model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
+              handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton, model,trim, setMessages, setModel, setQuery, setInfoMode, setCalcButtons, setMenuButtons, handleUserInput, setShowCalcButtons, setCarInfoData, infoMode, selected, changeSelected, setDealers, locateDealershipsFn, setSelect, setFind, query, setZipMode);
               blockQueries.current = false;
               break;
             }
@@ -395,7 +501,7 @@ export function handleUserFlow(
             break;
           case 'A':
             setQuery("");
-            sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
+            sendRecommendRequestToServer(query, history, carInfoData, messages, blockQueries, setCarInfoData, setMessages, setHistory, fixTrimQueryQuotation);
             break;
           case "B": {
             setZipMode(1);
@@ -452,7 +558,6 @@ export function handleUserFlow(
                             copy2[model] = copy;
                             changeSelected(copy2);
                           }
-                          setForceUpdate(!forceUpdate)
                           console.log(copy2, selected[model].includes(trim))
                     }}>
                         {trim}
@@ -494,7 +599,6 @@ export function handleUserFlow(
                     case 4:
                         //setQuestionnaireAnswers(q=>[...q, query])
                         let questionnaireAnswersCopy = [...questionnaireAnswers, query];
-                        setForceUpdate(!forceUpdate);
                         const ultimateQueryString =
                             "Here is my budget: " +
                             questionnaireAnswersCopy[0] +
@@ -509,11 +613,9 @@ export function handleUserFlow(
                             history,
                             carInfoData,
                             messages,
-                            forceUpdate,
                             blockQueries,
                             setCarInfoData,
                             setMessages,
-                            setForceUpdate,
                             setHistory,
                             fixTrimQueryQuotation
                         );

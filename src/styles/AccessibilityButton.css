@@ -1,7 +1,7 @@
 .access{
     position: fixed;
-    left: 30px;
-    bottom: 35px;
+    left: 15px;
+    bottom: 33px;
     z-index: 100000000000000000000000;
 }
 
@@ -15,5 +15,5 @@
 }
 
 .accesspic{
-    height:30px;
+    height:35px;
 }
