@@ -9,43 +9,43 @@ import { MdSpeakerPhone } from 'react-icons/md';
 
 export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate) {
     const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
-    console.log("price step is" );
-    console.log(priceStep);
     switch(priceStep) {
         case 1: // model
-            setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat", line: true, zip: {} }]);
-            setShowCalcButtons(true);
-            setCalcHeadingText("Choose specific model");
-            if (vehicleMode == 'electric') {
-                setCalcButtons(Object.keys(electric).map(model => (electric[model].length !== 0 && 
-                    <button
-                        className="model-button"
-                        key={model}
-                        value={model}
-                        onClick={() => {setQuery(model);
-                            setModel(model);
-                            setMessages((m) => [...m, { msg: model, author: "You" }]);
-                            setCalcButtons([]);
-                            setShowCalcButtons(false);
-                            }}>
-                        <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} alt='' />
-                        <br />{model}<BiRegistered /></button>)));
-            }       
-            else {
-                setCalcButtons(Object.keys(trims).map(model => (electric[model].length < trims[model].length && 
-                    <button
-                        className="model-button"
-                        key={model}
-                        value={model}
-                        onClick={() => {setQuery(model);
-                            setModel(model);
-                            setMessages((m) => [...m, { msg: model, author: "You" }]);
-                            setCalcButtons([]);
-                            setShowCalcButtons(false);
-                            }}>
-                        <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} alt='' />
-                        <br />{model}<BiRegistered /></button>)));
-            }     
+            if (model === '') {
+                setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat", line: true, zip: {} }]);
+                setShowCalcButtons(true);
+                setCalcHeadingText("Choose specific model");
+                if (vehicleMode == 'electric') {
+                    setCalcButtons(Object.keys(electric).map(model => (electric[model].length !== 0 && 
+                        <button
+                            className="model-button"
+                            key={model}
+                            value={model}
+                            onClick={() => {setQuery(model);
+                                setModel(model);
+                                setMessages((m) => [...m, { msg: model, author: "You" }]);
+                                setCalcButtons([]);
+                                setShowCalcButtons(false);
+                                }}>
+                            <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} alt='' />
+                            <br />{model}<BiRegistered /></button>)));
+                }       
+                else {
+                    setCalcButtons(Object.keys(trims).map(model => (electric[model].length < trims[model].length && 
+                        <button
+                            className="model-button"
+                            key={model}
+                            value={model}
+                            onClick={() => {setQuery(model);
+                                setModel(model);
+                                setMessages((m) => [...m, { msg: model, author: "You" }]);
+                                setCalcButtons([]);
+                                setShowCalcButtons(false);
+                                }}>
+                            <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} alt='' />
+                            <br />{model}<BiRegistered /></button>)));
+                }     
+            }
             setPriceStep(2);
             blockQueries.current = false;
             break;
@@ -53,32 +53,34 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
             if (model === '') {
                 setModel(query);
             }
-            setCalcHeadingText("Choose specific trim");
-            setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true, zip: {} }]);
-            setShowCalcButtons(true);
-            if (vehicleMode == 'electric') {
-                setCalcButtons(electric[model].map(trim => 
-                (<button className='model-button' key={trim} value={trim} onClick={() => 
-                    {setQuery(trim);
-                        setTrim(trim);
-                        setMessages((m) => [...m, { msg: trim, author: "You" }]);
-                        setCalcButtons([]);
-                        setShowCalcButtons(false);}}>
-                            <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
-                        <br/>{trim}</button>)
-                ));
-            }
-            else {
-                setCalcButtons(trims[model].map(trim => (!electric[model].includes(trim) &&
-                <button className='model-button' key={trim} value={trim} onClick={() => 
-                    {setQuery(trim);
-                        setTrim(trim);
-                        setMessages((m) => [...m, { msg: trim, author: "You" }]);
-                        setCalcButtons([]);
-                        setShowCalcButtons(false);}}>
-                            <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
-                        <br/>{trim}</button>)
-                ));     
+            if (trim === '') {
+                setCalcHeadingText("Choose specific trim");
+                setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true, zip: {} }]);
+                setShowCalcButtons(true);
+                if (vehicleMode == 'electric') {
+                    setCalcButtons(electric[model].map(trim => 
+                    (<button className='model-button' key={trim} value={trim} onClick={() => 
+                        {setQuery(trim);
+                            setTrim(trim);
+                            setMessages((m) => [...m, { msg: trim, author: "You" }]);
+                            setCalcButtons([]);
+                            setShowCalcButtons(false);}}>
+                                <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
+                            <br/>{trim}</button>)
+                    ));
+                }
+                else {
+                    setCalcButtons(trims[model].map(trim => (!electric[model].includes(trim) &&
+                    <button className='model-button' key={trim} value={trim} onClick={() => 
+                        {setQuery(trim);
+                            setTrim(trim);
+                            setMessages((m) => [...m, { msg: trim, author: "You" }]);
+                            setCalcButtons([]);
+                            setShowCalcButtons(false);}}>
+                                <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
+                            <br/>{trim}</button>)
+                    ));     
+                }
             }
             blockQueries.current = false;
             setPriceStep(3);
@@ -126,7 +128,6 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                             setDown(query);
                             setPayment(payment => {return (payment - query)});
                             setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true}]);
-                            setMessages((m) => [...m, { msg: "", author: "You", line: true}]);
                             blockQueries.current = false;
                             setLeaseStep1(2);
                             break;
@@ -146,7 +147,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                             setLeaseStep1(3);
                             break;
                         case 3: // miles
-                            setPayment(payment => {return (payment/(query*2))});
+                            setPayment(payment => {return Math.round(payment/(query*2))});
                             setMessages((m) => [...m, { msg: "Please enter the expected miles driven annually", author: "Ford Chat", line: true }]);
                             blockQueries.current = false;
                             setLeaseStep1(0);
@@ -166,14 +167,13 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                         case 2: // months
                             setPayment(payment => {return (payment - query)});
                             let durations = [36, 48, 60, 72, 84];
-                            //setCalcHeadingText('Choose loan duration (months)');
-                            setMessages((m) => [...m, { msg: "Please select your desired loan duration, in months", author: "Ford Chat", line: true }]);
-                            //setShowCalcButtons(true);
+                            setMessages((m) => [...m, { msg: "Please select your desired loan duration, in months", author: "Ford Chat", line: true, zip:"" }]);
                             setOptionButtons(<div className='option-buttons'>
                                 {durations.map(dur => (<button className='button-small' key={dur.toString()} value={dur} 
                                 onClick={() => 
                                     {setQuery(dur.toString());
                                         setDura(dur);
+                                        setPayment(payment => {return Math.round(((mosToAPR[dur]/12)*payment)/(1-((1+(mosToAPR[dur]/12))**(0-dur))))});
                                         setMessages((m) => [...m, { msg: `${dur.toString()} months`, author: "You" }]);
                                         setOptionButtons([]);}}>{dur.toString()}</button>))}
                             </div>);                        
@@ -186,28 +186,19 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
             }
             break;
         case 5:
-            let final = 0;
             let apr = 0;
             switch (priceMode) {
                 case 1: // lease
                     apr = mosToAPR[dura];
-                    setPayment(payment);
-                    final = payment;
                     setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true}]);
-                    //blockQueries.current = false;
                     break;
                 case 2: // finance 
                     apr = mosToAPR[dura];
-                    setPayment(payment => {return (((apr/12)*payment)/(1-((1+(apr/12))**(0-dura))))});
-                    final = ((apr/12)*payment)/(1-((1+(apr/12))**(0-query)));
                     setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true }]);
-                    //blockQueries.current = false;
                     break;
                 case 3: // buy
                     setPayment(payment => { return (payment - query)});
-                    final = payment - query;
                     setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true }]);
-                    //blockQueries.current = false;
                     break;
             }
             let buttons = ['Lease','Finance','Buy'];
@@ -229,7 +220,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                             {priceMode == 2 && <span>Estimated loan payment: </span>}
                             {priceMode == 3 && <span>Estimated purchase price: </span>}
                             <span style={{fontWeight:'bold',fontSize:'16px',paddingLeft:'70px'}}>
-                            {`$${Math.round(final)}`}</span>
+                            {`$${payment}`}</span>
                         {priceMode < 3 && `/mo`}
                         </div>
                         <div style={{fontSize:'12px',paddingLeft:'10px'}}>
@@ -245,7 +236,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                         </div>);
                         break;
                 case "combustion":
-                    let msrp = Math.round(final);
+                    let msrp = Math.round(payment);
                     let avg = msrp+Math.round(4000*Math.random());
                     let retail = Math.round((avg+msrp)/2); 
                     text = (<div>
