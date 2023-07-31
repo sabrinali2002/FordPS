@@ -26,6 +26,11 @@ export function handleUserInputFn(setMessages,changeChoice,setMenuButtons,buyACa
         }
         else
         switch (option) {
+            case "TableI":
+                setInfoMode(0);
+                changeChoice("I");
+                blockQueries.current = false;
+                break;
             case "I":
               setInfoMode(0);
                 if (cat === "") {

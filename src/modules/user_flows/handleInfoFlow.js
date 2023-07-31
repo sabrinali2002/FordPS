@@ -29,7 +29,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
     if (infoMode === 2) {
         if (trim === "All Trims") {
           setMessages((m) => [...m, { msg: "Here are all the trims", author: "Ford Chat", line: true, zip: "" }]);
-          setMessages((m) => [...m, { msg: "You can select which ones to compare", author: "Ford Chat", line: true, zip: "" }]);
+          setMessages((m) => [...m, { msg: "Click on the image of the car you would like to move forward with", author: "Ford Chat", line: true, zip: "" }]);
           setShowCalcButtons(false);
           handleCarInfoButton(model, trim);
           handleMoreInfo();
@@ -60,6 +60,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
                         setMenuButtons([]);
                         setOptionButtons([]);
                         setInfoMode(3);
+                        setMessages((m) => [...m, { msg: "I want to schedule a test drive", author: "You", line: true }]);
                     }}
                 >
                     Schedule a test drive
@@ -69,6 +70,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
                     onClick={() => {
                         setMenuButtons([]);
                         setInfoMode(10);
+                        setMessages((m) => [...m, { msg: "Pricing estimation", author: "You", line: true }]);
                     }}
                 >
                     Pricing estimation
@@ -77,12 +79,11 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
                     className="button-small"
                     onClick={() => {
                         setMenuButtons([]);
-                        setOptionButtons([]);
+                        // setOptionButtons([]);
                         handleCarInfoButton(model, trim);
                         setForceUpdate(!forceUpdate);
                         handleMoreInfo();
-                        setMessages((m) => [...m, { msg: "Is there anything else I can help you with?", author: "Ford Chat", line: true }]);
-                        setMenuButtons(origButtons);
+                        setMessages((m) => [...m, { msg: "What other information/services would you like for this car?", author: "Ford Chat", line: true }]);
                     }}
                 >
                     More information

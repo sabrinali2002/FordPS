@@ -455,7 +455,7 @@ function App() {
             changeFind,
             requestSent
         );
-    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
+    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim, infoMode]);
 
   return (
     <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
@@ -533,6 +533,10 @@ function App() {
                 setOptionButtons={setOptionButtons}
                 showCalcButtons={showCalcButtons}
                 setRequestSent={setRequestSent}
+                setInfoMode={setInfoMode}
+                setModel={setModel}
+                setTrim={setTrim}
+                setQuery={setQuery}
                 key={index}
               />
               );

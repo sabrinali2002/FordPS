@@ -68,7 +68,7 @@ function dictate(message, toggleIsSpeaking) {
   speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, model, trim, orig, messages, setOptionButtons, showCalcButtons, setRequestSent}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, model, trim, orig, messages, setOptionButtons, showCalcButtons, setRequestSent, setInfoMode, setModel, setTrim, setQuery}){
   const textPartStyle = {
     display: "flex", flexDirection:"row",
     width:"100%",
@@ -111,7 +111,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
         </Fragment>
         }
         {author==="Table" && <Fragment>
-        <CarInfoTable data={carInfoData} mode={carInfoMode} intro={message} onCheckboxSelect={tableFunctions[0]} messageIndex={messageIndex} selectedCars={selectedCars} onCompare={tableFunctions[1]} onTableBack={tableFunctions[2]}/>
+        <CarInfoTable data={carInfoData} mode={carInfoMode} intro={message} onCheckboxSelect={tableFunctions[0]} messageIndex={messageIndex} selectedCars={selectedCars} onCompare={tableFunctions[1]} onTableBack={tableFunctions[2]} setInfoMode={setInfoMode} setModel={setModel} setTrim={setTrim} setOptionButtons={setOptionButtons} setMessages={setMessages} handleUserInput={handleUserInput} setQuery={setQuery}/>
           </Fragment>}
         {
           author==="Login" && <ExistingOwner setMessages={setMessages} setMenuButtons={setMenuButtons} handleUserInput={handleUserInput} justSelect={message.length>0} selectedCar={selectedCar} 
