@@ -6,8 +6,6 @@ import images from "../../images/image_link.json";
 
 export default function handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons) {
   const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
-  console.log("Top");
-  console.log(calcStep);
   switch (calcStep) {
     case 1: //trim 
         if (model === '') {
@@ -77,21 +75,19 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                     case 2: // months
                         setPayment(payment => {return (payment - query)});
                         let durations = [24, 36, 39, 48];
-                        //setCalcHeadingText('Choose lease duration (months)');
                         setMessages((m) => [...m, { msg: "Please select your desired lease duration, in months", author: "Ford Chat", line: true }]);
-                        //setShowCalcButtons(true);
                         setOptionButtons(<div className='option-buttons'>
                             {durations.map(dur => (<button className='button-small' key={dur.toString()} value={dur} 
                             onClick={() => 
-                                {setQuery(dur);
-                                    setMessages((m) => [...m, { msg: `${dur.toString()} months`, author: "You" }]);
+                                {setQuery(dur.toString());
+                                    setMessages((m) => [...m, { msg: `${dur.toString()} months`, author: "You"}]);
                                     setOptionButtons([]);}}>{dur.toString()}</button>))}
                         </div>);
                         blockQueries.current = false;
                         setLeaseStep(3);
                         break;
                     case 3: // miles
-                        setPayment(payment => {return (payment/(query*2))})
+                        setPayment(payment => {return Math.round(payment/(query*2))})
                         setMessages((m) => [...m, { msg: "Please enter the expected miles driven annually", author: "Ford Chat", line: true }]);
                         blockQueries.current = false;
                         setLeaseStep(0);
@@ -110,13 +106,16 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                     case 2: // months
                         setPayment(payment => {return (payment - query)});
                         let durations = [36, 48, 60, 72, 84];
-                        setMessages((m) => [...m, { msg: "Please select your desired loan duration, in months", author: "Ford Chat", line: true, zip:"" }]);
+                        setMessages((m) => [...m, { msg: "Please select your desired loan duration, in months", author: "Ford Chat", line: true }]);
                         setOptionButtons(<div className='option-buttons'>
                             {durations.map(dur => (<button className='button-small' key={dur.toString()} value={dur} 
                             onClick={() => 
-                                {setQuery(dur);
+                                {setQuery(dur.toString());
+                                    //setDura(dur);
                                     setMessages((m) => [...m, { msg: `${dur.toString()} months`, author: "You" }]);
-                                    setOptionButtons([]);}}>{dur.toString()}</button>))}
+                                    setPayment(payment => {return Math.round(((mosToAPR[dur]/12)*payment)/(1-((1+(mosToAPR[dur]/12))**(0-dur))))});
+                                    setOptionButtons([]);
+                                    blockQueries.current = false;}}>{dur.toString()}</button>))}
                         </div>);                        
                         blockQueries.current = false;
                         setFinanceStep(0);
@@ -127,22 +126,19 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         }
         break;
     case 4:
-        console.log("here");
         let final = 0;
         switch (calcMode) {
             case 1: // lease
-                setPayment(payment);
-                final = payment;
-                setMessages((m) => [...m, { msg: `Your expected monthly payment is $${Math.round(final)}`, author: "Ford Chat", line: true }]);
+                setMessages((m) => [...m, { msg: `Your expected monthly payment is $${payment}`, author: "Ford Chat", line: true }]);
                 break;
             case 2: // finance 
                 let apr = mosToAPR[query];
-                setPayment(payment => {return (((apr/12)*payment)/(1-((1+(apr/12))**(0-query))))});
-                final = ((apr/12)*payment)/(1-((1+(apr/12))**(0-query)));
-                setMessages((m) => [...m, { msg: `Your expected monthly payment is $${Math.round(final)}`, author: "Ford Chat", line: true }]);
+                //setPayment(payment => {return (((apr/12)*payment)/(1-((1+(apr/12))**(0-parseInt(query)))))});
+                //final = ((apr/12)*payment)/(1-((1+(apr/12))**(0-query)));
+                setMessages((m) => [...m, { msg: `Your expected monthly payment is $${payment}`, author: "Ford Chat", line: true }]);
                 break;
             case 3: // buy
-                setPayment(payment => { return (payment - query)});
+                setPayment(payment => { return (Math.round(payment - query))});
                 final = payment - query;
                 setMessages((m) => [...m, { msg: `Your expected price is $${Math.round(final)}`, author: "Ford Chat", line: true }]);
                 break;
