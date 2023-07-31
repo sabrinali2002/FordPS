@@ -92,7 +92,7 @@ const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selec
                 <Button onClick={onCompare}>Compare These Cars</Button>
             )}
             {data[0].length !== 0 && mode === "single" && (
-                <TableContainer component={Paper} className="mt-2">
+                <TableContainer component={Paper} className="mt-2" style={{width:"90vw"}}>
                     <Table>
                         <TableHead>
                             <TableRow>

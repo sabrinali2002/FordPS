@@ -28,8 +28,8 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
 
     if (infoMode === 2) {
         if (trim === "All Trims") {
-          setMessages((m) => [...m, { msg: "Here are all the trims", author: "", line: true, zip: "" }]);
-          setMessages((m) => [...m, { msg: "You can select which ones to compare", author: "", line: true, zip: "" }]);
+          setMessages((m) => [...m, { msg: "Here are all the trims", author: "Ford Chat", line: true, zip: "" }]);
+          setMessages((m) => [...m, { msg: "You can select which ones to compare", author: "Ford Chat", line: true, zip: "" }]);
           setShowCalcButtons(false);
           handleCarInfoButton(model, trim);
           handleMoreInfo();
