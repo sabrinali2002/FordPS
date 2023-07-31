@@ -668,7 +668,9 @@ const origButtons = (
           <div ref={messagesEndRef}/>
         </div>
         <div>
+          <div style={{paddingTop:'20px'}}>
             {menuButtons}
+          </div>
           <form
             onSubmit={(e) => {
               e.preventDefault();
