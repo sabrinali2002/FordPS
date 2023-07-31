@@ -698,7 +698,7 @@ function App() {
               }}
               style={{
                 accentColor: "white",
-                width: "90%",
+                width: "88%",
                 marginTop: "1%",
                 marginLeft: "5%",
                 textSize: { textSize },
@@ -727,13 +727,13 @@ function App() {
                         }}
                       />
                     </Tooltip>
-                    <Tooltip title="Exit Chatbot" placement="top">
-                      <BoxArrowLeft size="2rem" style={{marginLeft: "10px", cursor: "pointer"}} onClick={handleUserFeedback}/>
-                    </Tooltip>
                   </InputAdornment>
                 ),
               }}
             />
+              <Tooltip title="Exit Chatbot" placement="top">
+                <BoxArrowLeft size="2rem" style={{marginLeft: "10px", cursor: "pointer", marginTop:"25px"}} onClick={handleUserFeedback}/>
+              </Tooltip>
             </div>
           </form>
         </div>
