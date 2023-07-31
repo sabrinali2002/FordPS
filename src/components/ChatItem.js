@@ -26,8 +26,8 @@ function extractLinkFromText(messageText, author, darkMode){
         wordsArray.slice(linkIndex + 1, wordsArray.length).join(" ");
 
   const bubbleStyle = {
-    color: "white",
-    backgroundColor: author.toLowerCase() === "you" ? "blue" : "#322964",
+    color: darkMode ? "black" : "white",
+    backgroundColor: darkMode ? (author.toLowerCase() === "you" ? "#c4cbcc" : "white") : (author.toLowerCase() === "you" ? "#3f4ad9" : "#322964"),
     padding: "10px 20px",
     borderRadius: "20px",
     textAlign: author.toLowerCase() === "you" ? "right" : "left",
@@ -71,7 +71,7 @@ function dictate(message, toggleIsSpeaking) {
 export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, model, trim, orig, messages, setOptionButtons, showCalcButtons, setRequestSent}){
   const textPartStyle = {
     display: "flex", flexDirection:"row",
-    width:"100%",
+    width:"94vw",
     justifyContent: author.toLowerCase() === "you" ? "flex-end" : "flex-start",
     paddingRight: "5%",
     paddingLeft:"2%",
@@ -79,14 +79,14 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
   }
     const [isSpeaking, toggleIsSpeaking] = useState(false);
     return (
-        <div style={{display: "flex", flexDirection:"row", width:"100%",}}>
+        <div style={{display: "flex", flexDirection:"row", width:"92vw",}}>
         <div style={(author==="You"||author==="Ford Chat")?textPartStyle:{}}>
           <div style={textPartStyle}>
           {author === "Ford Chat" && <div><img src={circleHenrai} style={{height:"48px", width:"48px", marginRight:"6px"}}></img></div>}
           {(author!=="DropDown" && author!=="Table" && author !== "Info" && message.length>0) && <Fragment>
             <div style={{display: 'flex', flexDirection: 'row', clear:'both',}}>
                 {extractLinkFromText(message, author, darkMode)}
-                {author.toLowerCase()!=='you' && <VolumeUp color={darkMode ? (isSpeaking?"#ffffff":"#e4e4ed") : (isSpeaking?"blue":"black")} size={textSize === "small" ? "0.8rem" : (textSize === "medium" ? "1.2rem" : "1.4rem")} onClick={()=>{
+                {author.toLowerCase()!=='you' && <VolumeUp  style={{ paddingLeft:"4px", paddingTop:"9px"}} color={darkMode ? (isSpeaking?"#ffffff":"#322964") : (isSpeaking?"blue":"black")} size={textSize === "small" ? "2.5rem" : (textSize === "medium" ? "3.0rem" : "3.5rem")} onClick={()=>{
                     if(!isSpeaking)
                         dictate(message, toggleIsSpeaking)
                     }

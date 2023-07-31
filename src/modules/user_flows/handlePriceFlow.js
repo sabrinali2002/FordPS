@@ -9,6 +9,8 @@ import { MdSpeakerPhone } from 'react-icons/md';
 
 export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate) {
     const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
+    console.log("price step is" );
+    console.log(priceStep);
     switch(priceStep) {
         case 1: // model
             setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat", line: true, zip: {} }]);
