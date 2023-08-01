@@ -23,6 +23,8 @@ import {
 } from "./info.js";
 
 export function handleUserInputFn(
+  origButtons,
+  infoButtons,
   setMessages,
   changeChoice,
   setMenuButtons,
@@ -270,6 +272,7 @@ export function handleUserInputFn(
             ...m,
             { msg: "New Models", author: "You", line: true, zip: {} },
           ]);
+
           setShowingEvs(true);
           setCalcHeadingText(
             "Feel free to explore our new models below! Click on a model for more specific details."
@@ -394,13 +397,7 @@ export function handleUserInputFn(
               </button>
             ))
           );
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons([]);
+
           break;
         case "NF":
           setMessages((m) => [
@@ -417,7 +414,7 @@ export function handleUserInputFn(
               { msg: "What else can I help you with?", author: "Ford Chat" },
             ];
           });
-          setMenuButtons([]);
+          setMenuButtons(origButtons);
           break;
         case "EV":
           setMessages((m) => [
@@ -434,7 +431,7 @@ export function handleUserInputFn(
               { msg: "What else can I help you with?", author: "Ford Chat" },
             ];
           });
-          setMenuButtons([]);
+          setMenuButtons(origButtons);
           break;
         case "Cer":
           setMessages((m) => [
@@ -451,7 +448,7 @@ export function handleUserInputFn(
               { msg: "What else can I help you with?", author: "Ford Chat" },
             ];
           });
-          setMenuButtons([]);
+          setMenuButtons(origButtons);
           break;
         case "Em":
           setMessages((m) => [
@@ -468,7 +465,7 @@ export function handleUserInputFn(
               { msg: "What else can I help you with?", author: "Ford Chat" },
             ];
           });
-          setMenuButtons([]);
+          setMenuButtons(origButtons);
           break;
         case "Comm":
           setMessages((m) => [
@@ -479,13 +476,14 @@ export function handleUserInputFn(
             ...m,
             { msg: commitments, author: "Ford Chat", line: true, zip: "" },
           ]);
-          setMenuButtons([]);
+
           setMessages((m) => {
             return [
               ...m,
               { msg: "What else can I help you with?", author: "Ford Chat" },
             ];
           });
+          setMenuButtons(origButtons);
           break;
         case "Pr":
           setMessages((m) => [
@@ -501,7 +499,13 @@ export function handleUserInputFn(
             ...m,
             { msg: pm, author: "Ford Chat", line: true, zip: "" },
           ]);
-          setMenuButtons([]);
+          setMessages((m) => {
+            return [
+              ...m,
+              { msg: "What else can I help you with?", author: "Ford Chat" },
+            ];
+          });
+          setMenuButtons(origButtons);
 
           break;
         case "EOF":
@@ -518,6 +522,13 @@ export function handleUserInputFn(
             ...m,
             { msg: endoflife, author: "Ford Chat", line: true, zip: "" },
           ]);
+          setMessages((m) => {
+            return [
+              ...m,
+              { msg: "What else can I help you with?", author: "Ford Chat" },
+            ];
+          });
+          setMenuButtons(origButtons);
           break;
 
         case "electric":

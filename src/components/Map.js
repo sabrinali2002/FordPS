@@ -34,8 +34,8 @@ function Map({
   deal,
   coords,
   maintenanceMode = "",
-  selectedModel = "",
-  selectedTrim = "",
+  selectedModel = "Bronco",
+  selectedTrim = "Base",
   requestInfo,
   setRequestSent,
   setMenuButtons,
@@ -749,6 +749,53 @@ function Map({
         >
           <div
             style={{
+              fontWeight: 500,
+              color: "#00095B",
+              fontSize: 23,
+              alignSelf: "start",
+              textAlign: "start",
+              marginBottom: "10px",
+              marginTop: "10px",
+            }}
+          >
+            Car to be picked up:
+          </div>
+          <div
+            style={{
+              width: "200px",
+              height: "150px",
+              backgroundColor: "white",
+              boxShadow: "1px 4px 2px rgba(0, 0, 0, 0.5)",
+              borderRadius: "10px",
+              wordWrap: "wrap",
+              overflowWrap: "wrap",
+              textAlign: "center",
+              lineHeight: 0.5,
+            }}
+          >
+            <img
+              src={
+                images[selectedModel ? selectedModel : "Bronco"][
+                  selectedTrim ? selectedTrim : "Base"
+                ]
+              }
+              style={{ width: "250px", height: "auto", paddingRight: 58 }}
+            ></img>
+            <span
+              style={{
+                fontSize: "11px",
+                color: "#322964",
+                paddingRight: "5px",
+                lineHeight: 0.5,
+              }}
+            >
+              2023 Ford {selectedModel}
+              <BiRegistered /> {selectedTrim}
+            </span>
+          </div>
+          <button
+            onClick={handleRequest}
+            style={{
               display: "flex",
               flexDirection: "column",
               marginRight: 50,
@@ -757,212 +804,213 @@ function Map({
               marginLeft: 10,
             }}
           >
-            <div
+            {" "}
+          </button>
+          <div
+            style={{
+              fontWeight: 500,
+              color: "#00095B",
+              fontSize: 23,
+              alignSelf: "start",
+              textAlign: "start",
+            }}
+          >
+            Customer Information
+          </div>
+          <a
+            style={{
+              marginBottom: 10,
+              color: "#575757",
+              fontWeight: 100,
+              fontSize: 14,
+            }}
+            href="https://www.example.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Or login/create a Ford account{" "}
+          </a>
+          <input
+            onChange={(e) => {
+              setName(e.target.value);
+              setNameError("");
+            }}
+            style={{
+              color: requestSent1 ? "gray" : "black",
+              backgroundColor: "white",
+              borderRadius: 5,
+              width: 400,
+              height: 40,
+              border: "none",
+              marginBottom: 10,
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+              fontSize: 18,
+              paddingLeft: 5,
+            }}
+            placeholder=" Name*"
+          />
+          {nameError != "" && (
+            <span
               style={{
-                fontWeight: 500,
-                color: "#00095B",
-                fontSize: 23,
-                alignSelf: "start",
-                textAlign: "start",
+                fontSize: "10px",
+                color: "black",
+                padding: "0px",
+                marginTop: "-6px",
               }}
             >
-              Customer Information
-            </div>
-            <a
+              {nameError}
+            </span>
+          )}
+          <input
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setEmailError("");
+            }}
+            style={{
+              color: requestSent1 ? "gray" : "black",
+              backgroundColor: "white",
+              borderRadius: 5,
+              width: 400,
+              height: 40,
+              border: "none",
+              marginBottom: 10,
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+              fontSize: 18,
+              paddingLeft: 5,
+            }}
+            placeholder=" Email*"
+          />
+          {emailError != "" && (
+            <span
               style={{
-                marginBottom: 10,
-                color: "#575757",
-                fontWeight: 100,
-                fontSize: 14,
+                fontSize: "10px",
+                color: "black",
+                padding: "0px",
+                marginTop: "-6px",
               }}
-              href="https://www.example.com"
-              target="_blank"
-              rel="noopener noreferrer"
             >
-              Or login/create a Ford account{" "}
-            </a>
-            <input
-              onChange={(e) => {
-                setName(e.target.value);
-                setNameError("");
-              }}
+              {emailError}
+            </span>
+          )}
+          <input
+            onChange={(e) => {
+              setPhoneNumber(e.target.value);
+              setNumError("");
+            }}
+            style={{
+              color: requestSent1 ? "gray" : "black",
+              backgroundColor: "white",
+              borderRadius: 5,
+              width: 400,
+              height: 40,
+              border: "none",
+              marginBottom: 10,
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+              fontSize: 18,
+              paddingLeft: 5,
+            }}
+            placeholder=" Phone number*"
+          />
+          {numError != "" && (
+            <span
               style={{
-                color: requestSent1 ? "gray" : "black",
-                backgroundColor: "white",
-                borderRadius: 5,
-                width: 400,
-                height: 40,
-                border: "none",
-                marginBottom: 10,
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-                fontSize: 18,
-                paddingLeft: 5,
+                fontSize: "10px",
+                color: "black",
+                padding: "0px",
+                marginTop: "-6px",
               }}
-              placeholder=" Name*"
-            />
-            {nameError != "" && (
-              <span
-                style={{
-                  fontSize: "10px",
-                  color: "black",
-                  padding: "0px",
-                  marginTop: "-6px",
-                }}
-              >
-                {nameError}
-              </span>
-            )}
-            <input
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setEmailError("");
-              }}
-              style={{
-                color: requestSent1 ? "gray" : "black",
-                backgroundColor: "white",
-                borderRadius: 5,
-                width: 400,
-                height: 40,
-                border: "none",
-                marginBottom: 10,
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-                fontSize: 18,
-                paddingLeft: 5,
-              }}
-              placeholder=" Email*"
-            />
-            {emailError != "" && (
-              <span
-                style={{
-                  fontSize: "10px",
-                  color: "black",
-                  padding: "0px",
-                  marginTop: "-6px",
-                }}
-              >
-                {emailError}
-              </span>
-            )}
-            <input
-              onChange={(e) => {
-                setPhoneNumber(e.target.value);
-                setNumError("");
-              }}
-              style={{
-                color: requestSent1 ? "gray" : "black",
-                backgroundColor: "white",
-                borderRadius: 5,
-                width: 400,
-                height: 40,
-                border: "none",
-                marginBottom: 10,
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-                fontSize: 18,
-                paddingLeft: 5,
-              }}
-              placeholder=" Phone number*"
-            />
-            {numError != "" && (
-              <span
-                style={{
-                  fontSize: "10px",
-                  color: "black",
-                  padding: "0px",
-                  marginTop: "-6px",
-                }}
-              >
-                {numError}
-              </span>
-            )}
-            <input
-              style={{
-                color: requestSent1 ? "gray" : "black",
-                backgroundColor: "white",
-                borderRadius: 5,
-                width: 400,
-                height: 50,
-                border: "none",
-                marginBottom: 10,
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-                fontSize: 18,
-                paddingLeft: 5,
-                marginBottom: 10,
-              }}
-              placeholder=" Notes/Requests"
-            />
+            >
+              {numError}
+            </span>
+          )}
+          <input
+            style={{
+              color: requestSent1 ? "gray" : "black",
+              backgroundColor: "white",
+              borderRadius: 5,
+              width: 400,
+              height: 50,
+              border: "none",
+              marginBottom: 10,
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+              fontSize: 18,
+              paddingLeft: 5,
+              marginBottom: 10,
+            }}
+            placeholder=" Notes/Requests"
+          />
+        </div>
+        <div
+          style={{
+            alignItems: "start",
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+          }}
+        >
+          <div
+            style={{
+              fontWeight: 500,
+              color: "#00095B",
+              fontSize: 23,
+              alignSelf: "start",
+              textAlign: "start",
+              marginBottom: "10px",
+              marginTop: "10px",
+            }}
+          >
+            Car to be picked up:
           </div>
           <div
             style={{
-              alignItems: "start",
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
+              width: "200px",
+              height: "150px",
+              backgroundColor: "white",
+              boxShadow: "1px 4px 2px rgba(0, 0, 0, 0.5)",
+              borderRadius: "10px",
+              wordWrap: "wrap",
+              overflowWrap: "wrap",
+              textAlign: "center",
+              lineHeight: 0.5,
             }}
           >
-            <div
+            <img
+              src={images[selectedModel][selectedTrim]}
+              style={{ width: "250px", height: "auto", paddingRight: 58 }}
+            ></img>
+            <span
               style={{
-                fontWeight: 500,
-                color: "#00095B",
-                fontSize: 23,
-                alignSelf: "start",
-                textAlign: "start",
-                marginBottom: "10px",
-                marginTop: "10px",
-              }}
-            >
-              Car to be picked up:
-            </div>
-            <div
-              style={{
-                width: "200px",
-                height: "150px",
-                backgroundColor: "white",
-                boxShadow: "1px 4px 2px rgba(0, 0, 0, 0.5)",
-                borderRadius: "10px",
-                wordWrap: "wrap",
-                overflowWrap: "wrap",
-                textAlign: "center",
+                fontSize: "11px",
+                color: "#322964",
+                paddingRight: "5px",
                 lineHeight: 0.5,
               }}
             >
-              <img
-                src={images[selectedModel][selectedTrim]}
-                style={{ width: "250px", height: "auto", paddingRight: 58 }}
-              ></img>
-              <span
-                style={{
-                  fontSize: "11px",
-                  color: "#322964",
-                  paddingRight: "5px",
-                  lineHeight: 0.5,
-                }}
-              >
-                2023 Ford {selectedModel}
-                <BiRegistered /> {selectedTrim}
-              </span>
-            </div>
-            <button
-              onClick={handleRequest}
-              style={{
-                marginTop: 0,
-                color: "white",
-                backgroundColor: "#322964",
-                border: "none",
-                borderRadius: 10,
-                paddingHorizontal: "10px",
-                paddingTop: 5,
-                paddingRight: 10,
-                paddingLeft: 10,
-                marginTop: 26,
-                fontSize: 18,
-                width: 200,
-                marginBottom: 10,
-                cursor: "pointer",
-              }}
-            >
-              {requestSent1 ? "Request sent" : "Send request"}
-            </button>
+              2023 Ford {selectedModel}
+              <BiRegistered /> {selectedTrim}
+            </span>
           </div>
+          <button
+            onClick={handleRequest}
+            style={{
+              marginTop: 0,
+              color: "white",
+              backgroundColor: "#322964",
+              border: "none",
+              borderRadius: 10,
+              paddingHorizontal: "10px",
+              paddingTop: 5,
+              paddingRight: 10,
+              paddingLeft: 10,
+              marginTop: 26,
+              fontSize: 18,
+              width: 200,
+              marginBottom: 10,
+              cursor: "pointer",
+            }}
+          >
+            {requestSent1 ? "Request sent" : "Send request"}
+          </button>
         </div>
       </div>
     );
@@ -997,11 +1045,15 @@ function Map({
       (a, b) => a[1] - b[1]
     );
     let count = 0;
-    while (true) {
-      if (sortedLocations[count][1] > distance) {
-        break;
+    if (distance === -1) {
+      count = 3;
+    } else {
+      while (true) {
+        if (sortedLocations[count][1] > distance) {
+          break;
+        }
+        count += 1;
       }
-      count += 1;
     }
     const closestLocations = sortedLocations.slice(0, count);
     let topLatLongs = [];
@@ -1101,6 +1153,8 @@ function Map({
           time={time}
           handleAppointment={handleAppointment}
           maintenanceMode={maintenanceMode}
+          model={selectedModel}
+          trim={selectedTrim}
           backButton={backButton}
         />
       )}
@@ -1138,7 +1192,7 @@ function Map({
           <MapContainer
             key={latlong.toString()}
             center={latlong}
-            zoom={8}
+            zoom={9}
             style={{
               height: "400px",
               width: "50%", // Increase width to desired value
@@ -1193,17 +1247,31 @@ function Map({
                 maxHeight: "345px",
               }}
             >
-              <h3
-                style={{
-                  marginTop: "0",
-                  marginBottom: "4px",
-                  fontSize: "24px",
+              {dist !== -1 ? (
+                <h3
+                  style={{
+                    marginTop: "0",
+                    marginBottom: "4px",
+                    fontSize: "24px",
 
-                  color: "#00095B",
-                }}
-              >
-                {`Dealerships within ${dist} miles of ${zip}`}
-              </h3>
+                    color: "#00095B",
+                  }}
+                >
+                  {`Dealerships within ${dist} miles of ${zip}`}
+                </h3>
+              ) : (
+                <h3
+                  style={{
+                    marginTop: "0",
+                    marginBottom: "4px",
+                    fontSize: "24px",
+
+                    color: "#00095B",
+                  }}
+                >
+                  {`Top 3 dealerships near ${zip}`}
+                </h3>
+              )}
             </div>
             <div className="custom-scrollbar">
               {locations.map((e, index) => {
@@ -1211,11 +1279,17 @@ function Map({
                   <button
                     style={{
                       color: "#00095B",
+
                       backgroundColor: "white",
+
                       padding: "10px",
+
                       borderRadius: "15px",
+
                       marginBottom: "10px",
+
                       height: "110px",
+
                       width: "475px",
                     }}
                     onClick={() => locClickHandler(e)}
@@ -1223,43 +1297,61 @@ function Map({
                     <div
                       style={{
                         display: "flex",
+
                         position: "relative",
+
                         flexDirection: "row",
                       }}
                     >
                       <div
                         style={{
                           display: "flex",
+
                           padding: "0px",
+
                           marginRight: "0px",
+
                           marginLeft: "20px",
+
                           alignItems: "center",
+
                           justifyContent: "center",
+
                           color: "#00095B",
+
                           fontSize: "24px",
+
                           fontWeight: "bold",
                         }}
                       >
                         {index + 1}
                       </div>
+
                       <div
                         style={{
                           position: "relative",
+
                           marginLeft: "60px",
                         }}
                       >
                         <div
                           style={{
                             display: "flex",
+
                             marginBottom: "10px",
+
                             alignItems: "center",
+
                             justifyContent: "center",
+
                             fontSize: "24px",
+
                             fontWeight: "bold",
                           }}
                         >
                           {e[0]}
                         </div>
+
                         <div style={{ fontSize: "18px" }}>{e[1]}</div>
                       </div>
                     </div>
