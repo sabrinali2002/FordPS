@@ -450,8 +450,6 @@ const origButtons = (
         );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim, infoMode]);
 
-    console.log("boolean val is" + showingevs);
-
   return (
     <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
       <div className="topbar"><TopBar handleClick={()=>{
@@ -496,7 +494,7 @@ const origButtons = (
 
         <div className="MessagesArea">
             <div>
-              <p>{response}</p>
+              <p>{response?response:""}</p>
             </div>
             {messages.map((message, index) => {
               return (
