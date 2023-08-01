@@ -23,22 +23,12 @@ import { handleUserInputFn, handleUserFlow } from "./modules/userFlowFunctions";
 import QuestionButton from "./components/QuestionButton";
 import Navbar from "./components/Navbar.js";
 
-const fixTrimQueryQuotation = (model, query) => {
-    console.log("model: " + model, "original query: " + query);
-    if (model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van") {
-        return query;
-    }
-    let trimStartIndex = query.indexOf('trim = "') + 8;
-    if (trimStartIndex - 8 !== -1) {
-        query = query.slice(0, trimStartIndex) + '\\"' + query.slice(trimStartIndex);
-        trimStartIndex += 2;
-        let trimName = query.substring(trimStartIndex, query.length - 1);
-        let modified = trimName.replace(/"/g, '\\"\\"');
-        query = query.replace(trimName, modified);
-        query = query.slice(0, query.length - 1) + "\\" + query.slice(query.length - 1);
-        query += '"';
-    }
-    return query;
+const fixTrimQueryQuotation = (model, trim) => {
+  if (model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van" && model !== "Transit Crew Van" && model !== "Transit Passenger Van") {
+    return trim;
+  }
+  trim = trim.replaceAll('"', '\\"');
+  return trim;
 };
 
 function App() {
