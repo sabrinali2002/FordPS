@@ -398,8 +398,7 @@ export function handleUserFlow(
     changeFind,
     requestSent,
     setShowingEvs
-    
-) {
+    ) {
     if (!blockQueries.current && query.length > 0) {
         blockQueries.current = true;
         if(choice.includes("SCHED")){
