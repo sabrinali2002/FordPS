@@ -46,9 +46,9 @@ export function sendRecommendRequestToServer(query, history, carInfoData, messag
         recHistory+="I recommend these cars for you:\n"
         createRecommendTable(res).forEach(car=>{
           recHistory+=car.model+" "+car.trim+", "
-          console.log(car.model, car.trim)
-          const query=fixTrimQueryQuotation(car.model, `SELECT * FROM car_info WHERE model = "${car.model}" AND trim = "${car.trim}" AND msrp = "${car.msrp}" LIMIT 2`)
-          promises.push(fetch(`https://fordchat.franklinyin.com:5000/data?query=${query}`, {
+          console.log(car.model, car.trim + car.msrp)
+          const queryFixed=fixTrimQueryQuotation(car.model, `SELECT * FROM car_info WHERE model = "${car.model}" AND trim = "${car.trim}" AND msrp = "${car.msrp}" LIMIT 2`)
+          promises.push(fetch(`https://fordchat.franklinyin.com:5000/data?query=${queryFixed}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
