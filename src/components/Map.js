@@ -1158,6 +1158,8 @@ function Map({
           model={selectedModel}
           trim={selectedTrim}
           backButton={backButton}
+          setMenuButtons={setMenuButtons}
+          origButtons={origButtons}
         />
       )}
       {vis3 && (
