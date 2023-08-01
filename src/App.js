@@ -279,7 +279,7 @@ const origButtons = (
     //Car Info functions  -------------------------------------------------------------
     let compareTrimOptions =
         compareModel === "" || compareModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[compareModel].map((trim) => ({ value: trim, label: trim }));
-    const handleCarInfoButton = handleCarInfo(tableForceUpdate, setTableForceUpdate,model, trim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, fixTrimQueryQuotation, setSelectedCars);
+    const handleCarInfoButton = handleCarInfo(tableForceUpdate, setTableForceUpdate, selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, fixTrimQueryQuotation, setSelectedCars);
     const handleCarInfoCompareButton = handleCarComparison(carInfoMode, setCarInfoMode, setSelectedModel, setSelectedTrim);
     const handleModelChange = onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim, trims);
     const handleTrimChange = onTrimChange(setSelectedTrim, setCompareTrim);

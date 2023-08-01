@@ -139,6 +139,7 @@ export default function DisplayInfo({ info, handler, setMenuButtons, setInfoMode
                                         style={{ float: "left" }}
                                         onClick={() => {
                                             handler("I");
+                                            setOptionButtons([])
                                         }}
                                     >
                                         <u>Back</u>

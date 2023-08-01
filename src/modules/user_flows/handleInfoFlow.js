@@ -60,6 +60,7 @@ export default async function handleInfoFlow(handleMoreInfo,forceUpdate,setForce
                         setMenuButtons([]);
                         setOptionButtons([]);
                         setInfoMode(3);
+                        setMessages((m) => [...m, { msg: "Schedule a test drive", author: "You", line: true, zip: {} }]);
                     }}
                 >
                     Schedule a test drive
@@ -69,6 +70,7 @@ export default async function handleInfoFlow(handleMoreInfo,forceUpdate,setForce
                     onClick={() => {
                         setMenuButtons([]);
                         setInfoMode(10);
+                        setMessages((m) => [...m, { msg: "Pricing estimation", author: "You", line: true, zip: {} }]);
                     }}
                 >
                     Pricing estimation
