@@ -3,9 +3,8 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
 import images from "../images/image_link.json";
-import Checkbox from '@mui/material/Checkbox';
+import Checkbox from "@mui/material/Checkbox";
 import { Button } from "react-bootstrap";
-
 
 //Style functions -----------------------------------------------------
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -60,12 +59,12 @@ const specList = [
 
 const specListSQL = specList.map((spec) => spec.toLowerCase().replace(/ /g, "_"));
 
-const moneyFormatter = new Intl.NumberFormat('en-US', {
+const moneyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD"
-})
+    currency: "USD",
+});
 
-const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selectedCars, onCompare, onTableBack }) => {
+const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selectedCars, onCompare, onTableBack, setInfoMode, setModel, setTrim, setOptionButtons, setMessages, handleUserInput, setQuery }) => {
     let car1data, car2data;
     console.log("received data" + data);
     if (data[0] !== undefined) {
@@ -74,25 +73,56 @@ const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selec
     if (data[1] !== undefined) car2data = data[1][0];
 
     const handleSelectAll = () => {
-        for(const item of data[0]) {
+        for (const item of data[0]) {
             onCheckboxSelect(item.id, messageIndex);
         }
-    }
+    };
+
+    const handleImageClick = (model, trim) => {
+        setModel(model);
+        setTrim(trim);
+        handleUserInput("TableI");
+        setInfoMode(0);
+        setMessages((m) => [...m, { msg: `What other information/services would you like for the ${model} ${trim}?`, author: "Ford Chat", line: true, zip: "" }]);
+        setOptionButtons(
+            <div className="option-buttons">
+                <button
+                    className="button-small"
+                    onClick={() => {
+                        setOptionButtons([]);
+                        setQuery(model);
+                        setMessages((m) => [...m, { msg: "I want to schedule a test drive", author: "You", line: true }]);
+                        setInfoMode(3);
+                    }}
+                >
+                    Schedule a test drive
+                </button>
+                <button
+                    className="button-small"
+                    onClick={() => {
+                        setQuery(model);
+                        setMessages((m) => [...m, { msg: "Pricing estimation", author: "You", line: true }]);
+                        setInfoMode(10);
+                    }}
+                >
+                    Pricing estimation
+                </button>
+            </div>
+        );
+    };
 
     return (
         <Fragment>
             {intro !== undefined && <p>{intro}</p>}
             {data[0].length !== 0 && mode === "single" && (
-                <Button variant="secondary" style={{marginRight:"1rem"}} onClick={handleSelectAll}>Select All</Button>
+                <Button variant="secondary" style={{ marginRight: "1rem" }} onClick={handleSelectAll}>
+                    Select All
+                </Button>
             )}
-            {data[0].length !== 0 && mode === "single" && selectedCars.length < 2 && (
-                <Button disabled>Select Cars to Compare</Button>
-            )}
-            {data[0].length !== 0 && mode === "single" && selectedCars.length >= 2 && (
-                <Button onClick={onCompare}>Compare These Cars</Button>
-            )}
+            {data[0].length !== 0 && mode === "single" && selectedCars.length < 2 && <Button disabled>Select Cars to Compare</Button>}
+            {data[0].length !== 0 && mode === "single" && selectedCars.length >= 2 && <Button onClick={onCompare}>Compare These Cars</Button>}
             {data[0].length !== 0 && mode === "single" && (
-                <TableContainer component={Paper} className="mt-2">
+                <TableContainer component={Paper} className="mt-2" style={{ width: "90vw" }}>
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -130,9 +160,16 @@ const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selec
                         <TableBody>
                             {data[0].map((item) => (
                                 <StyledTableRow key={item.id}>
-                                    <Checkbox onClick={()=>onCheckboxSelect(item.id, messageIndex)} checked={item.isChecked}/>
+                                    <Checkbox onClick={() => onCheckboxSelect(item.id, messageIndex)} checked={item.isChecked} />
                                     <StyledTableCell>
-                                        <img src={`${images[item.model][item.trim]}`} style={{ width: "200px" }} alt={`${item.model} image`}></img>
+                                        <img
+                                            src={`${images[item.model][item.trim]}`}
+                                            style={{ width: "200px", cursor:"pointer"}}
+                                            alt={`${item.model} image`}
+                                            onClick={() => {
+                                                handleImageClick(item.model, item.trim);
+                                            }}
+                                        ></img>
                                     </StyledTableCell>
                                     <StyledTableCell>{item.model}</StyledTableCell>
                                     <StyledTableCell>{item.trim}</StyledTableCell>
@@ -208,7 +245,9 @@ const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selec
             )}
             {mode === "multiple" && (
                 <Fragment>
-                    <Button variant="secondary" onClick={onTableBack}>Back</Button>
+                    <Button variant="secondary" onClick={onTableBack}>
+                        Back
+                    </Button>
                     <TableContainer component={Paper} className="mt-2">
                         <Table>
                             <TableHead>
@@ -234,10 +273,10 @@ const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selec
                                     <StyledTableRow key={spec}>
                                         <StyledTableCell>{spec}</StyledTableCell>
                                         {selectedCars.map((car) => {
-                                            if(spec === "MSRP") {
-                                                return <StyledTableCell key={car.id}>{moneyFormatter.format(car[`${specListSQL[index]}`])}</StyledTableCell>
+                                            if (spec === "MSRP") {
+                                                return <StyledTableCell key={car.id}>{moneyFormatter.format(car[`${specListSQL[index]}`])}</StyledTableCell>;
                                             }
-                                            return <StyledTableCell key={car.id}>{car[`${specListSQL[index]}`]}</StyledTableCell>
+                                            return <StyledTableCell key={car.id}>{car[`${specListSQL[index]}`]}</StyledTableCell>;
                                         })}
                                     </StyledTableRow>
                                 ))}

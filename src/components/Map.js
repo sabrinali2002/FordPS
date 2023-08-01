@@ -338,6 +338,9 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
     let addr = info[dealer]["address"];
     let phone = info[dealer]["number"];
     let rating = info[dealer]["rating"];
+    console.log(addr);
+    console.log(phone);
+    console.log(rating)
     if (rating == '') {
       rating = '4';
     }
@@ -790,7 +793,10 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
                   height: "110px",
                   width: "475px",
                 }}
-                onClick={() => locClickHandler(e)}
+                onClick={() => {
+                  console.log(e);
+                  locClickHandler(e)
+                }}
               >
                 <div
                   style={{
