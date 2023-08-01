@@ -1,4 +1,4 @@
-export function handleCarInfo(forceUpdate, setForceUpdate, selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, fixTrimQueryQuotation, setSelectedCars) {
+export function handleCarInfo(tableForceUpdate, setTableForceUpdate, selectedModel, selectedTrim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation, setSelectedCars) {
     return async (model, trim) => {
         let selectedModel = model;
         let selectedTrim = trim;
