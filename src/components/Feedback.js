@@ -146,10 +146,10 @@ const Feedback = ({ messages, setMessages, setOptionButtons, setMenuButtons }) =
     const transcriptButtons = (
         <div className="option-buttons">
             <button className="button-small" onClick={handleYes}>
-                Yes please
+                Yes, please
             </button>
             <button className="button-small" onClick={handleNo}>
-                No thanks
+                No, thanks
             </button>
         </div>
     );

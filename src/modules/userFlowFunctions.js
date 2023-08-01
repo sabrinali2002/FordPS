@@ -1012,15 +1012,15 @@ export function handleUserFlow(
               extractFiveDigitString(query) === null ||
               query.match(numberRegex)[0].length != 5
             ) {
-              setMessages((m) => [
-                ...m,
-                {
-                  msg: "Please input a valid zipcode",
-                  author: "Ford Chat",
-                  line: false,
-                  zip: "",
-                },
-              ]);
+              //   setMessages((m) => [
+              //     ...m,
+              //     {
+              //       msg: "Please input a valid zipcode",
+              //       author: "Ford Chat",
+              //       line: false,
+              //       zip: "",
+              //     },
+              //   ]);
             } else {
               setZipCode(query);
               setMessages((m) => [
