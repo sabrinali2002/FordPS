@@ -39,24 +39,17 @@ import { handleUserInputFn, handleUserFlow } from "./modules/userFlowFunctions";
 import QuestionButton from "./components/QuestionButton";
 import HamburgerMenu from "./components/Navbar.js";
 
-const fixTrimQueryQuotation = (model, query) => {
-  console.log("model: " + model, "original query: " + query);
-  if (model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van") {
-    return query;
+const fixTrimQueryQuotation = (model, trim) => {
+  if (
+    model !== "Transit Cargo Van" &&
+    model !== "E-Transit Cargo Van" &&
+    model !== "Transit Crew Van" &&
+    model !== "Transit Passenger Van"
+  ) {
+    return trim;
   }
-  let trimStartIndex = query.indexOf('trim = "') + 8;
-  if (trimStartIndex - 8 !== -1) {
-    query =
-      query.slice(0, trimStartIndex) + '\\"' + query.slice(trimStartIndex);
-    trimStartIndex += 2;
-    let trimName = query.substring(trimStartIndex, query.length - 1);
-    let modified = trimName.replace(/"/g, '\\"\\"');
-    query = query.replace(trimName, modified);
-    query =
-      query.slice(0, query.length - 1) + "\\" + query.slice(query.length - 1);
-    query += '"';
-  }
-  return query;
+  trim = trim.replaceAll('"', '\\"');
+  return trim;
 };
 
 function App() {
@@ -88,6 +81,7 @@ function App() {
   // PAYMENT CALCULATOR
 
   //which state the bot is in:
+  const [forceUpdate, setForceUpdate] = useState(true);
   const [choice, changeChoice] = useState("");
   // which step of the payment calculator the bot is in: [1]model,[2]trim,[3]lease/finance/buy,[4]price
   const [calcStep, setCalcStep] = useState(0);
@@ -536,6 +530,8 @@ function App() {
     carInfoData,
     messages,
     setCarInfoData,
+    setForceUpdate,
+    forceUpdate,
     fixTrimQueryQuotation,
     setSelectedCars
   );
@@ -585,7 +581,6 @@ function App() {
   //handler for button user clicks
   const handleUserInput = handleUserInputFn(
     origButtons,
-    infoButtons,
     setMessages,
     changeChoice,
     setMenuButtons,
@@ -744,7 +739,9 @@ function App() {
       setDown,
       changeFind,
       requestSent,
-      setShowingEvs
+      setShowingEvs,
+      forceUpdate,
+      setForceUpdate
     );
   }, [
     query,
@@ -757,6 +754,7 @@ function App() {
     menuButtons,
     model,
     trim,
+    infoMode,
   ]);
 
   console.log("boolean val is" + showingevs);
@@ -846,6 +844,10 @@ function App() {
                   setOptionButtons={setOptionButtons}
                   showCalcButtons={showCalcButtons}
                   setRequestSent={setRequestSent}
+                  setInfoMode={setInfoMode}
+                  setModel={setModel}
+                  setTrim={setTrim}
+                  setQuery={setQuery}
                   key={index}
                 />
               );
@@ -1003,7 +1005,9 @@ function App() {
                         setDown,
                         changeFind,
                         requestSent,
-                        setShowingEvs
+                        setShowingEvs,
+                        forceUpdate,
+                        setForceUpdate
                       );
                     }
                   }}
@@ -1071,7 +1075,7 @@ function App() {
                 }}
                 style={{
                   accentColor: "white",
-                  width: "90%",
+                  width: "88%",
                   marginTop: "1%",
                   marginLeft: "5%",
                   textSize: { textSize },
@@ -1102,17 +1106,21 @@ function App() {
                           }}
                         />
                       </Tooltip>
-                      <Tooltip title="Exit Chatbot" placement="top">
-                        <BoxArrowLeft
-                          size="2rem"
-                          style={{ marginLeft: "10px", cursor: "pointer" }}
-                          onClick={handleUserFeedback}
-                        />
-                      </Tooltip>
                     </InputAdornment>
                   ),
                 }}
               />
+              <Tooltip title="Exit Chatbot" placement="top">
+                <BoxArrowLeft
+                  size="2rem"
+                  style={{
+                    marginLeft: "10px",
+                    cursor: "pointer",
+                    marginTop: "25px",
+                  }}
+                  onClick={handleUserFeedback}
+                />
+              </Tooltip>
             </div>
           </form>
         </div>

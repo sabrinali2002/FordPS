@@ -24,7 +24,6 @@ import {
 
 export function handleUserInputFn(
   origButtons,
-  infoButtons,
   setMessages,
   changeChoice,
   setMenuButtons,
@@ -94,6 +93,11 @@ export function handleUserInputFn(
       changeChoice(option);
     } else
       switch (option) {
+        case "TableI":
+          setInfoMode(0);
+          changeChoice("I");
+          blockQueries.current = false;
+          break;
         case "I":
           setInfoMode(0);
           if (cat === "") {
@@ -272,7 +276,6 @@ export function handleUserInputFn(
             ...m,
             { msg: "New Models", author: "You", line: true, zip: {} },
           ]);
-
           setShowingEvs(true);
           setCalcHeadingText(
             "Feel free to explore our new models below! Click on a model for more specific details."
@@ -397,7 +400,7 @@ export function handleUserInputFn(
               </button>
             ))
           );
-
+          setMenuButtons([]);
           break;
         case "NF":
           setMessages((m) => [
@@ -645,10 +648,13 @@ export function handleUserFlow(
   setDown,
   changeFind,
   requestSent,
-  setShowingEvs
+  setShowingEvs,
+  forceUpdate,
+  setForceUpdate
 ) {
   if (!blockQueries.current && query.length > 0) {
     blockQueries.current = true;
+    setForceUpdate(!forceUpdate);
     if (choice.includes("SCHED")) {
       const maintenanceMode = choice.replace("SCHED", "");
       const model = maintenanceMode.split("MODEL:")[1].split("TRIM:")[0];
@@ -667,11 +673,16 @@ export function handleUserFlow(
         distance,
         model,
         trim,
-        maintenanceMode.split("MODEL:")[0]
+        false,
+        maintenanceMode.split("MODEL:")[0],
+        false
       );
       blockQueries.current = false;
     } else {
       switch (choice) {
+        case "DEFAULT":
+          blockQueries.current = false;
+          break;
         case "maintenanceQuestions":
           sendBotResponse(
             "I am looking to schedule maintenance for my Ford car and I have a question about maintenance. Here it is: " +
@@ -685,6 +696,7 @@ export function handleUserFlow(
             ]);
             blockQueries.current = false;
           });
+          changeChoice("DEFAULT");
           break;
         case "electric":
           handlePriceFlow(
@@ -721,7 +733,9 @@ export function handleUserFlow(
             dura,
             setDura,
             down,
-            setDown
+            setDown,
+            forceUpdate,
+            setForceUpdate
           );
           blockQueries.current = false;
           console.log("hit e 2");
@@ -761,7 +775,9 @@ export function handleUserFlow(
             dura,
             setDura,
             down,
-            setDown
+            setDown,
+            forceUpdate,
+            setForceUpdate
           );
           blockQueries.current = false;
           break;
@@ -785,6 +801,7 @@ export function handleUserFlow(
             requestSent
           );
           blockQueries.current = false;
+          break;
         case "I":
           if (infoMode === 1) {
             setCalcHeadingText("Choose specific model");
@@ -846,7 +863,10 @@ export function handleUserFlow(
                       setFind,
                       query,
                       setZipMode,
-                      setOptionButtons
+                      setOptionButtons,
+                      origButtons,
+                      forceUpdate,
+                      setForceUpdate
                     );
                     setTrim(trim);
                   }}
@@ -888,7 +908,9 @@ export function handleUserFlow(
               setFind,
               query,
               setZipMode,
-              setOptionButtons
+              setOptionButtons,
+              forceUpdate,
+              setForceUpdate
             );
             blockQueries.current = false;
             break;
@@ -917,7 +939,10 @@ export function handleUserFlow(
               setSelect,
               setFind,
               query,
-              setZipMode
+              setZipMode,
+              setOptionButtons,
+              forceUpdate,
+              setForceUpdate
             );
             blockQueries.current = false;
             break;
@@ -967,7 +992,9 @@ export function handleUserFlow(
             setCarInfoData,
             setMessages,
             setHistory,
-            fixTrimQueryQuotation
+            fixTrimQueryQuotation,
+            forceUpdate,
+            setForceUpdate
           );
           break;
         case "B": {
@@ -1071,6 +1098,7 @@ export function handleUserFlow(
                         copy2[model] = copy;
                         changeSelected(copy2);
                       }
+                      setForceUpdate(!forceUpdate);
                       console.log(copy2, selected[model].includes(trim));
                     }}
                   >
@@ -1152,6 +1180,7 @@ export function handleUserFlow(
             case 4:
               //setQuestionnaireAnswers(q=>[...q, query])
               let questionnaireAnswersCopy = [...questionnaireAnswers, query];
+              setForceUpdate(!forceUpdate);
               const ultimateQueryString =
                 "Here is my budget: " +
                 questionnaireAnswersCopy[0] +
@@ -1170,7 +1199,9 @@ export function handleUserFlow(
                 setCarInfoData,
                 setMessages,
                 setHistory,
-                fixTrimQueryQuotation
+                fixTrimQueryQuotation,
+                forceUpdate,
+                setForceUpdate
               );
               setQuestionnaireStep(0);
               break;
