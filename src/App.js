@@ -548,8 +548,12 @@ const origButtons = (
                     Select from the options to specify which cars you are looking for
                     </div>
                   ) : <div></div>}<div className='button-container' style={{ fontSize: textSize}}>{calcButtons}</div>
-                    {vehicle !== "" && <button style = {{position: "relative", bottom: 0, alignSelf:'start', marginLeft:-40, alignSelf:'start'}} onClick = {() => {
-                      if(infoMode === 1){
+                    <button style = {{position: "relative", bottom: 0, alignSelf:'start', marginLeft:-40, alignSelf:'start'}} onClick = {() => {
+                      if(infoMode === 0){
+                        setShowCalcButtons(false);
+                        setMenuButtons(buyingFordButtons)
+                      }
+                      else if(infoMode === 1){
                         handleUserInput('I')
                       }
                       else{
@@ -649,7 +653,7 @@ const origButtons = (
                         );
                       }
                     }
-                    }><u style={{position:'relative',marginLeft:'0px',bottom:'0px',fontSize:'12px'}}>Back</u></button>}
+                    }><u style={{position:'relative',marginLeft:'0px',bottom:'0px',fontSize:'12px'}}>Back</u></button>
                     </div>
                 </div>}
           <ThreeDots
