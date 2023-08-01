@@ -34,7 +34,7 @@ const fixTrimQueryQuotation = (model, trim) => {
 function App() {
     const [query, setQuery] = useState("");
     const [queryText, setQueryText] = useState("");
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState([{msg: "Hi there, what's your name?", author: "Ford Chat"}]);
     const [history, setHistory] = useState([]);
     const [response, setResponse] = useState("");
     const [recording, setRecording] = useState(false);
@@ -89,6 +89,7 @@ function App() {
     const [questionnaireAnswers, setQuestionnaireAnswers] = useState([]);
     const [tableForceUpdate, setTableForceUpdate] = useState(false);
     const [selectedCars, setSelectedCars] = useState([]);
+    const [username, setUsername] = useState("");
 
         //know my price
         const [vehicleMode, setVehicleMode] = useState('');
@@ -260,7 +261,7 @@ const origButtons = (
       }}>Take questionnaire</button>
     </div>
   );
-  const [menuButtons, setMenuButtons] = useState(origButtons);
+  const [menuButtons, setMenuButtons] = useState();
     //map functions -------------------------------------------------------->
     const selectHandler = selectHandlerFn(setQuery, setModel, setCalcButtons, setFind);
     const locateDealerships = locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons);
@@ -676,7 +677,16 @@ const origButtons = (
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              if (queryText.length > 0 && !blockQueries.current) {
+              if(username === "" && !blockQueries.current) {
+                setUsername(queryText);
+                setMessages((m) => [
+                  ...m,
+                  { msg: queryText, author: "You", line: true },
+                  { msg: `Welcome, ${queryText}! What would you like help with today?`, author: "Ford Chat"}
+                ]);
+                setMenuButtons(origButtons);
+                setQueryText("");
+              } else if (queryText.length > 0 && !blockQueries.current) {
                 setQuery(queryText);
                 setMessages((m) => [
                   ...m,
