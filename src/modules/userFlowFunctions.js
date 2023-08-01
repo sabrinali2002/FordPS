@@ -573,7 +573,7 @@ export function handleUserFlow(
                 }
                 <div>
               <button className="button-small" onClick= {changeFind}>back</button>
-              <button className="button-small" onClick = {locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, -1, setMessages, setZipMode, setShowCalcButtons, model, selected[model][0])}>Locate the nearest dealerships</button>
+              <button className="button-small" onClick = {locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons, model, selected[model][0])}>Locate the nearest dealerships</button>
             </div>
                 </div>)
                   setSelect(true);
