@@ -532,7 +532,6 @@ const origButtons = (
                 setTrim={setTrim}
                 setQuery={setQuery}
                 key={index}
-                setInfoMode = {setInfoMode}
               />
               );
             })}
