@@ -2,6 +2,7 @@ export function handleCarInfo(tableForceUpdate, setTableForceUpdate, selectedMod
     return async (model, trim) => {
         let selectedModel = model;
         let selectedTrim = trim;
+        selectedTrim = fixTrimQueryQuotation(selectedModel, selectedTrim);
         let sqlQuery = "";
         if (selectedModel !== "no model") {
             sqlQuery += `SELECT * FROM car_info WHERE model = "${selectedModel}" `;
@@ -9,7 +10,6 @@ export function handleCarInfo(tableForceUpdate, setTableForceUpdate, selectedMod
         if (selectedTrim !== "no trim" && selectedTrim !== "all trim" && selectedTrim !== "" && selectedTrim !== "All Trims") {
             sqlQuery += `AND trim = "${selectedTrim}"`;
         }
-        sqlQuery = fixTrimQueryQuotation(selectedModel, sqlQuery);
         console.log(sqlQuery);
         let dataArr = [];
         let data = await fetch(`https://fordchat.franklinyin.com:5000/data?query=${sqlQuery}`, {
