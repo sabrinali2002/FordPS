@@ -1182,7 +1182,9 @@ export function handleUserFlow(
                 questionnaireAnswersCopy[3];
               sendRecommendRequestToServer(
                 ultimateQueryString,
-                history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation)
+                history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation).then(()=>{
+                    setMenuButtons(origButtons)
+                })
               setQuestionnaireStep(0);
               break;
             default:
