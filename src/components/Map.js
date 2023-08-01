@@ -437,6 +437,8 @@ function Map({
         { msg: "What else can I help you with?", author: "Ford Chat" },
       ];
     });
+    console.log("aa");
+    setMenuButtons(origButtons);
   };
 
   const showScheduler2 = (event) => {
