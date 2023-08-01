@@ -8,6 +8,7 @@ import { Mic, BoxArrowLeft } from "react-bootstrap-icons";
 import Autofill from "./components/Autofill";
 import trims from "./jsons/trims.json";
 import TopBar from "./components/TopBar";
+import { motion } from "framer-motion";
 
 import {
   Brightness4,
@@ -560,6 +561,13 @@ function App() {
   );
   const handleCompareButton = onCompare(setCarInfoMode);
   const handleTableBackButton = onTableBack(setCarInfoMode);
+    const handleNewResponse = (response) => {
+      blockQueries.current = true;
+      setTimeout(() => {
+        setMessages((m) => [...m, { msg: response, author: "Ford Chat", line: true },]);
+        blockQueries.current = false;
+      }, 1000);
+    }
 
   useEffect(() => {
     setTrimOptions(getTrimOptions(model));
@@ -1041,7 +1049,16 @@ function App() {
           <div ref={messagesEndRef} />
         </div>
         <div>
-          <div style={{ paddingTop: "20px" }}>{menuButtons}</div>
+          <div style={{paddingTop:'20px'}}>
+            <motion.div
+              initial={{ y:110,opacity: 0, scale: 0.5}}
+              animate={{ opacity: 1, scale: 1}}
+              exit={{opacity: 0, scale: 0.5}}
+              transition={{duration:3}}
+            >
+              {menuButtons}
+            </motion.div>
+          </div>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -1050,11 +1067,9 @@ function App() {
                 setMessages((m) => [
                   ...m,
                   { msg: queryText, author: "You", line: true },
-                  {
-                    msg: `Welcome, ${queryText}! What would you like help with today?`,
-                    author: "Ford Chat",
-                  },
+                  // { msg: `Welcome, ${queryText}! What would you like help with today?`, author: "Ford Chat"}
                 ]);
+                handleNewResponse(`Welcome, ${queryText}! What would you like help with today?`);
                 setMenuButtons(origButtons);
                 setQueryText("");
               } else if (queryText.length > 0 && !blockQueries.current) {
