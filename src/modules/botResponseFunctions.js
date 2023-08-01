@@ -39,7 +39,7 @@ export async function sendBotResponse(query, history, mode) {
 }
 
 export function sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation) {
-  sendBotResponse(query, history, "recommend").then((res) => {
+  return sendBotResponse(query, history, "recommend").then((res) => {
       blockQueries.current = false;
       setForceUpdate(!forceUpdate)
       let recHistory=""

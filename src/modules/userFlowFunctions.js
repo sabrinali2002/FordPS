@@ -983,7 +983,9 @@ export function handleUserFlow(
           break;
         case "A":
           setQuery("");
-          sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
+          sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation).then(()=>{
+            setMenuButtons(origButtons)
+          });
           break;
         case "B": {
           setZipMode(1);
