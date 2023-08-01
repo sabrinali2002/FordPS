@@ -760,8 +760,6 @@ function App() {
     infoMode,
   ]);
 
-  console.log("boolean val is" + showingevs);
-
   return (
     <div style={{ width: "100%", height: "100vh", overflow: "hidden" }}>
       <div className="topbar">
@@ -814,7 +812,7 @@ function App() {
         >
           <div className="MessagesArea">
             <div>
-              <p>{response}</p>
+              <p>{response?response:""}</p>
             </div>
             {messages.map((message, index) => {
               return (

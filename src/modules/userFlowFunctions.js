@@ -983,19 +983,7 @@ export function handleUserFlow(
           break;
         case "A":
           setQuery("");
-          sendRecommendRequestToServer(
-            query,
-            history,
-            carInfoData,
-            messages,
-            blockQueries,
-            setCarInfoData,
-            setMessages,
-            setHistory,
-            fixTrimQueryQuotation,
-            forceUpdate,
-            setForceUpdate
-          );
+          sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation);
           break;
         case "B": {
           setZipMode(1);
@@ -1192,17 +1180,7 @@ export function handleUserFlow(
                 questionnaireAnswersCopy[3];
               sendRecommendRequestToServer(
                 ultimateQueryString,
-                history,
-                carInfoData,
-                messages,
-                blockQueries,
-                setCarInfoData,
-                setMessages,
-                setHistory,
-                fixTrimQueryQuotation,
-                forceUpdate,
-                setForceUpdate
-              );
+                history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation)
               setQuestionnaireStep(0);
               break;
             default:
