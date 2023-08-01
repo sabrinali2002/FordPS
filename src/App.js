@@ -23,22 +23,12 @@ import { handleUserInputFn, handleUserFlow } from "./modules/userFlowFunctions";
 import QuestionButton from "./components/QuestionButton";
 import HamburgerMenu from "./components/Navbar.js";
 
-const fixTrimQueryQuotation = (model, query) => {
-    console.log("model: " + model, "original query: " + query);
-    if (model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van") {
-        return query;
-    }
-    let trimStartIndex = query.indexOf('trim = "') + 8;
-    if (trimStartIndex - 8 !== -1) {
-        query = query.slice(0, trimStartIndex) + '\\"' + query.slice(trimStartIndex);
-        trimStartIndex += 2;
-        let trimName = query.substring(trimStartIndex, query.length - 1);
-        let modified = trimName.replace(/"/g, '\\"\\"');
-        query = query.replace(trimName, modified);
-        query = query.slice(0, query.length - 1) + "\\" + query.slice(query.length - 1);
-        query += '"';
-    }
-    return query;
+const fixTrimQueryQuotation = (model, trim) => {
+  if (model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van" && model !== "Transit Crew Van" && model !== "Transit Passenger Van") {
+    return trim;
+  }
+  trim = trim.replaceAll('"', '\\"');
+  return trim;
 };
 
 function App() {
@@ -64,6 +54,7 @@ function App() {
     // PAYMENT CALCULATOR
 
     //which state the bot is in:
+    const [forceUpdate, setForceUpdate] = useState(true);
     const [choice, changeChoice] = useState("");
     // which step of the payment calculator the bot is in: [1]model,[2]trim,[3]lease/finance/buy,[4]price
     const [calcStep, setCalcStep] = useState(0);
@@ -279,7 +270,7 @@ const origButtons = (
     //Car Info functions  -------------------------------------------------------------
     let compareTrimOptions =
         compareModel === "" || compareModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[compareModel].map((trim) => ({ value: trim, label: trim }));
-    const handleCarInfoButton = handleCarInfo(tableForceUpdate, setTableForceUpdate,model, trim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, fixTrimQueryQuotation, setSelectedCars);
+    const handleCarInfoButton = handleCarInfo(tableForceUpdate, setTableForceUpdate,model, trim, carInfoMode, compareModel, compareTrim, carInfoData, messages, setCarInfoData, setForceUpdate, forceUpdate, fixTrimQueryQuotation, setSelectedCars);
     const handleCarInfoCompareButton = handleCarComparison(carInfoMode, setCarInfoMode, setSelectedModel, setSelectedTrim);
     const handleModelChange = onModelChange(setSelectedModel, setSelectedTrim, setCompareModel, setCompareTrim, trims);
     const handleTrimChange = onTrimChange(setSelectedTrim, setCompareTrim);
@@ -366,96 +357,98 @@ const origButtons = (
 
     useEffect(() => {
         handleUserFlow(
-          tableForceUpdate, 
-          setTableForceUpdate,
-          handleMoreInfo,
-          handleCarInfoButton,
-          fixTrimQueryQuotation,
-          query,
-          dealerList,
-          carInfoData,
-          setCarInfoData,
-          extractFiveDigitString,
-          findLocations,
-          handleUserInput,
-          blockQueries,
-          choice,
-          setQuery,
-          zipMode,
-          setZipCode,
-          messages,
-          setMessages,
-          setZipMode,
-          setDistance,
-          setCalcButtons,
-          calcButtonHandler,
-          zipCode,
-          distance,
-          findMode,
-          selectHandler,
-          setFind,
-          appendSelect,
-          setSelect,
-          questionnaireStep,
-          setQuestionnaireAnswers,
-          setQuestionnaireStep,
-          questionnaireAnswers,
-          calcStep,
-          model,
-          setModel,
-          setCalcStep,
-          trim,
-          setTrim,
-          calcMode,
-          setCalcMode,
-          setLeaseStep,
-          setFinanceStep,
-          leaseStep,
-          financeStep,
-          changeChoice,
-          history,
-          setHistory,
-          infoMode,
-          setInfoMode,
-          vehicle,
-          setVehicle,
-          showCalcButtons,
-          setShowCalcButtons,
-          calcHeadingText,
-          setCalcHeadingText,
-          payment,
-          setPayment,
-          setMenuButtons,
-          locateDealershipsFn,
-          changeSelected,
-          setDealers,
-          selected,
-          cat,
-          setCat,
-          origButtons,
-          setOptionButtons,
-          priceStep,
-          setPriceStep,
-          priceMode,
-          setPriceMode,
-          setPriceSummary,
-          setShowPriceSummary,
-          EV,
-          vehicleMode,
-          setVehicleMode,
-          setLeaseStep1,
-          setFinanceStep1, 
-          leaseStep1, 
-          financeStep1,
-          dura,
-          setDura,
-          down,
-          setDown,
-          changeFind,
-          requestSent, 
-          setShowingEvs
-          );
-    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
+            tableForceUpdate, 
+            setTableForceUpdate,
+            handleMoreInfo,
+            handleCarInfoButton,
+            fixTrimQueryQuotation,
+            query,
+            dealerList,
+            carInfoData,
+            setCarInfoData,
+            extractFiveDigitString,
+            findLocations,
+            handleUserInput,
+            blockQueries,
+            choice,
+            setQuery,
+            zipMode,
+            setZipCode,
+            messages,
+            setMessages,
+            setZipMode,
+            setDistance,
+            setCalcButtons,
+            calcButtonHandler,
+            zipCode,
+            distance,
+            findMode,
+            selectHandler,
+            setFind,
+            appendSelect,
+            setSelect,
+            questionnaireStep,
+            setQuestionnaireAnswers,
+            setQuestionnaireStep,
+            questionnaireAnswers,
+            calcStep,
+            model,
+            setModel,
+            setCalcStep,
+            trim,
+            setTrim,
+            calcMode,
+            setCalcMode,
+            setLeaseStep,
+            setFinanceStep,
+            leaseStep,
+            financeStep,
+            changeChoice,
+            history,
+            setHistory,
+            infoMode,
+            setInfoMode,
+            vehicle,
+            setVehicle,
+            showCalcButtons,
+            setShowCalcButtons,
+            calcHeadingText,
+            setCalcHeadingText,
+            payment,
+            setPayment,
+            setMenuButtons,
+            locateDealershipsFn,
+            changeSelected,
+            setDealers,
+            selected,
+            cat,
+            setCat,
+            origButtons,
+            setOptionButtons,
+            priceStep,
+            setPriceStep,
+            priceMode,
+            setPriceMode,
+            setPriceSummary,
+            setShowPriceSummary,
+            EV,
+            vehicleMode,
+            setVehicleMode,
+            setLeaseStep1,
+            setFinanceStep1, 
+            leaseStep1, 
+            financeStep1,
+            dura,
+            setDura,
+            down,
+            setDown,
+            changeFind,
+            requestSent,
+            setShowingEvs,
+            forceUpdate,
+            setForceUpdate
+        );
+    }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim, infoMode]);
 
     console.log("boolean val is" + showingevs);
 
@@ -533,7 +526,11 @@ const origButtons = (
                 messages={messages}
                 setOptionButtons={setOptionButtons}
                 showCalcButtons={showCalcButtons}
-                setRequestSent={setRequestSent}	
+                setRequestSent={setRequestSent}
+                setInfoMode={setInfoMode}
+                setModel={setModel}
+                setTrim={setTrim}
+                setQuery={setQuery}
                 key={index}
               />
               );
@@ -650,7 +647,9 @@ const origButtons = (
                           setDown,
                           changeFind,
                           requestSent,
-                          setShowingEvs
+                          setShowingEvs,
+                          forceUpdate,
+                          setForceUpdate
                         );
                       }
                     }
@@ -708,7 +707,7 @@ const origButtons = (
               }}
               style={{
                 accentColor: "white",
-                width: "90%",
+                width: "88%",
                 marginTop: "1%",
                 marginLeft: "5%",
                 textSize: { textSize },
@@ -737,13 +736,13 @@ const origButtons = (
                         }}
                       />
                     </Tooltip>
-                    <Tooltip title="Exit Chatbot" placement="top">
-                      <BoxArrowLeft size="2rem" style={{marginLeft: "10px", cursor: "pointer"}} onClick={handleUserFeedback}/>
-                    </Tooltip>
                   </InputAdornment>
                 ),
               }}
             />
+              <Tooltip title="Exit Chatbot" placement="top">
+                <BoxArrowLeft size="2rem" style={{marginLeft: "10px", cursor: "pointer", marginTop:"25px"}} onClick={handleUserFeedback}/>
+              </Tooltip>
             </div>
           </form>
         </div>
