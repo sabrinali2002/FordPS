@@ -563,12 +563,17 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
       (a, b) => a[1] - b[1]
     );
     let count = 0;
+    if(distance === -1){
+      count = 3
+    }
+    else{
     while (true) {
       if (sortedLocations[count][1] > distance) {
         break;
       }
       count += 1;
     }
+  }
     const closestLocations = sortedLocations.slice(0, count);
     let topLatLongs = [];
     for (let i = 0; i < closestLocations.length; i++) {
@@ -695,7 +700,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
           <MapContainer
             key={latlong.toString()}
             center={latlong}
-            zoom={8}
+            zoom={9}
             style={{
               height: "400px",
               width: "50%", // Increase width to desired value
@@ -750,6 +755,7 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
                 maxHeight: "345px",
               }}
             >
+              {dist !== -1 ? 
               <h3
                 style={{
                   marginTop: "0",
@@ -760,7 +766,16 @@ function Map({ zip, dist, loc, deal, coords, maintenanceMode="", selectedModel="
             }}
           >
             {`Dealerships within ${dist} miles of ${zip}`}
+          </h3> : <h3 style={{
+                  marginTop: "0",
+                  marginBottom: "4px",
+                  fontSize: "24px",
+
+              color: "#00095B",
+            }}>
+              {`Top 3 dealerships near ${zip}`}
           </h3>
+          }
         </div>
         <div className="custom-scrollbar">
           {locations.map((e, index) => {
