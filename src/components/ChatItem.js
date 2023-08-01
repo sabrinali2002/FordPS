@@ -68,7 +68,7 @@ function dictate(message, toggleIsSpeaking) {
   speechSynthesis.speak(utterance);
 }
 
-export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, model, trim, orig, messages, setOptionButtons, showCalcButtons, setRequestSent}){
+export default function ChatItem({message, author, line, darkMode, textSize, zip, locs, dropDownOptions, carInfoData, carInfoMode, carSpecInfo, setMessages, setMenuButtons, handleUserInput, selectedCar, setSelectedCar, tableFunctions, messageIndex, selectedCars, model, trim, orig, messages, setOptionButtons, showCalcButtons, setRequestSent, setInfoMode}){
   const textPartStyle = {
     display: "flex", flexDirection:"row",
     width:"94vw",
@@ -103,7 +103,7 @@ export default function ChatItem({message, author, line, darkMode, textSize, zip
         <DeliveryRegistration model={model} trim={trim}setMenuButtons={setMenuButtons} origButtons={orig}/>}
       {
         author === "Info" && <Fragment>
-        <DisplayInfo info = {carSpecInfo} handler = {handleUserInput} style = {{width:"80%"}}></DisplayInfo></Fragment>
+        <DisplayInfo info = {carSpecInfo} handler = {handleUserInput} setMenuButtons = {setMenuButtons} setInfoMode = {setInfoMode} setOptionButtons={setOptionButtons} style = {{width:"80%"}}></DisplayInfo></Fragment>
       }
         {author==="DropDown" && 
         <Fragment>

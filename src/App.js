@@ -535,6 +535,7 @@ const origButtons = (
                 showCalcButtons={showCalcButtons}
                 setRequestSent={setRequestSent}	
                 key={index}
+                setInfoMode = {setInfoMode}
               />
               );
             })}
