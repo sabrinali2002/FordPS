@@ -67,12 +67,22 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
             case 1: // lease
                 switch (leaseStep) {
                     case 1: // trade-in
+                        if (isNaN(query)) {
+                            setMessages((m) => [...m, { msg: "Please enter a numeric value", author: "Ford Chat", line: true }]);
+                            blockQueries.current = false;
+                            break;
+                        } 
                         setPayment(payment => {return (payment - query)});
                         setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true }]);
                         blockQueries.current = false;
                         setLeaseStep(2);
                         break;
                     case 2: // months
+                        if (isNaN(query)) {
+                            setMessages((m) => [...m, { msg: "Please enter a numeric value", author: "Ford Chat", line: true }]);
+                            blockQueries.current = false;
+                            break;
+                        } 
                         setPayment(payment => {return (payment - query)});
                         let durations = [24, 36, 39, 48];
                         setMessages((m) => [...m, { msg: "Please select your desired lease duration, in months", author: "Ford Chat", line: true }]);
@@ -98,12 +108,22 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
             case 2: // finance
                 switch (financeStep) {
                     case 1: // trade-in
+                        if (isNaN(query)) {
+                            setMessages((m) => [...m, { msg: "Please enter a numeric value", author: "Ford Chat", line: true }]);
+                            blockQueries.current = false;
+                            break;
+                        } 
                         setPayment(payment => {return (payment - query)});
                         setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true }]);
                         blockQueries.current = false;
                         setFinanceStep(2);
                         break;
                     case 2: // months
+                        if (isNaN(query)) {
+                            setMessages((m) => [...m, { msg: "Please enter a numeric value", author: "Ford Chat", line: true }]);
+                            blockQueries.current = false;
+                            break;
+                        } 
                         setPayment(payment => {return (payment - query)});
                         let durations = [36, 48, 60, 72, 84];
                         setMessages((m) => [...m, { msg: "Please select your desired loan duration, in months", author: "Ford Chat", line: true }]);
@@ -126,22 +146,30 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         }
         break;
     case 4:
-        let final = 0;
         switch (calcMode) {
             case 1: // lease
+                if (isNaN(query)) {
+                    setMessages((m) => [...m, { msg: "Please enter a numeric value", author: "Ford Chat", line: true }]);
+                    blockQueries.current = false;
+                    break;
+                }
                 setMessages((m) => [...m, { msg: `Your expected monthly payment is $${payment}`, author: "Ford Chat", line: true }]);
                 break;
             case 2: // finance 
-                let apr = mosToAPR[query];
-                //setPayment(payment => {return (((apr/12)*payment)/(1-((1+(apr/12))**(0-parseInt(query)))))});
-                //final = ((apr/12)*payment)/(1-((1+(apr/12))**(0-query)));
                 setMessages((m) => [...m, { msg: `Your expected monthly payment is $${payment}`, author: "Ford Chat", line: true }]);
                 break;
             case 3: // buy
+                if (isNaN(query)) {
+                    setMessages((m) => [...m, { msg: "Please enter a numeric value", author: "Ford Chat", line: true }]);
+                    blockQueries.current = false;
+                    break;
+                } 
                 setPayment(payment => { return (Math.round(payment - query))});
-                final = payment - query;
-                setMessages((m) => [...m, { msg: `Your expected price is $${Math.round(final)}`, author: "Ford Chat", line: true }]);
+                setMessages((m) => [...m, { msg: `Your expected price is $${Math.round(payment - query)}`, author: "Ford Chat", line: true }]);
                 break;
+        }
+        if ((calcMode===3 || calcMode===1) && isNaN(query)) {
+            break;
         }
         blockQueries.current = false;
         setMessages((m) => [...m, { msg: "Is there anything else I can help you with?", author: "Ford Chat", line: true }]);

@@ -284,20 +284,17 @@ export function handleUserInputFn(
                     setMessages((m) => [...m, { msg: "End of life management", author: "You", line: true, zip: {} }]);
                     setMessages((m) => [...m, { msg: endoflife, author: "Ford Chat", line: true, zip: "" }]); 
                     break;
-                    
             case "electric":
                 changeChoice("electric");
                 setVehicleMode("electric");
                 setPriceStep(1);
                 setQuery("electric");
-                console.log("in electric");
                 break;
             case "combustion":
                 changeChoice("combustion");
                 setVehicleMode("combustion");
                 setPriceStep(1);
                 setQuery("combustion");
-                console.log("in comb");
                 break;
             case "maintenanceQuestions":
                 changeChoice("maintenanceQuestions");
@@ -417,18 +414,28 @@ export function handleUserFlow(
                     blockQueries.current = false;
                 });
                 break;
-                case "electric":
-                    handlePriceFlow("electric",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown);
+            case "electric":
+                handlePriceFlow("electric",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown);
+                blockQueries.current = false;
+                if (priceStep !== 8 && !isNaN(query)) {
+                    setQuery("");
+                }
+                break;
+            case "combustion":
+                handlePriceFlow("combustion",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown);
+                blockQueries.current = false;
+                if (priceStep !== 8 && !isNaN(query)) {
+                    setQuery("");
+                }
+                break;
+            case "purchase request":
+                if (requestSent) {
                     blockQueries.current = false;
-                    console.log("hit e 2")
                     break;
-                  case "combustion":
-                    handlePriceFlow("combustion",priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown);
-                    blockQueries.current = false;
-                    break;
-                  case "request":
-                    handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model,trim,true,"",requestSent);
-                    blockQueries.current = false;
+                }
+                handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model,trim,true,"",requestSent);
+                blockQueries.current = false;
+                break;
             case "I":
             if (infoMode === 1) {
                 setCalcHeadingText("Choose specific model");
@@ -520,6 +527,7 @@ export function handleUserFlow(
                     setZipCode(query);
                     setMessages((m) => [...m, { msg: "Please select 1-3 models/trims you are looking for.", author: "Ford Chat", line: true, zip: "" }]);
                     setShowCalcButtons(true);
+                    setCalcHeadingText("Select a model");
                     setCalcButtons(
                         Object.keys(trims).map((model) => (
                             <button className="model-button" key={model} value={model} onClick={()=>{
@@ -538,11 +546,12 @@ export function handleUserFlow(
             }
               else if(findMode === 1){
                   setShowCalcButtons(true);
+                  setCalcHeadingText("Select trims");
                   setCalcButtons(<div>
                     {   
                     trims[query].map(trim => (
                     <button className='model-button' style={{backgroundColor: selected[model].includes(trim)?'red':'white'}} key={trim} value={trim} onClick={()=>{
-                        let copy, copy2
+                        let copy, copy2;
                         if (trim in selected[model]) {
                             copy = selected[model];
                             delete copy[trim];
@@ -558,9 +567,9 @@ export function handleUserFlow(
                             copy2[model] = copy;
                             changeSelected(copy2);
                           }
-                          console.log(copy2, selected[model].includes(trim))
                     }}>
-                        {trim}
+                        <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} alt='' />
+                            <br />{trim}
                     </button>
                     // trims[query].contains(trim)) ? <button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
                     // : <button className='model-button-selected' key={trim} value={trim} onClick={appendSelect}>{trim}</button>

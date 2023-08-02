@@ -1,5 +1,7 @@
 
 export default function handleDealerFlow(zipMode, dealerList, setZipCode, query, setMessages, extractFiveDigitString, setZipMode, setDistance, findLocations, zipCode, distance, model="", trim="", requestInfo=false,maintenanceMode="",requestSent=false) {
+  console.log("here");
+  console.log(requestSent);
   if (requestSent) {
     return;
   }

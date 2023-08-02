@@ -97,6 +97,7 @@ function App() {
     const [carInfoMode, setCarInfoMode] = useState("single");
     const [questionnaireAnswers, setQuestionnaireAnswers] = useState([]);
     const [tableForceUpdate, setTableForceUpdate] = useState(false);
+    const [forceUpdate, setForceUpdate] = useState(false);
     const [selectedCars, setSelectedCars] = useState([]);
 
         //know my price
@@ -454,11 +455,9 @@ const origButtons = (
           changeFind,
           requestSent, 
           setShowingEvs
-      
           );
     }, [query, history, calcStep, calcMode, leaseStep, financeStep, choice, menuButtons, model, trim]);
 
-    console.log("boolean val is" + showingevs);
 
   return (
     <div style={{width: '100%', height: '100vh', overflow:'hidden'}}>
@@ -668,9 +667,7 @@ const origButtons = (
           <div ref={messagesEndRef}/>
         </div>
         <div>
-          <div style={{paddingTop:'20px'}}>
-            {menuButtons}
-          </div>
+          {menuButtons}
           <form
             onSubmit={(e) => {
               e.preventDefault();

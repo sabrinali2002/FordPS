@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import images from "../../images/image_link.json";
 import { TextField } from "@mui/material";
+import { BiRegistered } from 'react-icons/bi';
+
 
 export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode="", model="", trim="", backButton, dispName="", userEmail="" }) {
   const [time1, setTime1] = useState(null);
@@ -9,6 +11,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
   const [email, setEmail] = useState(userEmail);
   const [notes, setNotes] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+
   function checkForValidEmail(email){
     return email.split("@").length===2 && email.split("@")[1].split(".").length===2
   }
@@ -24,7 +27,6 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
     if (time && date) {
       setTime1(time);
       setDate1(date);
-      console.log(date, time);
     }
   }, [time, date]);
   return (
@@ -108,58 +110,37 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
           >
             Or login/create a Ford account{" "}
           </a>}
-
-          <TextField
+          <input
           error={name.length>0 && !checkForValidUsername(name)}
           value={name}
             onChange={(e) => setName(e.target.value)}
-            sx={{
-              input: { boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", backgroundColor: 'white' },
-              width: 400,
-              border: "none",
-              fontSize: 18,
-            }}
-            margin="dense"
-            label=" Name*"
+            style={{color:'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",
+            marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
+            placeholder=" Name*"
             helperText={name.length>0 && !checkForValidUsername(name)?"Please enter a valid name":""}
-          ></TextField>
-          <TextField
+          ></input>
+          <input
           value={email}
           error={email.length>0 && !checkForValidEmail(email)}
             helperText={email.length>0 && !checkForValidEmail(email)?"Please enter a valid email":""}
             onChange={(e) => setEmail(e.target.value)}
-            sx={{
-              input: { boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", backgroundColor: 'white' },
-              width: 400,
-              border: "none",
-              fontSize: 18,
-            }}
-            margin="dense"
-            label=" Email*"
+            style={{color:'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",
+            marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
+            placeholder=" Email*"
           />
-          <TextField
+          <input
             onChange={(e) => setPhoneNumber(e.target.value)}
-            sx={{
-              input: { boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", backgroundColor: 'white' },
-              width: 400,
-              border: "none",
-              fontSize: 18,
-            }}
-            margin="dense"
+            style={{color:'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",
+            marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
+            placeholder=" Phone Number*"
             error={phoneNumber.length>0 && !checkForValidPhoneNumber(phoneNumber)}
             helperText={phoneNumber.length>0 && !checkForValidPhoneNumber(phoneNumber)?"Please enter a valid phone number":""}
-            label=" Phone number*"
           />
-          <TextField
+          <input
             onChange={(e) => setNotes(e.target.value)}
-            sx={{
-              input: { boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", backgroundColor: 'white' },
-              width: 400,
-              border: "none",
-              fontSize: 18,
-            }}
-            margin="dense"
-            label=" Notes/Requests"
+            style={{color:'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",
+            marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
+            placeholder=" Notes/requests"
           />
         </div>
         <div
@@ -185,7 +166,10 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
           <div style={{ marginTop: 10, marginBottom: 10, color: "#575757" }}>
           {maintenanceMode.length===0?"limited to 2 cars to test drive during your appointment.":"Your "+model+" "+trim}
           </div>
-          <img src={model.length===0?"/bronco.png":`${images[trim.length>0?model:"Default"][trim.length>0?trim:model]}`} style={{ alignSelf: "start", width: '300px' }}></img>
+          <div className="window-model-large">
+            <img src={model.length===0?images["Default"]["Bronco"]:`${images[trim.length>0?model:"Default"][trim.length>0?trim:model]}`} style={{paddingRight:'40px', width: '220px',height:'auto' }}/>
+            {model.length===0?"Bronco":model}<BiRegistered/>{model.length===0?" Base":` ${trim}`}
+          </div>
           {maintenanceMode.length==0 && <div style={{ marginBottom: 0, marginTop: 10 }}>
             <a
               href="https://www.example.com"
