@@ -233,6 +233,7 @@ export default function ChatItem({
               setMessages={setMessages}
               handleUserInput={handleUserInput}
               setQuery={setQuery}
+              setMenuButtons={setMenuButtons}
             />
           </Fragment>
         )}

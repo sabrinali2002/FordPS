@@ -64,12 +64,12 @@ const moneyFormatter = new Intl.NumberFormat("en-US", {
     currency: "USD",
 });
 
-const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selectedCars, onCompare, onTableBack, setInfoMode, setModel, setTrim, setOptionButtons, setMessages, handleUserInput, setQuery }) => {
+const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selectedCars, onCompare, onTableBack, setInfoMode, setModel, setTrim, setOptionButtons, setMessages, handleUserInput, setQuery, setMenuButtons=()=>{} }) => {
     let car1data, car2data;
     console.log("received data" + data);
     if (data[0] !== undefined) {
         car1data = data[0][0];
-    }
+    } 
     if (data[1] !== undefined) car2data = data[1][0];
 
     const handleSelectAll = () => {
@@ -84,6 +84,7 @@ const CarInfoTable = ({ data, mode, intro, onCheckboxSelect, messageIndex, selec
         handleUserInput("TableI");
         setInfoMode(0);
         setMessages((m) => [...m, { msg: `What other information/services would you like for the ${model} ${trim}?`, author: "Ford Chat", line: true, zip: "" }]);
+        setMenuButtons([])
         setOptionButtons(
             <div className="option-buttons">
                 <button
