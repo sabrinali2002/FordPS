@@ -51,6 +51,24 @@ function getLabelText(value, question) {
     }
 }
 
+function breakStringIntoChunks(str, chunkSize = 2000) {
+    const chunks = [];
+    let index = 0;
+
+    while (index < str.length) {
+        const nextChunk = str.slice(index, index + chunkSize);
+        const regex = new RegExp("\n", "g");
+        const matches = nextChunk.match(regex);
+        let newLineVal = 0;
+        if(matches !== null) {
+            newLineVal = 20 * matches.length;
+        }
+        chunks.push(str.slice(index, index + chunkSize - newLineVal));
+        index = index + chunkSize - newLineVal;
+    }
+    return chunks;
+}
+
 const Feedback = ({ messages, setMessages, setOptionButtons, setMenuButtons }) => {
     const [q1Value, setQ1Value] = React.useState(0);
     const [q1Hover, setQ1Hover] = React.useState(-1);
@@ -62,38 +80,51 @@ const Feedback = ({ messages, setMessages, setOptionButtons, setMenuButtons }) =
     const [q4Hover, setQ4Hover] = React.useState(-1);
     const [displaySurvey, setDisplaySurvey] = React.useState(true);
 
-    
     const handleYes = () => {
         let transcript = "";
-        for(const message of messages) {
+        for (const message of messages) {
             transcript = transcript + message.author + ":\n";
             transcript = transcript + message.msg + "\n\n";
         }
+
         const doc = new jsPDF();
-        doc.text(transcript, 10, 10, {maxWidth:180});
+        const chunks = breakStringIntoChunks(transcript);
+        let i = 0;
+        do {
+            doc.text(chunks[i], 10, 10, { maxWidth: 180 });
+            if (i !== chunks.length - 1) {
+                doc.addPage();
+            }
+            i++;
+        } while (i < chunks.length);
+        // doc.text(transcript, 10, 10, {maxWidth:180});
         doc.save("transcript.pdf");
         setMessages((m) => {
             return [...m, { msg: "Transcript sent! Have a nice day!", author: "Ford Chat" }];
         });
-        setOptionButtons([])
-        setTimeout(()=>{window.location.href="javascript:history.back()"}, 3000)
+        setOptionButtons([]);
+        setTimeout(() => {
+            window.location.href = "javascript:history.back()";
+        }, 3000);
     };
 
     const handleNo = () => {
         setMessages((m) => {
             return [...m, { msg: "Have a nice day!", author: "Ford Chat" }];
         });
-        setOptionButtons([])
-        setTimeout(()=>{window.location.href="javascript:history.back()"}, 3000)
+        setOptionButtons([]);
+        setTimeout(() => {
+            window.location.href = "javascript:history.back()";
+        }, 3000);
     };
-    
+
     const updateAverage = (arr) => {
         let satisfactionSum = 0;
         let difficultySum = 0;
         let helpfulnessSum = 0;
         let speedSum = 0;
         const len = arr.length;
-        for(const item of arr) {
+        for (const item of arr) {
             satisfactionSum += item.satisfaction;
             difficultySum += item.difficulty;
             helpfulnessSum += item.helpfulness;
@@ -103,10 +134,10 @@ const Feedback = ({ messages, setMessages, setOptionButtons, setMenuButtons }) =
             satisfaction: satisfactionSum / len,
             difficulty: difficultySum / len,
             helpfulness: helpfulnessSum / len,
-            speed: speedSum / len
-        }
+            speed: speedSum / len,
+        };
         set(ref(database, "averageRatings/"), average);
-    }
+    };
     const handleRatingSubmit = async (satisfaction, difficulty, helpfulness, speed) => {
         const ratingData = {
             satisfaction: satisfaction,
@@ -119,7 +150,6 @@ const Feedback = ({ messages, setMessages, setOptionButtons, setMenuButtons }) =
                 return snapshot.val();
             }
         });
-        console.log(oldArr);
         if (oldArr === undefined) {
             oldArr = [];
         }
@@ -142,7 +172,6 @@ const Feedback = ({ messages, setMessages, setOptionButtons, setMenuButtons }) =
         setMenuButtons([]);
     };
 
-    
     const transcriptButtons = (
         <div className="option-buttons">
             <button className="button-small" onClick={handleYes}>
