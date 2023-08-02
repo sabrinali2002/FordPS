@@ -116,16 +116,14 @@
 }
 
 .dealer-window1 {
-    align-items:flex-start;
-    align-self:flex-start;
     position: relative;
     background-color: #113B7A1A;
     width: 110%;
-    height: auto;
+    height: 180px;
     border-radius: 15px;
     padding: 20px;
     padding-top: 15px;
-    left: 150px;
+    left: 17%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -133,49 +131,76 @@
     position: relative;
     background-color: #113B7A1A;
     width: 110%;
-    height: auto;
+    height: 180px;
     border-radius: 15px;
     padding: 20px;
     padding-top: 15px;
     margin-top: 15px;
-    left: 150px;
+    left: 17%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .dealer-window3 {
     position: relative;
     background-color: #113B7A1A;
     width: 110%;
-    height: auto;
+    height: 200px;
     border-radius: 15px;
     padding: 20px;
     padding-top: 15px;
     margin-top: 15px;
-    left: 150px;
+    left: 17%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .dealer-window4 {
     align-items:flex-start;
-    align-self:flex-start;
     position: relative;
+    background-color: #113B7A1A;
+    width: 110%;
+    height: 330px;
+    border-radius: 15px;
+    padding: 20px;
+    padding-top: 15px;
+    left: 17%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.dealer-window5 {
+    align-items:flex-start;
     background-color: #113B7A1A;
     width: 110%;
     height: auto;
     border-radius: 15px;
     padding: 20px;
     padding-top: 15px;
-    left: 150px;
+    position:relative;
+    left:17%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     margin-top: 15px;
     margin-bottom: 15px;
 }
 
-.window-model {
+.model-button-sched {
     height: 120px;
-    width: 150px;
+    width: 70%;
+    background-color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 10px;
+    text-align:center;
+    word-wrap:wrap;
+    overflow-wrap:wrap;  
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+.window-model {
+    height: 110px;
+    width: 28%;
     background-color: white;
     color:#322964;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: bold;
     border-radius: 10px;
     text-align:center;
@@ -185,21 +210,28 @@
     padding-top: 8px;
     padding-bottom: 2px;
     padding-right: 4px;
+    padding-left: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.window-model:hover {
+    background-color:lightgrey;
 }
 
 .models-container {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(150px, 1fr));
-    margin-top: 7px;
+    display:flex;
+    flex-direction:row;
+    margin-top: 4px;
+    width: 100%;
 }
 
 .time-slot {
     font-size:13px;
     text-align:center;
     word-wrap:wrap;
-    width:190px;
-    height:60px;
+    width:30%;
+    height:50px;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
@@ -216,8 +248,8 @@
     text-align:center;
     word-wrap:wrap;
     font-weight:bold;
-    width:190px;
-    height:130px;
+    width:20%;
+    height:110px;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
@@ -230,14 +262,7 @@
 }
 
 .timeslot-container {
-    width: 90%;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-    margin-left: 0px;
-    margin-right: 10px;
-    margin-top: 0px;
+    width: 160%;
 }
 
 .view-more {
@@ -263,4 +288,22 @@
     border-radius: 10px;
     margin:3px;
     padding-top:9px;
+}
+
+.window-model-large {
+    height: 140px;
+    width: 170px;
+    background-color: white;
+    color:#322964;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 10px;
+    text-align:center;
+    word-wrap:wrap;
+    overflow-wrap:wrap; 
+    margin: 7px;
+    padding-top: 8px;
+    padding-bottom: 2px;
+    padding-right: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

@@ -539,14 +539,12 @@ export function handleUserInputFn(
           setVehicleMode("electric");
           setPriceStep(1);
           setQuery("electric");
-          console.log("in electric");
           break;
         case "combustion":
           changeChoice("combustion");
           setVehicleMode("combustion");
           setPriceStep(1);
           setQuery("combustion");
-          console.log("in comb");
           break;
         case "maintenanceQuestions":
           changeChoice("maintenanceQuestions");
@@ -737,8 +735,10 @@ export function handleUserFlow(
             forceUpdate,
             setForceUpdate
           );
+            if (priceStep !== 8 && !isNaN(query)) {
+                setQuery("");
+            }
           blockQueries.current = false;
-          console.log("hit e 2");
           break;
         case "combustion":
           handlePriceFlow(
@@ -779,9 +779,12 @@ export function handleUserFlow(
             forceUpdate,
             setForceUpdate
           );
+          if (priceStep !== 8 && !isNaN(query)) {
+            setQuery("");
+        }
           blockQueries.current = false;
           break;
-        case "request":
+        case "purchase request":
           handleDealerFlow(
             zipMode,
             dealerList,
