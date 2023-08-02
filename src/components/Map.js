@@ -78,6 +78,19 @@ function Map({
   const [model1,setModel1] = useState('');
   const [trim1, setTrim1] = useState('');
 
+  const fixTrimName = (model, trim) => {
+    if (
+      model !== "Transit Cargo Van" &&
+      model !== "E-Transit Cargo Van" &&
+      model !== "Transit Crew Van" &&
+      model !== "Transit Passenger Van"
+    ) {
+      return trim;
+    }
+    trim = trim.replaceAll('"', '');
+    return trim;
+  };
+  
   const customMarkerIcon = L.icon({
     iconUrl: "https://www.freeiconspng.com/thumbs/pin-png/pin-png-28.png",
     iconSize: [20, 20], // Adjust the icon size if necessary
@@ -359,7 +372,7 @@ function Map({
                     <div>
                       {model[0]}
                       <BiRegistered />
-                      {` ${model[1]}`}
+                      {` ${fixTrimName(model[0],model[1])}`}
                     </div>
                   </div>
                 ))}
@@ -460,7 +473,7 @@ function Map({
   const locClickHandler = (d) => {
     let dealer = d[0];
     setDealer1(dealer);
-    let models = returnCars(dealer, 4);
+    let models = returnCars(dealer, 10);
     let url = "https://images.jazelc.com/uploads/robinsford-m2en/Ford_Service.jpeg";
     let addr = info[dealer]["address"];
     let phone = info[dealer]["number"];
@@ -504,29 +517,25 @@ function Map({
       </div>
     </div>
     )
+    //{` ${fixTrimName(model[0],model[1])}`}   
     let window2 = maintenanceMode.length==0?(<div className='dealer-window2'>
       <span style={{fontWeight:'bold',fontSize:'18px',color:'#322964'}}>Models & trims available</span>
       <span style={{paddingLeft:'7px',fontSize:'14px'}}>{selection}</span>
-      <span className='view-more' onClick={() => {
-              openScheduler(dealer, maintenanceMode);
-              setDealer1(dealer);
-              setAddress1(addr);
-              setPhone1(phone);
-              setHours1(hrStr);
-              setLink1(link);
-            }}>View more
-      <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
       <br/>
-      <div className='models-container'>
-          {models.map(model => (<div key={model} className='window-model' onClick={() =>{
+      <div className='button-container1'>
+          {models.map(model => (<div key={model} className='model-button-scroll' onClick={() =>{
                 setModel1(model[0]);
                 setTrim1(model[1]);
                 openScheduler(dealer, maintenanceMode);
                 }}>
-          <img style={{width:'100%',height:'auto'}} src={images[model[0]][model[1]]}/><br/>
-                {model[0]}<BiRegistered/>{` ${model[1]}`}
-              </div>))}
+                  <span style={{marginLeft:'-10px'}}>
+                    <img style={{width:'120%',height:'auto'}} src={images[model[0]][model[1]]}/>
+                  </span>
+                  <br/>
+                    {model[0]}<BiRegistered/>                            
+              </div>))}     
       </div>
+
     </div>):(<></>)
     let window3 = (<div className={'dealer-window'+(maintenanceMode.length==0?'2':'3')}>
           <span style={{fontWeight:'bold',fontSize:'18px',color:'#322964'}}>Next appointments available</span>
@@ -538,7 +547,7 @@ function Map({
                               setLink1(link);}}>View more
           <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
           <br/>
-          <div style={{display:'flex',marginTop:'5px',marginLeft:'8px',flexDirection:'x',width:'100%'}}>
+          <div style={{display:'flex',marginTop:'5px',marginLeft:'5px',flexDirection:'x',width:'100%'}}>
             <button className='schedule-button' onClick={() => 
               {openScheduler(dealer, maintenanceMode)
                 setDealer1(dealer);

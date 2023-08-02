@@ -246,7 +246,7 @@
 }
 
 .option-buttons {
-  margin-left: 94px;
+  margin-left: 100px;
   margin-top: -10px;
   margin-bottom: 20px;
 }
@@ -277,7 +277,7 @@
   margin-bottom:15px;
   margin-top:-15px;
   padding:15px;
-  width:500px;
+  width:35%;
   height:300px;
   color:#322964;
  }

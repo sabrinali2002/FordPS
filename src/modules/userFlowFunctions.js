@@ -193,6 +193,8 @@ export function handleUserInputFn(
           blockQueries.current = false;
           break;
         case "D":
+            console.log('case D');
+            console.log(model);
           setMessages((m) => [
             ...m,
             { msg: "Car pricing estimator", author: "You" },
@@ -205,7 +207,7 @@ export function handleUserInputFn(
             setCalcHeadingText("Choose specific model");
             setShowCalcButtons(true);
             setCalcButtons(
-              Object.keys(trims).map((model) => (
+              Object.keys(trims).map(model => (
                 <button
                   className="model-button"
                   key={model}

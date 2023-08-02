@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import images from "../../images/image_link.json";
+import { BiRegistered } from 'react-icons/bi';
 
 export default function Sched3({
   dealer,
@@ -20,9 +21,9 @@ export default function Sched3({
   return (
     <div
       style={{
-        width: "1082px",
+        width: "70%",
         backgroundColor: "#113B7A1A",
-        height: "auto",
+        height: "400px",
         borderRadius: "30px",
         marginTop: 20,
         position: "relative",
@@ -30,24 +31,24 @@ export default function Sched3({
         alignContent: "start",
         display: "flex",
         flexDirection: "column",
-        padding: 20,
+        padding: 15,
         marginBottom: 20,
         boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
-        marginLeft:'30px'
+        marginLeft:'100px'
       }}
     >
       <div
         style={{
           color: "#00095B",
           fontWeight: "bold",
-          fontSize: 27,
+          fontSize: 26,
           alignSelf: "flex-start",
-          marginBottom: 10,
+          marginBottom: 5,
         }}
       >
         Your Appointment is confirmed
       </div>
-      <div style={{ alignSelf: "start", marginBottom: 15, color: "black" }}>
+      <div style={{ fontSize:'15',alignSelf: "start", marginBottom: 5, color: "black" }}>
         A confirmation email has been sent. Please arrive 15 minutes before your
         scheduled appointment time.
       </div>
@@ -60,9 +61,9 @@ export default function Sched3({
           marginRight: 10,
           marginLeft: 10,
           fontWeight: 500,
-          fontSize: 20,
+          fontSize: 18,
           padding: 3,
-          marginBottom: 20,
+          marginBottom: 10,
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
           alignSelf: "center",
         }}
@@ -76,15 +77,17 @@ export default function Sched3({
           justifyContent: "start",
           alignContent: "start",
           textAlign: "start",
-          marginLeft: 25,
+          marginLeft: 10,
+          width:'100%'
         }}
       >
         <div
           style={{
             fontWeight: 500,
             color: "#00095B",
-            fontSize: 20,
-            marginRight: 40,
+            fontSize: 18,
+            marginRight: 5,
+            width:'130%'
           }}
         >
           Name:
@@ -92,15 +95,14 @@ export default function Sched3({
             style={{
               backgroundColor: "white",
               borderRadius: 5,
-              width: 400,
-              height: 40,
+              width: '90%',
+              height: 30,
               border: "none",
-              marginBottom: 10,
+              marginBottom: 5,
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
               fontSize: 18,
               color: "gray",
               fontWeight: 400,
-              marginBottom: 5,
               display: "flex",
               alignItems: "center",
               paddingLeft: 5,
@@ -113,10 +115,9 @@ export default function Sched3({
             style={{
               backgroundColor: "white",
               borderRadius: 5,
-              width: 400,
-              height: 40,
+              width: '90%',
+              height: 30,
               border: "none",
-              marginBottom: 10,
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
               fontSize: 18,
               color: "gray",
@@ -134,17 +135,15 @@ export default function Sched3({
             style={{
               backgroundColor: "white",
               borderRadius: 5,
-              width: 400,
-              height: 40,
+              width: '90%',
+              height: 30,
               border: "none",
-              marginBottom: 10,
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
               fontSize: 18,
               color: "gray",
               fontWeight: 400,
               marginBottom: 5,
               display: "flex",
-
               alignItems: "center",
               paddingLeft: 5,
             }}
@@ -156,8 +155,8 @@ export default function Sched3({
             style={{
               backgroundColor: "white",
               borderRadius: 5,
-              width: 400,
-              height: 40,
+              width: '90%',
+              height: 30,
               border: "none",
               marginBottom: 10,
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
@@ -174,12 +173,12 @@ export default function Sched3({
             {notes}
           </div>
         </div>
-        <div style={{ marginRight: 30 }}>
+        <div style={{ marginRight: 10 }}>
           <div
             style={{
               fontWeight: 500,
               color: "#00095B",
-              fontSize: 23,
+              fontSize: 22,
               alignSelf: "start",
               textAlign: "start",
               marginBottom: 20,
@@ -187,15 +186,19 @@ export default function Sched3({
           >
             {maintenanceMode.length==0?"Trims to Test Drive":maintenanceMode+" for your "+trim+" "+model}
           </div>
-          <img src={model.length===0?"/bronco.png":`${images[trim.length>0?model:"Default"][trim.length>0?trim:model]}`} style={{ width: '300px'}}></img>
+          <div className="model-button-sched3">
+            <img src={model.length===0?images["Default"]["Bronco"]:`${images[trim.length>0?model:"Default"][trim.length>0?trim:model]}`} 
+            style={{alignSelf:'center', width: '90%',height:'auto' }}/>
+            <br/>{model.length===0?"Bronco":model}<BiRegistered/>{model.length===0?" Base":` ${trim}`}
+          </div>
         </div>
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "110%", marginLeft:'-20px' }}>
           <div
             style={{
               fontWeight: 500,
               color: "#00095B",
-              fontSize: 23,
-              marginBottom: 20,
+              fontSize: 22,
+              marginBottom: 10,
             }}
           >
             {dealer}
@@ -212,9 +215,8 @@ export default function Sched3({
               style={{
                 fontWeight: 400,
                 color: "black",
-                fontSize: 18,
+                fontSize: 15,
                 display: "flex",
-
                 position: "relative",
               }}
             >
@@ -232,7 +234,7 @@ export default function Sched3({
                 marginTop: 20,
                 fontWeight: 400,
                 color: "black",
-                fontSize: 18,
+                fontSize: 15,
                 display: "flex",
                 position: "relative",
               }}
@@ -250,14 +252,12 @@ export default function Sched3({
               style={{
                 fontWeight: 400,
                 color: "black",
-                fontSize: 18,
+                fontSize: 15,
                 display: "flex",
-
                 position: "relative",
               }}
             >
               <img src="/1.png" style={{ alignSelf: "start", width: 31 }}></img>
-
               <div style={{ position: "absolute", left: 40, top: 0 }}>
                 {link}
               </div>
@@ -266,9 +266,8 @@ export default function Sched3({
               style={{
                 fontWeight: 400,
                 color: "black",
-                fontSize: 18,
+                fontSize: 15,
                 display: "flex",
-
                 position: "relative",
               }}
             >

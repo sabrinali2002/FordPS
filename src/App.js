@@ -242,7 +242,8 @@ function App() {
               },
             ];
           });
-          setMenuButtons(knowMyPriceButtons);
+          setMenuButtons([]);
+          setOptionButtons(knowMyPriceButtons);
           setShowCalcButtons(false);
         }}
       >
@@ -404,7 +405,7 @@ function App() {
     </div>
   );
   const knowMyPriceButtons = (
-    <div className="buttons">
+    <div className="option-buttons">
       <button
         className="button-small"
         onClick={() => {
@@ -412,7 +413,7 @@ function App() {
             return [...m, { msg: "Electric vehicles", author: "You" }];
           });
           handleUserInput("electric");
-          setMenuButtons([]);
+          setOptionButtons([]);
         }}
       >
         Electric vehicles
@@ -430,7 +431,7 @@ function App() {
             ];
           });
           handleUserInput("combustion");
-          setMenuButtons([]);
+          setOptionButtons([]);
         }}
       >
         Combustion vehicles
@@ -662,7 +663,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("in use effect");
     handleUserFlow(
       tableForceUpdate,
       setTableForceUpdate,
@@ -755,8 +755,6 @@ function App() {
       forceUpdate,
       setForceUpdate
     );
-    console.log("query after use effect");
-    console.log(query);
   }, [
     query,
     history,
@@ -915,15 +913,14 @@ function App() {
                 <button
                   style={{
                     position: "relative",
-                    bottom: 0,
-                    alignSelf: "start",
-                    marginLeft: -40,
-                    alignSelf: "start",
+                    left:'0%',
+                    color:'#322964'
                   }}
                   onClick={() => {
                     if (infoMode === 0) {
                       setShowCalcButtons(false);
                       setMenuButtons(buyingFordButtons);
+                      setOptionButtons([]);
                     } else if (infoMode === 1) {
                       handleUserInput("I");
                     } else {
@@ -1024,16 +1021,15 @@ function App() {
                     }
                   }}
                 >
-                  <u
+                  <span
                     style={{
                       position: "relative",
-                      marginLeft: "0px",
-                      bottom: "0px",
-                      fontSize: "12px",
-                    }}
-                  >
+                      marginLeft: "12px",
+                      bottom: "5px",
+                      fontSize: "15px",
+                    }}>
                     Back
-                  </u>
+                  </span>
                 </button>
               </div>
             </div>
