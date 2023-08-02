@@ -5,7 +5,19 @@ import '../../styles/App.css';
 import images from "../../images/image_link.json";
 
 export default function handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons) {
-  const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
+    const fixTrimName = (model, trim) => {
+        if (
+          model !== "Transit Cargo Van" &&
+          model !== "E-Transit Cargo Van" &&
+          model !== "Transit Crew Van" &&
+          model !== "Transit Passenger Van"
+        ) {
+          return trim;
+        }
+        trim = trim.replaceAll('"', '');
+        return trim;
+      };
+    const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
   switch (calcStep) {
     case 1: //trim 
         if (model === '') {
@@ -22,7 +34,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                     setCalcButtons([]);
                     setShowCalcButtons(false);}}>
                         <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
-                    <br />{trim}</button>)
+                    <br />{fixTrimName(model,trim)}</button>)
             ));
         blockQueries.current = false;
         setCalcStep(2);
@@ -153,10 +165,10 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                     blockQueries.current = false;
                     break;
                 }
-                setMessages((m) => [...m, { msg: `Your expected monthly payment is $${payment}`, author: "Ford Chat", line: true }]);
+                setMessages((m) => [...m, { msg: `Your expected monthly payment for the ${model} ${trim} is $${payment}`, author: "Ford Chat", line: true }]);
                 break;
             case 2: // finance 
-                setMessages((m) => [...m, { msg: `Your expected monthly payment is $${payment}`, author: "Ford Chat", line: true }]);
+                setMessages((m) => [...m, { msg: `Your expected monthly payment for the ${model} ${trim} is $${payment}`, author: "Ford Chat", line: true }]);
                 break;
             case 3: // buy
                 if (isNaN(query)) {
@@ -165,7 +177,7 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
                     break;
                 } 
                 setPayment(payment => { return (Math.round(payment - query))});
-                setMessages((m) => [...m, { msg: `Your expected price is $${Math.round(payment - query)}`, author: "Ford Chat", line: true }]);
+                setMessages((m) => [...m, { msg: `Your expected price for the ${model} ${trim} is $${Math.round(payment - query)}`, author: "Ford Chat", line: true }]);
                 break;
         }
         if ((calcMode===3 || calcMode===1) && isNaN(query)) {

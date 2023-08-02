@@ -8,6 +8,18 @@ import { useState } from 'react';
 import { MdSpeakerPhone } from 'react-icons/md';
 
 export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate) {
+    const fixTrimName = (model, trim) => {
+        if (
+          model !== "Transit Cargo Van" &&
+          model !== "E-Transit Cargo Van" &&
+          model !== "Transit Crew Van" &&
+          model !== "Transit Passenger Van"
+        ) {
+          return trim;
+        }
+        trim = trim.replaceAll('"', '');
+        return trim;
+      };
     const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
     const proceedClick = () => {
         setPriceStep(3);
@@ -83,7 +95,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                         setCalcButtons([]);
                         setShowCalcButtons(false);}}>
                             <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
-                        <br/>{trim}</button>)
+                        <br/>{fixTrimName(model,trim)}</button>)
                 ));
             }
             else {
@@ -283,6 +295,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
   
                         </div>
                         </div>);
+                        break;
                 case "combustion":
                     let msrp = Math.round(payment);
                     let avg = msrp+Math.round(4000*Math.random());
@@ -389,6 +402,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
             }
             break;
         case 8:
+            console.log("in step 8");
             changeChoice("purchase request");
             blockQueries.current = false;
             setPriceStep(9);

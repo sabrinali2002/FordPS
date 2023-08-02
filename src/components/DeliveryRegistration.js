@@ -15,7 +15,6 @@ export default function DeliveryRegistration({model,trim,setMenuButtons,origButt
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [show, setShow] = useState(true);
-    console.log(show);
     if (model === '') {
         return;
     }

@@ -4,7 +4,9 @@ import { TextField } from "@mui/material";
 import { BiRegistered } from 'react-icons/bi';
 
 
-export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode="", model="", trim="", backButton, dispName="", userEmail="" }) {
+export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode="", model="", trim="", backButton, dispName="", userEmail="", setMenuButtons=()=>{
+  return
+}, origButtons=(<></>) }) {
   const [time1, setTime1] = useState(null);
   const [date1, setDate1] = useState(null);
   const [name, setName] = useState(dispName);
@@ -186,6 +188,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
                 alert("Please fill out all required fields with valid information")
                 return
               }
+              setMenuButtons(origButtons)
               handleAppointment(name, email, phoneNumber, notes)
             }}
             style={{
