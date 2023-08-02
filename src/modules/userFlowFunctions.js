@@ -1185,11 +1185,11 @@ export function handleUserFlow(
                 history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation).then(()=>{
                     setMenuButtons(origButtons)
                 })
-              setQuestionnaireStep(0);
-              break;
+              setQuestionnaireStep(5);
+              break;;
             default:
               setQuery("");
-              changeChoice("");
+              changeChoice("A");
               blockQueries.current = false;
           }
           break;
