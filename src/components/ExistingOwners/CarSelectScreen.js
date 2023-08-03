@@ -94,8 +94,8 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
     return (
         <div>
             {!justSelect && <Fragment>
-                <h1 style={{textAlign: 'center'}}>Welcome back, {username.length>0?username:user.displayName}!</h1>
-                <p style={{textAlign: 'center'}}>Not you? <button className="link" onClick={() =>{ 
+                <h1 style={{textAlign: 'center', fontSize:"26px"}}>Welcome back, {username.length>0?username:user.displayName}!</h1>
+                <p style={{textAlign: 'center', fontSize:"18px"}}>Not you? <button className="link" style={{fontSize:"18px"}}onClick={() =>{ 
                 signOut(auth) }}>Click here</button> to sign out.</p>
                 <h5>Which of your cars do you need help with?</h5>
             </Fragment>}
@@ -141,23 +141,23 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
                                         </BigTooltip>
                                         </div>])
                                     }}>
-                                        <CardContent>
+                                        <CardContent style={{justifyContent:"left"}}>
                                             <CardMedia
                                             component="img"
                                             image={`${images[myCars[index].model][myCars[index].trim]}`}
-                                            height="160"
+                                            height="100"
                                             alt="your car"
                                             />
-                                            <Typography variant="h5">
+                                            <Typography variant="h5" style={{fontSize:"18px", fontFamily:'Antenna, sans-serif'}}>
                                                 {car.model}
                                             </Typography>
-                                            <Typography>
+                                            <Typography style={{fontSize:"15px", fontFamily:'Antenna, sans-serif'}}>
                                                 {car.trim}
                                             </Typography>
-                                            <Typography>
+                                            <Typography style={{fontSize:"15px", fontFamily:'Antenna, sans-serif'}}>
                                                 {car.year}
                                             </Typography>
-                                            <Typography>
+                                            <Typography style={{fontSize:"15px", fontFamily:'Antenna, sans-serif'}}>
                                                 {car.vin}
                                             </Typography>
                                         </CardContent>
