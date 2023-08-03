@@ -353,7 +353,7 @@ function Map({
                         justifySelf: "center",
                         position: "relative",
                         right: "10px",
-                        width: "120px",
+                        width: "80px",
                         height: "auto",
                       }}
                       src={images[model[0]][model[1]]}
@@ -826,8 +826,8 @@ function Map({
           style={{
             position: "relative",
             backgroundColor: "#113B7A1A",
-            width: "1100px",
-            height: "435px",
+            width: "70%",
+            height: "300px",
             borderRadius: "15px",
             left: "40px",
             padding: "25px",
@@ -839,7 +839,7 @@ function Map({
             center={latlong}
             zoom={9}
             style={{
-              height: "400px",
+              height: "250px",
               width: "50%", // Increase width to desired value
               display: "flex",
               float: "left",
@@ -889,7 +889,6 @@ function Map({
                 display: "flex",
                 marginBottom: "5px",
                 overflowY: "scroll",
-                maxHeight: "345px",
               }}
             >
               {dist !== -1 ? (
@@ -897,7 +896,7 @@ function Map({
                   style={{
                     marginTop: "0",
                     marginBottom: "4px",
-                    fontSize: "24px",
+                    fontSize: "22px",
 
                     color: "#00095B",
                   }}
@@ -918,7 +917,8 @@ function Map({
                 </h3>
               )}
             </div>
-            <div className="custom-scrollbar">
+            <div className="custom-scrollbar" 
+            style={{ overflowY: "scroll", maxHeight: "200px" }}>
               {locations.map((e, index) => {
                 return (
                   <button
@@ -933,9 +933,7 @@ function Map({
 
                       marginBottom: "10px",
 
-                      height: "110px",
-
-                      width: "475px",
+                      width: "100%",
                     }}
                     onClick={() => locClickHandler(e)}
                   >
@@ -956,7 +954,7 @@ function Map({
 
                           marginRight: "0px",
 
-                          marginLeft: "20px",
+                          marginLeft: "5px",
 
                           alignItems: "center",
 
@@ -964,9 +962,7 @@ function Map({
 
                           color: "#00095B",
 
-                          fontSize: "24px",
-
-                          fontWeight: "bold",
+                          fontSize: "22px",
                         }}
                       >
                         {index + 1}
@@ -976,7 +972,7 @@ function Map({
                         style={{
                           position: "relative",
 
-                          marginLeft: "60px",
+                          marginLeft: "5px",
                         }}
                       >
                         <div
@@ -989,15 +985,13 @@ function Map({
 
                             justifyContent: "center",
 
-                            fontSize: "24px",
-
-                            fontWeight: "bold",
+                            fontSize: "22px",
                           }}
                         >
                           {e[0]}
                         </div>
 
-                        <div style={{ fontSize: "18px" }}>{e[1]}</div>
+                        <div style={{ fontSize: "15px" }}>{e[1]}</div>
                       </div>
                     </div>
                   </button>
