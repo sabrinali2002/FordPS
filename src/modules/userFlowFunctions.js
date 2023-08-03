@@ -491,6 +491,7 @@ export function handleUserFlow(
                     setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
                     infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons,forceUpdate,setForceUpdate)
               blockQueries.current = false;
+              setInfoMode(4);
             break;
             }
             else if(infoMode === 4){

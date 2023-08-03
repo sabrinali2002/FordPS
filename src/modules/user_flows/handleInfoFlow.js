@@ -93,7 +93,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
     } else if (infoMode === 3) {
         setShowCalcButtons(false);
         setMessages((m) => [...m, { msg: "Please enter your zipcode to continue:", author: "Ford Chat", line: true, zip: {} }]);
-        setInfoMode(4);
+        return;
     } else if (infoMode === 5){
         setOptionButtons([]);
         return;
@@ -107,9 +107,6 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
         changeSelected(selectedCopy);
         locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, -1, setMessages, setZipMode, setShowCalcButtons)();
         setShowCalcButtons(false);
-      }
-      else{
-        setMessages((m) => [...m, { msg: "Please enter a valid zip", author: "Ford Chat", line:true,zip:{} }]);
       }
     } 
 } 
