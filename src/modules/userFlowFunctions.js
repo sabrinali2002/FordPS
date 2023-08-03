@@ -21,6 +21,7 @@ import {
   pm,
   newfeatures,
 } from "./info.js";
+import futurePic from "./fordranger2024.png";
 
 export function handleUserInputFn(
   origButtons,
@@ -48,8 +49,9 @@ export function handleUserInputFn(
   setOptionButtons,
   setShowingEvs
 ) {
-  //for ev model logic
-  const jsonData = {
+  //for ev model logig
+
+  const evs = {
     "E-Transit Cargo Van": [
       '350 High Roof w/148" WB',
       '350 Low Roof w/148" WB',
@@ -61,12 +63,18 @@ export function handleUserInputFn(
     Explorer: ["Limited"],
     "F-150 Lightning": ["Lariat", "Platinum", "Pro", "XLT"],
     "Mustang Mach-E": ["Select w/Standard Range"],
-  };
+  }
+
+  const fvs = {
+    "2024 Ranger": [
+      "XL", "XLT", "Lariat", "Raptor"
+    ]
+  }
 
   function getVarietiesByCategory(mainCategory) {
     // Check if the main category exists in the JSON data
-    if (jsonData.hasOwnProperty(mainCategory)) {
-      return jsonData[mainCategory];
+    if (evs.hasOwnProperty(mainCategory)) {
+      return evs[mainCategory];
     } else {
       return []; // Return an empty array if the main category is not found
     }
@@ -375,19 +383,36 @@ export function handleUserInputFn(
                       );
                   }
                   setCalcButtons(
-                    <div className="ev-info">
-                      <div className="ev-top">
-                        {varieties.map((variety, index) => (
-                          <li key={index}>{variety}</li>
-                        ))}
-                        <img
-                          style={{ width: "160px", height: "auto" }}
-                          src={images["Default"][vehicle]}
-                        />
+                      <div className="ev-info" style={{
+                        display:"flex",
+                        flexDirection:"column"
+                      }}>
+                        <div className="ev-top" style={{
+                          display:"flex",
+                          flexDirection:"row",
+                          justifyContent:"center",
+                        }}>
+                          <div className="ev-list" style={{
+                          display:"flex",
+                          flexDirection:"column",
+                          fontSize:"15px",
+                          justifyContent:"center"
+                        }}>
+                          {varieties.map((variety, index) => (
+                            <li key={index}>{variety}</li>
+                          ))}
+                          </div>
+                          <img
+                            style={{ width: "180px", height: "auto", padding:"15px" }}
+                            src={images["Default"][vehicle]}
+                          />
+                        </div>
+                        <div className="ev-description" style={{
+                          fontSize:"15px",
+                          paddingTop:"10px"
+                        }}>{description}</div>
                       </div>
-                      <div className="ev-description">{description}</div>
-                    </div>
-                  );
+                    );
                   setShowCalcButtons(true);
                 }}
               >
@@ -405,19 +430,71 @@ export function handleUserInputFn(
         case "NF":
           setMessages((m) => [
             ...m,
-            { msg: "New features", author: "You", line: true, zip: {} },
+            { msg: "Future Models", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: newfeatures, author: "Ford Chat", line: true, zip: "" },
-          ]);
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "Click to learn more about our future models!"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            Object.keys(fvs).map((vehicle) => (
+              <button
+                className="model-button"
+                key={vehicle}
+                value={vehicle}
+                onClick={() => {
+                  setShowingEvs(true);
+                  setMessages((m) => [...m, { msg: vehicle, author: "You" }]);
+                  setCalcHeadingText(
+                    `The varieties of the ${vehicle} will include:`
+                  );
+                  const varieties = getVarietiesByCategory(vehicle);
+                  var description = `Introducing the all-new 2024 Ford Ranger! This cutting-edge truck is redefining the driving experience with its state-of-the-art technology and innovative design. Packed with futuristic features, the Ranger is a true tech marvel. With a trailer brake controller, pro trailer backup assistance, and a 360-degree camera, maneuvering is a breeze, making towing and parking effortless. The Ranger's zone lighting illuminates every angle, ensuring visibility in any situation. Conquer any terrain with ease using the terrain management system, offering modes for normal, eco, sport, slippery, and sand conditions. Stay connected like never before with SYNC 4A technology, making it the most connected Ranger ever. And with Ford Power Up software updates, your Ranger will always stay ahead of the curve. Experience the future of driving with the all-new 2024 Ford Ranger - where cutting-edge technology meets unmatched performance. Get ready to embrace the road like never before!`;
+                  setCalcButtons(
+                    <div className="ev-info" style={{
+                      display:"flex",
+                      flexDirection:"column"
+                    }}>
+                      <div className="ev-top" style={{
+                        display:"flex",
+                        flexDirection:"row",
+                        justifyContent:"center",
+                      }}>
+                        <div className="ev-list" style={{
+                        display:"flex",
+                        flexDirection:"column",
+                        fontSize:"15px"
+                      }}>
+                        <li>XL</li>
+                        <li>XLT</li>
+                        <li>Lariat</li>
+                        <li>Raptor</li>
+                      </div>
+                        <img
+                          style={{ width: "170px", height: "auto", padding:"20px" }}
+                          src={futurePic}
+                        />
+                      </div>
+                      <div className="ev-description" style={{
+                        fontSize:"15px",
+                        paddingTop:"10px"
+                      }}>{description}</div>
+                    </div>
+                  );
+                  setShowCalcButtons(true);
+                }}
+              >
+                <img
+                  style={{ width: "130px", height: "auto" }}
+                  src={futurePic}
+                />
+                <br />
+                {vehicle}
+              </button>
+            ))
+          );
+          setMenuButtons([]);
           break;
         case "EV":
           setMessages((m) => [

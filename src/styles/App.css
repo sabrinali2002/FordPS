@@ -57,7 +57,6 @@
 .menu {
   cursor: pointer;
   display: inline-block;
-  font-weight: 600;
   font-size: 1rem;
   padding: 0 18px;
   line-height: 50px;
@@ -141,7 +140,6 @@
   line-height: 1;
   margin: 10px;
   margin-top: 15px;
-  font-weight: bold;
 }
 
 .calc-button:hover {
@@ -176,7 +174,6 @@
   width: 180px;
   background-color: white;
   font-size: 12px;
-  font-weight: bold;
   border-radius: 10px;
   text-align:center;
   word-wrap:wrap;
@@ -186,12 +183,21 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.menu-buttons {
+  height: 120px;
+  width: 180px;
+  background-color: white;
+  font-size: 15px;
+  border-radius: 10px;
+  margin: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .model-button-selected {
   height: 120px;
   width: 180px;
   background-color: white;
   font-size: 12px;
-  font-weight: bold;
   border-radius: 10px;
   text-align:center;
   word-wrap:wrap;
