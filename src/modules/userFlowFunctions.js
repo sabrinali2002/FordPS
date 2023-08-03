@@ -452,7 +452,6 @@ export function handleUserInputFn(
                   setCalcHeadingText(
                     `The varieties of the ${vehicle} will include:`
                   );
-                  const varieties = getVarietiesByCategory(vehicle);
                   var description = `Introducing the all-new 2024 Ford Ranger! This cutting-edge truck is redefining the driving experience with its state-of-the-art technology and innovative design. Packed with futuristic features, the Ranger is a true tech marvel. With a trailer brake controller, pro trailer backup assistance, and a 360-degree camera, maneuvering is a breeze, making towing and parking effortless. The Ranger's zone lighting illuminates every angle, ensuring visibility in any situation. Conquer any terrain with ease using the terrain management system, offering modes for normal, eco, sport, slippery, and sand conditions. Stay connected like never before with SYNC 4A technology, making it the most connected Ranger ever. And with Ford Power Up software updates, your Ranger will always stay ahead of the curve. Experience the future of driving with the all-new 2024 Ford Ranger - where cutting-edge technology meets unmatched performance. Get ready to embrace the road like never before!`;
                   setCalcButtons(
                     <div className="ev-info" style={{
@@ -530,97 +529,112 @@ export function handleUserInputFn(
             ...m,
             { msg: "Certifications", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: certifications, author: "Ford Chat", line: true, zip: "" },
-          ]);
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "Our Certifications"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            <div className="info-wrapper" style={{
+              display:"flex",
+              flexDirection:"row",
+            }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              {certifications}
+              </div>
+            </div>
+          )
+
           break;
         case "Em":
           setMessages((m) => [
             ...m,
             { msg: "Emissions", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: emissions, author: "Ford Chat", line: true, zip: "" },
-          ]);
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "Our Emission Policies"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            <div className="info-wrapper" style={{
+              display:"flex",
+              flexDirection:"row",
+            }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              {emissions}
+              </div>
+            </div>
+          )
+
+          
           break;
         case "Comm":
           setMessages((m) => [
             ...m,
-            { msg: "Our Commitments", author: "You", line: true, zip: {} },
+            { msg: "EV Market", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: commitments, author: "Ford Chat", line: true, zip: "" },
-          ]);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "Our Commitments"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            <div className="info-wrapper" style={{
+              display:"flex",
+              flexDirection:"row",
+            }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              {commitments}
+              </div>
+            </div>
+          )
 
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+
           break;
         case "Pr":
           setMessages((m) => [
             ...m,
-            {
-              msg: "Production management",
-              author: "You",
-              line: true,
-              zip: {},
-            },
+            { msg: "Production management", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: pm, author: "Ford Chat", line: true, zip: "" },
-          ]);
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "Our Production Management"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            <div className="info-wrapper" style={{
+              display:"flex",
+              flexDirection:"row",
+            }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              {pm}
+              </div>
+            </div>
+          )
 
           break;
         case "EOF":
           setMessages((m) => [
             ...m,
-            {
-              msg: "End of life management",
-              author: "You",
-              line: true,
-              zip: {},
-            },
+            { msg: "End of life management", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: endoflife, author: "Ford Chat", line: true, zip: "" },
-          ]);
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "End of life management"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            <div className="info-wrapper" style={{
+              display:"flex",
+              flexDirection:"row",
+            }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              {endoflife}
+              </div>
+            </div>
+          )
+
           break;
 
         case "electric":
