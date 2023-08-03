@@ -170,7 +170,7 @@ const Navbar = ({onClick}) => {
         )}
         <li>
           <a href="#" onClick={knowListener} style = {{justifyContent: "space-between"}}>
-            <strong>Know my car's price</strong>
+            <strong>Negotiation assistance</strong>
             {
               knowOpen ? <span className={`dropdown-arrow${existOpen ? ' open' : ''}`} style = {{marginBottom: '0px', paddingBottom:'0px', paddingTop:'0px'}}>&#9660;</span> : 
               <span className={`dropdown-arrow${existOpen ? ' open' : ''}`} style = {{marginBottom: '0px', paddingBottom:'0px', paddingTop:'0px'}}>&#x25c0;</span>
@@ -186,7 +186,7 @@ const Navbar = ({onClick}) => {
             </li>
             <li>
               <a href="#" style={{ backgroundColor: 'white', color: 'black', marginBottom: '0px' }} onClick={onClick("combustion")}>
-                Dealer negotiation
+                Combustion vehicles
               </a>
             </li>
           </div>

@@ -8,6 +8,7 @@
   background-color:#f5f5f5;
   height:100vh;
   min-height:100vh;
+  width:100vh;
 }
 
 .textfield {
@@ -21,7 +22,7 @@
 
 .topbar {
   position:fixed;
-  margin-left:27%;
+  width:100%;
   margin-bottom:100px;
   margin-top:0px;
   padding-top:0px;
@@ -48,15 +49,6 @@
   display:flex;
   flex-direction:column;
   height: 100vh;
-}
-
-.ChatArea {
-  width: 100vw;
-  height: 85%;
-  padding-top: 6%;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
 }
 
 .CardOutline {
@@ -102,7 +94,9 @@
 .MessagesArea{
   flex: 'none';
   align-self: center;
-  width: 90vw;
+  width: 96vw;
+  margin:none;
+  margin-bottom:10px;
 }
 
 .mic-icon{
@@ -186,10 +180,12 @@
   border-radius: 10px;
   text-align:center;
   word-wrap:wrap;
-  overflow-wrap:wrap;  
+  overflow-wrap:wrap; 
+  padding-left:2px; 
   margin: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
 .model-button-selected {
   height: 120px;
   width: 180px;
@@ -250,7 +246,7 @@
 }
 
 .option-buttons {
-  margin-left: 120px;
+  margin-left: 94px;
   margin-top: -10px;
   margin-bottom: 20px;
 }
@@ -258,7 +254,7 @@
 .button-small {
   background-color: rgb(231, 228, 228);
   color: #322964;
-  border-radius: 100px;
+  border-radius: 20px;
   margin-right: 10px;
   height: 40px;
   padding-right: 20px;
@@ -275,12 +271,36 @@
   position:relative;
   background-color:rgb(206, 216, 224);
   border-radius:10px;
-  margin-left:177px;
+  margin-left:117px;
   box-shadow: 1px 4px 2px rgba(95, 112, 133, 0.5);
   align-items:left;
   margin-bottom:15px;
+  margin-top:-15px;
   padding:15px;
   width:500px;
   height:300px;
   color:#322964;
  }
+
+.ev-info{
+  display:flex;
+  flex-direction:column;
+  color: #322964;
+  justify-content:center;
+}
+
+
+.ev-description{
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%;
+  max-width: 100%;
+}
+
+.ev-list{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}

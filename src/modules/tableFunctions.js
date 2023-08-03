@@ -5,7 +5,6 @@ const modelOptionsFromJson = Object.keys(trims).map((model) => ({ value: model, 
 export const modelOptions=[{ value: "no model", label: "Select Model" }, ...modelOptionsFromJson]
 
 export function getTrimOptions(selectedModel){
-    console.log(selectedModel, trims[selectedModel])
     const trimOptions = selectedModel === "" || selectedModel === "no model" ? [{ value: "no trim", label: "Select A Model First" }] : trims[selectedModel].map((trim) => ({ value: trim, label: trim }));
     if (trimOptions[0].value !== "no trim") {
         trimOptions.unshift({ value: "all trim", label: "View All Trims" });

@@ -22,14 +22,14 @@ const queryDatabase = async (model, trim) => {
 }
 
 
-export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,forceUpdate,setForceUpdate,handleCarInfoButton,model,trim,setMessages,
+export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
   setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
-  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons){
+  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons,origButtons,forceUpdate,setForceUpdate){
 
     if (infoMode === 2) {
         if (trim === "All Trims") {
-          setMessages((m) => [...m, { msg: "Here are all the trims", author: "", line: true, zip: "" }]);
-          setMessages((m) => [...m, { msg: "You can select which ones to compare", author: "", line: true, zip: "" }]);
+          setMessages((m) => [...m, { msg: "Here are all the trims", author: "Ford Chat", line: true, zip: "" }]);
+          setMessages((m) => [...m, { msg: "Click on the image of the car you would like to move forward with", author: "Ford Chat", line: true, zip: "" }]);
           setShowCalcButtons(false);
           handleCarInfoButton(model, trim);
           handleMoreInfo();
@@ -50,7 +50,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
         
         setMessages((m) => [...m, { msg: "", author: "Info", line: true, zip: "", carInfo: data[0] }]);
 
-        setMessages((m) => [...m, { msg: "What other information/services would you like for this car?", author: "", line: true, zip: "" }]);
+        setMessages((m) => [...m, { msg: "What other information/services would you like for this car?", author: "Ford Chat", line: true, zip: "" }]);
         setShowCalcButtons(false);
         setOptionButtons(
           <div className="option-buttons">
@@ -60,6 +60,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
                         setMenuButtons([]);
                         setOptionButtons([]);
                         setInfoMode(3);
+                        setMessages((m) => [...m, { msg: "I want to schedule a test drive", author: "You", line: true }]);
                     }}
                 >
                     Schedule a test drive
@@ -69,6 +70,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
                     onClick={() => {
                         setMenuButtons([]);
                         setInfoMode(10);
+                        setMessages((m) => [...m, { msg: "Pricing estimation", author: "You", line: true }]);
                     }}
                 >
                     Pricing estimation
@@ -77,10 +79,11 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
                     className="button-small"
                     onClick={() => {
                         setMenuButtons([]);
-                        setOptionButtons([]);
+                        // setOptionButtons([]);
                         handleCarInfoButton(model, trim);
                         setForceUpdate(!forceUpdate);
                         handleMoreInfo();
+                        setMessages((m) => [...m, { msg: "What other information/services would you like for this car?", author: "Ford Chat", line: true }]);
                     }}
                 >
                     More information
@@ -89,7 +92,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
         );
     } else if (infoMode === 3) {
         setShowCalcButtons(false);
-        setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to continue:", author: "Ford Chat", line: true, zip: {} }]);
+        setMessages((m) => [...m, { msg: "Please enter your zipcode to continue:", author: "Ford Chat", line: true, zip: {} }]);
         setInfoMode(4);
     } else if (infoMode === 5){
         setOptionButtons([]);
@@ -102,7 +105,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
         const selectedCopy = selected;
         selectedCopy[model].push(trim);
         changeSelected(selectedCopy);
-        locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, 20, setMessages, setZipMode, setShowCalcButtons)();
+        locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, -1, setMessages, setZipMode, setShowCalcButtons)();
         setShowCalcButtons(false);
       }
       else{

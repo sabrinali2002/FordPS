@@ -20,6 +20,11 @@ function FordSite() {
       <div className="bar">
         <h1>Certain Mustang® Mach-E® and F-150® Lightning® Models are Currently Eligible for Potential Federal Tax Credits*</h1>
       </div>
+      <div className="fakeinfo">
+      <h1 className="text">New 2024 Bronco Sport Free Wheeling</h1>
+      <button type="button" classname="fakebtn">Explore Vehicle</button>
+      </div>
+      
           <img src={car} className="fordpic" alt='car'/>
       </div>}
       </Fragment>

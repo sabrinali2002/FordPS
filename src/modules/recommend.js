@@ -16,9 +16,10 @@ module.exports.createRecommendTable = function(botResponseString){
     let recommendedCars=[]
     botResponseString.split(". ").forEach((element) => {
         if(element.includes("!")){
+            console.log("ELEMENT", element)
             let model = element.split("!")[0]
             let trim = element.split("!")[1].split("\n")[0]
-            let msrp = element.split("!")[2].split("\n")[0]
+            let msrp = element.split("!")[2]?element.split("!")[2].split("\n")[0]:50000
             if(!checkIfElementAlreadyExists(recommendedCars, {model: model, trim: trim, msrp: msrp}))
                 recommendedCars.push({model: model, trim: trim, msrp: msrp})
         }

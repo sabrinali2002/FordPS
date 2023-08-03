@@ -7,6 +7,30 @@
   margin:0;
   padding:0;
   background-color: rgb(211, 204, 255);
+  height:100vh;
+}
+
+.hometop{
+  width:100%;
+  position:absolute;
+  z-index:5000;
+}
+
+.hometopbar{
+
+  position:absolute;
+  z-index:4999;
+  top:0;
+  height:50px;
+  background-color:white;
+  color:white;
+}
+
+.back{
+  position: absolute;
+  height:100vh;
+  width:100%;
+  z-index:-1;
 }
 
 .homepage-container {
@@ -20,8 +44,9 @@
 
 
   .home{
+    position:relative;
     width:100%;
-    min-height: 100vh;
+    height: 100vh;
   }
 
 .center {
@@ -30,21 +55,20 @@
     justify-content: center;
     text-align: center;
     align-items: center;
-    padding-top: 10%;
-  
+    height: 100vh;
 }
 
 .enter {
     max-width: 40%;
     height: 60px;;
-    font-size: 1 rem;
+    font-size: 30px;
     color: #ffffff;
     font-family: 'Antenna', sans-serif;
     font-weight: 500;
     border-radius: 50px;
     border: none;
     background-color: #322964;
-    padding:4px;
+    padding:10px;
 }
 
 .enter:hover{
@@ -54,12 +78,15 @@
 .welcome {
     align-self: center;
     font-family: 'Antenna', sans-serif;
-    font-size: 1.7rem;
+    font-size: 30px;
     font-weight:300;
     padding:15px;
     letter-spacing:0.6px;
 }
 
 .henrai {
-    width: 20%
+    margin-top:10%;
+    width: 30%
 }
+
+
