@@ -289,7 +289,7 @@ function App() {
           handleUserInput("NF");
         }}
       >
-        New features
+        Future models
       </button>
       <button
         className="menu button-standard"
@@ -892,7 +892,6 @@ function App() {
                     marginTop: "10px",
                     color: "#322964",
                     fontSize: "20px",
-                    fontWeight: "bold",
                     lineHeight: "30px",
                   }}
                 >
@@ -903,7 +902,6 @@ function App() {
                     style={{
                       color: "#322964",
                       fontSize: "12px",
-                      fontWeight: "bold",
                       lineHeight: "20px",
                     }}
                   >
@@ -1104,7 +1102,9 @@ function App() {
               <button className="button-small" onClick = {locateDealerships}>Locate the nearest dealerships</button>
             </div>} */}
             </div>
-            <div className="textfield">
+            <div className="textfield" style={{
+              backgroundColor:"white"
+            }}>
               <TextField
                 value={queryText}
                 error={blockQueries.current}
@@ -1152,6 +1152,7 @@ function App() {
                 <BoxArrowLeft
                   size="2rem"
                   style={{
+                    color:"gray",
                     marginLeft: "10px",
                     cursor: "pointer",
                     marginTop: "25px",
