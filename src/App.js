@@ -6,8 +6,10 @@ import AccessibilityButton from "./components/AccessibilityButton";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic, BoxArrowLeft } from "react-bootstrap-icons";
 import Autofill from "./components/Autofill";
+import Autofill from "./components/Autofill";
 import trims from "./jsons/trims.json";
 import TopBar from "./components/TopBar";
+import { motion } from "framer-motion";
 import { motion } from "framer-motion";
 
 import {
@@ -56,9 +58,7 @@ const fixTrimQueryQuotation = (model, trim) => {
 function App() {
   const [query, setQuery] = useState("");
   const [queryText, setQueryText] = useState("");
-  const [messages, setMessages] = useState([
-    { msg: "Hi there, what's your name?", author: "Ford Chat" },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [history, setHistory] = useState([]);
   const [response, setResponse] = useState("");
   const [recording, setRecording] = useState(false);
@@ -136,6 +136,7 @@ function App() {
 
   const blockQueries = useRef(false);
   const recognition = useRef(null);
+  const first = useRef(true);
   //map functions -------------------------------------------------------->
 
   const [distance, setDistance] = useState("10");
@@ -660,6 +661,14 @@ function App() {
   const handleUserFeedback = () => {
     setMessages((m) => [...m, { msg: "", author: "Feedback" }]);
   };
+
+  //initial message
+  useEffect(() => {
+    if(first.current) {
+      handleNewResponse("Hi there, what's your name?");
+    }
+    first.current = false;
+  }, [])
 
   useEffect(() => {
     console.log("in use effect");
