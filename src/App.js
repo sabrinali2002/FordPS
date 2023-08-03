@@ -867,6 +867,7 @@ function App() {
                   setModel={setModel}
                   setTrim={setTrim}
                   setQuery={setQuery}
+                  changeChoice={changeChoice}
                   key={index}
                 />
               );

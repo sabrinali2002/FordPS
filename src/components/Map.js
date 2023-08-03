@@ -41,6 +41,8 @@ function Map({
   setMenuButtons,
   origButtons,
   setMessages,
+  changeChoice,
+  setQuery
 }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
@@ -433,6 +435,8 @@ function Map({
     setVis2(false);
     setVis3(true);
     setIsScheduler2Visible(false);
+    changeChoice("");
+    setQuery("")
     setMessages((m) => {
       return [
         ...m,
