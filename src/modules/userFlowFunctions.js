@@ -1,15 +1,10 @@
 import trims from "../jsons/trims.json";
 import vehicles from "../jsons/vehicleCategories.json";
-import evs from "../jsons/EV.json";
 import {
   sendBotResponse,
   sendRecommendRequestToServer,
 } from "./botResponseFunctions";
 import evs from "../jsons/EV.json";
-import {
-  sendBotResponse,
-  sendRecommendRequestToServer,
-} from "./botResponseFunctions";
 import handleDealerFlow from "./user_flows/handleDealerFlow";
 import handlePaymentFlow from "./user_flows/handlePaymentFlow";
 import handleInfoFlow from "./user_flows/handleInfoFlow";

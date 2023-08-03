@@ -6,10 +6,8 @@ import AccessibilityButton from "./components/AccessibilityButton";
 import { ThreeDots } from "react-loader-spinner";
 import { Mic, BoxArrowLeft } from "react-bootstrap-icons";
 import Autofill from "./components/Autofill";
-import Autofill from "./components/Autofill";
 import trims from "./jsons/trims.json";
 import TopBar from "./components/TopBar";
-import { motion } from "framer-motion";
 import { motion } from "framer-motion";
 
 import {
