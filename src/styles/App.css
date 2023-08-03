@@ -161,8 +161,9 @@
 }
 
 .model-box {
-  justify-content: center;
   height: auto;
+  margin-left:30px;
+
   width: 80%;
   background-color: rgb(205, 220, 232);
   border-radius: 15px;
@@ -220,6 +221,21 @@
   margin-bottom: 10px;
   overflow-X: auto;
   white-space: nowrap;
+  
+
+}
+
+.info-box{
+  justify-content: left;
+  height: auto;
+  padding-left: 10px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  overflow-X: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  width:100%;
 }
 
 .button-container::-webkit-scrollbar { /* For Chrome, Edge, and Safari */

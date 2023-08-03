@@ -880,7 +880,7 @@ function App() {
             <div
               style={{
                 display: "flex",
-                justifyContent: "center",
+                justifyContent: "left",
                 textAlign: "center",
                 marginTop: "10px",
                 marginBottom: "15px",

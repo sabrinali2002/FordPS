@@ -22,6 +22,9 @@ import {
   newfeatures,
 } from "./info.js";
 import futurePic from "./fordranger2024.png";
+import electricpic1 from "./electricpic1.png";
+import electricpic2 from "./electricpic2.png";
+import electricpic3 from "./electricpic3.png";
 
 export function handleUserInputFn(
   origButtons,
@@ -501,17 +504,26 @@ export function handleUserInputFn(
             ...m,
             { msg: "EV Market", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: evmarket, author: "Ford Chat", line: true, zip: "" },
-          ]);
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "Our EV Market"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            <div className="info-wrapper" style={{
+              display:"flex",
+              flexDirection:"row",
+            }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              {evmarket}
+              <img
+                  style={{ width: "50%", height: "auto",padding:"5px" }}
+                  src={electricpic2}
+                />
+              </div>
+            </div>
+          )
+
           break;
         case "Cer":
           setMessages((m) => [
