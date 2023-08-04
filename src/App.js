@@ -132,6 +132,7 @@ function App() {
   const [down, setDown] = useState(0);
   const [requestSent, setRequestSent] = useState(false);
   const [schedSent, setSchedSent] = useState(false);
+  const [locateButton, setLocateButton] = useState([]);
 
   const blockQueries = useRef(false);
   const recognition = useRef(null);
@@ -769,7 +770,9 @@ function App() {
       setShowingEvs,
       forceUpdate,
       setForceUpdate,
-      schedSent
+      schedSent,
+      setLocateButton,
+      knowMyPriceButtons
     );
   }, [
     query,
@@ -794,6 +797,11 @@ function App() {
             setMenuButtons(origButtons);
             setCalcButtons([]);
             setOptionButtons([]);
+            setShowCalcButtons(false);
+            setModel("");
+            setTrim("");
+            setSelectedModel("");
+            setSelectedTrim("");
           }}
         />
       </div>
@@ -926,6 +934,7 @@ function App() {
                 >
                   {calcButtons}
                 </div>
+                {locateButton}
               </div>
             </div>
           )}
@@ -943,7 +952,7 @@ function App() {
           <div ref={messagesEndRef} />
         </div>
         <div>
-          <div style={{paddingTop:'20px'}}>
+          <div style={{paddingTop:'20px',marginTop:'13px'}}>
             <motion.div
               initial={{ y:110,opacity: 0, scale: 0.5}}
               animate={{ opacity: 1, scale: 1}}
@@ -1008,7 +1017,7 @@ function App() {
                 InputLabelProps={{
                   style: { fontFamily: "Antenna, sans-serif", color: darkMode ? "white" : "gray", },
                 }}
-                label={"Ask me anything..."}
+                label={username === "" ? "Enter your name" : "Ask me anything..."}
                 helperText={
                   blockQueries.current ? "Please wait!" : "Press enter to send."
                 }

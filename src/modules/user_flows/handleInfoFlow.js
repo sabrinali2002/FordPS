@@ -1,10 +1,12 @@
 // import data from '../../jsons/data.json'
 
 const fixTrimQueryQuotation = (model, trim) => {
+  console.log(model)
   if (model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van" && model !== "Transit Crew Van" && model !== "Transit Passenger Van") {
       return trim;
   }
   trim = trim.replaceAll('"', '\\"');
+  console.log(trim)
   return trim;
 };
 const queryDatabase = async (model, trim) => {
@@ -21,10 +23,9 @@ const queryDatabase = async (model, trim) => {
   return data;
 }
 
-
 export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
   setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
-  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons,origButtons,forceUpdate,setForceUpdate){
+  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons,origButtons,forceUpdate,setForceUpdate,knowMyPriceButtons){
 
     if (infoMode === 2) {
         if (trim === "All Trims") {
@@ -46,8 +47,6 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
             // }
 
         const data = await queryDatabase(model, trim);
-        console.log(data[0])
-        
         setMessages((m) => [...m, { msg: "", author: "Info", line: true, zip: "", carInfo: data[0] }]);
         setMenuButtons([])
         setMessages((m) => [...m, { msg: "What other information/services would you like for this car?", author: "Ford Chat", line: true, zip: "" }]);
@@ -60,21 +59,34 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
                         setMenuButtons([]);
                         setOptionButtons([]);
                         setInfoMode(3);
-                        setMessages((m) => [...m, { msg: "I want to schedule a test drive", author: "You", line: true }]);
+                        setMessages((m) => [...m, { msg: "Schedule a test drive", author: "You", line: true, zip: {} }]);
                     }}
                 >
                     Schedule a test drive
                 </button>
                 <button
-                    className="button-small"
-                    onClick={() => {
-                        setMenuButtons([]);
-                        setInfoMode(10);
-                        setMessages((m) => [...m, { msg: "Pricing estimation", author: "You", line: true }]);
-                    }}
-                >
-                    Pricing estimation
-                </button>
+        className="button-small"
+        onClick={() => {
+          setZipMode(0);
+          setMessages((m) => {
+            return [...m, { msg: "Negotiation assistance", author: "You" }];
+          });
+          setMessages((m) => {
+            return [
+              ...m,
+              {
+                msg: "What kind of car would you like to know the price for?",
+                author: "Ford Chat",
+              },
+            ];
+          });
+          setMenuButtons([]);
+          setOptionButtons(knowMyPriceButtons);
+          setShowCalcButtons(false);
+        }}
+      >
+        Negotiation assistance
+      </button>
                 <button
                     className="button-small"
                     onClick={() => {
@@ -107,9 +119,6 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
         changeSelected(selectedCopy);
         locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, -1, setMessages, setZipMode, setShowCalcButtons)();
         setShowCalcButtons(false);
-      }
-      else{
-        setMessages((m) => [...m, { msg: "Please enter a valid zip", author: "Ford Chat", line:true,zip:{} }]);
       }
     } 
 } 

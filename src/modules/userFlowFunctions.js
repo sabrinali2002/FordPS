@@ -103,7 +103,7 @@ export function handleUserInputFn(
       "XL", "XLT", "Lariat", "Raptor"
     ]
   }
-  
+
   function getVarietiesByCategory(mainCategory) {
     // Check if the main category exists in the JSON data
     if (evs.hasOwnProperty(mainCategory)) {
@@ -793,8 +793,22 @@ export function handleUserFlow(
   setShowingEvs,
   forceUpdate,
   setForceUpdate,
-  schedSent
+  schedSent,
+  setLocateButton,
+  knowMyPriceButtons
 ) {
+  const fixTrimName = (model, trim) => {
+    if (
+      model !== "Transit Cargo Van" &&
+      model !== "E-Transit Cargo Van" &&
+      model !== "Transit Crew Van" &&
+      model !== "Transit Passenger Van"
+    ) {
+      return trim;
+    }
+    trim = trim.replaceAll('"', '');
+    return trim;
+  };
   if (!blockQueries.current && query.length > 0) {
     blockQueries.current = true;
     setForceUpdate(!forceUpdate);
@@ -1049,7 +1063,8 @@ export function handleUserFlow(
                       setOptionButtons,
                       origButtons,
                       forceUpdate,
-                      setForceUpdate
+                      setForceUpdate,
+                      knowMyPriceButtons
                     );
                     setTrim(trim);
                   }}
@@ -1093,7 +1108,8 @@ export function handleUserFlow(
               setZipMode,
               setOptionButtons,
               forceUpdate,
-              setForceUpdate
+              setForceUpdate,
+              knowMyPriceButtons
             );
             blockQueries.current = false;
             break;
@@ -1125,7 +1141,8 @@ export function handleUserFlow(
               setZipMode,
               setOptionButtons,
               forceUpdate,
-              setForceUpdate
+              setForceUpdate,
+              knowMyPriceButtons
             );
             blockQueries.current = false;
             break;
@@ -1223,6 +1240,7 @@ export function handleUserFlow(
                   zip: "",
                 },
               ]);
+              setCalcHeadingText("Select a model");
               setShowCalcButtons(true);
               setCalcButtons(
                 Object.keys(trims).map((model) => (
@@ -1249,6 +1267,7 @@ export function handleUserFlow(
               setFind(1);
             }
           } else if (findMode === 1) {
+            setCalcHeadingText("Select trims");
             setShowCalcButtons(true);
             setCalcButtons(
               <div>
@@ -1281,40 +1300,36 @@ export function handleUserFlow(
                       }
                       setForceUpdate(!forceUpdate);
                       console.log(copy2, selected[model].includes(trim));
-                    }}
-                  >
-                    {trim}
+                    }}>
+                     <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
+                    <br />{fixTrimName(model,trim)}
                   </button>
                   // trims[query].contains(trim)) ? <button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
                   // : <button className='model-button-selected' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
                 ))}
-                <div>
-                  <button className="button-small" onClick={changeFind}>
-                    back
-                  </button>
-                  <button
-                    className="button-small"
-                    onClick={locateDealershipsFn(
-                      setDealers,
-                      setCalcButtons,
-                      setSelect,
-                      selected,
-                      setFind,
-                      changeSelected,
-                      zipCode,
-                      distance,
-                      setMessages,
-                      setZipMode,
-                      setShowCalcButtons,
-                      model,
-                      selected[model][0]
-                    )}
-                  >
-                    Locate the nearest dealerships
-                  </button>
-                </div>
               </div>
             );
+            let locateButton = (<button className='locate-button'
+            onClick={
+              locateDealershipsFn(
+              setDealers,
+              setCalcButtons,
+              setSelect,
+              selected,
+              setFind,
+              changeSelected,
+              zipCode,
+              distance,
+              setMessages,
+              setZipMode,
+              setShowCalcButtons,
+              model,
+              selected[model][0],
+              setLocateButton
+            )}>
+            Locate the nearest dealerships
+          </button>);
+            setLocateButton(locateButton);
             setSelect(true);
           }
           blockQueries.current = false;

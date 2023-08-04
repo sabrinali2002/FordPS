@@ -192,7 +192,7 @@ export default function Sched3({
             <br/>{model.length===0?"Bronco":model}<BiRegistered/>{model.length===0?" Base":` ${trim}`}
           </div>
         </div>
-        <div style={{ width: "60%" }}>
+        <div style={{ width: "65%",marginLeft:'-50px' }}>
           <div
             style={{
               fontWeight: 500,
@@ -209,6 +209,7 @@ export default function Sched3({
               flexDirection: "column",
               justifyContent: "space-between",
               height: "70%",
+              textOverflow:'break-word'
             }}
           >
             <div

@@ -203,15 +203,10 @@ export default function ChatItem({
             origButtons={orig}
           />
         )}
-        {author === "Info" && (
-          <Fragment>
-            <DisplayInfo
-              info={carSpecInfo}
-              handler={handleUserInput}
-              style={{ width: "80%" }}
-            ></DisplayInfo>
-          </Fragment>
-        )}
+        {
+        author === "Info" && <Fragment>
+        <DisplayInfo info = {carSpecInfo} handler = {handleUserInput} setMenuButtons = {setMenuButtons} setInfoMode = {setInfoMode} setOptionButtons={setOptionButtons} style = {{width:"80%"}}></DisplayInfo></Fragment>
+      }
         {author === "DropDown" && (
           <Fragment>
             <CarInfoDropdownSection

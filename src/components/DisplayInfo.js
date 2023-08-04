@@ -5,7 +5,7 @@ import { Rating, Box } from "@mui/material";
 import DisplayReview from "./DisplayReview";
 import reviewData from "../jsons/reviews.json"
 
-export default function DisplayInfo({ info, handler }) {
+export default function DisplayInfo({ info, handler, setMenuButtons, setInfoMode,setOptionButtons }) {
     const [screen, setScreen] = useState("info");
     console.log("info:", info);
     let reviews = reviewData[info.model];
@@ -81,6 +81,12 @@ export default function DisplayInfo({ info, handler }) {
                                                 cursor: "pointer",
                                                 fontSize: "18px" 
                                             }}
+                                            onClick = {
+                                                () => {
+                                                    setMenuButtons([]);
+                                                    setInfoMode(10);
+                                                }
+                                            }
                                         >
                                             ...more
                                         </button>
@@ -96,6 +102,13 @@ export default function DisplayInfo({ info, handler }) {
                                                 cursor: "pointer",
                                                 fontSize: "18px" 
                                             }}
+                                            onClick = {
+                                                () => {
+                                                    setMenuButtons([]);
+                                                    setOptionButtons([]);
+                                                    setInfoMode(3);
+                                                }
+                                            }
                                         >
                                             ...more
                                         </button>
@@ -127,6 +140,7 @@ export default function DisplayInfo({ info, handler }) {
                                         style={{ float: "left", fontSize:'15px', textDecoration:'none'}}
                                         onClick={() => {
                                             handler("I");
+                                            setOptionButtons([])
                                         }}
                                     >
                                         <u>Back</u>

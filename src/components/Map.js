@@ -137,6 +137,7 @@ function Map({
     };
     let models = [];
     if (selectedModel !== "" && selectedTrim !== "") {
+      console.log(1);
       // know model & trim
       if (
         Object.values(dealerToTrim[dealer][selectedModel]).includes(
@@ -178,14 +179,15 @@ function Map({
         }
       }
     } else if (selectedModel !== "") {
+      console.log(2);
+      let sim = similar[selectedModel];
       // know model, not trim
       for (let trims of dealerToTrim[dealer][selectedModel]) {
-        if (models.length < n && selectedModel !== 'E-Transit Cargo Van' && sim !== 'Transit Cargo Van') {
+        if (models.length < n && selectedModel !== 'E-Transit Cargo Van' && selectedModel !== 'Transit Cargo Van') {
           models.push([selectedModel, trims]);
         }
       }
       let j = 0;
-      let sim = similar[selectedModel];
       while (models.length < n) {
         // not enough trims of model
         if (sim == 'E-Transit Cargo Van' || sim == 'Transit Cargo Van') {
@@ -203,6 +205,7 @@ function Map({
         }
       }
     } else {
+      console.log(3);
       // know neither
       for (let currmodel of Object.keys(dealerToTrim[dealer])) {
         if (models.length < n) {
@@ -319,6 +322,10 @@ function Map({
     }
     let dealer = d[0];
     let models = returnCars(dealer, 2);
+    if (models.length == 0) {
+      models = [["Bronco","Base"],["Explorer","Base"]];
+    }
+    console.log(models);
     let addr = info[dealer]["address"];
     let phone = info[dealer]["number"];
     let rating = info[dealer]["rating"];
@@ -328,6 +335,8 @@ function Map({
     let link = `www.${dealer
       .replaceAll(" ", "")
       .replaceAll("'", "")
+      .replaceAll(",", "")
+      .replaceAll(".", "")
       .toLowerCase()}.com`;
     let today = new Date();
     let currHr = today.getHours();
@@ -337,44 +346,50 @@ function Map({
     }
     let appts = returnAppts(4);
     let text = (
-      <p className="hover-content">
+      <div className="hover-content">
         <span
           style={{
             color: "#322964",
-            paddingTop: "20px",
-            fontSize: "27px",
+            paddingTop: "10px",
+            fontSize: "22px",
             fontWeight: "bold",
+            marginLeft: '15px'
           }}
         >
           {dealer}
         </span>
         <br />
-        <span style={{ fontSize: "17px" }}>
-          <FaLocationArrow />
-          <span style={{ fontSize: "14px", paddingLeft: "8px" }}>{addr}</span>
-          <br />
-          <BsTelephoneFill />
-          <span style={{ fontSize: "14px", paddingLeft: "8px" }}>{phone}</span>
-          <br />
-          <FiLink2 />
-          <span style={{ fontSize: "14px", paddingLeft: "8px" }}>{link}</span>
-          <br />
-          <AiFillStar />
-          <span style={{ fontSize: "14px", paddingLeft: "8px" }}>
-            {rating + " stars"}
-          </span>
-          <br />
-          <AiFillClockCircle />
-          <span style={{ fontSize: "14px", paddingLeft: "8px" }}>{hrStr}</span>
-          <br />
-        </span>
+        <div style={{ display:'flex',flexDirection:'column',lineHeight:.4,marginLeft:'15px'}}>
+          <div>
+            <FaLocationArrow />
+            <span style={{ fontSize: "12px", paddingLeft: "8px" }}>{addr}</span>            
+          </div>
+          <div>
+            <BsTelephoneFill />
+            <span style={{ fontSize: "12px", paddingLeft: "8px" }}>{phone}</span>
+          </div>
+          <div>
+            <FiLink2 />
+            <span style={{ fontSize: "12px", paddingLeft: "8px" }}>{link}</span>            
+          </div>
+          <div>
+            <AiFillStar />
+            <span style={{ fontSize: "12px", paddingLeft: "8px" }}>
+              {rating + " stars"}
+            </span>
+          </div>
+          <div>
+            <AiFillClockCircle />
+            <span style={{ fontSize: "12px", paddingLeft: "8px" }}>{hrStr}</span>            
+          </div>
+        </div>
         <div style={{ display: "flex" }}>
           {maintenanceMode.length == 0 && (
             <span style={{ width: "50%" }}>
               <span
                 style={{
                   color: "#322964",
-                  fontSize: "14px",
+                  fontSize: "12px",
                   textDecoration: "underline",
                 }}
               >
@@ -410,7 +425,7 @@ function Map({
             <span
               style={{
                 color: "#322964",
-                fontSize: "14px",
+                fontSize: "12px",
                 textDecoration: "underline",
                 paddingLeft: "10px",
               }}
@@ -451,7 +466,7 @@ function Map({
             </div>
           </span>
         </div>
-      </p>
+      </div>
     );
     setShowPopup(true);
     setPopupText(text);
@@ -525,6 +540,7 @@ function Map({
     if (selectedModel == "" && selectedTrim == "") {
       selection = "";
     }
+    console.log("------")
     let appts = returnAppts(6);
     setShowWindow(true);
     let window1 = (<div className={'dealer-window'+(maintenanceMode.length==0?'1':'3')}>
@@ -878,7 +894,7 @@ function Map({
             position: "relative",
             backgroundColor: "#113B7A1A",
             width: "70%",
-            height: "300px",
+            height: "350px",
             borderRadius: "15px",
             left: "40px",
             padding: "25px",
@@ -890,7 +906,7 @@ function Map({
             center={latlong}
             zoom={9}
             style={{
-              height: "250px",
+              height: "300px",
               width: "50%", // Increase width to desired value
               display: "flex",
               float: "left",
@@ -920,7 +936,7 @@ function Map({
             <div
               className="hover-popup"
               onMouseLeave={popupHoverOff}
-              style={{ position: { popupPos } }}
+              style={{ position: popupPos }}
             >
               {popupText}
             </div>
@@ -969,7 +985,7 @@ function Map({
               )}
             </div>
             <div className="custom-scrollbar" 
-            style={{ overflowY: "scroll", maxHeight: "200px" }}>
+            style={{ overflowY: "scroll", maxHeight: "260px" }}>
               {locations.map((e, index) => {
                 return (
                   <button
