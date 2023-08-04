@@ -1267,16 +1267,14 @@ export function handleUserFlow(
           } else if (findMode === 1) {
             setCalcHeadingText("Select trims");
             setShowCalcButtons(true);
+            let backgroundC = 'white';
             setCalcButtons(
               <div>
                 {trims[query].map((trim) => (
                   <button
                     className="model-button"
                     style={{
-                      backgroundColor: selected[model].includes(trim)
-                        ? "red"
-                        : "white",
-                    }}
+                      backgroundColor: selected[model].includes(trim) ? 'light gray' : 'white'}}
                     key={trim}
                     value={trim}
                     onClick={() => {
@@ -1325,7 +1323,7 @@ export function handleUserFlow(
               selected[model][0],
               setLocateButton
             )}>
-            Locate the nearest dealerships
+            Locate nearby dealerships
           </button>);
             setLocateButton(locateButton);
             setSelect(true);
