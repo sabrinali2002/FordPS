@@ -121,6 +121,7 @@ function Map({
     };
     let models = [];
     if (selectedModel !== "" && selectedTrim !== "") {
+      console.log(1);
       // know model & trim
       if (
         Object.values(dealerToTrim[dealer][selectedModel]).includes(
@@ -151,6 +152,7 @@ function Map({
         }
       }
     } else if (selectedModel !== "") {
+      console.log(2);
       // know model, not trim
       for (let trims of dealerToTrim[dealer][selectedModel]) {
         if (models.length < n) {
@@ -163,6 +165,7 @@ function Map({
         // append first trim of similar model
       }
     } else {
+      console.log(3);
       // know neither
       for (let currmodel of Object.keys(dealerToTrim[dealer])) {
         if (models.length < n) {
@@ -482,6 +485,7 @@ function Map({
     if (selectedModel == "" && selectedTrim == "") {
       selection = "";
     }
+    console.log("------")
     let appts = returnAppts(6);
     setShowWindow(true);
     let window1 = (<div className={'dealer-window'+(maintenanceMode.length==0?'1':'3')}>

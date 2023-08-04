@@ -662,7 +662,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("in use effect");
     handleUserFlow(
       tableForceUpdate,
       setTableForceUpdate,
@@ -755,8 +754,6 @@ function App() {
       forceUpdate,
       setForceUpdate
     );
-    console.log("query after use effect");
-    console.log(query);
   }, [
     query,
     history,
