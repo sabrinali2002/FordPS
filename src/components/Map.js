@@ -180,6 +180,7 @@ function Map({
       }
     } else if (selectedModel !== "") {
       console.log(2);
+      let sim = similar[selectedModel];
       // know model, not trim
       for (let trims of dealerToTrim[dealer][selectedModel]) {
         if (models.length < n && selectedModel !== 'E-Transit Cargo Van' && sim !== 'Transit Cargo Van') {
@@ -187,7 +188,6 @@ function Map({
         }
       }
       let j = 0;
-      let sim = similar[selectedModel];
       while (models.length < n) {
         // not enough trims of model
         if (sim == 'E-Transit Cargo Van' || sim == 'Transit Cargo Van') {
