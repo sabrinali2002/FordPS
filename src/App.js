@@ -132,6 +132,7 @@ function App() {
   const [down, setDown] = useState(0);
   const [requestSent, setRequestSent] = useState(false);
   const [schedSent, setSchedSent] = useState(false);
+  const [locateButton, setLocateButton] = useState([]);
 
   const blockQueries = useRef(false);
   const recognition = useRef(null);
@@ -768,7 +769,9 @@ function App() {
       setShowingEvs,
       forceUpdate,
       setForceUpdate,
-      schedSent
+      schedSent,
+      setLocateButton,
+      knowMyPriceButtons
     );
   }, [
     query,
@@ -925,128 +928,7 @@ function App() {
                 >
                   {calcButtons}
                 </div>
-                <button
-                  style={{
-                    position: "relative",
-                    left:'0%',
-                    color:'#322964'
-                  }}
-                  onClick={() => {
-                    if (infoMode === 0) {
-                      setShowCalcButtons(false);
-                      setMenuButtons(buyingFordButtons);
-                      setOptionButtons([]);
-                    } else if (infoMode === 1) {
-                      handleUserInput("I");
-                    } else {
-                      setQuery(cat);
-                      setInfoMode(infoMode - 1);
-                      handleUserFlow(
-                        tableForceUpdate,
-                        setTableForceUpdate,
-                        handleMoreInfo,
-                        handleCarInfoButton,
-                        fixTrimQueryQuotation,
-                        query,
-                        dealerList,
-                        carInfoData,
-                        setCarInfoData,
-                        extractFiveDigitString,
-                        findLocations,
-                        handleUserInput,
-                        blockQueries,
-                        choice,
-                        setQuery,
-                        zipMode,
-                        setZipCode,
-                        messages,
-                        setMessages,
-                        setZipMode,
-                        setDistance,
-                        setCalcButtons,
-                        calcButtonHandler,
-                        zipCode,
-                        distance,
-                        findMode,
-                        selectHandler,
-                        setFind,
-                        appendSelect,
-                        setSelect,
-                        questionnaireStep,
-                        setQuestionnaireAnswers,
-                        setQuestionnaireStep,
-                        questionnaireAnswers,
-                        calcStep,
-                        model,
-                        setModel,
-                        setCalcStep,
-                        trim,
-                        setTrim,
-                        calcMode,
-                        setCalcMode,
-                        setLeaseStep,
-                        setFinanceStep,
-                        leaseStep,
-                        financeStep,
-                        changeChoice,
-                        history,
-                        setHistory,
-                        infoMode,
-                        setInfoMode,
-                        vehicle,
-                        setVehicle,
-                        showCalcButtons,
-                        setShowCalcButtons,
-                        calcHeadingText,
-                        setCalcHeadingText,
-                        payment,
-                        setPayment,
-                        setMenuButtons,
-                        locateDealershipsFn,
-                        changeSelected,
-                        setDealers,
-                        selected,
-                        cat,
-                        setCat,
-                        origButtons,
-                        setOptionButtons,
-                        priceStep,
-                        setPriceStep,
-                        priceMode,
-                        setPriceMode,
-                        setPriceSummary,
-                        setShowPriceSummary,
-                        EV,
-                        vehicleMode,
-                        setVehicleMode,
-                        setLeaseStep1,
-                        setFinanceStep1,
-                        leaseStep1,
-                        financeStep1,
-                        dura,
-                        setDura,
-                        down,
-                        setDown,
-                        changeFind,
-                        requestSent,
-                        setShowingEvs,
-                        forceUpdate,
-                        setForceUpdate,
-                        schedSent
-                      );
-                    }
-                  }}
-                >
-                  <span
-                    style={{
-                      position: "relative",
-                      marginLeft: "12px",
-                      bottom: "5px",
-                      fontSize: "15px",
-                    }}>
-                    Back
-                  </span>
-                </button>
+                {locateButton}
               </div>
             </div>
           )}

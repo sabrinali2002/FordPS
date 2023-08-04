@@ -21,10 +21,9 @@ const queryDatabase = async (model, trim) => {
   return data;
 }
 
-
 export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
   setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
-  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons,origButtons,forceUpdate,setForceUpdate){
+  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons,origButtons,forceUpdate,setForceUpdate,knowMyPriceButtons){
 
     if (infoMode === 2) {
         if (trim === "All Trims") {
@@ -66,15 +65,28 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
                     Schedule a test drive
                 </button>
                 <button
-                    className="button-small"
-                    onClick={() => {
-                        setMenuButtons([]);
-                        setInfoMode(10);
-                        setMessages((m) => [...m, { msg: "Pricing estimation", author: "You", line: true }]);
-                    }}
-                >
-                    Pricing estimation
-                </button>
+        className="button-small"
+        onClick={() => {
+          setZipMode(0);
+          setMessages((m) => {
+            return [...m, { msg: "Negotiation assistance", author: "You" }];
+          });
+          setMessages((m) => {
+            return [
+              ...m,
+              {
+                msg: "What kind of car would you like to know the price for?",
+                author: "Ford Chat",
+              },
+            ];
+          });
+          setMenuButtons([]);
+          setOptionButtons(knowMyPriceButtons);
+          setShowCalcButtons(false);
+        }}
+      >
+        Negotiation assistance
+      </button>
                 <button
                     className="button-small"
                     onClick={() => {

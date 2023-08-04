@@ -50,16 +50,14 @@
   }
 
 .hover-popup {
-    height: 70%;
-    width: 40%;
+    height: 80%;
+    width: 45%;
     z-index: 999;
     position: absolute;
     background-color: rgb(255,255,255);
-    width: 480px;
-    height: 320px;
     padding: 10px;
-    left: 48px;
-    top: 62px;
+    left: 35px;
+    top: 35px;
     border-radius: 15px;
     text-align: left;
   }
@@ -87,8 +85,8 @@
 .hover-content {
     line-height: 23px;
     justify-content: left;
-    padding-left: 20px;
-    padding-top: 13px;
+    padding-left: 10px;
+    padding-top: 5px;
 }
 
 .modelprev-map {

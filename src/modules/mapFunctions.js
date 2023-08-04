@@ -131,7 +131,7 @@ export const findLocations = async (query, distance) => {
       setFind(1);
     };
   }
-  export const locateDealershipsFn=function(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons, model="", trim="") {
+  export const locateDealershipsFn=function(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons, model="", trim="",setLocateButton) {
     return () => {
       //go through the dealerships that have the cars we want
       //pass in the list of dealership names
@@ -151,6 +151,7 @@ export const findLocations = async (query, distance) => {
         setMessages((m) => [...m, { msg: "", author: "Ford Chat.", line : false,zip: {zipcode: extractFiveDigitString(zipCode), dist:distance, deal: dealers, model: model, trim: trim}}]);
           setZipMode(0);
   })
+  setLocateButton([]);
   setCalcButtons([]);
   setShowCalcButtons(false);
   setSelect(false);

@@ -326,3 +326,19 @@
   align-items:center;
   justify-content:center;
 }
+
+.locate-button {
+  background-color:white;
+  border-radius:15px;
+  box-shadow:0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom:10px;
+  font-size:18px;
+  padding:5px;
+  padding-right:10px;
+  padding-left:10px;
+  color:#322964;
+}
+
+.locate-button:hover {
+  background-color:light gray;
+}
