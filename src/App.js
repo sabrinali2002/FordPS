@@ -1129,7 +1129,7 @@ function App() {
                 InputLabelProps={{
                   style: { fontFamily: "Antenna, sans-serif", color: darkMode ? "white" : "gray", },
                 }}
-                label={"Ask me anything..."}
+                label={username === "" ? "Enter your name" : "Ask me anything..."}
                 helperText={
                   blockQueries.current ? "Please wait!" : "Press enter to send."
                 }
