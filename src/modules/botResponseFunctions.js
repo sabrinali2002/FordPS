@@ -69,7 +69,7 @@ export function sendRecommendRequestToServer(query, history, carInfoData, messag
           let carInfoCopy=carInfoData
           carInfoCopy[""+messages.length]=[finalTableData,[]]
           setCarInfoData(carInfoCopy);
-          setMessages((m) => [...m, { msg: "Sure! Here are some cars I recommend for you. Feel free to ask for more info about any of these cars, or why I recommended them.", author: "Table", line : false, zip : ""}]);
+          setMessages((m) => [...m, { msg: "Sure! Here are some cars I recommend for you. Click on the image of a car you would like to forward with. Also, feel free to ask for more info about any of these cars, or why I recommended them.", author: "Table", line : false, zip : ""}]);
           setHistory((h) => [...h.slice(-4), { q: "I'm looking for: "+query, a: recHistory }]);
           setForceUpdate(!forceUpdate)
         })

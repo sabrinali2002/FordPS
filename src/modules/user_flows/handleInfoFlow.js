@@ -49,7 +49,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
         console.log(data[0])
         
         setMessages((m) => [...m, { msg: "", author: "Info", line: true, zip: "", carInfo: data[0] }]);
-
+        setMenuButtons([])
         setMessages((m) => [...m, { msg: "What other information/services would you like for this car?", author: "Ford Chat", line: true, zip: "" }]);
         setShowCalcButtons(false);
         setOptionButtons(

@@ -9,6 +9,7 @@
   height:100vh;
   min-height:100vh;
   width:100vh;
+  width:100vh;
 }
 
 .textfield {
@@ -57,7 +58,6 @@
 .menu {
   cursor: pointer;
   display: inline-block;
-  font-weight: 600;
   font-size: 1rem;
   padding: 0 18px;
   line-height: 50px;
@@ -141,7 +141,6 @@
   line-height: 1;
   margin: 10px;
   margin-top: 15px;
-  font-weight: bold;
 }
 
 .calc-button:hover {
@@ -162,8 +161,9 @@
 }
 
 .model-box {
-  justify-content: center;
   height: auto;
+  margin-left:30px;
+
   width: 80%;
   background-color: rgb(205, 220, 232);
   border-radius: 15px;
@@ -176,7 +176,6 @@
   width: 180px;
   background-color: white;
   font-size: 12px;
-  font-weight: bold;
   border-radius: 10px;
   text-align:center;
   word-wrap:wrap;
@@ -186,12 +185,21 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.menu-buttons {
+  height: 120px;
+  width: 180px;
+  background-color: white;
+  font-size: 15px;
+  border-radius: 10px;
+  margin: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .model-button-selected {
   height: 120px;
   width: 180px;
   background-color: white;
   font-size: 12px;
-  font-weight: bold;
   border-radius: 10px;
   text-align:center;
   word-wrap:wrap;
@@ -206,13 +214,28 @@
 }
 
 .button-container {
-  justify-content: center;
+  justify-content: left;
   height: auto;
   padding-left: 10px;
   margin-top: 15px;
   margin-bottom: 10px;
   overflow-X: auto;
   white-space: nowrap;
+  
+
+}
+
+.info-box{
+  justify-content: left;
+  height: auto;
+  padding-left: 10px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  overflow-X: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  width:100%;
 }
 
 .button-container::-webkit-scrollbar { /* For Chrome, Edge, and Safari */

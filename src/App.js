@@ -56,9 +56,7 @@ const fixTrimQueryQuotation = (model, trim) => {
 function App() {
   const [query, setQuery] = useState("");
   const [queryText, setQueryText] = useState("");
-  const [messages, setMessages] = useState([
-    { msg: "Hi there, what's your name?", author: "Ford Chat" },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [history, setHistory] = useState([]);
   const [response, setResponse] = useState("");
   const [recording, setRecording] = useState(false);
@@ -138,6 +136,7 @@ function App() {
 
   const blockQueries = useRef(false);
   const recognition = useRef(null);
+  const first = useRef(true);
   //map functions -------------------------------------------------------->
 
   const [distance, setDistance] = useState("10");
@@ -298,7 +297,7 @@ function App() {
           handleUserInput("NF");
         }}
       >
-        New features
+        Future models
       </button>
       <button
         className="menu button-standard"
@@ -677,6 +676,14 @@ function App() {
     setMessages((m) => [...m, { msg: "", author: "Feedback" }]);
   };
 
+  //initial message
+  useEffect(() => {
+    if(first.current) {
+      handleNewResponse("Hi there, what's your name?");
+    }
+    first.current = false;
+  }, [])
+
   useEffect(() => {
     handleUserFlow(
       tableForceUpdate,
@@ -875,7 +882,11 @@ function App() {
                   setModel={setModel}
                   setTrim={setTrim}
                   setQuery={setQuery}
+<<<<<<< HEAD
                   mapBlocker={mapBlocker}
+=======
+                  changeChoice={changeChoice}
+>>>>>>> a43ed4a4e3a1c22f329efeaf922299b4dffd90ab
                   key={index}
                   setMapBlocker={setMapBlocker}
                   setSchedSent={setSchedSent}
@@ -891,7 +902,7 @@ function App() {
             <div
               style={{
                 display: "flex",
-                justifyContent: "center",
+                justifyContent: "left",
                 textAlign: "center",
                 marginTop: "10px",
                 marginBottom: "15px",
@@ -903,7 +914,6 @@ function App() {
                     marginTop: "10px",
                     color: "#322964",
                     fontSize: "20px",
-                    fontWeight: "bold",
                     lineHeight: "30px",
                   }}
                 >
@@ -914,7 +924,6 @@ function App() {
                     style={{
                       color: "#322964",
                       fontSize: "12px",
-                      fontWeight: "bold",
                       lineHeight: "20px",
                     }}
                   >
@@ -1115,7 +1124,9 @@ function App() {
               <button className="button-small" onClick = {locateDealerships}>Locate the nearest dealerships</button>
             </div>} */}
             </div>
-            <div className="textfield">
+            <div className="textfield" style={{
+              backgroundColor:"white"
+            }}>
               <TextField
                 value={queryText}
                 error={blockQueries.current}
@@ -1163,6 +1174,7 @@ function App() {
                 <BoxArrowLeft
                   size="2rem"
                   style={{
+                    color:"gray",
                     marginLeft: "10px",
                     cursor: "pointer",
                     marginTop: "25px",

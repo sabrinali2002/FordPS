@@ -44,7 +44,7 @@ function ExistingOwner({ setMessages, setMenuButtons, handleUserInput, justSelec
         if (hide) setMenuButtons([]);
     }, [hide]);
     return (
-        <div style={{display:'flex',justifyContent:'center'}}>
+        <div style={{display:'flex',justifyContent:'left', marginLeft:"20px"}}>
             {user ? (
                 <CarSelectScreen
                     user={user}

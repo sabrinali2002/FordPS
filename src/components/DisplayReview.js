@@ -40,7 +40,7 @@ export default function DisplayReview({ data, setScreen, reviews, starCount, ave
                     </div>
                     <h2>
                         {"2023 "}
-                        <strong>{data.model}</strong> &#x24C7;
+                        <strong>{data.model}</strong>&reg;
                     </h2>
                     <h4>Ratings</h4>
                     <Box display="flex" gap="0.5rem">
