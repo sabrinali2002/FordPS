@@ -205,7 +205,6 @@ function Map({
         }
       }
     } else {
-      console.log(3);
       // know neither
       for (let currmodel of Object.keys(dealerToTrim[dealer])) {
         if (models.length < n) {
@@ -833,7 +832,7 @@ function Map({
   return (
   <div style={{alignItems:'flex-start'}}>
       {(showWindow && requestInfo) && 
-          <div style={{width:'50%'}}>
+          <div style={{width:'100%'}}>
             {window1Content}
             {window4Content}
         </div>
@@ -896,7 +895,7 @@ function Map({
             width: "70%",
             height: "350px",
             borderRadius: "15px",
-            left: "40px",
+            left: "80px",
             padding: "25px",
             marginBottom: "15px",
           }}

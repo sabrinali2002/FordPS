@@ -25,7 +25,7 @@ const queryDatabase = async (model, trim) => {
 
 export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
   setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
-  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons,origButtons,forceUpdate,setForceUpdate,knowMyPriceButtons){
+  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons,origButtons,forceUpdate,setForceUpdate,knowMyPriceButtons,setLocateButton){
 
     if (infoMode === 2) {
         if (trim === "All Trims") {
@@ -117,7 +117,8 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
         const selectedCopy = selected;
         selectedCopy[model].push(trim);
         changeSelected(selectedCopy);
-        locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, -1, setMessages, setZipMode, setShowCalcButtons)();
+        console.log(setLocateButton);
+        locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, -1, setMessages, setZipMode, setShowCalcButtons,"","",setLocateButton)();
         setShowCalcButtons(false);
       }
     } 
