@@ -44,8 +44,6 @@ const Homepage = ({handleClick}) => {
 	</rect>
 	</svg>
 
-
-
     <div className="homepage-container animated-background">
     <div className="hometop"><TopBar handleClick={handleClick}/></div>
     <div className="hometopbar"></div>
@@ -54,7 +52,7 @@ const Homepage = ({handleClick}) => {
     <div className="center">
       <img src={img} className="henrai" alt='henrai'/>
       <h1 className="welcome">Hey there and welcome! <br /> 
-       I am HenrAI, a chatbot to help you with your Ford journey. 
+       I am <span style={{fontWeight:'bold'}}>HenrAI</span>, a chatbot to help you with your Ford journey. 
        </h1>
        <button className="enter" onClick={()=>{
         window.location.href="/chat"

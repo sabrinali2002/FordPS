@@ -174,7 +174,7 @@ function App() {
   const origButtons = (
     <div className="buttons">
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           setMessages((m) => {
             return [...m, { msg: "Buying a Ford", author: "You" }];
@@ -192,7 +192,7 @@ function App() {
         Buying a Ford
       </button>
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           setMessages((m) => {
             return [...m, { msg: "I'm an Existing Owner", author: "You" }];
@@ -206,7 +206,7 @@ function App() {
         I'm an Existing Owner
       </button>
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           setMessages((m) => {
             return [...m, { msg: "Info about Ford", author: "You" }];
@@ -227,7 +227,7 @@ function App() {
         Info about Ford
       </button>
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           setMessages((m) => {
             return [...m, { msg: "Negotiation assistance", author: "You" }];
@@ -357,7 +357,7 @@ function App() {
         Back
       </button>
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           handleUserInput("I");
           setMenuButtons([]);
@@ -366,7 +366,7 @@ function App() {
         Info about a specific car
       </button>
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           handleUserInput("A");
         }}
@@ -374,7 +374,7 @@ function App() {
         Car recommendation
       </button>
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           handleUserInput("D");
           setMenuButtons([]);
@@ -383,7 +383,7 @@ function App() {
         Car pricing estimator
       </button>
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           handleUserInput("B");
           setMenuButtons([]);
@@ -392,7 +392,7 @@ function App() {
         Find a dealership
       </button>
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           handleUserInput("C");
           setMenuButtons([]);
@@ -405,7 +405,7 @@ function App() {
   const knowMyPriceButtons = (
     <div className="buttons">
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           setMessages((m) => {
             return [...m, { msg: "Electric vehicles", author: "You" }];
@@ -417,7 +417,7 @@ function App() {
         Electric vehicles
       </button>
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           setMessages((m) => {
             return [
@@ -439,7 +439,7 @@ function App() {
   const buyACarButtons = (
     <div className="option-buttons">
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           setMessages((m) => {
             return [
@@ -458,7 +458,7 @@ function App() {
         Ask my own questions
       </button>
       <button
-        className="button-small"
+        className="menu button-standard"
         onClick={() => {
           setMessages((m) => [
             ...m,
@@ -779,7 +779,7 @@ function App() {
   ]);
 
   return (
-    <div style={{ width: "100%", height: "100vh", overflow: "hidden" }}>
+    <div style={{ width: "100vw", height: "100vh", overflow: "hidden", backgroundColor: darkMode ? "#000080" : "white", }}>
       <div className="topbar">
         <TopBar
           handleClick={() => {
@@ -820,7 +820,7 @@ function App() {
         <div
           className="ChatArea"
           style={{
-            width: "100vw",
+            width: "100%",
             height: "78vh",
             paddingTop: "6%",
             display: "flex",
@@ -1104,7 +1104,7 @@ function App() {
             </div>} */}
             </div>
             <div className="textfield" style={{
-              backgroundColor:"white"
+              backgroundColor: darkMode ? "#000080" : "white",
             }}>
               <TextField
                 value={queryText}
@@ -1118,15 +1118,20 @@ function App() {
                   marginTop: "1%",
                   marginLeft: "5%",
                   textSize: { textSize },
+                  backgroundColor: darkMode ? "#000080" : "white",
                 }}
                 InputLabelProps={{
-                  style: { fontFamily: "Antenna, sans-serif" },
+                  style: { fontFamily: "Antenna, sans-serif", color: darkMode ? "white" : "gray", },
                 }}
                 label={"Ask me anything..."}
                 helperText={
                   blockQueries.current ? "Please wait!" : "Press enter to send."
                 }
+                FormHelperTextProps={{
+                  style: { fontFamily: "Antenna, sans-serif", color: darkMode ? "white" : "gray", }
+                }}
                 InputProps={{
+                  style: { fontFamily: "Antenna, sans-serif", color: darkMode ? "white" : "gray", },
                   endAdornment: recording ? (
                     <div
                       className="pulsing-blob"
@@ -1138,6 +1143,7 @@ function App() {
                     <InputAdornment position="end">
                       <Tooltip title="Chat With Voice" placement="top">
                         <Mic
+                          style= {{color: darkMode ? "white" : "gray", }}
                           className="mic-icon"
                           size="2rem"
                           onClick={() => {
@@ -1153,7 +1159,7 @@ function App() {
                 <BoxArrowLeft
                   size="2rem"
                   style={{
-                    color:"gray",
+                    color: darkMode ? "white" : "gray",
                     marginLeft: "10px",
                     cursor: "pointer",
                     marginTop: "25px",

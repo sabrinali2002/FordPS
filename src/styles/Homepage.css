@@ -61,7 +61,7 @@
 .enter {
     max-width: 40%;
     height: 60px;;
-    font-size: 30px;
+    font-size: 22px;
     color: #ffffff;
     font-family: 'Antenna', sans-serif;
     font-weight: 500;
@@ -78,7 +78,7 @@
 .welcome {
     align-self: center;
     font-family: 'Antenna', sans-serif;
-    font-size: 30px;
+    font-size: 26px;
     font-weight:300;
     padding:15px;
     letter-spacing:0.6px;
@@ -86,7 +86,7 @@
 
 .henrai {
     margin-top:10%;
-    width: 30%
+    width: 25%
 }
 
 

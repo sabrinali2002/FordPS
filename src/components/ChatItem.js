@@ -111,15 +111,15 @@ export default function ChatItem({
   const textPartStyle = {
     display: "flex",
     flexDirection: "row",
-    width: "94vw",
+    width: "100%",
     justifyContent: author.toLowerCase() === "you" ? "flex-end" : "flex-start",
-    paddingRight: "5%",
-    paddingLeft: "2%",
+    paddingRight: "1%",
+    paddingLeft: "1%",
     paddingTop: "5px",
   };
   const [isSpeaking, toggleIsSpeaking] = useState(false);
   return (
-    <div style={{ display: "flex", flexDirection: "row", width: "92vw" }}>
+    <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
       <div
         style={author === "You" || author === "Ford Chat" ? textPartStyle : {}}
       >

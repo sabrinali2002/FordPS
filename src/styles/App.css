@@ -58,7 +58,7 @@
 .menu {
   cursor: pointer;
   display: inline-block;
-  font-size: 1rem;
+  font-size: 18px;
   padding: 0 18px;
   line-height: 50px;
   text-align: center;
@@ -94,7 +94,7 @@
 .MessagesArea{
   flex: 'none';
   align-self: center;
-  width: 96vw;
+  width: 100%;
   margin:none;
   margin-bottom:10px;
 }
@@ -218,11 +218,9 @@
   height: auto;
   padding-left: 10px;
   margin-top: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   overflow-X: auto;
   white-space: nowrap;
-  
-
 }
 
 .info-box{
