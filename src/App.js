@@ -796,6 +796,11 @@ function App() {
             setMenuButtons(origButtons);
             setCalcButtons([]);
             setOptionButtons([]);
+            setShowCalcButtons(false);
+            setModel("");
+            setTrim("");
+            setSelectedModel("");
+            setSelectedTrim("");
           }}
         />
       </div>
