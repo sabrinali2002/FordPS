@@ -93,7 +93,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
     } else if (infoMode === 3) {
         setShowCalcButtons(false);
         setMessages((m) => [...m, { msg: "Please enter your zipcode to continue:", author: "Ford Chat", line: true, zip: {} }]);
-        return;
+        setInfoMode(4);
     } else if (infoMode === 5){
         setOptionButtons([]);
         return;
