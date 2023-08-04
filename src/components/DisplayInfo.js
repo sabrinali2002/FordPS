@@ -64,9 +64,9 @@ export default function DisplayInfo({ info, handler, setMenuButtons, setInfoMode
                                 </Box>
                             </div>
                             <div style={{ marginLeft: "20px", marginTop: "10px" }}>
-                                <h2 style={{ marginBottom: "20px" }}>
+                                <h2 style={{ marginBottom: "20px", marginLeft: "10px"}}>
                                     {"2023 "}
-                                    <strong>{info.model}</strong> &#x24C7; <strong>{info.trim + " "}</strong>&#x24C7; model
+                                    <strong>{info.model}</strong>&reg; <strong>{info.trim}</strong>&reg;
                                 </h2>
                                 <div style={{ marginBottom: "25px", marginLeft: "10px" }}>
                                     <h3 style={{ fontSize: "20px" }}>

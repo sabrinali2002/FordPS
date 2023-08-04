@@ -9,7 +9,7 @@ import { getAuth } from "firebase/auth";
 
 const auth = getAuth(firebase);
 
-function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode="", model="", trim="", backButton }) {
+function SchedDisp({ dealer, phone, setPhone, address, setAddress, link, setLink, hours, setHours, maintenanceMode="", model="", trim="", backButton, setMenuButtons, setMessages, origButtons,setSchedSent }) {
   const [hour, setHour] = useState(null);
   const [date, setDate] = useState(null);
   const [name, setName] = useState(null);
@@ -20,7 +20,6 @@ function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode="", mo
   const [vis2, setVis2] = useState(false);
   const [vis3, setVis3] = useState(false);
   const [user, loading, error] = useAuthState(auth);
-
   const handleCallback = (hr, dt) => {
     setHour(hr);
     setDate(dt);
@@ -29,7 +28,8 @@ function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode="", mo
   };
   const [appointmentDetails, setAppointmentDetails] = useState({});
 
-  const handleAppointment = (name, email, phoneNumber, notes) => {
+  const handleAppointment = (name, email, phoneNumber, notes, phone, address, link, hours) => {
+    setSchedSent(true);
     setName(name);
     setEmail(email);
     setPhoneNumber(phoneNumber);
@@ -37,6 +37,18 @@ function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode="", mo
     setAppointmentDetails({ name, email, phoneNumber, notes });
     setVis2(false);
     setVis3(true);
+    setPhone(phone);
+    setAddress(address);
+    setLink(link);
+    setHours(hours);
+    setMessages((m) => {
+      return [
+        ...m,
+        { msg: "Is there anything else I can help you with?", author: "Ford Chat" },
+      ];
+    });
+    setMenuButtons(origButtons);
+    return;
   };
   return ( 
     <div className="App">
@@ -44,15 +56,19 @@ function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode="", mo
       {vis2 && (
         <Sched1
           dealer={dealer}
-          handleAppointment={handleAppointment}
           date={date}
           time={hour}
+          handleAppointment={handleAppointment}
           maintenanceMode={maintenanceMode}
           model={model}
           trim={trim}
           backButton={backButton}
           dispName={user === null ? '' : user.displayName} 
           userEmail={user === null ? '' : user.email}
+          phoneNum={phone}
+          link={link}
+          address={address}
+          hours={hours}
         />
       )}
       {vis3 && (

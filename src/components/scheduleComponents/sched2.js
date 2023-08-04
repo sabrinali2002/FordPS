@@ -77,12 +77,12 @@ function HourComponent({ hour, selectedDate, callback }) {
       style={{
         cursor: "pointer",
         backgroundColor: "white",
-        width: "250px",
-        height: "65px",
+        width: "70%",
+        height: "50px",
         borderRadius: "5px",
-        fontSize: "18px",
-        marginBottom: 10,
-        marginRight: 10,
+        fontSize: "15px",
+        marginBottom: 5,
+        marginRight: 5,
         display: "flex",
         flexDirection: "column",
         alignContent: "center",
@@ -150,18 +150,18 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
   return (
     <div
       style={{
-        width: "1082px",
+        width: "55%",
         backgroundColor: "#113B7A1A",
-        height: "auto",
+        height: "350px",
         borderRadius: "30px",
-        marginLeft:'35px',
+        marginLeft:'100px',
         position: "relative",
         justifyContent: "start",
         alignContent: "space-between",
         display: "flex",
         flexDirection: "column",
-        padding: 20,
-        marginBottom: 20,
+        padding: 15,
+        marginBottom: 10,
         boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
       }}
     >
@@ -169,39 +169,39 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
         style={{
           color: "#00095B",
           fontWeight: "bold",
-          fontSize: 27,
+          fontSize: 26,
           alignSelf: "flex-start",
-          marginBottom: 10,
+          marginBottom: 5,
         }}
       >
-        Schedule a {maintenanceMode.length==0?"Test Drive":maintenanceMode} Appointment
+        Schedule a {maintenanceMode.length==0?"test drive":maintenanceMode} appointment
       </div>
       <div
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
         }}
       >
         <div
           style={{
             display: "flex",
-
+            width: '70%',
             flexDirection: "column",
+            marginRight:'20px'
           }}
         >
           <div
             style={{
               color: "#00095B",
-              fontSize: 23,
+              fontSize: 22,
               alignSelf: "start",
               fontWeight: 500,
             }}
           >
             Appointments available
           </div>
-          <div style={{ alignSelf: "start", marginBottom: 20 }}>
-            Select an appointment below
+          <div style={{ alignSelf: "start", marginBottom: 10, fontSize:15 }}>
+            Select a time below
           </div>
           <div
             style={{
@@ -225,6 +225,7 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
                         display: "flex",
                         alignContent: "center",
                         justifyContent: "center",
+                        marginRight:'-30px'
                       }}
                     >
                       <HourComponent
@@ -237,7 +238,6 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
                   ))}
                 </div>
               </div>
-
               <div></div>
             </div>
           </div>
@@ -246,18 +246,19 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
           style={{
             display: "flex",
             flexDirection: "column",
+            marginLeft:'-80px'
           }}
         >
           <div
             style={{
               color: "#00095B",
-              fontSize: 23,
+              fontSize: 22,
               fontWeight: 500,
-              marginBottom: 41,
+              marginBottom: 10,
               alignSelf: "start",
             }}
           >
-            Look up date and time
+            Find appointments
           </div>
           <div>
             <DatePicker
@@ -275,7 +276,7 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
               onChange={setPendingSelectedHour}
             />
           </div>
-          <div style={{ width: 500 }}>
+          <div style={{width:'150%'}}>
             <button
               style={{
                 paddingTop: 2,
@@ -285,12 +286,12 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
                 borderRadius: 10,
                 paddingHorizontal: "10px",
                 paddingTop: 5,
-                paddingRight: 10,
-                paddingLeft: 10,
-                paddingBottom: 10,
-                marginTop: 20,
+                paddingRight: 5,
+                paddingLeft: 5,
+                paddingBottom: 5,
+                marginTop: 10,
                 fontSize: 18,
-                width: 300,
+                width: '70%',
                 cursor: 'pointer'
               }}
               onClick={onSubmit}

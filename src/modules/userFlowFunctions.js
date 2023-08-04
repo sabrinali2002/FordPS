@@ -1,10 +1,10 @@
 import trims from "../jsons/trims.json";
 import vehicles from "../jsons/vehicleCategories.json";
-import evs from "../jsons/EV.json";
 import {
   sendBotResponse,
   sendRecommendRequestToServer,
 } from "./botResponseFunctions";
+import evs from "../jsons/EV.json";
 import handleDealerFlow from "./user_flows/handleDealerFlow";
 import handlePaymentFlow from "./user_flows/handlePaymentFlow";
 import handleInfoFlow from "./user_flows/handleInfoFlow";
@@ -21,6 +21,10 @@ import {
   pm,
   newfeatures,
 } from "./info.js";
+import futurePic from "./fordranger2024.png";
+import electricpic1 from "./electricpic1.png";
+import electricpic2 from "./electricpic2.png";
+import electricpic3 from "./electricpic3.png";
 
 export function handleUserInputFn(
   origButtons,
@@ -46,10 +50,12 @@ export function handleUserInputFn(
   setPriceStep,
   setVehicleMode,
   setOptionButtons,
-  setShowingEvs
+  setShowingEvs,
+  setSchedSent
 ) {
-  //for ev model logic
-  const jsonData = {
+  //for ev model logig
+
+  const evs = {
     "E-Transit Cargo Van": [
       '350 High Roof w/148" WB',
       '350 Low Roof w/148" WB',
@@ -63,10 +69,45 @@ export function handleUserInputFn(
     "Mustang Mach-E": ["Select w/Standard Range"],
   };
 
+
+  const proceedClick = () => {
+    setCalcStep(2);
+    setQuery('Proceed');
+    setMessages((m) => [...m, { msg: 'Proceed', author: "You" }]);
+    setOptionButtons([]);
+  };
+  const newClick = () => {
+      setQuery('Choose a new vehicle');
+      setMessages((m) => [...m, { msg: 'Choose a new vehicle', author: "You" }]);
+      setOptionButtons([]);
+      //setModel('');
+      //setTrim('');
+      changeChoice("model");
+      return;
+  };
+  const fixTrimName = (model, trim) => {
+    if (
+      model !== "Transit Cargo Van" &&
+      model !== "E-Transit Cargo Van" &&
+      model !== "Transit Crew Van" &&
+      model !== "Transit Passenger Van"
+    ) {
+      return trim;
+    }
+    trim = trim.replaceAll('"', '');
+    return trim;
+  };
+
+  const fvs = {
+    "2024 Ranger": [
+      "XL", "XLT", "Lariat", "Raptor"
+    ]
+  }
+  
   function getVarietiesByCategory(mainCategory) {
     // Check if the main category exists in the JSON data
-    if (jsonData.hasOwnProperty(mainCategory)) {
-      return jsonData[mainCategory];
+    if (evs.hasOwnProperty(mainCategory)) {
+      return evs[mainCategory];
     } else {
       return []; // Return an empty array if the main category is not found
     }
@@ -159,6 +200,7 @@ export function handleUserInputFn(
           setMenuButtons([]);
           break;
         case "B":
+          setSchedSent(false);
           setMessages((m) => [
             ...m,
             { msg: "Find a dealership", author: "You" },
@@ -205,7 +247,7 @@ export function handleUserInputFn(
             setCalcHeadingText("Choose specific model");
             setShowCalcButtons(true);
             setCalcButtons(
-              Object.keys(trims).map((model) => (
+              Object.keys(trims).map(model => (
                 <button
                   className="model-button"
                   key={model}
@@ -229,17 +271,26 @@ export function handleUserInputFn(
               ))
             );
             setCalcStep(1);
+            blockQueries.current = false;
+            changeChoice("D");
           } else if (trim === "") {
             setQuery(model);
             setCalcStep(1);
             blockQueries.current = false;
+            changeChoice("D");
           } else {
-            setQuery(trim);
-            setCalcStep(2);
+            setMessages((m) => [...m, { msg: `What would you like to proceed with the 2024 ${model} ${fixTrimName(model,trim)} or select a new vehicle?`, author: "Ford Chat", line: true, zip: {} }]);
+            let opts0 = ['Proceed','Choose a new vehicle'];
+            setOptionButtons(<div className='option-buttons'>
+            {opts0.map(option => (<button className='button-small' key={option} value={option} 
+                onClick={option==='Proceed'?proceedClick:newClick}>{option}</button>))}</div>);
             blockQueries.current = false;
+            //break;
+            //setQuery(trim);
+            //setCalcStep(2);
+            //blockQueries.current = false;
           }
-          changeChoice("D");
-          //setMenuButtons([]);
+          //changeChoice("D");
           break;
         case "SU":
           setMessages((m) => [
@@ -375,19 +426,36 @@ export function handleUserInputFn(
                       );
                   }
                   setCalcButtons(
-                    <div className="ev-info">
-                      <div className="ev-top">
-                        {varieties.map((variety, index) => (
-                          <li key={index}>{variety}</li>
-                        ))}
-                        <img
-                          style={{ width: "160px", height: "auto" }}
-                          src={images["Default"][vehicle]}
-                        />
+                      <div className="ev-info" style={{
+                        display:"flex",
+                        flexDirection:"column"
+                      }}>
+                        <div className="ev-top" style={{
+                          display:"flex",
+                          flexDirection:"row",
+                          justifyContent:"center",
+                        }}>
+                          <div className="ev-list" style={{
+                          display:"flex",
+                          flexDirection:"column",
+                          fontSize:"15px",
+                          justifyContent:"center"
+                        }}>
+                          {varieties.map((variety, index) => (
+                            <li key={index}>{variety}</li>
+                          ))}
+                          </div>
+                          <img
+                            style={{ width: "180px", height: "auto", padding:"15px" }}
+                            src={images["Default"][vehicle]}
+                          />
+                        </div>
+                        <div className="ev-description" style={{
+                          fontSize:"15px",
+                          paddingTop:"10px"
+                        }}>{description}</div>
                       </div>
-                      <div className="ev-description">{description}</div>
-                    </div>
-                  );
+                    );
                   setShowCalcButtons(true);
                 }}
               >
@@ -405,135 +473,209 @@ export function handleUserInputFn(
         case "NF":
           setMessages((m) => [
             ...m,
-            { msg: "New features", author: "You", line: true, zip: {} },
+            { msg: "Future Models", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: newfeatures, author: "Ford Chat", line: true, zip: "" },
-          ]);
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "Click to learn more about our future models!"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            Object.keys(fvs).map((vehicle) => (
+              <button
+                className="model-button"
+                key={vehicle}
+                value={vehicle}
+                onClick={() => {
+                  setShowingEvs(true);
+                  setMessages((m) => [...m, { msg: vehicle, author: "You" }]);
+                  setCalcHeadingText(
+                    `The varieties of the ${vehicle} will include:`
+                  );
+                  var description = `Introducing the all-new 2024 Ford Ranger! This cutting-edge truck is redefining the driving experience with its state-of-the-art technology and innovative design. Packed with futuristic features, the Ranger is a true tech marvel. With a trailer brake controller, pro trailer backup assistance, and a 360-degree camera, maneuvering is a breeze, making towing and parking effortless. The Ranger's zone lighting illuminates every angle, ensuring visibility in any situation. Conquer any terrain with ease using the terrain management system, offering modes for normal, eco, sport, slippery, and sand conditions. Stay connected like never before with SYNC 4A technology, making it the most connected Ranger ever. And with Ford Power Up software updates, your Ranger will always stay ahead of the curve. Experience the future of driving with the all-new 2024 Ford Ranger - where cutting-edge technology meets unmatched performance. Get ready to embrace the road like never before!`;
+                  setCalcButtons(
+                    <div className="ev-info" style={{
+                      display:"flex",
+                      flexDirection:"column"
+                    }}>
+                      <div className="ev-top" style={{
+                        display:"flex",
+                        flexDirection:"row",
+                        justifyContent:"center",
+                      }}>
+                        <div className="ev-list" style={{
+                        display:"flex",
+                        flexDirection:"column",
+                        fontSize:"15px"
+                      }}>
+                        <li>XL</li>
+                        <li>XLT</li>
+                        <li>Lariat</li>
+                        <li>Raptor</li>
+                      </div>
+                        <img
+                          style={{ width: "170px", height: "auto", padding:"20px" }}
+                          src={futurePic}
+                        />
+                      </div>
+                      <div className="ev-description" style={{
+                        fontSize:"15px",
+                        paddingTop:"10px"
+                      }}>{description}</div>
+                    </div>
+                  );
+                  setShowCalcButtons(true);
+                }}
+              >
+                <img
+                  style={{ width: "130px", height: "auto" }}
+                  src={futurePic}
+                />
+                <br />
+                {vehicle}
+              </button>
+            ))
+          );
+          setMenuButtons([]);
           break;
         case "EV":
           setMessages((m) => [
             ...m,
             { msg: "EV Market", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: evmarket, author: "Ford Chat", line: true, zip: "" },
-          ]);
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "Our EV Market"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            <div className="info-wrapper" style={{
+              display:"flex",
+              flexDirection:"row",
+            }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              {evmarket}
+              <img
+                  style={{ width: "50%", height: "auto",padding:"5px" }}
+                  src={electricpic2}
+                />
+              </div>
+            </div>
+          )
+
           break;
         case "Cer":
           setMessages((m) => [
             ...m,
             { msg: "Certifications", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: certifications, author: "Ford Chat", line: true, zip: "" },
-          ]);
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "Our Certifications"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            <div className="info-wrapper" style={{
+              display:"flex",
+              flexDirection:"row",
+            }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              {certifications}
+              </div>
+            </div>
+          )
+
           break;
         case "Em":
           setMessages((m) => [
             ...m,
             { msg: "Emissions", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: emissions, author: "Ford Chat", line: true, zip: "" },
-          ]);
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "Our Emission Policies"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            <div className="info-wrapper" style={{
+              display:"flex",
+              flexDirection:"row",
+            }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              {emissions}
+              </div>
+            </div>
+          )
+
+          
           break;
         case "Comm":
           setMessages((m) => [
             ...m,
-            { msg: "Our Commitments", author: "You", line: true, zip: {} },
+            { msg: "EV Market", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: commitments, author: "Ford Chat", line: true, zip: "" },
-          ]);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "Our Commitments"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            <div className="info-wrapper" style={{
+              display:"flex",
+              flexDirection:"row",
+            }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              {commitments}
+              </div>
+            </div>
+          )
 
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+
           break;
         case "Pr":
           setMessages((m) => [
             ...m,
-            {
-              msg: "Production management",
-              author: "You",
-              line: true,
-              zip: {},
-            },
+            { msg: "Production management", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: pm, author: "Ford Chat", line: true, zip: "" },
-          ]);
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "Our Production Management"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            <div className="info-wrapper" style={{
+              display:"flex",
+              flexDirection:"row",
+            }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              {pm}
+              </div>
+            </div>
+          )
 
           break;
         case "EOF":
           setMessages((m) => [
             ...m,
-            {
-              msg: "End of life management",
-              author: "You",
-              line: true,
-              zip: {},
-            },
+            { msg: "End of life management", author: "You", line: true, zip: {} },
           ]);
-          setMessages((m) => [
-            ...m,
-            { msg: endoflife, author: "Ford Chat", line: true, zip: "" },
-          ]);
-          setMessages((m) => {
-            return [
-              ...m,
-              { msg: "What else can I help you with?", author: "Ford Chat" },
-            ];
-          });
-          setMenuButtons(origButtons);
-          break;
+          setShowingEvs(true);
+          setCalcHeadingText(
+            "End of life management"
+          );
+          setShowCalcButtons(true);
+          setCalcButtons(
+            <div className="info-wrapper" style={{
+              display:"flex",
+              flexDirection:"row",
+            }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              {endoflife}
+              </div>
+            </div>
+          )
 
+          break;
         case "electric":
           changeChoice("electric");
           setVehicleMode("electric");
@@ -648,7 +790,8 @@ export function handleUserFlow(
   requestSent,
   setShowingEvs,
   forceUpdate,
-  setForceUpdate
+  setForceUpdate,
+  schedSent
 ) {
   if (!blockQueries.current && query.length > 0) {
     blockQueries.current = true;
@@ -696,6 +839,41 @@ export function handleUserFlow(
           });
           changeChoice("DEFAULT");
           break;
+        case "model":
+            setMessages((m) => [
+              ...m,
+              { msg: "What model are you interested in?", author: "Ford Chat" },
+            ]);
+            setCalcHeadingText("Choose specific model");
+            setShowCalcButtons(true);
+            setCalcButtons(
+              Object.keys(trims).map(model => (
+                <button
+                  className="model-button"
+                  key={model}
+                  value={model}
+                  onClick={() => {
+                    setQuery(model);
+                    setModel(model);
+                    setMessages((m) => [...m, { msg: model, author: "You" }]);
+                    setCalcButtons([]);
+                    setShowCalcButtons(false);
+                    changeChoice("D");
+                    setCalcStep(1);
+                  }}
+                >
+                  <img
+                    style={{ width: "160px", height: "auto" }}
+                    src={images["Default"][model]}
+                  />
+                  <br />
+                  {model}
+                  <BiRegistered />
+                </button>
+              ))
+            );
+            blockQueries.current = false;
+            break;
         case "electric":
           handlePriceFlow(
             "electric",
@@ -991,7 +1169,9 @@ export function handleUserFlow(
           });
           break;
         case "B": {
-          setZipMode(1);
+          console.log('case b');
+          //setZipMode(1);
+          //setMapBlocker(false);
           handleDealerFlow(
             zipMode,
             dealerList,
@@ -1003,7 +1183,13 @@ export function handleUserFlow(
             setDistance,
             findLocations,
             zipCode,
-            distance
+            distance,
+            model,
+            trim,
+            false,
+            "",
+            false,
+            schedSent
           );
           blockQueries.current = false;
           break;

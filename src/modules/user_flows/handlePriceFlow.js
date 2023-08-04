@@ -37,8 +37,8 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
     };
     switch(priceStep) {
         case 1: // model
-            if (model !== '') {
-                setMessages((m) => [...m, { msg: `What would you like to proceed with the 2024 ${model} ${trim} or select a new vehicle?`, author: "Ford Chat", line: true, zip: {} }]);
+            if (model !== '' && (vehicleMode === 'electric' && electric[model].includes(trim) || vehicleMode === 'combustion' && !electric[model].includes(trim))) {
+                setMessages((m) => [...m, { msg: `What would you like to proceed with the 2024 ${model} ${fixTrimName(model,trim)} or select a new vehicle?`, author: "Ford Chat", line: true, zip: {} }]);
                 let opts0 = ['Proceed','Choose a new vehicle'];
                 setOptionButtons(<div className='option-buttons'>
                 {opts0.map(option => (<button className='button-small' key={option} value={option} 
@@ -91,7 +91,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                 (<button className='model-button' key={trim} value={trim} onClick={() => 
                     {setQuery(trim);
                         setTrim(trim);
-                        setMessages((m) => [...m, { msg: trim, author: "You" }]);
+                        setMessages((m) => [...m, { msg: fixTrimName(model,trim), author: "You" }]);
                         setCalcButtons([]);
                         setShowCalcButtons(false);}}>
                             <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
@@ -107,7 +107,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                         setCalcButtons([]);
                         setShowCalcButtons(false);}}>
                             <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
-                        <br/>{trim}</button>)
+                        <br/>{fixTrimName(model,trim)}</button>)
                 ));     
             }
             blockQueries.current = false;
@@ -130,7 +130,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
             setPriceStep(4);
             break;
         case 4:
-            setPayment(carPrices[model][trim]);
+            setPayment(carPrices[model][fixTrimName(model,trim)]);
             switch (priceMode) {
                 case 0:
                     if (query === "Lease") {
@@ -263,63 +263,68 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                 break;
             }
             let buttons = ['Lease','Finance','Buy'];
-            let percentdown = 100*down/carPrices[model][trim];
+            let percentdown = 100*down/carPrices[model][fixTrimName(model,trim)];
             percentdown = percentdown.toFixed(2);
             apr = (apr*100).toFixed(2);
             let text = '';
             switch(vehicleMode) {
                 case "electric":
+                    if (priceMode === 3) {
+                        payment = `${payment.toString().slice(0,2)},${payment.toString().slice(2,payment.length)}`;
+                    }
                     text = (<div>
-                        <span style={{fontSize:'22px'}}>2023 <span style={{fontWeight:'bold'}}>{model}<BiRegistered/> {trim}<BiRegistered/></span> model</span><br/>
+                        <span style={{fontSize:'22px'}}>2023 <span style={{fontWeight:'bold'}}>{model}<BiRegistered/> {fixTrimName(model,trim)}</span> model</span><br/>
                         <div style={{display:'flex',flexDirection:'x',justifyContent:'center'}}>{buttons.map(val => 
                             <button key={val} style={{backgroundColor: buttons.indexOf(val)+1 == priceMode ? 'rgb(208,208,208)' : 'white',
                                 borderRadius:'10px',textAlign:'center',width:'120px',height:'50px',margin:'10px',boxShadow: '1px 2px 1px rgba(95, 112, 133, 0.5)'
                             }}>{val}</button>)}
                         </div>
-                        <div style={{fontStyle:'bold',font:'15px',paddingLeft:'10px',marginTop:'10px'}}>
+                        <div style={{fontStyle:'bold',font:'15px',paddingLeft:'10px',marginTop:'2px'}}>
                             {priceMode == 1 && <span>Estimated lease payment: </span>}
                             {priceMode == 2 && <span>Estimated loan payment: </span>}
                             {priceMode == 3 && <span>Estimated purchase price: </span>}
-                            <span style={{fontWeight:'bold',fontSize:'15px',paddingLeft:'70px'}}>
+                            <span style={{fontWeight:'bold',fontSize:'16px',paddingLeft:'10px'}}>
                             {`$${payment}`}</span>
                         {priceMode < 3 && `/mo`}
                         </div>
                         <div style={{fontSize:'13px',paddingLeft:'10px'}}>
                             {priceMode == 1 && <div>{`$${down} (${percentdown}%) down, ${apr}% APR, ${dura} months`}</div>}
                             {priceMode == 2 && <div>{`$${down} (${percentdown}%) down, ${apr}% APR, ${dura} months`}</div>}
-                            <span style={{fontSize:'10px'}}>
+                            <span style={{fontSize:'10px',lineHeight:1}}>
                                 Excludes other taxes & fees<br/>
                                 Electronic payments required<br/>
                                 Subject to credit approval<br/>                                
-                            </span>
-  
-                        </div>
+                                </span>
+                            </div>
                         </div>);
                         break;
                 case "combustion":
                     let msrp = Math.round(payment);
                     let avg = msrp+Math.round(4000*Math.random());
                     let retail = Math.round((avg+msrp)/2); 
+                    msrp = `$${msrp.toString().slice(0,2)},${msrp.toString().slice(2,msrp.length)}`;
+                    avg = `$${avg.toString().slice(0,2)},${avg.toString().slice(2,avg.length)}`;
+                    retail = `$${retail.toString().slice(0,2)},${retail.toString().slice(2,retail.length)}`;
                     text = (<div>
-                        <span style={{fontSize:'22px'}}>2023 <span style={{fontWeight:'bold'}}>{model}<BiRegistered/> {trim}<BiRegistered/></span> model</span><br/>
+                        <span style={{fontSize:'22px'}}>2023 <span style={{fontWeight:'bold'}}>{model}<BiRegistered/> {fixTrimName(model,trim)}</span> model</span><br/>
                         <div style={{display:'flex',flexDirection:'x',justifyContent:'center'}}>{buttons.map(val => 
                             <button key={val} style={{backgroundColor: buttons.indexOf(val)+1 == priceMode ? 'rgb(208,208,208)' : 'white',
                                 borderRadius:'10px',textAlign:'center',width:'120px',height:'50px',margin:'10px',boxShadow: '1px 2px 1px rgba(95, 112, 133, 0.5)'
                             }}>{val}</button>)}
                         </div>
-                        <div style={{fontStyle:'bold',paddingLeft:'10px',marginTop:'7px',fontSize:'15px',lineHeight:1.3}}>
-                            {priceMode == 1 && <span>Estimated lease payment: <span style={{fontWeight:'bold'}}>${msrp}</span> </span>}
-                            {priceMode == 2 && <span>Estimated loan payment: <span style={{fontWeight:'bold'}}>${msrp}</span></span>}
+                        <div style={{fontStyle:'bold',paddingLeft:'10px',marginTop:'5px',fontSize:'15px',lineHeight:1.3}}>
+                            {priceMode == 1 && <span>Estimated lease payment: <span style={{marginLeft:5,fontWeight:'bold'}}>{Math.round(payment)}</span> </span>}
+                            {priceMode == 2 && <span>Estimated loan payment: <span style={{marginLeft:5,fontWeight:'bold'}}>{Math.round(payment)}</span></span>}
                             {priceMode == 3 && <span>
-                                MSRP: <span style={{fontWeight:'bold'}}>${msrp}</span><br/>
-                                Market average: <span style={{fontWeight:'bold'}}>${avg}</span> <br/> 
-                                Suggested retail price: <span style={{fontWeight:'bold'}}>${retail}{priceMode < 3 && `/mo`}</span> <br/></span>}
+                                MSRP: <span style={{marginLeft:5,fontWeight:'bold'}}>{msrp}</span><br/>
+                                Market average: <span style={{marginLeft:5,fontWeight:'bold'}}>{avg}</span><br/> 
+                                Suggested retail price: <span style={{marginLeft:5,fontWeight:'bold'}}>{retail}{priceMode < 3 && `/mo`}</span> <br/></span>}
                         
                         </div>
                         <div style={{fontSize:'13px',paddingLeft:'10px'}}>
                             {priceMode == 1 && <div>{`$${down} (${percentdown}%) down, ${apr}% APR, ${dura} months`}</div>}
                             {priceMode == 2 && <div>{`$${down} (${percentdown}%) down, ${apr}% APR, ${dura} months`}</div>}
-                            <span style={{marginTop:'6px',fontSize:'10px'}}>
+                            <span style={{marginTop:'6px',fontSize:'10px',lineHeight:1}}>
                             Excludes other taxes & fees<br/>
                             Electronic payments required<br/>
                             Subject to credit approval<br/>                                
@@ -334,7 +339,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                     setMessages((m) => [...m, { msg: "Would you like to purchase this car?", author: "Ford Chat", line: true, zip: {} }]);
                     let opts = ['Yes, contact a dealer','No'];
                     setOptionButtons(<div className='option-buttons'>
-                        {opts.map(o => (<button className='button-small' key={o.toString()} value={o} 
+                        {opts.map(o => (<button className='button-small' key={o} value={o} 
                         onClick={() => 
                             {setQuery(o);
                                 setMessages((m) => [...m, { msg: o, author: "You" }]);
@@ -347,7 +352,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                     setMessages((m) => [...m, { msg: "Based on these prices, would you like to contact a dealer to find availability?", author: "Ford Chat", line: true, zip: {} }]);
                     let opts1 = ['Yes, contact a dealer','No'];
                     setOptionButtons(<div className='option-buttons'>
-                        {opts1.map(o => (<button className='button-small' key={o.toString()} value={o} 
+                        {opts1.map(o => (<button className='button-small' key={o} value={o} 
                         onClick={() => 
                             {setQuery(o);
                                 setMessages((m) => [...m, { msg: o, author: "You" }]);
@@ -366,7 +371,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                     setMessages((m) => [...m, { msg: "Would you like pickup or delivery?", author: "Ford Chat", line: true, zip: {} }]);
                     let opts2 = ['Pickup','Delivery'];
                     setOptionButtons(<div className='option-buttons'>
-                        {opts2.map(o => (<button className='button-small' key={o.toString()} value={o} 
+                        {opts2.map(o => (<button className='button-small' key={o} value={o} 
                         onClick={() => 
                             {setQuery(o);
                                 setMessages((m) => [...m, { msg: o, author: "You" }]);
@@ -402,7 +407,6 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
             }
             break;
         case 8:
-            console.log("in step 8");
             changeChoice("purchase request");
             blockQueries.current = false;
             setPriceStep(9);

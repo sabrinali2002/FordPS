@@ -56,9 +56,7 @@ const fixTrimQueryQuotation = (model, trim) => {
 function App() {
   const [query, setQuery] = useState("");
   const [queryText, setQueryText] = useState("");
-  const [messages, setMessages] = useState([
-    { msg: "Hi there, what's your name?", author: "Ford Chat" },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [history, setHistory] = useState([]);
   const [response, setResponse] = useState("");
   const [recording, setRecording] = useState(false);
@@ -133,9 +131,11 @@ function App() {
   const [dura, setDura] = useState("");
   const [down, setDown] = useState(0);
   const [requestSent, setRequestSent] = useState(false);
+  const [schedSent, setSchedSent] = useState(false);
 
   const blockQueries = useRef(false);
   const recognition = useRef(null);
+  const first = useRef(true);
   //map functions -------------------------------------------------------->
 
   const [distance, setDistance] = useState("10");
@@ -177,13 +177,14 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "Buying a Ford", author: "You" }];
           });
           setMessages((m) => {
             return [
               ...m,
-              { msg: "What info would you like to know?", author: "Ford Chat" },
+              { msg: "What would you like to know?", author: "Ford Chat" },
             ];
           });
           setMenuButtons(buyingFordButtons);
@@ -195,6 +196,7 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "I'm an Existing Owner", author: "You" }];
           });
@@ -209,6 +211,7 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "Info about Ford", author: "You" }];
           });
@@ -230,6 +233,7 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "Negotiation assistance", author: "You" }];
           });
@@ -242,7 +246,8 @@ function App() {
               },
             ];
           });
-          setMenuButtons(knowMyPriceButtons);
+          setMenuButtons([]);
+          setOptionButtons(knowMyPriceButtons);
           setShowCalcButtons(false);
         }}
       >
@@ -290,7 +295,7 @@ function App() {
           handleUserInput("NF");
         }}
       >
-        New features
+        Future models
       </button>
       <button
         className="menu button-standard"
@@ -388,6 +393,7 @@ function App() {
         onClick={() => {
           handleUserInput("B");
           setMenuButtons([]);
+          //setZipMode(0);
         }}
       >
         Find a dealership
@@ -404,7 +410,7 @@ function App() {
     </div>
   );
   const knowMyPriceButtons = (
-    <div className="buttons">
+    <div className="option-buttons">
       <button
         className="button-small"
         onClick={() => {
@@ -412,7 +418,7 @@ function App() {
             return [...m, { msg: "Electric vehicles", author: "You" }];
           });
           handleUserInput("electric");
-          setMenuButtons([]);
+          setOptionButtons([]);
         }}
       >
         Electric vehicles
@@ -430,7 +436,7 @@ function App() {
             ];
           });
           handleUserInput("combustion");
-          setMenuButtons([]);
+          setOptionButtons([]);
         }}
       >
         Combustion vehicles
@@ -614,7 +620,8 @@ function App() {
     setPriceStep,
     setVehicleMode,
     setOptionButtons,
-    setShowingEvs
+    setShowingEvs,
+    setSchedSent
   );
 
   useEffect(() => {
@@ -660,6 +667,14 @@ function App() {
   const handleUserFeedback = () => {
     setMessages((m) => [...m, { msg: "", author: "Feedback" }]);
   };
+
+  //initial message
+  useEffect(() => {
+    if(first.current) {
+      handleNewResponse("Hi there, what's your name?");
+    }
+    first.current = false;
+  }, [])
 
   useEffect(() => {
     handleUserFlow(
@@ -752,7 +767,8 @@ function App() {
       requestSent,
       setShowingEvs,
       forceUpdate,
-      setForceUpdate
+      setForceUpdate,
+      schedSent
     );
   }, [
     query,
@@ -774,7 +790,7 @@ function App() {
         <TopBar
           handleClick={() => {
             setMessages([]);
-            setMenuButtons([origButtons]);
+            setMenuButtons(origButtons);
             setCalcButtons([]);
             setOptionButtons([]);
           }}
@@ -857,6 +873,8 @@ function App() {
                   setModel={setModel}
                   setTrim={setTrim}
                   setQuery={setQuery}
+                  setSchedSent={setSchedSent}
+                  changeChoice={changeChoice}
                   key={index}
                 />
               );
@@ -870,7 +888,7 @@ function App() {
             <div
               style={{
                 display: "flex",
-                justifyContent: "center",
+                justifyContent: "left",
                 textAlign: "center",
                 marginTop: "10px",
                 marginBottom: "15px",
@@ -882,7 +900,6 @@ function App() {
                     marginTop: "10px",
                     color: "#322964",
                     fontSize: "20px",
-                    fontWeight: "bold",
                     lineHeight: "30px",
                   }}
                 >
@@ -893,7 +910,6 @@ function App() {
                     style={{
                       color: "#322964",
                       fontSize: "12px",
-                      fontWeight: "bold",
                       lineHeight: "20px",
                     }}
                   >
@@ -912,15 +928,14 @@ function App() {
                 <button
                   style={{
                     position: "relative",
-                    bottom: 0,
-                    alignSelf: "start",
-                    marginLeft: -40,
-                    alignSelf: "start",
+                    left:'0%',
+                    color:'#322964'
                   }}
                   onClick={() => {
                     if (infoMode === 0) {
                       setShowCalcButtons(false);
                       setMenuButtons(buyingFordButtons);
+                      setOptionButtons([]);
                     } else if (infoMode === 1) {
                       handleUserInput("I");
                     } else {
@@ -1016,21 +1031,21 @@ function App() {
                         requestSent,
                         setShowingEvs,
                         forceUpdate,
-                        setForceUpdate
+                        setForceUpdate,
+                        schedSent
                       );
                     }
                   }}
                 >
-                  <u
+                  <span
                     style={{
                       position: "relative",
-                      marginLeft: "0px",
-                      bottom: "0px",
-                      fontSize: "12px",
-                    }}
-                  >
+                      marginLeft: "12px",
+                      bottom: "5px",
+                      fontSize: "15px",
+                    }}>
                     Back
-                  </u>
+                  </span>
                 </button>
               </div>
             </div>
@@ -1094,7 +1109,9 @@ function App() {
               <button className="button-small" onClick = {locateDealerships}>Locate the nearest dealerships</button>
             </div>} */}
             </div>
-            <div className="textfield">
+            <div className="textfield" style={{
+              backgroundColor:"white"
+            }}>
               <TextField
                 value={queryText}
                 error={blockQueries.current}
@@ -1142,6 +1159,7 @@ function App() {
                 <BoxArrowLeft
                   size="2rem"
                   style={{
+                    color:"gray",
                     marginLeft: "10px",
                     cursor: "pointer",
                     marginTop: "25px",
