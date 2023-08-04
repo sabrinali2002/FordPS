@@ -14,9 +14,10 @@ export default function handleDealerFlow(
   trim = "",
   requestInfo = false,
   maintenanceMode = "",
-  requestSent = false
+  requestSent = false,
+  schedSent = false
 ) {
-  if (requestSent) {
+  if (requestSent || schedSent) {
     return;
   }
   switch (zipMode) {

@@ -50,7 +50,8 @@ export function handleUserInputFn(
   setPriceStep,
   setVehicleMode,
   setOptionButtons,
-  setShowingEvs
+  setShowingEvs,
+  setSchedSent
 ) {
   //for ev model logig
 
@@ -66,14 +67,43 @@ export function handleUserInputFn(
     Explorer: ["Limited"],
     "F-150 Lightning": ["Lariat", "Platinum", "Pro", "XLT"],
     "Mustang Mach-E": ["Select w/Standard Range"],
-  }
+  };
+
+
+  const proceedClick = () => {
+    setCalcStep(2);
+    setQuery('Proceed');
+    setMessages((m) => [...m, { msg: 'Proceed', author: "You" }]);
+    setOptionButtons([]);
+  };
+  const newClick = () => {
+      setQuery('Choose a new vehicle');
+      setMessages((m) => [...m, { msg: 'Choose a new vehicle', author: "You" }]);
+      setOptionButtons([]);
+      //setModel('');
+      //setTrim('');
+      changeChoice("model");
+      return;
+  };
+  const fixTrimName = (model, trim) => {
+    if (
+      model !== "Transit Cargo Van" &&
+      model !== "E-Transit Cargo Van" &&
+      model !== "Transit Crew Van" &&
+      model !== "Transit Passenger Van"
+    ) {
+      return trim;
+    }
+    trim = trim.replaceAll('"', '');
+    return trim;
+  };
 
   const fvs = {
     "2024 Ranger": [
       "XL", "XLT", "Lariat", "Raptor"
     ]
   }
-
+  
   function getVarietiesByCategory(mainCategory) {
     // Check if the main category exists in the JSON data
     if (evs.hasOwnProperty(mainCategory)) {
@@ -170,6 +200,7 @@ export function handleUserInputFn(
           setMenuButtons([]);
           break;
         case "B":
+          setSchedSent(false);
           setMessages((m) => [
             ...m,
             { msg: "Find a dealership", author: "You" },
@@ -216,7 +247,7 @@ export function handleUserInputFn(
             setCalcHeadingText("Choose specific model");
             setShowCalcButtons(true);
             setCalcButtons(
-              Object.keys(trims).map((model) => (
+              Object.keys(trims).map(model => (
                 <button
                   className="model-button"
                   key={model}
@@ -240,17 +271,26 @@ export function handleUserInputFn(
               ))
             );
             setCalcStep(1);
+            blockQueries.current = false;
+            changeChoice("D");
           } else if (trim === "") {
             setQuery(model);
             setCalcStep(1);
             blockQueries.current = false;
+            changeChoice("D");
           } else {
-            setQuery(trim);
-            setCalcStep(2);
+            setMessages((m) => [...m, { msg: `What would you like to proceed with the 2024 ${model} ${fixTrimName(model,trim)} or select a new vehicle?`, author: "Ford Chat", line: true, zip: {} }]);
+            let opts0 = ['Proceed','Choose a new vehicle'];
+            setOptionButtons(<div className='option-buttons'>
+            {opts0.map(option => (<button className='button-small' key={option} value={option} 
+                onClick={option==='Proceed'?proceedClick:newClick}>{option}</button>))}</div>);
             blockQueries.current = false;
+            //break;
+            //setQuery(trim);
+            //setCalcStep(2);
+            //blockQueries.current = false;
           }
-          changeChoice("D");
-          //setMenuButtons([]);
+          //changeChoice("D");
           break;
         case "SU":
           setMessages((m) => [
@@ -636,7 +676,6 @@ export function handleUserInputFn(
           )
 
           break;
-
         case "electric":
           changeChoice("electric");
           setVehicleMode("electric");
@@ -751,7 +790,8 @@ export function handleUserFlow(
   requestSent,
   setShowingEvs,
   forceUpdate,
-  setForceUpdate
+  setForceUpdate,
+  schedSent
 ) {
   if (!blockQueries.current && query.length > 0) {
     blockQueries.current = true;
@@ -799,6 +839,41 @@ export function handleUserFlow(
           });
           changeChoice("DEFAULT");
           break;
+        case "model":
+            setMessages((m) => [
+              ...m,
+              { msg: "What model are you interested in?", author: "Ford Chat" },
+            ]);
+            setCalcHeadingText("Choose specific model");
+            setShowCalcButtons(true);
+            setCalcButtons(
+              Object.keys(trims).map(model => (
+                <button
+                  className="model-button"
+                  key={model}
+                  value={model}
+                  onClick={() => {
+                    setQuery(model);
+                    setModel(model);
+                    setMessages((m) => [...m, { msg: model, author: "You" }]);
+                    setCalcButtons([]);
+                    setShowCalcButtons(false);
+                    changeChoice("D");
+                    setCalcStep(1);
+                  }}
+                >
+                  <img
+                    style={{ width: "160px", height: "auto" }}
+                    src={images["Default"][model]}
+                  />
+                  <br />
+                  {model}
+                  <BiRegistered />
+                </button>
+              ))
+            );
+            blockQueries.current = false;
+            break;
         case "electric":
           handlePriceFlow(
             "electric",
@@ -1094,7 +1169,9 @@ export function handleUserFlow(
           });
           break;
         case "B": {
-          setZipMode(1);
+          console.log('case b');
+          //setZipMode(1);
+          //setMapBlocker(false);
           handleDealerFlow(
             zipMode,
             dealerList,
@@ -1106,7 +1183,13 @@ export function handleUserFlow(
             setDistance,
             findLocations,
             zipCode,
-            distance
+            distance,
+            model,
+            trim,
+            false,
+            "",
+            false,
+            schedSent
           );
           blockQueries.current = false;
           break;

@@ -4,9 +4,7 @@ import { TextField } from "@mui/material";
 import { BiRegistered } from 'react-icons/bi';
 
 
-export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode="", model="", trim="", backButton, dispName="", userEmail="", setMenuButtons=()=>{
-  return
-}, origButtons=(<></>) }) {
+export default function Sched1({ dealer, date, time, handleAppointment, maintenanceMode="", model="", trim="", backButton, dispName="", userEmail="", phoneNum, link, address, hours}) {
   const [time1, setTime1] = useState(null);
   const [date1, setDate1] = useState(null);
   const [name, setName] = useState(dispName);
@@ -34,16 +32,16 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
   return (
     <div
       style={{
-        width: "1082px",
+        width: "60%",
         backgroundColor: "#113B7A1A",
-        height: "auto",
+        height: "400px",
         borderRadius: "30px",
         marginBottom: "10px",
         flexDirection: "column",
         justifyContent: "flex-start",
         display: "flex",
         padding: 20,
-        marginLeft: '35px',
+        marginLeft: '100px',
         boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
       }}
     >
@@ -51,12 +49,12 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
         style={{
           color: "#00095B",
           fontWeight: "bold",
-          fontSize: 27,
+          fontSize: 22,
           alignSelf: "flex-start",
-          marginBottom: 10,
+          marginBottom: 5,
         }}
       >
-        Schedule a {maintenanceMode.length==0?"Test Drive":maintenanceMode} Appointment
+        Schedule a {maintenanceMode.length==0?"test drive":maintenanceMode} appointment
       </div>
       <div
         style={{
@@ -67,45 +65,47 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
           marginRight: 10,
           marginLeft: 10,
           fontWeight: 500,
-          fontSize: 20,
+          fontSize: 18,
           padding: 3,
-          marginBottom: 20,
+          marginBottom: 10,
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
           alignSelf: "center",
         }}
       >
-        {`${dealer} - ${date} @${time}`}
+        {`${dealer} - ${date} @ ${time}`}
       </div>
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "start",
+          width:'120%'
         }}
       >
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            marginRight: 50,
+            marginRight: 30,
             justifyContent: "start",
             alignItems: "start",
-            marginLeft: 30,
+            marginLeft: 15,
+            width:'100%'
           }}
         >
           <div
             style={{
               fontWeight: 500,
               color: "#00095B",
-              fontSize: 23,
+              fontSize: 22,
               alignSelf: "start",
               textAlign: "start",
             }}
           >
-            Guest Information
+            Guest information
           </div>
           {maintenanceMode.length===0&&<a
-            style={{ marginBottom: 10, color: "#575757", fontWeight: 100 }}
+            style={{ marginBottom: 10, color: "#575757", fontWeight: 100, fontSize:15 }}
             href="https://www.example.com"
             target="_blank"
             rel="noopener noreferrer"
@@ -116,7 +116,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
           error={name.length>0 && !checkForValidUsername(name)}
           value={name}
             onChange={(e) => setName(e.target.value)}
-            style={{color:'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",
+            style={{color:'black',backgroundColor: "white",borderRadius: 5,width: '100%',height: 35,border: "none",
             marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Name*"
             helperText={name.length>0 && !checkForValidUsername(name)?"Please enter a valid name":""}
@@ -126,13 +126,13 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
           error={email.length>0 && !checkForValidEmail(email)}
             helperText={email.length>0 && !checkForValidEmail(email)?"Please enter a valid email":""}
             onChange={(e) => setEmail(e.target.value)}
-            style={{color:'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",
+            style={{color:'black',backgroundColor: "white",borderRadius: 5,width: '100%',height: 35,border: "none",
             marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Email*"
           />
           <input
             onChange={(e) => setPhoneNumber(e.target.value)}
-            style={{color:'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",
+            style={{color:'black',backgroundColor: "white",borderRadius: 5,width: '100%',height: 35,border: "none",
             marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Phone Number*"
             error={phoneNumber.length>0 && !checkForValidPhoneNumber(phoneNumber)}
@@ -140,7 +140,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
           />
           <input
             onChange={(e) => setNotes(e.target.value)}
-            style={{color:'black',backgroundColor: "white",borderRadius: 5,width: 400,height: 50,border: "none",
+            style={{color:'black',backgroundColor: "white",borderRadius: 5,width: '100%',height: 35,border: "none",
             marginBottom: 10,boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",fontSize: 18,paddingLeft: 5}}
             placeholder=" Notes/requests"
           />
@@ -151,6 +151,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
             display: "flex",
             flexDirection: "column",
             width: "100%",
+            marginLeft:'10px'
           }}
         >
           <div
@@ -160,27 +161,19 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
               fontSize: 23,
               alignSelf: "start",
               textAlign: "start",
+              marginBottom:10
             }}
           >
-            {maintenanceMode.length===0?"Trims to Test Drive":"This Appointment is for:"}
+            {maintenanceMode.length===0?"Trims to test drive":"This appointment is for:"}
           </div>
 
-          <div style={{ marginTop: 10, marginBottom: 10, color: "#575757" }}>
-          {maintenanceMode.length===0?"limited to 2 cars to test drive during your appointment.":"Your "+model+" "+trim}
-          </div>
-          <div className="window-model-large">
-            <img src={model.length===0?images["Default"]["Bronco"]:`${images[trim.length>0?model:"Default"][trim.length>0?trim:model]}`} style={{paddingRight:'40px', width: '220px',height:'auto' }}/>
-            {model.length===0?"Bronco":model}<BiRegistered/>{model.length===0?" Base":` ${trim}`}
+          <div className="model-button-sched1">
+            <img src={model.length===0?images["Default"]["Bronco"]:`${images[trim.length>0?model:"Default"][trim.length>0?trim:model]}`} 
+            style={{alignSelf:'center', width: '100%',height:'auto' }}/>
+            <br/>{model.length===0?"Bronco":model}<BiRegistered/>{model.length===0?" Base":` ${trim}`}
           </div>
           {maintenanceMode.length==0 && <div style={{ marginBottom: 0, marginTop: 10 }}>
-            <a
-              href="https://www.example.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "#00095B" }}
-            >
-              {`Select more cars available at ${dealer}`}
-            </a>
+
           </div>}
           <button
             onClick={() => {
@@ -188,8 +181,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
                 alert("Please fill out all required fields with valid information")
                 return
               }
-              setMenuButtons(origButtons)
-              handleAppointment(name, email, phoneNumber, notes)
+              handleAppointment(name, email, phoneNumber, notes, phoneNum, address, link, hours);
             }}
             style={{
               marginTop: 0,
@@ -198,14 +190,14 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
               border: "none",
               borderRadius: 10,
               paddingHorizontal: "10px",
-              paddingTop: 5,
+              paddingTop: 7,
               paddingRight: 10,
               paddingLeft: 10,
-              paddingBottom: 10,
-              marginTop: 30,
-              marginLeft: 230,
+              paddingBottom: 7,
+              marginTop: 10,
+              marginLeft: 10,
               fontSize: 18,
-              width: 300,
+              width: '50%',
               marginBottom: 10,
               cursor: 'pointer'
             }}
@@ -220,7 +212,7 @@ export default function Sched1({ dealer, date, time, handleAppointment, maintena
         style={{
           alignSelf: "start",
           height: 22,
-          marginTop: -30,
+          marginTop: 10,
           marginLeft: 8,
           cursor:'pointer'
         }}

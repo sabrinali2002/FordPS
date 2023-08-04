@@ -131,6 +131,7 @@ function App() {
   const [dura, setDura] = useState("");
   const [down, setDown] = useState(0);
   const [requestSent, setRequestSent] = useState(false);
+  const [schedSent, setSchedSent] = useState(false);
 
   const blockQueries = useRef(false);
   const recognition = useRef(null);
@@ -176,13 +177,14 @@ function App() {
       <button
         className="menu button-standard"
         onClick={() => {
+          setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "Buying a Ford", author: "You" }];
           });
           setMessages((m) => {
             return [
               ...m,
-              { msg: "What info would you like to know?", author: "Ford Chat" },
+              { msg: "What would you like to know?", author: "Ford Chat" },
             ];
           });
           setMenuButtons(buyingFordButtons);
@@ -194,6 +196,7 @@ function App() {
       <button
         className="menu button-standard"
         onClick={() => {
+          setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "I'm an Existing Owner", author: "You" }];
           });
@@ -208,6 +211,7 @@ function App() {
       <button
         className="menu button-standard"
         onClick={() => {
+          setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "Info about Ford", author: "You" }];
           });
@@ -229,6 +233,7 @@ function App() {
       <button
         className="menu button-standard"
         onClick={() => {
+          setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "Negotiation assistance", author: "You" }];
           });
@@ -241,7 +246,8 @@ function App() {
               },
             ];
           });
-          setMenuButtons(knowMyPriceButtons);
+          setMenuButtons([]);
+          setOptionButtons(knowMyPriceButtons);
           setShowCalcButtons(false);
         }}
       >
@@ -387,6 +393,7 @@ function App() {
         onClick={() => {
           handleUserInput("B");
           setMenuButtons([]);
+          //setZipMode(0);
         }}
       >
         Find a dealership
@@ -403,7 +410,7 @@ function App() {
     </div>
   );
   const knowMyPriceButtons = (
-    <div className="buttons">
+    <div className="option-buttons">
       <button
         className="menu button-standard"
         onClick={() => {
@@ -411,7 +418,7 @@ function App() {
             return [...m, { msg: "Electric vehicles", author: "You" }];
           });
           handleUserInput("electric");
-          setMenuButtons([]);
+          setOptionButtons([]);
         }}
       >
         Electric vehicles
@@ -429,7 +436,7 @@ function App() {
             ];
           });
           handleUserInput("combustion");
-          setMenuButtons([]);
+          setOptionButtons([]);
         }}
       >
         Combustion vehicles
@@ -613,7 +620,8 @@ function App() {
     setPriceStep,
     setVehicleMode,
     setOptionButtons,
-    setShowingEvs
+    setShowingEvs,
+    setSchedSent
   );
 
   useEffect(() => {
@@ -669,7 +677,6 @@ function App() {
   }, [])
 
   useEffect(() => {
-    console.log("in use effect");
     handleUserFlow(
       tableForceUpdate,
       setTableForceUpdate,
@@ -760,10 +767,9 @@ function App() {
       requestSent,
       setShowingEvs,
       forceUpdate,
-      setForceUpdate
+      setForceUpdate,
+      schedSent
     );
-    console.log("query after use effect");
-    console.log(query);
   }, [
     query,
     history,
@@ -784,7 +790,7 @@ function App() {
         <TopBar
           handleClick={() => {
             setMessages([]);
-            setMenuButtons([origButtons]);
+            setMenuButtons(origButtons);
             setCalcButtons([]);
             setOptionButtons([]);
           }}
@@ -867,6 +873,7 @@ function App() {
                   setModel={setModel}
                   setTrim={setTrim}
                   setQuery={setQuery}
+                  setSchedSent={setSchedSent}
                   changeChoice={changeChoice}
                   key={index}
                 />
@@ -921,15 +928,14 @@ function App() {
                 <button
                   style={{
                     position: "relative",
-                    bottom: 0,
-                    alignSelf: "start",
-                    marginLeft: -40,
-                    alignSelf: "start",
+                    left:'0%',
+                    color:'#322964'
                   }}
                   onClick={() => {
                     if (infoMode === 0) {
                       setShowCalcButtons(false);
                       setMenuButtons(buyingFordButtons);
+                      setOptionButtons([]);
                     } else if (infoMode === 1) {
                       handleUserInput("I");
                     } else {
@@ -1025,21 +1031,21 @@ function App() {
                         requestSent,
                         setShowingEvs,
                         forceUpdate,
-                        setForceUpdate
+                        setForceUpdate,
+                        schedSent
                       );
                     }
                   }}
                 >
-                  <u
+                  <span
                     style={{
                       position: "relative",
-                      marginLeft: "0px",
-                      bottom: "0px",
-                      fontSize: "12px",
-                    }}
-                  >
+                      marginLeft: "12px",
+                      bottom: "5px",
+                      fontSize: "15px",
+                    }}>
                     Back
-                  </u>
+                  </span>
                 </button>
               </div>
             </div>
