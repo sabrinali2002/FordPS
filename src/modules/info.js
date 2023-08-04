@@ -4,7 +4,6 @@ ISO 14001 Certification, Zero Waste to Landfill, Water Stewardship,Energy Effici
 These reports provide a transparent view of our environmental performance and our efforts to drive positive change. These certifications and initiatives represent our ongoing commitment to environmental stewardship. We understand the importance of sustainable practices, and we continuously strive to make a positive impact on the environment and communities where we operate.
 
 As we move forward, we will continue to evolve our sustainability practices, set ambitious goals, and collaborate with partners to create a brighter, greener future for generations to come. 
-\
 `;
 
 const evmarket = `(1) Electrification Strategy: We recognize that EVs offer a cleaner, more efficient, and environmentally friendly mode of transportation, and we're committed to being at the forefront of this shift. Ford is investing $22 billion in electrification through 2025 as part of its plan to lead electrification in areas of strength.\
@@ -12,9 +11,7 @@ const evmarket = `(1) Electrification Strategy: We recognize that EVs offer a cl
 \n(3) Charging Infrastructure: We are collaborating with charging networks and stakeholders to expand the availability of charging stations, ensuring that our customers have the convenience and confidence to drive their EVs without range anxiety.\
 \n(4) Customer Education and Support: We are committed to educating customers about the benefits of EVs and providing excellent support throughout their ownership journey.\
 \n 
-By combining our legacy of innovation with cutting-edge electric technologies, we are driving toward a cleaner, more sustainable future, one electrifying step at a time!
-
-`
+By combining our legacy of innovation with cutting-edge electric technologies, we are driving toward a cleaner, more sustainable future, one electrifying step at a time!`
 
 const commitments = `(1)  Environmental Responsibility: At Ford, we take our environmental responsibility seriously. We understand the challenges posed by vehicle emissions and are committed to mitigating their impact on the environment and society.
 (2) Advancements in Vehicle Technology: As a company, we continuously invest in research and development to advance vehicle technology. Our focus is on creating more fuel-efficient engines, promoting hybrid and electric vehicles, and exploring alternative fuels to reduce emissions.
@@ -25,10 +22,7 @@ const commitments = `(1)  Environmental Responsibility: At Ford, we take our env
 (7) Transparency and Reporting: As part of our commitment to sustainability, we maintain transparency in our emissions reduction efforts. We regularly report our progress, allowing stakeholders to track our performance and hold us accountable for our commitments.
 (8)Social and Environmental Impact: Beyond emissions reduction, we aim to have a positive impact on the communities we serve. This includes initiatives to support environmental conservation, social responsibility, and sustainability-focused projects.
 
-In conclusion, Ford is steadfast in its commitment to emissions reduction and sustainable practices. As a global automotive leader, we are continuously striving to create a better, cleaner future for the planet and its inhabitants.
-
-
-`
+In conclusion, Ford is steadfast in its commitment to emissions reduction and sustainable practices. As a global automotive leader, we are continuously striving to create a better, cleaner future for the planet and its inhabitants.`
 
 const emissions = `We acknowledge that emissions from vehicles have historically been a concern for the environment. However, I'm proud to share how we have been actively working to address this issue and reduce our environmental impact:
 
@@ -44,11 +38,6 @@ const emissions = `We acknowledge that emissions from vehicles have historically
 (10) Commitment to Future Innovations: As a company, Ford is committed to continuous improvement in our environmental performance. We invest in research and development to stay at the forefront of clean technologies and sustainable practices.
 
 While there is still work to be done, Ford remains dedicated to making a positive environmental impact through our emissions reduction efforts and sustainable practices. We understand the importance of a greener future and are actively working towards a more sustainable transportation ecosystem.
-
-
-
-
-
 `
 
 const endoflife = `We take comprehensive measures to ensure that our vehicles are responsibly managed when they reach the end of their useful life:
