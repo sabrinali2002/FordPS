@@ -1,10 +1,12 @@
 // import data from '../../jsons/data.json'
 
 const fixTrimQueryQuotation = (model, trim) => {
+  console.log(model)
   if (model !== "Transit Cargo Van" && model !== "E-Transit Cargo Van" && model !== "Transit Crew Van" && model !== "Transit Passenger Van") {
       return trim;
   }
   trim = trim.replaceAll('"', '\\"');
+  console.log(trim)
   return trim;
 };
 const queryDatabase = async (model, trim) => {
@@ -46,8 +48,6 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
             // }
 
         const data = await queryDatabase(model, trim);
-        console.log(data[0])
-        
         setMessages((m) => [...m, { msg: "", author: "Info", line: true, zip: "", carInfo: data[0] }]);
 
         setMessages((m) => [...m, { msg: "What other information/services would you like for this car?", author: "Ford Chat", line: true, zip: "" }]);

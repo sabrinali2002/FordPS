@@ -6,15 +6,18 @@ export async function sendBotResponse(query, history, mode) {
   if(history.length>0){
     newQuery += "Here's our conversation before:\n";
     history.forEach((h) => {
+      if(h.a.includes("I recommend these cars for you:"))
+      newQuery+=(newQuery.includes("Previously,")?"Then, ":"Previously, ")+"I was looking for "+h.q.split("I'm looking for: ")[1]+" and you recommended these cars for me: "+h.a.split("I recommend these cars for you:")[1]+"\n"
+      else
       newQuery += `Q: ${h.q}\nA: ${h.a}\n`;
     });
     if(mode==="recommend")
-      newQuery+="I'm looking for: "+query;
+      newQuery+="Here's my new question: "+query;
     else
       newQuery += `Here's my new question: ${query}`;
   } else
     newQuery=query
-  console.log(newQuery);
+  console.log("NEW QUERY "+newQuery);
   const response = await fetch("https://fordchat.franklinyin.com:5000/quer", {
     method: "POST",
     headers: {
@@ -36,7 +39,7 @@ export async function sendBotResponse(query, history, mode) {
 }
 
 export function sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation) {
-  sendBotResponse(query, history, "recommend").then((res) => {
+  return sendBotResponse(query, history, "recommend").then((res) => {
       blockQueries.current = false;
       setForceUpdate(!forceUpdate)
       let recHistory=""
@@ -67,7 +70,7 @@ export function sendRecommendRequestToServer(query, history, carInfoData, messag
           carInfoCopy[""+messages.length]=[finalTableData,[]]
           setCarInfoData(carInfoCopy);
           setMessages((m) => [...m, { msg: "Sure! Here are some cars I recommend for you. Feel free to ask for more info about any of these cars, or why I recommended them.", author: "Table", line : false, zip : ""}]);
-          setHistory((h) => [...h.slice(-4), { q: query, a: recHistory }]);
+          setHistory((h) => [...h.slice(-4), { q: "I'm looking for: "+query, a: recHistory }]);
           setForceUpdate(!forceUpdate)
         })
       }

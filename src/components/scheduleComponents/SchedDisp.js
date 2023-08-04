@@ -26,7 +26,6 @@ function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode="", mo
     setDate(dt);
     setVis1(false);
     setVis2(true);
-    console.log("a" + hr, dt + "a");
   };
   const [appointmentDetails, setAppointmentDetails] = useState({});
 
@@ -36,11 +35,9 @@ function SchedDisp({ dealer, phone, address, link, hours, maintenanceMode="", mo
     setPhoneNumber(phoneNumber);
     setNotes(notes);
     setAppointmentDetails({ name, email, phoneNumber, notes });
-    console.log(name, email, phoneNumber, notes);
     setVis2(false);
     setVis3(true);
   };
-  console.log("APPT TIME"+model, trim)
   return ( 
     <div className="App">
       {vis1 && <Sched2 callback={handleCallback} maintenanceMode={maintenanceMode} backButton={backButton} />}

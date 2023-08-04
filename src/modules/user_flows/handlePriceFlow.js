@@ -8,79 +8,107 @@ import { useState } from 'react';
 import { MdSpeakerPhone } from 'react-icons/md';
 
 export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate) {
+    const fixTrimName = (model, trim) => {
+        if (
+          model !== "Transit Cargo Van" &&
+          model !== "E-Transit Cargo Van" &&
+          model !== "Transit Crew Van" &&
+          model !== "Transit Passenger Van"
+        ) {
+          return trim;
+        }
+        trim = trim.replaceAll('"', '');
+        return trim;
+      };
     const mosToAPR = { 36: .009, 48: .019, 60: .029, 72: .049, 84: .069 };
+    const proceedClick = () => {
+        setPriceStep(3);
+        setQuery('Proceed');
+        setMessages((m) => [...m, { msg: 'Proceed', author: "You" }]);
+        setOptionButtons([]);
+    };
+    const newClick = () => {
+        setQuery('Choose a new vehicle');
+        setMessages((m) => [...m, { msg: 'Choose a new vehicle', author: "You" }]);
+        setOptionButtons([]);
+        setModel('');
+        setTrim('');
+        setPriceStep(1);
+    };
     switch(priceStep) {
         case 1: // model
-            if (model === '') {
-                setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat", line: true, zip: {} }]);
-                setShowCalcButtons(true);
-                setCalcHeadingText("Choose specific model");
-                if (vehicleMode == 'electric') {
-                    setCalcButtons(Object.keys(electric).map(model => (electric[model].length !== 0 && 
-                        <button
-                            className="model-button"
-                            key={model}
-                            value={model}
-                            onClick={() => {setQuery(model);
-                                setModel(model);
-                                setMessages((m) => [...m, { msg: model, author: "You" }]);
-                                setCalcButtons([]);
-                                setShowCalcButtons(false);
-                                }}>
-                            <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} alt='' />
-                            <br />{model}<BiRegistered /></button>)));
-                }       
-                else {
-                    setCalcButtons(Object.keys(trims).map(model => (electric[model].length < trims[model].length && 
-                        <button
-                            className="model-button"
-                            key={model}
-                            value={model}
-                            onClick={() => {setQuery(model);
-                                setModel(model);
-                                setMessages((m) => [...m, { msg: model, author: "You" }]);
-                                setCalcButtons([]);
-                                setShowCalcButtons(false);
-                                }}>
-                            <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} alt='' />
-                            <br />{model}<BiRegistered /></button>)));
-                }     
+            if (model !== '') {
+                setMessages((m) => [...m, { msg: `What would you like to proceed with the 2024 ${model} ${trim} or select a new vehicle?`, author: "Ford Chat", line: true, zip: {} }]);
+                let opts0 = ['Proceed','Choose a new vehicle'];
+                setOptionButtons(<div className='option-buttons'>
+                {opts0.map(option => (<button className='button-small' key={option} value={option} 
+                    onClick={option==='Proceed'?proceedClick:newClick}>{option}</button>))}</div>);
+                blockQueries.current = false;
+                break;
             }
+            setMessages((m) => [...m, { msg: "What model are you interested in?", author: "Ford Chat", line: true, zip: {} }]);
+            setShowCalcButtons(true);
+            setCalcHeadingText("Choose specific model");
+            if (vehicleMode == 'electric') {
+                setCalcButtons(Object.keys(electric).map(model => (electric[model].length !== 0 && 
+                    <button
+                        className="model-button"
+                        key={model}
+                        value={model}
+                        onClick={() => {setQuery(model);
+                            setModel(model);
+                            setMessages((m) => [...m, { msg: model, author: "You" }]);
+                            setCalcButtons([]);
+                            setShowCalcButtons(false);
+                            }}>
+                        <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} alt='' />
+                        <br />{model}<BiRegistered /></button>)));
+            }       
+            else {
+                setCalcButtons(Object.keys(trims).map(model => (electric[model].length < trims[model].length && 
+                    <button
+                        className="model-button"
+                        key={model}
+                        value={model}
+                        onClick={() => {setQuery(model);
+                            setModel(model);
+                            setMessages((m) => [...m, { msg: model, author: "You" }]);
+                            setCalcButtons([]);
+                            setShowCalcButtons(false);
+                            }}>
+                        <img style={{ width: "160px", height: "auto" }} src={images["Default"][model]} alt='' />
+                        <br />{model}<BiRegistered /></button>)));
+            }     
             setPriceStep(2);
             blockQueries.current = false;
             break;
         case 2: //trim 
-            if (model === '') {
-                setModel(query);
+            setCalcHeadingText("Choose specific trim");
+            setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true, zip: {} }]);
+            setShowCalcButtons(true);
+            if (vehicleMode == 'electric') {
+                setCalcButtons(electric[model].map(trim => 
+                (<button className='model-button' key={trim} value={trim} onClick={() => 
+                    {setQuery(trim);
+                        setTrim(trim);
+                        setMessages((m) => [...m, { msg: trim, author: "You" }]);
+                        setCalcButtons([]);
+                        setShowCalcButtons(false);}}>
+                            <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
+                        <br/>{fixTrimName(model,trim)}</button>)
+                ));
             }
-            if (trim === '') {
-                setCalcHeadingText("Choose specific trim");
-                setMessages((m) => [...m, { msg: "What trim are you interested in?", author: "Ford Chat", line: true, zip: {} }]);
-                setShowCalcButtons(true);
-                if (vehicleMode == 'electric') {
-                    setCalcButtons(electric[model].map(trim => 
-                    (<button className='model-button' key={trim} value={trim} onClick={() => 
-                        {setQuery(trim);
-                            setTrim(trim);
-                            setMessages((m) => [...m, { msg: trim, author: "You" }]);
-                            setCalcButtons([]);
-                            setShowCalcButtons(false);}}>
-                                <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
-                            <br/>{trim}</button>)
-                    ));
-                }
-                else {
-                    setCalcButtons(trims[model].map(trim => (!electric[model].includes(trim) &&
-                    <button className='model-button' key={trim} value={trim} onClick={() => 
-                        {setQuery(trim);
-                            setTrim(trim);
-                            setMessages((m) => [...m, { msg: trim, author: "You" }]);
-                            setCalcButtons([]);
-                            setShowCalcButtons(false);}}>
-                                <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
-                            <br/>{trim}</button>)
-                    ));     
-                }
+            else {
+                setCalcButtons(trims[model].map(trim => (!electric[model].includes(trim) &&
+                <button className='model-button' key={trim} value={trim} onClick={() => 
+                    {setQuery(trim);
+                        setTrim(trim);
+                        setMessages((m) => [...m, { msg: trim, author: "You" }]);
+                        setCalcButtons([]);
+                        setShowCalcButtons(false);}}>
+                            <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
+                        <br/>{trim}</button>)
+                ));     
             }
             blockQueries.current = false;
             setPriceStep(3);
@@ -125,6 +153,11 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                 case 1: // lease
                     switch (leaseStep1) {
                         case 1: // trade-in
+                            if (isNaN(query)) {
+                                setMessages((m) => [...m, { msg: "Please enter a numeric value", author: "Ford Chat", line: true }]);
+                                blockQueries.current = false;
+                                break;
+                            } 
                             setDown(query);
                             setPayment(payment => {return (payment - query)});
                             setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true}]);
@@ -132,6 +165,11 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                             setLeaseStep1(2);
                             break;
                         case 2: // months
+                            if (isNaN(query)) {
+                                setMessages((m) => [...m, { msg: "Please enter a numeric value", author: "Ford Chat", line: true }]);
+                                blockQueries.current = false;
+                                break;
+                            } 
                             setPayment(payment => {return (payment - query)});
                             let durations = [24, 36, 39, 48];
                             setMessages((m) => [...m, { msg: "Please select your desired lease duration, in months", author: "Ford Chat", line: true }]);
@@ -158,6 +196,11 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                 case 2: // finance
                     switch (financeStep1) {
                         case 1: // trade-in
+                            if (isNaN(query)) {
+                                setMessages((m) => [...m, { msg: "Please enter a numeric value", author: "Ford Chat", line: true }]);
+                                blockQueries.current = false;
+                                break;
+                            } 
                             setDown(query);
                             setPayment(payment => {return (payment - query)});
                             setMessages((m) => [...m, { msg: "Please enter your trade-in value (enter 0 for none)", author: "Ford Chat", line: true }]);
@@ -165,6 +208,11 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                             blockQueries.current = false;
                             break;
                         case 2: // months
+                            if (isNaN(query)) {
+                                setMessages((m) => [...m, { msg: "Please enter a numeric value", author: "Ford Chat", line: true }]);
+                                blockQueries.current = false;
+                                break;
+                            } 
                             setPayment(payment => {return (payment - query)});
                             let durations = [36, 48, 60, 72, 84];
                             setMessages((m) => [...m, { msg: "Please select your desired loan duration, in months", author: "Ford Chat", line: true, zip:"" }]);
@@ -189,17 +237,30 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
             let apr = 0;
             switch (priceMode) {
                 case 1: // lease
+                    if (isNaN(query)) {
+                        setMessages((m) => [...m, { msg: "Please enter a numeric value", author: "Ford Chat", line: true }]);
+                        blockQueries.current = false;
+                        break;
+                    }
                     apr = mosToAPR[dura];
-                    setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true}]);
+                    //setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true}]);
                     break;
                 case 2: // finance 
                     apr = mosToAPR[dura];
-                    setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true }]);
+                    //setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true }]);
                     break;
                 case 3: // buy
+                    if (isNaN(query)) {
+                        setMessages((m) => [...m, { msg: "Please enter a numeric value", author: "Ford Chat", line: true }]);
+                        blockQueries.current = false;
+                        break;
+                    }
                     setPayment(payment => { return (payment - query)});
-                    setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true }]);
+                    //setMessages((m) => [...m, { msg: `Here is the pricing estimation for ${model} ${trim}`, author: "Ford Chat", line: true }]);
                     break;
+            }
+            if ((priceMode===3 || priceMode===1) && isNaN(query)) {
+                break;
             }
             let buttons = ['Lease','Finance','Buy'];
             let percentdown = 100*down/carPrices[model][trim];
@@ -215,15 +276,15 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                                 borderRadius:'10px',textAlign:'center',width:'120px',height:'50px',margin:'10px',boxShadow: '1px 2px 1px rgba(95, 112, 133, 0.5)'
                             }}>{val}</button>)}
                         </div>
-                        <div style={{fontStyle:'bold',paddingLeft:'10px',marginTop:'10px'}}>
+                        <div style={{fontStyle:'bold',font:'15px',paddingLeft:'10px',marginTop:'10px'}}>
                             {priceMode == 1 && <span>Estimated lease payment: </span>}
                             {priceMode == 2 && <span>Estimated loan payment: </span>}
                             {priceMode == 3 && <span>Estimated purchase price: </span>}
-                            <span style={{fontWeight:'bold',fontSize:'16px',paddingLeft:'70px'}}>
+                            <span style={{fontWeight:'bold',fontSize:'15px',paddingLeft:'70px'}}>
                             {`$${payment}`}</span>
                         {priceMode < 3 && `/mo`}
                         </div>
-                        <div style={{fontSize:'12px',paddingLeft:'10px'}}>
+                        <div style={{fontSize:'13px',paddingLeft:'10px'}}>
                             {priceMode == 1 && <div>{`$${down} (${percentdown}%) down, ${apr}% APR, ${dura} months`}</div>}
                             {priceMode == 2 && <div>{`$${down} (${percentdown}%) down, ${apr}% APR, ${dura} months`}</div>}
                             <span style={{fontSize:'10px'}}>
@@ -255,7 +316,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                                 Suggested retail price: <span style={{fontWeight:'bold'}}>${retail}{priceMode < 3 && `/mo`}</span> <br/></span>}
                         
                         </div>
-                        <div style={{fontSize:'12px',paddingLeft:'10px'}}>
+                        <div style={{fontSize:'13px',paddingLeft:'10px'}}>
                             {priceMode == 1 && <div>{`$${down} (${percentdown}%) down, ${apr}% APR, ${dura} months`}</div>}
                             {priceMode == 2 && <div>{`$${down} (${percentdown}%) down, ${apr}% APR, ${dura} months`}</div>}
                             <span style={{marginTop:'6px',fontSize:'10px'}}>
@@ -329,7 +390,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
         case 7:
             switch(query) {
                 case 'Pickup':
-                    setMessages((m) => [...m, { msg: "Please enter your zipcode or enable location to find dealers to send your offer to:", author: "Ford Chat", line: true, zip: { requestInfo:true} }]);
+                    setMessages((m) => [...m, { msg: "Please enter your zipcode to find dealers to send your offer to", author: "Ford Chat", line: true, zip: { requestInfo:true} }]);
                     blockQueries.current = false;
                     setPriceStep(8);
                     break;
@@ -341,9 +402,10 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
             }
             break;
         case 8:
-            changeChoice('request');
+            console.log("in step 8");
+            changeChoice("purchase request");
             blockQueries.current = false;
-            setPriceStep(0);
+            setPriceStep(9);
             break;
         case 9:
             setMessages((m) => [...m, { msg: "Is there anything else I can help you with?", author: "Ford Chat", line: true }]);
