@@ -131,7 +131,6 @@ function App() {
   const [dura, setDura] = useState("");
   const [down, setDown] = useState(0);
   const [requestSent, setRequestSent] = useState(false);
-  const [mapBlocker, setMapBlocker] = useState(false);
   const [schedSent, setSchedSent] = useState(false);
 
   const blockQueries = useRef(false);
@@ -190,7 +189,6 @@ function App() {
           });
           setMenuButtons(buyingFordButtons);
           setShowCalcButtons(false);
-          setMapBlocker(true);
         }}
       >
         Buying a Ford
@@ -360,7 +358,6 @@ function App() {
         className="button-small"
         onClick={() => {
           setMenuButtons(origButtons);
-          setMapBlocker(false);
         }}
       >
         Back
@@ -368,7 +365,6 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
-          setMapBlocker(false);
           handleUserInput("I");
           setMenuButtons([]);
         }}
@@ -378,7 +374,6 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
-          setMapBlocker(false);
           handleUserInput("A");
         }}
       >
@@ -387,7 +382,6 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
-          setMapBlocker(false);
           handleUserInput("D");
           setMenuButtons([]);
         }}
@@ -397,7 +391,6 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
-          //setMapBlocker(false);
           handleUserInput("B");
           setMenuButtons([]);
           //setZipMode(0);
@@ -408,7 +401,6 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
-          setMapBlocker(false);
           handleUserInput("C");
           setMenuButtons([]);
         }}
@@ -776,7 +768,6 @@ function App() {
       setShowingEvs,
       forceUpdate,
       setForceUpdate,
-      setMapBlocker,
       schedSent
     );
   }, [
@@ -882,14 +873,9 @@ function App() {
                   setModel={setModel}
                   setTrim={setTrim}
                   setQuery={setQuery}
-<<<<<<< HEAD
-                  mapBlocker={mapBlocker}
-=======
-                  changeChoice={changeChoice}
->>>>>>> a43ed4a4e3a1c22f329efeaf922299b4dffd90ab
-                  key={index}
-                  setMapBlocker={setMapBlocker}
                   setSchedSent={setSchedSent}
+                  changeChoice={changeChoice}
+                  key={index}
                 />
               );
             })}
@@ -1046,7 +1032,6 @@ function App() {
                         setShowingEvs,
                         forceUpdate,
                         setForceUpdate,
-                        setMapBlocker,
                         schedSent
                       );
                     }

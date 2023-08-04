@@ -43,7 +43,6 @@ function Map({
   setMessages,
   changeChoice,
   setQuery,
-  setMapBlocker,
   setSchedSent
 }) {
   const [latlong, changeLatLong] = useState([39, -98]);
@@ -162,9 +161,18 @@ function Map({
         let i = 0;
         while (models.length < n) {
           // not enough trims of model
-          if (sim !== 'E-Transit Cargo Van' && sim !== 'Transit Cargo Van') {
+          if (sim == 'E-Transit Cargo Van' || sim == 'Transit Cargo Van') {
+            break;
+          }
+          else if (i >= dealerToTrim[dealer][sim].length) {
+            break;
+          }
+          else if (sim !== 'E-Transit Cargo Van' && sim !== 'Transit Cargo Van') {
             models.push([sim, dealerToTrim[dealer][sim][i]]);
-            i = i + 1;            
+            i = i + 1; 
+          } 
+          else {
+            break;       
           }
           // append trims of similar model
         }
@@ -180,9 +188,18 @@ function Map({
       let sim = similar[selectedModel];
       while (models.length < n) {
         // not enough trims of model
-        if (sim !== 'E-Transit Cargo Van' && sim !== 'Transit Cargo Van') {
+        if (sim == 'E-Transit Cargo Van' || sim == 'Transit Cargo Van') {
+          break;
+        }
+        else if (j >= dealerToTrim[dealer][sim].length) {
+          break;
+        }
+        else if (sim !== 'E-Transit Cargo Van' && sim !== 'Transit Cargo Van') {
           models.push([sim, dealerToTrim[dealer][sim][j]]);
-          j = j + 1;            
+          j = j + 1; 
+        } 
+        else {
+          break;       
         }
       }
     } else {
@@ -451,7 +468,6 @@ function Map({
   const handleAppointment = (name, email, phoneNumber, notes) => {
     setSchedSent(true);
     console.log("handling");
-    setMapBlocker(true);
     setName(name);
     setEmail(email);
     setPhoneNumber(phoneNumber);
@@ -830,7 +846,6 @@ function Map({
           setMenuButtons={setMenuButtons}
           setMessages={setMessages}
           origButtons={origButtons}
-          setMapBlocker={setMapBlocker}
           setSchedSent={setSchedSent}
         />
       )}

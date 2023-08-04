@@ -15,6 +15,18 @@ export default function DeliveryRegistration({model,trim,setMenuButtons,origButt
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [show, setShow] = useState(true);
+    const fixTrimName = (model, trim) => {
+        if (
+          model !== "Transit Cargo Van" &&
+          model !== "E-Transit Cargo Van" &&
+          model !== "Transit Crew Van" &&
+          model !== "Transit Passenger Van"
+        ) {
+          return trim;
+        }
+        trim = trim.replaceAll('"', '');
+        return trim;
+      };
     if (model === '') {
         return;
     }
@@ -124,8 +136,8 @@ export default function DeliveryRegistration({model,trim,setMenuButtons,origButt
             Car to be delivered:
             </div>
             <div className='model-button-sched'>
-            <img src={images[model][trim]} style={{width:'100%',height:'auto'}}></img>
-            <span style={{fontSize:'11px',color:'#322964',paddingRight:'5px',lineHeight:.5}}>2023 Ford {model}<BiRegistered/> {trim}</span>
+            <img src={images[model][trim]} style={{width:'90%',height:'auto'}}></img>
+            <span style={{fontSize:'11px',color:'#322964',paddingRight:'5px'}}>2023 Ford {model}<BiRegistered/> {fixTrimName(model,trim)}</span>
             </div>
             <button
             onClick={handleRequest}

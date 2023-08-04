@@ -313,8 +313,8 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                             }}>{val}</button>)}
                         </div>
                         <div style={{fontStyle:'bold',paddingLeft:'10px',marginTop:'5px',fontSize:'15px',lineHeight:1.3}}>
-                            {priceMode == 1 && <span>Estimated lease payment: <span style={{marginLeft:5,fontWeight:'bold'}}>${msrp}</span> </span>}
-                            {priceMode == 2 && <span>Estimated loan payment: <span style={{marginLeft:5,fontWeight:'bold'}}>${msrp}</span></span>}
+                            {priceMode == 1 && <span>Estimated lease payment: <span style={{marginLeft:5,fontWeight:'bold'}}>{Math.round(payment)}</span> </span>}
+                            {priceMode == 2 && <span>Estimated loan payment: <span style={{marginLeft:5,fontWeight:'bold'}}>{Math.round(payment)}</span></span>}
                             {priceMode == 3 && <span>
                                 MSRP: <span style={{marginLeft:5,fontWeight:'bold'}}>{msrp}</span><br/>
                                 Market average: <span style={{marginLeft:5,fontWeight:'bold'}}>{avg}</span><br/> 

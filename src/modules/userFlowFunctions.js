@@ -67,8 +67,9 @@ export function handleUserInputFn(
     Explorer: ["Limited"],
     "F-150 Lightning": ["Lariat", "Platinum", "Pro", "XLT"],
     "Mustang Mach-E": ["Select w/Standard Range"],
-<<<<<<< HEAD
   };
+
+
   const proceedClick = () => {
     setCalcStep(2);
     setQuery('Proceed');
@@ -96,16 +97,13 @@ export function handleUserInputFn(
     trim = trim.replaceAll('"', '');
     return trim;
   };
-=======
-  }
 
   const fvs = {
     "2024 Ranger": [
       "XL", "XLT", "Lariat", "Raptor"
     ]
   }
-
->>>>>>> a43ed4a4e3a1c22f329efeaf922299b4dffd90ab
+  
   function getVarietiesByCategory(mainCategory) {
     // Check if the main category exists in the JSON data
     if (evs.hasOwnProperty(mainCategory)) {
@@ -793,7 +791,6 @@ export function handleUserFlow(
   setShowingEvs,
   forceUpdate,
   setForceUpdate,
-  setMapBlocker,
   schedSent
 ) {
   if (!blockQueries.current && query.length > 0) {
@@ -803,7 +800,6 @@ export function handleUserFlow(
       const maintenanceMode = choice.replace("SCHED", "");
       const model = maintenanceMode.split("MODEL:")[1].split("TRIM:")[0];
       const trim = maintenanceMode.split("MODEL:")[1].split("TRIM:")[1];
-      setMapBlocker(false);
       handleDealerFlow(
         zipMode,
         dealerList,
@@ -967,7 +963,6 @@ export function handleUserFlow(
           blockQueries.current = false;
           break;
         case "purchase request":
-          setMapBlocker(false);
           handleDealerFlow(
             zipMode,
             dealerList,
