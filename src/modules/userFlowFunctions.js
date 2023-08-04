@@ -886,11 +886,37 @@ export function handleUserFlow(
             blockQueries.current = false;
             break;
           } else if (infoMode === 3) {
-                handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
-                    setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
-                    infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons,forceUpdate,setForceUpdate)
-              blockQueries.current = false;
-              setInfoMode(4);
+            handleInfoFlow(
+              handleMoreInfo,
+              tableForceUpdate,
+              setTableForceUpdate,
+              handleCarInfoButton,
+              model,
+              trim,
+              setMessages,
+              setModel,
+              setQuery,
+              setInfoMode,
+              setCalcButtons,
+              setMenuButtons,
+              handleUserInput,
+              setShowCalcButtons,
+              setCarInfoData,
+              infoMode,
+              selected,
+              changeSelected,
+              setDealers,
+              locateDealershipsFn,
+              setSelect,
+              setFind,
+              query,
+              setZipMode,
+              setOptionButtons,
+              forceUpdate,
+              setForceUpdate
+            );
+            blockQueries.current = false;
+            break;
           } else if (infoMode === 4) {
             handleInfoFlow(
               handleMoreInfo,
@@ -1066,6 +1092,7 @@ export function handleUserFlow(
                         changeSelected(copy2);
                       }
                       setForceUpdate(!forceUpdate);
+                      console.log(copy2, selected[model].includes(trim));
                     }}
                   >
                     {trim}
