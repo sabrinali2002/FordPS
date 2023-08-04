@@ -25,13 +25,14 @@ export default function DisplayInfo({ info, handler, setMenuButtons, setInfoMode
             {screen === "info" && (
                 <div
                     style={{
-                        width: "950px", // Increase width to desired value
+                        width: "100%", // Increase width to desired value
                         display: "flex",
                         float: "left",
                         borderRadius: "15px", // Add this for rounded corners
                         backgroundColor: "#d4e3fa",
                         flexDirection: "column",
                         margin: "10px",
+                        marginLeft:'80px',
                         boxShadow: "0 4px 2px -2px gray",
                     }}
                 >
@@ -40,15 +41,15 @@ export default function DisplayInfo({ info, handler, setMenuButtons, setInfoMode
                             <div
                                 style={{
                                     float: "right",
-                                    width: "356px",
-                                    height: "180px",
+                                    width: "40%",
+                                    height: "20%",
                                     margin: "20px",
                                     backgroundColor: "white",
                                     borderRadius: "15px",
                                     boxShadow: "0 4px 2px -2px gray",
                                 }}
                             >
-                                <img src={data[info.model][info.trim]} alt={info.model} style={{ width: "340px" }}></img>
+                                <img src={data[info.model][info.trim]} alt={info.model} style={{ width: "100%" }}></img>
                                 <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" marginTop="1rem">
                                     <div style={{ display: "flex", gap: "0.5rem" }}>
                                         <Rating value={average} precision={0.01} readOnly />
@@ -59,26 +60,26 @@ export default function DisplayInfo({ info, handler, setMenuButtons, setInfoMode
                                             setScreen("review");
                                         }}
                                     >
-                                        <u>View Customer Reviews</u>
+                                        <u style={{fontSize:'15px'}}>View Customer Reviews</u>
                                     </button>
                                 </Box>
                             </div>
                             <div style={{ marginLeft: "20px", marginTop: "10px" }}>
-                                <h2 style={{ marginBottom: "20px", marginLeft: "10px"}}>
+                                <h2 style={{ marginBottom: "20px", marginLeft: "10px", fontSize:'22px'}}>
                                     {"2023 "}
-                                    <strong>{info.model}</strong>&reg; <strong>{info.trim}</strong>&reg;
+                                    {info.model} &reg; {info.trim} &reg;
                                 </h2>
                                 <div style={{ marginBottom: "25px", marginLeft: "10px" }}>
-                                    <h3 style={{ fontSize: "20px" }}>
-                                        <strong>Estimated net price</strong> {moneyFormatter.format(info.msrp)}
+                                    <h3 style={{ fontSize: "18px" }}>
+                                        Estimated net price {moneyFormatter.format(info.msrp)}
                                         <button
                                             style={{
                                                 marginLeft: "10px",
                                                 background: "none",
                                                 border: "none",
                                                 color: "blue",
-                                                textDecoration: "underline",
                                                 cursor: "pointer",
+                                                fontSize: "18px" 
                                             }}
                                             onClick = {
                                                 () => {
@@ -90,16 +91,16 @@ export default function DisplayInfo({ info, handler, setMenuButtons, setInfoMode
                                             ...more
                                         </button>
                                     </h3>
-                                    <h3 style={{ fontSize: "20px" }}>
-                                        <strong>Available at</strong> {" " + dealerships[info.model][info.trim][0] + ", " + dealerships[info.model][info.trim][1] + ","}
+                                    <h3 style={{ fontSize: "18px" }}>
+                                        Available at {" " + dealerships[info.model][info.trim][0] + ", " + dealerships[info.model][info.trim][1] + ","}
                                         <button
                                             style={{
                                                 marginLeft: "10px",
                                                 background: "none",
                                                 border: "none",
                                                 color: "blue",
-                                                textDecoration: "underline",
                                                 cursor: "pointer",
+                                                fontSize: "18px" 
                                             }}
                                             onClick = {
                                                 () => {
@@ -114,29 +115,29 @@ export default function DisplayInfo({ info, handler, setMenuButtons, setInfoMode
                                     </h3>
                                 </div>
                                 <div style={{ marginLeft: "10px" }}>
-                                    <h2 style={{ fontSize: "28px" }}>
-                                        <strong>Your Vehicle</strong>
+                                    <h2 style={{ fontSize: "18px" }}>
+                                        Your Vehicle
                                     </h2>
-                                    <h3 style={{ fontSize: "20px" }}>
-                                        <strong>Engine:</strong>
+                                    <h3 style={{ fontSize: "15px" }}>
+                                        Engine:
                                         {" " + info["engine_aspiration"]}
                                     </h3>
-                                    <h3 style={{ fontSize: "20px" }}>
-                                        <strong>Drivetrain:</strong>
+                                    <h3 style={{ fontSize: "15px" }}>
+                                        Drivetrain:
                                         {" " + info["drivetrain"]}
                                     </h3>
-                                    <h3 style={{ fontSize: "20px" }}>
-                                        <strong>Transmission:</strong>
+                                    <h3 style={{ fontSize: "15px" }}>
+                                        Transmission:
                                         {" " + info["transmission"]}
                                     </h3>
-                                    <h3 style={{ fontSize: "20px", marginBottom: "30px" }}>
-                                        <strong>Body Style:</strong>
+                                    <h3 style={{ fontSize: "15px", marginBottom: "12px" }}>
+                                        Body Style:
                                         {" " + info["body_style"]}
                                     </h3>
                                 </div>
                                 <div style={{ textAlign: "left", margin: "3px" }}>
                                     <button
-                                        style={{ float: "left" }}
+                                        style={{ float: "left", fontSize:'15px', textDecoration:'none'}}
                                         onClick={() => {
                                             handler("I");
                                             setOptionButtons([])

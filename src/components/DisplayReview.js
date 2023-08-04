@@ -18,7 +18,7 @@ export default function DisplayReview({ data, setScreen, reviews, starCount, ave
     return (
         <div
             style={{
-                width: "950px", // Increase width to desired value
+                width: "50%", // Increase width to desired value
                 display: "flex",
                 borderRadius: "15px", // Add this for rounded corners
                 backgroundColor: "#d4e3fa",
@@ -28,7 +28,7 @@ export default function DisplayReview({ data, setScreen, reviews, starCount, ave
             }}
         >
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                <div style={{ margin: "20px", width: "50%" }}>
+                <div style={{ margin: "20px", width: "80%" }}>
                     <div
                         style={{ display: "flex", cursor: "pointer", width: "auto" }}
                         onClick={() => {
@@ -40,61 +40,61 @@ export default function DisplayReview({ data, setScreen, reviews, starCount, ave
                     </div>
                     <h2>
                         {"2023 "}
-                        <strong>{data.model}</strong>&reg;
+                        {data.model} &reg;
                     </h2>
-                    <h4>Ratings</h4>
+                    <h4 style={{fontSize:'18px'}}>Ratings</h4>
                     <Box display="flex" gap="0.5rem">
-                        <p>
-                            <strong>{average}</strong>/5 Stars
+                        <p style={{fontSize:'15px'}}>
+                            {average}/5 Stars
                         </p>
                         <Rating value={average} precision={0.01} readOnly />
-                        <p>{length} reviews</p>
+                        <p style={{fontSize:'15px'}}>{length} reviews</p>
                     </Box>
                     <Grid spacing={1} container alignItems="center" marginTop="-25px" onClick={() => handleFilterReview(5)}>
                         <Grid xs={2} item>
-                            <p style={{ cursor: "pointer", textDecoration: "underline" }}>5 stars</p>
+                            <p style={{ cursor: "pointer", fontSize:'12px'  }}>5 stars</p>
                         </Grid>
                         <Grid xs item paddingBottom="15px">
-                            <LinearProgress variant="determinate" style={{ cursor: "pointer" }} value={(starCount[4] / length) * 100} />
+                            <LinearProgress variant="determinate" style={{ cursor: "pointer", fontSize:'15px' }} value={(starCount[4] / length) * 100} />
                         </Grid>
                     </Grid>
                     <Grid spacing={1} container alignItems="center" marginTop="-25px" onClick={() => handleFilterReview(4)}>
                         <Grid xs={2} item>
-                            <p style={{ cursor: "pointer", textDecoration: "underline" }}>4 stars</p>
+                            <p style={{ cursor: "pointer", fontSize:'15px' }}>4 stars</p>
                         </Grid>
                         <Grid xs item paddingBottom="15px">
-                            <LinearProgress variant="determinate" style={{ cursor: "pointer" }} value={(starCount[3] / length) * 100} />
+                            <LinearProgress variant="determinate" style={{ cursor: "pointer", fontSize:'15px' }} value={(starCount[3] / length) * 100} />
                         </Grid>
                     </Grid>
                     <Grid spacing={1} container alignItems="center" marginTop="-25px" onClick={() => handleFilterReview(3)}>
                         <Grid xs={2} item>
-                            <p style={{ cursor: "pointer", textDecoration: "underline" }}>3 stars</p>
+                            <p style={{ cursor: "pointer", fontSize:'15px' }}>3 stars</p>
                         </Grid>
                         <Grid xs item paddingBottom="15px">
-                            <LinearProgress variant="determinate" style={{ cursor: "pointer" }} value={(starCount[2] / length) * 100} />
+                            <LinearProgress variant="determinate" style={{ cursor: "pointer", fontSize:'15px' }} value={(starCount[2] / length) * 100} />
                         </Grid>
                     </Grid>
                     <Grid spacing={1} container alignItems="center" marginTop="-25px" onClick={() => handleFilterReview(2)}>
                         <Grid xs={2} item>
-                            <p style={{ cursor: "pointer", textDecoration: "underline" }}>2 stars</p>
+                            <p style={{ cursor: "pointer", fontSize:'15px'}}>2 stars</p>
                         </Grid>
                         <Grid xs item paddingBottom="15px">
-                            <LinearProgress variant="determinate" style={{ cursor: "pointer" }} value={(starCount[1] / length) * 100} />
+                            <LinearProgress variant="determinate" style={{ cursor: "pointer", fontSize:'15px' }} value={(starCount[1] / length) * 100} />
                         </Grid>
                     </Grid>
                     <Grid spacing={1} container alignItems="center" marginTop="-25px" onClick={() => handleFilterReview(1)}>
                         <Grid xs={2} item>
-                            <p style={{ cursor: "pointer", textDecoration: "underline" }}>1 stars</p>
+                            <p style={{ cursor: "pointer", fontSize:'15px' }}>1 stars</p>
                         </Grid>
                         <Grid xs item paddingBottom="15px">
-                            <LinearProgress variant="determinate" style={{ cursor: "pointer" }} value={(starCount[0] / length) * 100} />
+                            <LinearProgress variant="determinate" style={{ cursor: "pointer", fontSize:'15px' }} value={(starCount[0] / length) * 100} />
                         </Grid>
                     </Grid>
                 </div>
                 <div
                     style={{
-                        width: "356px",
-                        height: "200px",
+                        width: "50%",
+                        height: "25%",
                         margin: "20px",
                         backgroundColor: "white",
                         borderRadius: "15px",
@@ -104,11 +104,11 @@ export default function DisplayReview({ data, setScreen, reviews, starCount, ave
                         display: "flex",
                     }}
                 >
-                    <img src={images["Default"][data.model]} alt={data.model} style={{ width: "340px" }}></img>
+                    <img src={images["Default"][data.model]} alt={data.model} style={{ width: "90%" }}></img>
                 </div>
             </div>
             <div style={{ marginLeft: "20px", marginTop: "-20px", height: "300px", overflowY: "scroll" }}>
-                <h4>Reviews</h4>
+                <h4 >Reviews</h4>
                 {filteredStar !== null && <div style={{ display: "flex" }}>
                     <p style={{ textDecoration: "underline" }}>Filter: {filteredStar} stars</p>
                     <p
