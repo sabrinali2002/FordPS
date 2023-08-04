@@ -46,7 +46,7 @@ export default function Sched3({
           marginBottom: 5,
         }}
       >
-        Your Appointment is confirmed
+        Your appointment is confirmed
       </div>
       <div style={{ fontSize:'15',alignSelf: "start", marginBottom: 5, color: "black" }}>
         A confirmation email has been sent. Please arrive 15 minutes before your
@@ -87,7 +87,7 @@ export default function Sched3({
             color: "#00095B",
             fontSize: 18,
             marginRight: 5,
-            width:'130%'
+            width:'90%'
           }}
         >
           Name:
@@ -173,7 +173,7 @@ export default function Sched3({
             {notes}
           </div>
         </div>
-        <div style={{ marginRight: 10 }}>
+        <div style={{width:"70%" }}>
           <div
             style={{
               fontWeight: 500,
@@ -188,11 +188,11 @@ export default function Sched3({
           </div>
           <div className="model-button-sched3">
             <img src={model.length===0?images["Default"]["Bronco"]:`${images[trim.length>0?model:"Default"][trim.length>0?trim:model]}`} 
-            style={{alignSelf:'center', width: '90%',height:'auto' }}/>
+            style={{alignSelf:'center', width: '100%',height:'auto' }}/>
             <br/>{model.length===0?"Bronco":model}<BiRegistered/>{model.length===0?" Base":` ${trim}`}
           </div>
         </div>
-        <div style={{ width: "110%", marginLeft:'-20px' }}>
+        <div style={{ width: "60%" }}>
           <div
             style={{
               fontWeight: 500,
@@ -241,10 +241,10 @@ export default function Sched3({
             >
               <img
                 src="/2.png"
-                style={{ alignSelf: "start", height: 25, left: 30, top: 0 }}
+                style={{ alignSelf: "start", height: 25, left: 30, marginTop:10 }}
               ></img>
 
-              <div style={{ position: "absolute", left: 40, top: 0 }}>
+              <div style={{ position: "absolute", left: 40, top: 11 }}>
                 {phone}
               </div>
             </div>
@@ -258,7 +258,7 @@ export default function Sched3({
               }}
             >
               <img src="/1.png" style={{ alignSelf: "start", width: 31 }}></img>
-              <div style={{ position: "absolute", left: 40, top: 0 }}>
+              <div style={{ position: "absolute", left: 42, top: -3 }}>
                 {link}
               </div>
             </div>
@@ -273,10 +273,10 @@ export default function Sched3({
             >
               <img
                 src="/4.png"
-                style={{ alignSelf: "start", height: 25, left: 30, top: 0 }}
+                style={{ alignSelf: "start", height: 25, left: 33, top: 0 }}
               ></img>
 
-              <div style={{ position: "absolute", left: 40, top: 0 }}>
+              <div style={{ position: "absolute", left: 40, top: 2 }}>
                 {hours}{" "}
               </div>
             </div>

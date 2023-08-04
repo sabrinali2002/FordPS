@@ -133,6 +133,8 @@ function App() {
   const [dura, setDura] = useState("");
   const [down, setDown] = useState(0);
   const [requestSent, setRequestSent] = useState(false);
+  const [mapBlocker, setMapBlocker] = useState(false);
+  const [schedSent, setSchedSent] = useState(false);
 
   const blockQueries = useRef(false);
   const recognition = useRef(null);
@@ -177,17 +179,19 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "Buying a Ford", author: "You" }];
           });
           setMessages((m) => {
             return [
               ...m,
-              { msg: "What info would you like to know?", author: "Ford Chat" },
+              { msg: "What would you like to know?", author: "Ford Chat" },
             ];
           });
           setMenuButtons(buyingFordButtons);
           setShowCalcButtons(false);
+          setMapBlocker(true);
         }}
       >
         Buying a Ford
@@ -195,6 +199,7 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "I'm an Existing Owner", author: "You" }];
           });
@@ -209,6 +214,7 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "Info about Ford", author: "You" }];
           });
@@ -230,6 +236,7 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "Negotiation assistance", author: "You" }];
           });
@@ -354,6 +361,7 @@ function App() {
         className="button-small"
         onClick={() => {
           setMenuButtons(origButtons);
+          setMapBlocker(false);
         }}
       >
         Back
@@ -361,6 +369,7 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          setMapBlocker(false);
           handleUserInput("I");
           setMenuButtons([]);
         }}
@@ -370,6 +379,7 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          setMapBlocker(false);
           handleUserInput("A");
         }}
       >
@@ -378,6 +388,7 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          setMapBlocker(false);
           handleUserInput("D");
           setMenuButtons([]);
         }}
@@ -387,8 +398,10 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          //setMapBlocker(false);
           handleUserInput("B");
           setMenuButtons([]);
+          //setZipMode(0);
         }}
       >
         Find a dealership
@@ -396,6 +409,7 @@ function App() {
       <button
         className="button-small"
         onClick={() => {
+          setMapBlocker(false);
           handleUserInput("C");
           setMenuButtons([]);
         }}
@@ -615,7 +629,8 @@ function App() {
     setPriceStep,
     setVehicleMode,
     setOptionButtons,
-    setShowingEvs
+    setShowingEvs,
+    setSchedSent
   );
 
   useEffect(() => {
@@ -753,7 +768,9 @@ function App() {
       requestSent,
       setShowingEvs,
       forceUpdate,
-      setForceUpdate
+      setForceUpdate,
+      setMapBlocker,
+      schedSent
     );
   }, [
     query,
@@ -775,7 +792,7 @@ function App() {
         <TopBar
           handleClick={() => {
             setMessages([]);
-            setMenuButtons([origButtons]);
+            setMenuButtons(origButtons);
             setCalcButtons([]);
             setOptionButtons([]);
           }}
@@ -858,7 +875,10 @@ function App() {
                   setModel={setModel}
                   setTrim={setTrim}
                   setQuery={setQuery}
+                  mapBlocker={mapBlocker}
                   key={index}
+                  setMapBlocker={setMapBlocker}
+                  setSchedSent={setSchedSent}
                 />
               );
             })}
@@ -1016,7 +1036,9 @@ function App() {
                         requestSent,
                         setShowingEvs,
                         forceUpdate,
-                        setForceUpdate
+                        setForceUpdate,
+                        setMapBlocker,
+                        schedSent
                       );
                     }
                   }}

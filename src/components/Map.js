@@ -41,6 +41,8 @@ function Map({
   setMenuButtons,
   origButtons,
   setMessages,
+  setMapBlocker,
+  setSchedSent
 }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
@@ -142,7 +144,7 @@ function Map({
       ) {
         models.push([selectedModel, selectedTrim]);
         for (let trims of dealerToTrim[dealer][selectedModel]) {
-          if (trims != selectedTrim) {
+          if (trims != selectedTrim && selectedModel !== 'E-Transit Cargo Van' && selectedModel !== 'Transit Cargo Van') {
             models.push([selectedModel, trims]);
             break;
           }
@@ -150,7 +152,7 @@ function Map({
       } else {
         // trim unavailable
         for (let trims of dealerToTrim[dealer][selectedModel]) {
-          if (models.length < n) {
+          if (models.length < n && selectedModel !== 'E-Transit Cargo Van' && selectedModel !== 'Transit Cargo Van') {
             models.push([selectedModel, trims]);
           }
         }
@@ -158,28 +160,34 @@ function Map({
         let i = 0;
         while (models.length < n) {
           // not enough trims of model
-          models.push([sim, dealerToTrim[dealer][sim][i]]);
-          i = i + 1;
+          if (sim !== 'E-Transit Cargo Van' && sim !== 'Transit Cargo Van') {
+            models.push([sim, dealerToTrim[dealer][sim][i]]);
+            i = i + 1;            
+          }
           // append trims of similar model
         }
       }
     } else if (selectedModel !== "") {
       // know model, not trim
       for (let trims of dealerToTrim[dealer][selectedModel]) {
-        if (models.length < n) {
+        if (models.length < n && selectedModel !== 'E-Transit Cargo Van' && sim !== 'Transit Cargo Van') {
           models.push([selectedModel, trims]);
         }
       }
+      let j = 0;
+      let sim = similar[selectedModel];
       while (models.length < n) {
         // not enough trims of model
-        let x = 0;
-        // append first trim of similar model
+        if (sim !== 'E-Transit Cargo Van' && sim !== 'Transit Cargo Van') {
+          models.push([sim, dealerToTrim[dealer][sim][j]]);
+          j = j + 1;            
+        }
       }
     } else {
       // know neither
       for (let currmodel of Object.keys(dealerToTrim[dealer])) {
         if (models.length < n) {
-          if (dealerToTrim[dealer][currmodel].length != 0) {
+          if (dealerToTrim[dealer][currmodel].length != 0 && currmodel !== 'E-Transit Cargo Van' && currmodel != 'Transit Cargo Van') {
             models.push([currmodel, dealerToTrim[dealer][currmodel][0]]);
           } else {
             continue;
@@ -258,7 +266,7 @@ function Map({
       setNameError("Please enter a name");
       errors = errors + 1;
     }
-    if (!email.includes("@")) {
+    if (email.split("@").length!==2 || email.split("@")[1].split(".").length!==2) {
       setEmailError("Please enter a valid email");
       errors = errors + 1;
     }
@@ -363,8 +371,8 @@ function Map({
                       style={{
                         justifySelf: "center",
                         position: "relative",
-                        right: "10px",
-                        width: "120px",
+                        right: "8px",
+                        width: "120%",
                         height: "auto",
                       }}
                       src={images[model[0]][model[1]]}
@@ -439,6 +447,9 @@ function Map({
   };
 
   const handleAppointment = (name, email, phoneNumber, notes) => {
+    setSchedSent(true);
+    console.log("handling");
+    setMapBlocker(true);
     setName(name);
     setEmail(email);
     setPhoneNumber(phoneNumber);
@@ -449,10 +460,9 @@ function Map({
     setMessages((m) => {
       return [
         ...m,
-        { msg: "What else can I help you with?", author: "Ford Chat" },
+        { msg: "Is there anything else I can help you with?", author: "Ford Chat" },
       ];
     });
-    console.log("aa");
     setMenuButtons(origButtons);
   };
 
@@ -473,7 +483,7 @@ function Map({
   const locClickHandler = (d) => {
     let dealer = d[0];
     setDealer1(dealer);
-    let models = returnCars(dealer, 10);
+    let models = returnCars(dealer, 11);
     let url = "https://images.jazelc.com/uploads/robinsford-m2en/Ford_Service.jpeg";
     let addr = info[dealer]["address"];
     let phone = info[dealer]["number"];
@@ -499,7 +509,7 @@ function Map({
     setShowWindow(true);
     let window1 = (<div className={'dealer-window'+(maintenanceMode.length==0?'1':'3')}>
       <button className='close-button' onClick={onExit}>
-        <span style={{position:'relative',right:'6px',bottom:'0px'}}><IoMdClose/></span>
+        <span style={{position:'relative',right:'6px',bottom:'1px'}}><IoMdClose/></span>
       </button>
       <span style={{color:'#322964',fontSize:'22px',fontWeight:'bold'}}>{dealer}</span>
       <span style={{position: 'absolute', right:'227px'}}><FaMapMarked/></span>
@@ -526,13 +536,19 @@ function Map({
           {models.map(model => (<div key={model} className='model-button-scroll' onClick={() =>{
                 setModel1(model[0]);
                 setTrim1(model[1]);
+                setDealer1(dealer);
+                setAddress1(addr);
+                setPhone1(phone);
+                setHours1(hrStr);
+                setLink1(link);
                 openScheduler(dealer, maintenanceMode);
                 }}>
                   <span style={{marginLeft:'-10px'}}>
                     <img style={{width:'120%',height:'auto'}} src={images[model[0]][model[1]]}/>
                   </span>
                   <br/>
-                    {model[0]}<BiRegistered/>                            
+                    {model[0]}<BiRegistered/> <br/>
+                    <span style={{fontSize:'10px'}}>{model[1]}</span>                          
               </div>))}     
       </div>
 
@@ -796,17 +812,28 @@ function Map({
         <SchedDisp
           dealer={dealer1}
           phone={phone1}
+          setPhone={setPhone1}
           address={address1}
+          setAddress={setAddress1}
           link={link1}
+          setLink={setLink1}
           hours={hour1}
+          setHours={setHours1}
           maintenanceMode={maintenanceMode}
           model={model1===''?selectedModel:model1}
           trim={trim1===''?selectedTrim:trim1}
           backButton={backButton}
+          setMenuButtons={setMenuButtons}
+          setMessages={setMessages}
+          origButtons={origButtons}
+          setMapBlocker={setMapBlocker}
+          setSchedSent={setSchedSent}
         />
       )}
       {isScheduler2Visible && (
-        <Sched1 dealer={dealer1} date={date} time={time} model={model1===''?selectedModel:model1} trim={trim1===''?selectedTrim:trim1} handleAppointment={handleAppointment} maintenanceMode={maintenanceMode} backButton={backButton}/>
+        <Sched1 dealer={dealer1} date={date} time={time} handleAppointment={handleAppointment} 
+        maintenanceMode={maintenanceMode}  model={model1===''?selectedModel:model1} trim={trim1===''?selectedTrim:trim1}
+          backButton={backButton} phoneNum={phone1} address={address1} link={link1} hours={hour1} />
         )}
       {vis3 && (
         <Sched3
@@ -979,9 +1006,7 @@ function Map({
 
                       <div
                         style={{
-                          position: "relative",
-
-                          marginLeft: "60px",
+                          width:'90%'
                         }}
                       >
                         <div

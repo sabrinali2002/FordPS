@@ -34,7 +34,7 @@ export default function DeliveryRegistration({model,trim,setMenuButtons,origButt
             setAddressError("Please enter an address");
             errors = errors + 1;
         }
-        if (!email.includes('@')) {
+        if (email.split("@").length!==2 || email.split("@")[1].split(".").length!==2) {
           setEmailError("Please enter a valid email");
           errors = errors + 1;
         }

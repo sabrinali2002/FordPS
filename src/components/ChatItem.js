@@ -106,6 +106,7 @@ export default function ChatItem({
   setModel,
   setTrim,
   setQuery,
+  setSchedSent
 }) {
   const textPartStyle = {
     display: "flex",
@@ -188,6 +189,7 @@ export default function ChatItem({
             setMenuButtons={setMenuButtons}
             origButtons={orig}
             setMessages={setMessages}
+            setSchedSent={setSchedSent}
           ></Map>
         )}
         {author === "Ford Chat..." && (

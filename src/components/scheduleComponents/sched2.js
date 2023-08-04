@@ -150,7 +150,7 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
   return (
     <div
       style={{
-        width: "60%",
+        width: "55%",
         backgroundColor: "#113B7A1A",
         height: "350px",
         borderRadius: "30px",
@@ -174,7 +174,7 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
           marginBottom: 5,
         }}
       >
-        Schedule a {maintenanceMode.length==0?"Test Drive":maintenanceMode} Appointment
+        Schedule a {maintenanceMode.length==0?"test drive":maintenanceMode} appointment
       </div>
       <div
         style={{
@@ -185,7 +185,7 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
         <div
           style={{
             display: "flex",
-            width: '67%',
+            width: '70%',
             flexDirection: "column",
             marginRight:'20px'
           }}
@@ -200,8 +200,8 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
           >
             Appointments available
           </div>
-          <div style={{ alignSelf: "start", marginBottom: 10 }}>
-            Select an appointment below
+          <div style={{ alignSelf: "start", marginBottom: 10, fontSize:15 }}>
+            Select a time below
           </div>
           <div
             style={{
@@ -246,7 +246,7 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
           style={{
             display: "flex",
             flexDirection: "column",
-            marginLeft:'-50px'
+            marginLeft:'-80px'
           }}
         >
           <div
@@ -254,11 +254,11 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
               color: "#00095B",
               fontSize: 22,
               fontWeight: 500,
-              marginBottom: 20,
+              marginBottom: 10,
               alignSelf: "start",
             }}
           >
-            Look up date and time
+            Find appointments
           </div>
           <div>
             <DatePicker
@@ -291,7 +291,7 @@ export default function Sched2({ callback, maintenanceMode="", backButton }) {
                 paddingBottom: 5,
                 marginTop: 10,
                 fontSize: 18,
-                width: '50%',
+                width: '70%',
                 cursor: 'pointer'
               }}
               onClick={onSubmit}
