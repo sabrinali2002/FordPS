@@ -69,6 +69,24 @@
   margin:5px;
 }
 
+.back-button{
+  cursor: pointer;
+  display: inline-block;
+  font-size: 18px;
+  padding: 0 18px;
+  line-height: 35px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin:5px;
+  background-color: rgb(231, 228, 228);
+  color: #322964;
+  border-radius: 100px;
+  box-shadow: 1px 4px 2px rgba(0, 0, 0, 0.5);
+}
+
 .buttons{
   position:fixed;
   bottom:110px;

@@ -356,12 +356,12 @@ function App() {
   const buyingFordButtons = (
     <div className="buttons">
       <button
-        className="button-small"
+        className="back-button"
         onClick={() => {
           setMenuButtons(origButtons);
         }}
       >
-        Back
+        <span style={{fontSize:'22px'}}> &lt;</span>    Back
       </button>
       <button
         className="menu button-standard"
@@ -667,6 +667,7 @@ function App() {
   // useEffect(()=>{handleMoreInfo()}, [tableForceUpdate]);
   const handleUserFeedback = () => {
     setMessages((m) => [...m, { msg: "", author: "Feedback" }]);
+    setShowCalcButtons(false);
   };
 
   //initial message

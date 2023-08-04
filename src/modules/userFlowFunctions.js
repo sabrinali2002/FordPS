@@ -520,7 +520,7 @@ export function handleUserInputFn(
                       </div>
                       <div className="ev-description" style={{
                         fontSize:"15px",
-                        paddingTop:"10px"
+                        paddingTop:"10px",
                       }}>{description}</div>
                     </div>
                   );
@@ -553,8 +553,9 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
-              {evmarket}
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px",  }}>
+              <span styl={{textAlign:'left'}}>{evmarket}</span>
+              <br></br>
               <img
                   style={{ width: "50%", height: "auto",padding:"5px" }}
                   src={electricpic2}
@@ -579,7 +580,8 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+                        
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px",  textAlign:'left'}}>
               {certifications}
               </div>
             </div>
@@ -601,7 +603,7 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px",  textAlign:'left'}}>
               {emissions}
               </div>
             </div>
@@ -624,7 +626,7 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px", textAlign:'left' }}>
               {commitments}
               </div>
             </div>
@@ -647,7 +649,7 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px", textAlign:'left' }}>
               {pm}
               </div>
             </div>
@@ -669,7 +671,7 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px", textAlign:'left' }}>
               {endoflife}
               </div>
             </div>
