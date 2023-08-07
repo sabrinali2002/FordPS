@@ -78,7 +78,7 @@ function App() {
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => !prevMode);
   };
-
+  const [chatGap, setChatGap] = useState(true);
   // PAYMENT CALCULATOR
 
   //which state the bot is in:
@@ -206,6 +206,7 @@ function App() {
             return [...m, { msg: "", author: "Login" }];
           });
           setShowCalcButtons(false);
+          setChatGap(false);
         }}
       >
         I'm an Existing Owner
@@ -236,6 +237,7 @@ function App() {
         className="menu button-standard"
         onClick={() => {
           setZipMode(0);
+          setChatGap(false);
           setMessages((m) => {
             return [...m, { msg: "Send an order request", author: "You" }];
           });
@@ -287,6 +289,7 @@ function App() {
         className="menu button-standard"
         onClick={() => {
           handleUserInput("NM");
+          setChatGap(false);
         }}
       >
         New models
@@ -295,6 +298,7 @@ function App() {
         className="menu button-standard"
         onClick={() => {
           handleUserInput("NF");
+          setChatGap(false);
         }}
       >
         Future models
@@ -303,6 +307,7 @@ function App() {
         className="menu button-standard"
         onClick={() => {
           handleUserInput("EV");
+          setChatGap(false);
         }}
       >
         EV Market
@@ -369,6 +374,7 @@ function App() {
         onClick={() => {
           handleUserInput("I");
           setMenuButtons([]);
+          setChatGap(false);
         }}
       >
         Info about a specific car
@@ -377,6 +383,7 @@ function App() {
         className="menu button-standard"
         onClick={() => {
           handleUserInput("A");
+          setChatGap(false);
         }}
       >
         Car recommendation
@@ -386,6 +393,7 @@ function App() {
         onClick={() => {
           handleUserInput("D");
           setMenuButtons([]);
+          setChatGap(false);
         }}
       >
         Car pricing estimator
@@ -803,6 +811,7 @@ function App() {
             setTrim("");
             setSelectedModel("");
             setSelectedTrim("");
+            setChatGap(true);
           }}
         />
       </div>
@@ -832,7 +841,7 @@ function App() {
             width: "100%",
             height: "80vh",
             marginTop:'50px',
-            paddingTop: menuButtons===[] ? "110px" : '110px',
+            paddingTop: chatGap ? "110px" : '70px',
             display: "flex",
             flexDirection: "column",
             overflowY: "auto",
@@ -947,7 +956,7 @@ function App() {
           <div ref={messagesEndRef} />
         </div>
         <div>
-          <div style={{marginBottom: '110px', paddingTop:'5px',marginTop:'1px', height: menuButtons===[] ? "5px" :'60px' }}>
+          <div style={{marginBottom: '110px', paddingTop:'5px',marginTop:'1px', height: chatGap ? "60px" :'1px' }}>
 
               {menuButtons}
           </div>
