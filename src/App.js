@@ -197,6 +197,7 @@ function App() {
       <button
         className="menu button-standard"
         onClick={() => {
+       setMenuButtons([]);
           setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "I'm an Existing Owner", author: "You" }];
@@ -829,9 +830,9 @@ function App() {
           className="ChatArea"
           style={{
             width: "100%",
-            height: "100%",
+            height: "80vh",
             marginTop:'50px',
-            paddingTop: "220px",
+            paddingTop: menuButtons===[] ? "110px" : '110px',
             display: "flex",
             flexDirection: "column",
             overflowY: "auto",
@@ -946,7 +947,7 @@ function App() {
           <div ref={messagesEndRef} />
         </div>
         <div>
-          <div style={{marginBottom:'110px', paddingTop:'5px',marginTop:'1px', height:'60px'}}>
+          <div style={{marginBottom: '110px', paddingTop:'5px',marginTop:'1px', height: menuButtons===[] ? "5px" :'60px' }}>
 
               {menuButtons}
           </div>
