@@ -187,11 +187,11 @@ const Feedback = ({ messages, setMessages, setOptionButtons, setMenuButtons }) =
             {displaySurvey === true && (
                 <div style={{ justifyContent: "center", textAlign: "center", marginTop: "10px", marginBottom: "100px", width: "80%", marginLeft:"80px" }}>
                     <div style={{ backgroundColor: "rgb(205, 220, 232)", borderRadius: "15px", boxShadow: "0 4px 2px -2px gray", width: "100%" }}>
-                        <div style={{ marginTop: "10px", color: "#322964", fontSize: "20px", fontWeight: "bold", lineHeight: "30px" }}>We appreciate your input!</div>
-                        <div style={{ color: "#322964", fontSize: "12px", fontWeight: "bold", lineHeight: "20px" }}>Please answer any of these questions below to help us help you next time.</div>
+                        <div style={{ marginTop: "10px", color: "#322964", fontSize: "20px", lineHeight: "30px" }}>We appreciate your input!</div>
+                        <div style={{ color: "#322964", fontSize: "12px", lineHeight: "20px" }}>Please answer any of these questions below to help us help you next time.</div>
                         <div style={{ textAlign: "left", marginLeft: "1rem", marginTop: "1.5rem", padding: "1rem" }}>
                             <div>
-                                <Typography>How satisfied are you with your HenrAI experience?</Typography>
+                                <Typography style={{fontSize: '18px', fontFamily:'Antenna, sans-serif', fontWeight:'100'}}>How satisfied are you with your HenrAI experience?</Typography>
                                 <Box
                                     sx={{
                                         display: "flex",

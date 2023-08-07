@@ -26,6 +26,7 @@ function extractLinkFromText(messageText, author, darkMode) {
         wordsArray.slice(linkIndex + 1, wordsArray.length).join(" ");
 
   const bubbleStyle = {
+    marginBottom:'0px',
     color: darkMode ? "black" : "white",
     backgroundColor: darkMode
       ? author.toLowerCase() === "you"
