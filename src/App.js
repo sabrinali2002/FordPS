@@ -412,6 +412,7 @@ function App() {
       <button
         className="menu button-standard"
         onClick={() => {
+          setChatGap(false);
           handleUserInput("C");
           setMenuButtons([]);
         }}
@@ -960,7 +961,8 @@ function App() {
         </div>
         <div>
           <div style={{marginBottom: '110px', paddingTop:'5px',marginTop:'1px', height: chatGap ? "60px" :'1px' }}>
-
+          {console.log("chatgap is")}
+                  {console.log(chatGap)}
               {menuButtons}
           </div>
           <form

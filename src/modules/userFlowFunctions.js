@@ -1064,7 +1064,8 @@ export function handleUserFlow(
                       forceUpdate,
                       setForceUpdate,
                       knowMyPriceButtons,
-                      setLocateButton
+                      setLocateButton,
+                      setChatGap
                     );
                     setTrim(trim);
                   }}
@@ -1110,7 +1111,8 @@ export function handleUserFlow(
               forceUpdate,
               setForceUpdate,
               knowMyPriceButtons,
-              setLocateButton
+              setLocateButton,
+              setChatGap
             );
             blockQueries.current = false;
             break;
@@ -1144,7 +1146,8 @@ export function handleUserFlow(
               forceUpdate,
               setForceUpdate,
               knowMyPriceButtons,
-              setLocateButton
+              setLocateButton,
+              setChatGap
             );
             blockQueries.current = false;
             break;
@@ -1185,10 +1188,12 @@ export function handleUserFlow(
           blockQueries.current = false;
           break;
         case "A":
+          console.log('setting chat gap');
           setQuery("");
+          setChatGap(true);
           sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation).then(()=>{
             setMenuButtons(origButtons)
-            setChatGap(true);
+            
           });
           break;
         case "B": {
@@ -1375,6 +1380,7 @@ export function handleUserFlow(
             case 4:
               //setQuestionnaireAnswers(q=>[...q, query])
               let questionnaireAnswersCopy = [...questionnaireAnswers, query];
+              setChatGap(true);
               setForceUpdate(!forceUpdate);
               const ultimateQueryString =
                 "Here is my budget: " +
@@ -1389,7 +1395,7 @@ export function handleUserFlow(
                 ultimateQueryString,
                 history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation).then(()=>{
                     setMenuButtons(origButtons);
-                    setChatGap(true);
+                    
                 })
               setQuestionnaireStep(5);
               break;;
