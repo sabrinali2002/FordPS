@@ -120,10 +120,9 @@ export default function ChatItem({
   };
   const [isSpeaking, toggleIsSpeaking] = useState(false);
   return (
-    <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
       <div
-        style={author === "You" || author === "Ford Chat" ? textPartStyle : {}}
-      >
+        style={author === "You" || author === "Ford Chat" ? textPartStyle : {}}>
         <div style={textPartStyle}>
           {author === "Ford Chat" && (
             <div>

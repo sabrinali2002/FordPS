@@ -598,7 +598,8 @@ function Map({
                               setLink1(link);}}>View more
           <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
           <br/>
-          <div style={{display:'flex',marginTop:'5px',marginLeft:'5px',flexDirection:'x',width:'100%'}}>
+          <div style={{display:'flex',marginTop:'5px',marginLeft:'5px',flexDirection:'row',width:'100%'}}>
+            <div style={{width:'23%'}}>
             <button className='schedule-button' onClick={() => 
               {openScheduler(dealer, maintenanceMode)
                 setDealer1(dealer);
@@ -606,8 +607,10 @@ function Map({
                 setPhone1(phone);
                 setHours1(hrStr);
                 setLink1(link);
-                }}>Click here to schedule an appointment</button>
-            <span>
+                }}>Click here to schedule an appointment</button>              
+            </div>
+
+            <div style={{width:'77%'}}>
               <div className='timeslot-container'>
                 {appts.slice(0,3).map(appt => (<button key={appt[1]} date={appt[0]} time={appt[1]} onClick={
                   () => {showScheduler2();
@@ -634,7 +637,7 @@ function Map({
                         }} className='time-slot'>{appt[0]}<br/>
                   <span style={{fontWeight:'bold'}}>{appt[1]}</span></button>))}
               </div>              
-            </span>            
+            </div>            
           </div>
       </div>);
     setWindow2Content(window2);
@@ -830,9 +833,9 @@ function Map({
     fetchInfo();
   }, [zip, latlong]);
   return (
-  <div style={{alignItems:'flex-start'}}>
+  <div>
       {(showWindow && requestInfo) && 
-          <div style={{width:'100%'}}>
+          <div style={{width:'50%'}}>
             {window1Content}
             {window4Content}
         </div>
