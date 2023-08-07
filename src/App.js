@@ -412,6 +412,7 @@ function App() {
       <button
         className="menu button-standard"
         onClick={() => {
+          setChatGap(false);
           handleUserInput("C");
           setMenuButtons([]);
         }}
