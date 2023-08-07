@@ -349,7 +349,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                     setPriceStep(6);
                     break;
                 case "combustion":
-                    setMessages((m) => [...m, { msg: "Based on these prices, would you like to contact a dealer to find availability?", author: "Ford Chat", line: true, zip: {} }]);
+                    setMessages((m) => [...m, { msg: "Based on the average retail price, would you like to contact a dealer to find availability?", author: "Ford Chat", line: true, zip: {} }]);
                     let opts1 = ['Yes, contact a dealer','No'];
                     setOptionButtons(<div className='option-buttons'>
                         {opts1.map(o => (<button className='button-small' key={o} value={o} 

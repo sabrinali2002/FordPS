@@ -25,7 +25,7 @@ const queryDatabase = async (model, trim) => {
 
 export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,setTableForceUpdate,handleCarInfoButton,model,trim,setMessages,
   setModel,setQuery,setInfoMode,setCalcButtons,setMenuButtons,handleUserInput,setShowCalcButtons,setCarInfoData,
-  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons,origButtons,forceUpdate,setForceUpdate,knowMyPriceButtons,setLocateButton){
+  infoMode,selected,changeSelected,setDealers,locateDealershipsFn,setSelect,setFind,query,setZipMode,setOptionButtons,forceUpdate,setForceUpdate,knowMyPriceButtons,setLocateButton){
 
     if (infoMode === 2) {
         if (trim === "All Trims") {
@@ -69,7 +69,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
         onClick={() => {
           setZipMode(0);
           setMessages((m) => {
-            return [...m, { msg: "Negotiation assistance", author: "You" }];
+            return [...m, { msg: "Send an order request", author: "You" }];
           });
           setMessages((m) => {
             return [
@@ -85,7 +85,7 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
           setShowCalcButtons(false);
         }}
       >
-        Negotiation assistance
+        Send an order request
       </button>
                 <button
                     className="button-small"
@@ -117,7 +117,6 @@ export default async function handleInfoFlow(handleMoreInfo,tableForceUpdate,set
         const selectedCopy = selected;
         selectedCopy[model].push(trim);
         changeSelected(selectedCopy);
-        console.log(setLocateButton);
         locateDealershipsFn(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, query, -1, setMessages, setZipMode, setShowCalcButtons,"","",setLocateButton)();
         setShowCalcButtons(false);
       }
