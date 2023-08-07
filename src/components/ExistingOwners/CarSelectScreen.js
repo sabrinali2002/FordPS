@@ -92,7 +92,7 @@ export default function CarSelectScreen({user, auth, username, setMessages, setM
 
       console.log("re-render", selectedCar)
     return (
-        <div>
+        <div style={{marginLeft:"80px"}}>
             {!justSelect && <Fragment>
                 <h1 style={{textAlign: 'center', fontSize:"26px"}}>Welcome back, {username.length>0?username:user.displayName}!</h1>
                 <p style={{textAlign: 'center', fontSize:"18px"}}>Not you? <button className="link" style={{fontSize:"18px"}}onClick={() =>{ 
