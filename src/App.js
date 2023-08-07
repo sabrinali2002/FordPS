@@ -197,7 +197,7 @@ function App() {
       <button
         className="menu button-standard"
         onClick={() => {
-          setMenuButtons([]);
+       setMenuButtons([]);
           setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "I'm an Existing Owner", author: "You" }];
