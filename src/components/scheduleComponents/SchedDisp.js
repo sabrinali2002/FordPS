@@ -9,7 +9,7 @@ import { getAuth } from "firebase/auth";
 
 const auth = getAuth(firebase);
 
-function SchedDisp({ dealer, phone, setPhone, address, setAddress, link, setLink, hours, setHours, maintenanceMode="", model="", trim="", backButton, setMenuButtons, setMessages, origButtons,setSchedSent }) {
+function SchedDisp({ dealer, phone, setPhone, address, setAddress, link, setLink, hours, setHours, maintenanceMode="", model="", trim="", backButton, setMenuButtons, setMessages, origButtons,setSchedSent, changeChoice, setQuery }) {
   const [hour, setHour] = useState(null);
   const [date, setDate] = useState(null);
   const [name, setName] = useState(null);
@@ -41,6 +41,8 @@ function SchedDisp({ dealer, phone, setPhone, address, setAddress, link, setLink
     setAddress(address);
     setLink(link);
     setHours(hours);
+    changeChoice("");
+    setQuery("")
     setMessages((m) => {
       return [
         ...m,
