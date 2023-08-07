@@ -18,7 +18,7 @@ export default function DisplayReview({ data, setScreen, reviews, starCount, ave
     return (
         <div
             style={{
-                width: "50%", // Increase width to desired value
+                width: "80%", // Increase width to desired value
                 display: "flex",
                 borderRadius: "15px", // Add this for rounded corners
                 backgroundColor: "#d4e3fa",

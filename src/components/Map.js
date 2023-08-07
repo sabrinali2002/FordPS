@@ -480,6 +480,7 @@ function Map({
   };
 
   const handleAppointment = (name, email, phoneNumber, notes) => {
+    alert("called")
     setSchedSent(true);
     console.log("handling");
     setName(name);
@@ -865,6 +866,8 @@ function Map({
           setMessages={setMessages}
           origButtons={origButtons}
           setSchedSent={setSchedSent}
+          changeChoice={changeChoice}
+          setQuery={setQuery}
         />
       )}
       {isScheduler2Visible && (
