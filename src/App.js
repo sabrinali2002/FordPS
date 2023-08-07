@@ -236,7 +236,7 @@ function App() {
         onClick={() => {
           setZipMode(0);
           setMessages((m) => {
-            return [...m, { msg: "Negotiation Assistance", author: "You" }];
+            return [...m, { msg: "Send an order request", author: "You" }];
           });
           setMessages((m) => {
             return [
@@ -252,7 +252,7 @@ function App() {
           setShowCalcButtons(false);
         }}
       >
-        Negotiation assistance
+        Send an order request
       </button>
     </div>
   );

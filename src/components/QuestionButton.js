@@ -25,7 +25,7 @@ const QuestionButton = () => {
       {expansion===1 && (
         <div className="explanation-container" onMouseLeave={handleMouseLeave}>
           <p>
-            How do this work? <br/> Well, HenrAI uses large data sets to learn about Ford and help answer your questions. Click to learn more..
+            How does this work? <br/> Well, HenrAI uses large data sets to learn about Ford and help answer your questions. Click to learn more..
           </p>
          
           <button className="learn-more-button" onClick={handleToggleClick}>

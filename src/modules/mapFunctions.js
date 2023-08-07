@@ -132,6 +132,7 @@ export const findLocations = async (query, distance) => {
     };
   }
   export const locateDealershipsFn=function(setDealers, setCalcButtons, setSelect, selected, setFind, changeSelected, zipCode, distance, setMessages, setZipMode, setShowCalcButtons, model="", trim="",setLocateButton) {
+    console.log(setLocateButton);
     return () => {
       //go through the dealerships that have the cars we want
       //pass in the list of dealership names

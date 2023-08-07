@@ -520,7 +520,7 @@ export function handleUserInputFn(
                       </div>
                       <div className="ev-description" style={{
                         fontSize:"15px",
-                        paddingTop:"10px",
+                        paddingTop:"10px"
                       }}>{description}</div>
                     </div>
                   );
@@ -553,10 +553,9 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px",  }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px",  textAlign:'left' }}>
               <span styl={{textAlign:'left'}}>{evmarket}</span>
-              <br></br>
-              <img
+              <br></br>              <img
                   style={{ width: "50%", height: "auto",padding:"5px" }}
                   src={electricpic2}
                 />
@@ -580,7 +579,6 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-                        
               <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px",  textAlign:'left'}}>
               {certifications}
               </div>
@@ -603,7 +601,7 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px",  textAlign:'left'}}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px", textAlign:'left' }}>
               {emissions}
               </div>
             </div>
@@ -1061,10 +1059,10 @@ export function handleUserFlow(
                       query,
                       setZipMode,
                       setOptionButtons,
-                      origButtons,
                       forceUpdate,
                       setForceUpdate,
-                      knowMyPriceButtons
+                      knowMyPriceButtons,
+                      setLocateButton
                     );
                     setTrim(trim);
                   }}
@@ -1109,7 +1107,8 @@ export function handleUserFlow(
               setOptionButtons,
               forceUpdate,
               setForceUpdate,
-              knowMyPriceButtons
+              knowMyPriceButtons,
+              setLocateButton
             );
             blockQueries.current = false;
             break;
@@ -1142,7 +1141,8 @@ export function handleUserFlow(
               setOptionButtons,
               forceUpdate,
               setForceUpdate,
-              knowMyPriceButtons
+              knowMyPriceButtons,
+              setLocateButton
             );
             blockQueries.current = false;
             break;
@@ -1188,9 +1188,6 @@ export function handleUserFlow(
           });
           break;
         case "B": {
-          console.log('case b');
-          //setZipMode(1);
-          //setMapBlocker(false);
           handleDealerFlow(
             zipMode,
             dealerList,
@@ -1269,16 +1266,14 @@ export function handleUserFlow(
           } else if (findMode === 1) {
             setCalcHeadingText("Select trims");
             setShowCalcButtons(true);
+            let backgroundC = 'white';
             setCalcButtons(
               <div>
                 {trims[query].map((trim) => (
                   <button
                     className="model-button"
                     style={{
-                      backgroundColor: selected[model].includes(trim)
-                        ? "red"
-                        : "white",
-                    }}
+                      backgroundColor: 'white'}}
                     key={trim}
                     value={trim}
                     onClick={() => {
@@ -1327,7 +1322,7 @@ export function handleUserFlow(
               selected[model][0],
               setLocateButton
             )}>
-            Locate the nearest dealerships
+            Locate nearby dealerships
           </button>);
             setLocateButton(locateButton);
             setSelect(true);

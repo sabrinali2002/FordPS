@@ -25,7 +25,7 @@ export default function DisplayInfo({ info, handler, setMenuButtons, setInfoMode
             {screen === "info" && (
                 <div
                     style={{
-                        width: "100%", // Increase width to desired value
+                        width: "80%", // Increase width to desired value
                         display: "flex",
                         float: "left",
                         borderRadius: "15px", // Add this for rounded corners

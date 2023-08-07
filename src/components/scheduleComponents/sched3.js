@@ -184,7 +184,7 @@ export default function Sched3({
               marginBottom: 20,
             }}
           >
-            {maintenanceMode.length==0?"Trims to Test Drive":maintenanceMode+" for your "+trim+" "+model}
+            {maintenanceMode.length==0?"Trims to test drive":maintenanceMode+" for your "+trim+" "+model}
           </div>
           <div className="model-button-sched3">
             <img src={model.length===0?images["Default"]["Bronco"]:`${images[trim.length>0?model:"Default"][trim.length>0?trim:model]}`} 

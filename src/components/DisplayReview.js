@@ -24,6 +24,7 @@ export default function DisplayReview({ data, setScreen, reviews, starCount, ave
                 backgroundColor: "#d4e3fa",
                 flexDirection: "column",
                 margin: "10px",
+                marginLeft:"80px",
                 boxShadow: "0 4px 2px -2px gray",
             }}
         >
@@ -52,7 +53,7 @@ export default function DisplayReview({ data, setScreen, reviews, starCount, ave
                     </Box>
                     <Grid spacing={1} container alignItems="center" marginTop="-25px" onClick={() => handleFilterReview(5)}>
                         <Grid xs={2} item>
-                            <p style={{ cursor: "pointer", fontSize:'12px'  }}>5 stars</p>
+                            <p style={{ cursor: "pointer", fontSize:'15px'  }}>5 stars</p>
                         </Grid>
                         <Grid xs item paddingBottom="15px">
                             <LinearProgress variant="determinate" style={{ cursor: "pointer", fontSize:'15px' }} value={(starCount[4] / length) * 100} />

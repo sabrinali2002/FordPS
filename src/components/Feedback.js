@@ -185,7 +185,7 @@ const Feedback = ({ messages, setMessages, setOptionButtons, setMenuButtons }) =
     return (
         <Fragment>
             {displaySurvey === true && (
-                <div style={{ paddingLeft:'70px', justifyContent: "center", textAlign: "center", marginTop: "10px", marginBottom: "100px", width: "100%" }}>
+                <div style={{ justifyContent: "center", textAlign: "center", marginTop: "10px", marginBottom: "100px", width: "80%", marginLeft:"80px" }}>
                     <div style={{ backgroundColor: "rgb(205, 220, 232)", borderRadius: "15px", boxShadow: "0 4px 2px -2px gray", width: "100%" }}>
                         <div style={{ marginTop: "10px", color: "#322964", fontSize: "20px", lineHeight: "30px" }}>We appreciate your input!</div>
                         <div style={{ color: "#322964", fontSize: "12px", lineHeight: "20px" }}>Please answer any of these questions below to help us help you next time.</div>
