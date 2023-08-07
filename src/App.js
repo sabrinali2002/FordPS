@@ -236,7 +236,7 @@ function App() {
         onClick={() => {
           setZipMode(0);
           setMessages((m) => {
-            return [...m, { msg: "Negotiation assistance", author: "You" }];
+            return [...m, { msg: "Negotiation Assistance", author: "You" }];
           });
           setMessages((m) => {
             return [
@@ -807,17 +807,10 @@ function App() {
       </div>
       <div className="topbarback"></div>
       <div className="divider"></div>
-      <AccessibilityButton
-        toggleTextSize={toggleTextSize}
-        toggleDarkMode={toggleDarkMode}
-        queryText={queryText}
-        setQueryText={setQueryText}
-        darkMode={darkMode}
-        textSize={textSize}
-      />
       <div
         className="fullpage"
         style={{
+          marginTop:"500px",
           width: "100%",
           height: "100%",
           backgroundColor: darkMode ? "#000080" : "white",
@@ -836,8 +829,9 @@ function App() {
           className="ChatArea"
           style={{
             width: "100%",
-            height: "78vh",
-            paddingTop: "6%",
+            height: "100%",
+            marginTop:'50px',
+            paddingTop: "220px",
             display: "flex",
             flexDirection: "column",
             overflowY: "auto",
@@ -952,15 +946,9 @@ function App() {
           <div ref={messagesEndRef} />
         </div>
         <div>
-          <div style={{paddingTop:'20px',marginTop:'13px'}}>
-            <motion.div
-              initial={{ y:110,opacity: 0, scale: 0.5}}
-              animate={{ opacity: 1, scale: 1}}
-              exit={{opacity: 0, scale: 0.5}}
-              transition={{duration:3}}
-            >
+          <div style={{marginBottom:'110px', paddingTop:'5px',marginTop:'1px', height:'60px'}}>
+
               {menuButtons}
-            </motion.div>
           </div>
           <form
             onSubmit={(e) => {
@@ -1049,7 +1037,7 @@ function App() {
                   ),
                 }}
               />
-              <Tooltip title="Exit Chatbot" placement="top">
+              <Tooltip className="exiticon" title="Exit Chatbot" placement="top">
                 <BoxArrowLeft
                   size="2rem"
                   style={{
@@ -1061,6 +1049,14 @@ function App() {
                   onClick={handleUserFeedback}
                 />
               </Tooltip>
+              <AccessibilityButton className="accessguy"
+                toggleTextSize={toggleTextSize}
+                toggleDarkMode={toggleDarkMode}
+                queryText={queryText}
+                setQueryText={setQueryText}
+                darkMode={darkMode}
+                textSize={textSize}
+              />
             </div>
           </form>
         </div>
