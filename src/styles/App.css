@@ -299,7 +299,7 @@
 }
 
 .option-buttons {
-  height:50px;
+  height:60px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

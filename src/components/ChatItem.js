@@ -108,7 +108,8 @@ export default function ChatItem({
   setTrim,
   setQuery,
   changeChoice,
-  setSchedSent
+  setSchedSent,
+  setChatGap
 }) {
   const textPartStyle = {
     display: "flex",
@@ -193,6 +194,7 @@ export default function ChatItem({
             changeChoice={changeChoice}
             setQuery={setQuery}
             setSchedSent={setSchedSent}
+            setChatGap={setChatGap}
           ></Map>
         )}
         {author === "Ford Chat..." && (
