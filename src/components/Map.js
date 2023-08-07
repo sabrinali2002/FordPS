@@ -43,7 +43,8 @@ function Map({
   setMessages,
   changeChoice,
   setQuery,
-  setSchedSent
+  setSchedSent,
+  setChatGap
 }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
@@ -311,6 +312,7 @@ function Map({
         },
       ]);
       setMenuButtons(origButtons);
+      setChatGap(true);
       return;
     }
   };
@@ -499,6 +501,7 @@ function Map({
       ];
     });
     setMenuButtons(origButtons);
+    setChatGap(true);
   };
 
   const showScheduler2 = (event) => {

@@ -793,7 +793,8 @@ export function handleUserFlow(
   setForceUpdate,
   schedSent,
   setLocateButton,
-  knowMyPriceButtons
+  knowMyPriceButtons,
+  setChatGap
 ) {
   const fixTrimName = (model, trim) => {
     if (
@@ -925,7 +926,8 @@ export function handleUserFlow(
             down,
             setDown,
             forceUpdate,
-            setForceUpdate
+            setForceUpdate,
+            setChatGap
           );
             if (priceStep !== 8 && !isNaN(query)) {
                 setQuery("");
@@ -1174,7 +1176,8 @@ export function handleUserFlow(
               payment,
               setPayment,
               origButtons,
-              setOptionButtons
+              setOptionButtons,
+              setChatGap
             );
             blockQueries.current = false;
             break;
@@ -1185,6 +1188,7 @@ export function handleUserFlow(
           setQuery("");
           sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation).then(()=>{
             setMenuButtons(origButtons)
+            setChatGap(true);
           });
           break;
         case "B": {
@@ -1384,7 +1388,8 @@ export function handleUserFlow(
               sendRecommendRequestToServer(
                 ultimateQueryString,
                 history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation).then(()=>{
-                    setMenuButtons(origButtons)
+                    setMenuButtons(origButtons);
+                    setChatGap(true);
                 })
               setQuestionnaireStep(5);
               break;;
@@ -1421,7 +1426,8 @@ export function handleUserFlow(
             payment,
             setPayment,
             origButtons,
-            setOptionButtons
+            setOptionButtons,
+            setChatGap
           );
           break;
         default:

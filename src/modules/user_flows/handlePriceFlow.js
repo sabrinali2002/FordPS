@@ -7,7 +7,7 @@ import carPrices from '../../jsons/carPrices.json';
 import { useState } from 'react';
 import { MdSpeakerPhone } from 'react-icons/md';
 
-export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate) {
+export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate, setChatGap) {
     const fixTrimName = (model, trim) => {
         if (
           model !== "Transit Cargo Van" &&
@@ -386,6 +386,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                     setPriceSummary('');
                     setShowPriceSummary(false);
                     setMenuButtons(origButtons);
+                    setChatGap(true);
                     setPriceStep(0);
                     setPriceMode(0);
                     blockQueries.current = false;

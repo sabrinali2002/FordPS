@@ -401,6 +401,7 @@ function App() {
       <button
         className="menu button-standard"
         onClick={() => {
+          setChatGap(false);
           handleUserInput("B");
           setMenuButtons([]);
           //setZipMode(0);
@@ -781,7 +782,8 @@ function App() {
       setForceUpdate,
       schedSent,
       setLocateButton,
-      knowMyPriceButtons
+      knowMyPriceButtons,
+      setChatGap
     );
   }, [
     query,
@@ -889,6 +891,7 @@ function App() {
                   setSchedSent={setSchedSent}
                   changeChoice={changeChoice}
                   key={index}
+                  setChatGap={setChatGap}
                 />
               );
             })}
