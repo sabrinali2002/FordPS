@@ -183,9 +183,10 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         if ((calcMode===3 || calcMode===1) && isNaN(query)) {
             break;
         }
+        setChatGap(true);
         blockQueries.current = false;
         setMessages((m) => [...m, { msg: "Is there anything else I can help you with?", author: "Ford Chat", line: true }]);
-        setChatGap(true);
+        
         setMenuButtons(origButtons);
         setCalcStep(0);
         setCalcMode(0);
