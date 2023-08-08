@@ -7,7 +7,7 @@ import carPrices from '../../jsons/carPrices.json';
 import { useState } from 'react';
 import { MdSpeakerPhone } from 'react-icons/md';
 
-export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate) {
+export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,priceStep,setPriceStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, setLeaseStep1, setFinanceStep1, leaseStep1, financeStep1, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons,setPriceSummary,setShowPriceSummary,dura,setDura,down,setDown,forceUpdate,setForceUpdate, setChatGap) {
     const fixTrimName = (model, trim) => {
         if (
           model !== "Transit Cargo Van" &&
@@ -349,7 +349,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                     setPriceStep(6);
                     break;
                 case "combustion":
-                    setMessages((m) => [...m, { msg: "Based on these prices, would you like to contact a dealer to find availability?", author: "Ford Chat", line: true, zip: {} }]);
+                    setMessages((m) => [...m, { msg: "Based on the average retail price, would you like to contact a dealer to find availability?", author: "Ford Chat", line: true, zip: {} }]);
                     let opts1 = ['Yes, contact a dealer','No'];
                     setOptionButtons(<div className='option-buttons'>
                         {opts1.map(o => (<button className='button-small' key={o} value={o} 
@@ -386,6 +386,7 @@ export default function handlePriceFlow(vehicleMode,priceMode,setPriceMode,EV,pr
                     setPriceSummary('');
                     setShowPriceSummary(false);
                     setMenuButtons(origButtons);
+                    setChatGap(true);
                     setPriceStep(0);
                     setPriceMode(0);
                     blockQueries.current = false;

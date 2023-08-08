@@ -56,7 +56,7 @@ const Homepage = ({handleClick}) => {
        </h1>
        <button className="enter" onClick={()=>{
         window.location.href="/chat"
-       }}>get started</button>
+       }}>Get started</button>
     </div>
     </div>
     </div>

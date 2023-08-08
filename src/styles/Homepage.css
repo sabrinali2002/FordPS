@@ -61,7 +61,7 @@
 .enter {
     max-width: 40%;
     height: 60px;;
-    font-size: 22px;
+    font-size: 18px;
     color: #ffffff;
     font-family: 'Antenna', sans-serif;
     font-weight: 500;
@@ -69,6 +69,8 @@
     border: none;
     background-color: #322964;
     padding:10px;
+    display:flex;
+    align-items: center;
 }
 
 .enter:hover{

@@ -43,7 +43,8 @@ function Map({
   setMessages,
   changeChoice,
   setQuery,
-  setSchedSent
+  setSchedSent,
+  setChatGap
 }) {
   const [latlong, changeLatLong] = useState([39, -98]);
   const [locations, changeLocations] = useState([]);
@@ -183,7 +184,7 @@ function Map({
       let sim = similar[selectedModel];
       // know model, not trim
       for (let trims of dealerToTrim[dealer][selectedModel]) {
-        if (models.length < n && selectedModel !== 'E-Transit Cargo Van' && sim !== 'Transit Cargo Van') {
+        if (models.length < n && selectedModel !== 'E-Transit Cargo Van' && selectedModel !== 'Transit Cargo Van') {
           models.push([selectedModel, trims]);
         }
       }
@@ -205,7 +206,6 @@ function Map({
         }
       }
     } else {
-      console.log(3);
       // know neither
       for (let currmodel of Object.keys(dealerToTrim[dealer])) {
         if (models.length < n) {
@@ -312,6 +312,7 @@ function Map({
         },
       ]);
       setMenuButtons(origButtons);
+      setChatGap(true);
       return;
     }
   };
@@ -322,6 +323,10 @@ function Map({
     }
     let dealer = d[0];
     let models = returnCars(dealer, 2);
+    if (models.length == 0) {
+      models = [["Bronco","Base"],["Explorer","Base"]];
+    }
+    console.log(models);
     let addr = info[dealer]["address"];
     let phone = info[dealer]["number"];
     let rating = info[dealer]["rating"];
@@ -331,6 +336,8 @@ function Map({
     let link = `www.${dealer
       .replaceAll(" ", "")
       .replaceAll("'", "")
+      .replaceAll(",", "")
+      .replaceAll(".", "")
       .toLowerCase()}.com`;
     let today = new Date();
     let currHr = today.getHours();
@@ -340,44 +347,50 @@ function Map({
     }
     let appts = returnAppts(4);
     let text = (
-      <p className="hover-content">
+      <div className="hover-content">
         <span
           style={{
             color: "#322964",
-            paddingTop: "20px",
-            fontSize: "27px",
+            paddingTop: "10px",
+            fontSize: "22px",
             fontWeight: "bold",
+            marginLeft: '15px'
           }}
         >
           {dealer}
         </span>
         <br />
-        <span style={{ fontSize: "17px" }}>
-          <FaLocationArrow />
-          <span style={{ fontSize: "14px", paddingLeft: "8px" }}>{addr}</span>
-          <br />
-          <BsTelephoneFill />
-          <span style={{ fontSize: "14px", paddingLeft: "8px" }}>{phone}</span>
-          <br />
-          <FiLink2 />
-          <span style={{ fontSize: "14px", paddingLeft: "8px" }}>{link}</span>
-          <br />
-          <AiFillStar />
-          <span style={{ fontSize: "14px", paddingLeft: "8px" }}>
-            {rating + " stars"}
-          </span>
-          <br />
-          <AiFillClockCircle />
-          <span style={{ fontSize: "14px", paddingLeft: "8px" }}>{hrStr}</span>
-          <br />
-        </span>
+        <div style={{ display:'flex',flexDirection:'column',lineHeight:.4,marginLeft:'15px'}}>
+          <div>
+            <FaLocationArrow />
+            <span style={{ fontSize: "12px", paddingLeft: "8px" }}>{addr}</span>            
+          </div>
+          <div>
+            <BsTelephoneFill />
+            <span style={{ fontSize: "12px", paddingLeft: "8px" }}>{phone}</span>
+          </div>
+          <div>
+            <FiLink2 />
+            <span style={{ fontSize: "12px", paddingLeft: "8px" }}>{link}</span>            
+          </div>
+          <div>
+            <AiFillStar />
+            <span style={{ fontSize: "12px", paddingLeft: "8px" }}>
+              {rating + " stars"}
+            </span>
+          </div>
+          <div>
+            <AiFillClockCircle />
+            <span style={{ fontSize: "12px", paddingLeft: "8px" }}>{hrStr}</span>            
+          </div>
+        </div>
         <div style={{ display: "flex" }}>
           {maintenanceMode.length == 0 && (
             <span style={{ width: "50%" }}>
               <span
                 style={{
                   color: "#322964",
-                  fontSize: "14px",
+                  fontSize: "12px",
                   textDecoration: "underline",
                 }}
               >
@@ -413,7 +426,7 @@ function Map({
             <span
               style={{
                 color: "#322964",
-                fontSize: "14px",
+                fontSize: "12px",
                 textDecoration: "underline",
                 paddingLeft: "10px",
               }}
@@ -454,7 +467,7 @@ function Map({
             </div>
           </span>
         </div>
-      </p>
+      </div>
     );
     setShowPopup(true);
     setPopupText(text);
@@ -469,6 +482,7 @@ function Map({
   };
 
   const handleAppointment = (name, email, phoneNumber, notes) => {
+    alert("called")
     setSchedSent(true);
     console.log("handling");
     setName(name);
@@ -487,6 +501,7 @@ function Map({
       ];
     });
     setMenuButtons(origButtons);
+    setChatGap(true);
   };
 
   const showScheduler2 = (event) => {
@@ -587,7 +602,8 @@ function Map({
                               setLink1(link);}}>View more
           <span style={{leftPadding:'5px'}}><MdOutlineArrowForwardIos/></span></span>
           <br/>
-          <div style={{display:'flex',marginTop:'5px',marginLeft:'5px',flexDirection:'x',width:'100%'}}>
+          <div style={{display:'flex',marginTop:'5px',marginLeft:'5px',flexDirection:'row',width:'100%'}}>
+            <div style={{width:'23%'}}>
             <button className='schedule-button' onClick={() => 
               {openScheduler(dealer, maintenanceMode)
                 setDealer1(dealer);
@@ -595,8 +611,10 @@ function Map({
                 setPhone1(phone);
                 setHours1(hrStr);
                 setLink1(link);
-                }}>Click here to schedule an appointment</button>
-            <span>
+                }}>Click here to schedule an appointment</button>              
+            </div>
+
+            <div style={{width:'77%'}}>
               <div className='timeslot-container'>
                 {appts.slice(0,3).map(appt => (<button key={appt[1]} date={appt[0]} time={appt[1]} onClick={
                   () => {showScheduler2();
@@ -623,7 +641,7 @@ function Map({
                         }} className='time-slot'>{appt[0]}<br/>
                   <span style={{fontWeight:'bold'}}>{appt[1]}</span></button>))}
               </div>              
-            </span>            
+            </div>            
           </div>
       </div>);
     setWindow2Content(window2);
@@ -819,7 +837,7 @@ function Map({
     fetchInfo();
   }, [zip, latlong]);
   return (
-  <div style={{alignItems:'flex-start'}}>
+  <div>
       {(showWindow && requestInfo) && 
           <div style={{width:'50%'}}>
             {window1Content}
@@ -851,6 +869,9 @@ function Map({
           setMessages={setMessages}
           origButtons={origButtons}
           setSchedSent={setSchedSent}
+          changeChoice={changeChoice}
+          setQuery={setQuery}
+          setChatGap={setChatGap}
         />
       )}
       {isScheduler2Visible && (
@@ -882,9 +903,9 @@ function Map({
             position: "relative",
             backgroundColor: "#113B7A1A",
             width: "70%",
-            height: "300px",
+            height: "350px",
             borderRadius: "15px",
-            left: "40px",
+            left: "80px",
             padding: "25px",
             marginBottom: "15px",
           }}
@@ -894,7 +915,7 @@ function Map({
             center={latlong}
             zoom={9}
             style={{
-              height: "250px",
+              height: "300px",
               width: "50%", // Increase width to desired value
               display: "flex",
               float: "left",
@@ -924,7 +945,7 @@ function Map({
             <div
               className="hover-popup"
               onMouseLeave={popupHoverOff}
-              style={{ position: { popupPos } }}
+              style={{ position: popupPos }}
             >
               {popupText}
             </div>
@@ -973,7 +994,7 @@ function Map({
               )}
             </div>
             <div className="custom-scrollbar" 
-            style={{ overflowY: "scroll", maxHeight: "200px" }}>
+            style={{ overflowY: "scroll", maxHeight: "260px" }}>
               {locations.map((e, index) => {
                 return (
                   <button

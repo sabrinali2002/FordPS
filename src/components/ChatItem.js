@@ -26,6 +26,7 @@ function extractLinkFromText(messageText, author, darkMode) {
         wordsArray.slice(linkIndex + 1, wordsArray.length).join(" ");
 
   const bubbleStyle = {
+    marginBottom:'0px',
     color: darkMode ? "black" : "white",
     backgroundColor: darkMode
       ? author.toLowerCase() === "you"
@@ -107,7 +108,8 @@ export default function ChatItem({
   setTrim,
   setQuery,
   changeChoice,
-  setSchedSent
+  setSchedSent,
+  setChatGap
 }) {
   const textPartStyle = {
     display: "flex",
@@ -120,10 +122,9 @@ export default function ChatItem({
   };
   const [isSpeaking, toggleIsSpeaking] = useState(false);
   return (
-    <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
       <div
-        style={author === "You" || author === "Ford Chat" ? textPartStyle : {}}
-      >
+        style={author === "You" || author === "Ford Chat" ? textPartStyle : {}}>
         <div style={textPartStyle}>
           {author === "Ford Chat" && (
             <div>
@@ -193,6 +194,7 @@ export default function ChatItem({
             changeChoice={changeChoice}
             setQuery={setQuery}
             setSchedSent={setSchedSent}
+            setChatGap={setChatGap}
           ></Map>
         )}
         {author === "Ford Chat..." && (

@@ -132,7 +132,7 @@ export default function Login({username, setUsername}){
             <Button color="primary" onClick={()=>{toggleGeneralModal(!showGeneralModal)}}>OK</Button>
         </div>
         }/>
-        <h1 style={{textAlign: 'center'}}>{loginState?"Log In":"Sign Up"}</h1>
+        <h1 style={{textAlign: 'center', fontSize:'26px'}}>{loginState?"Log In":"Sign Up"}</h1>
         <p style={{textAlign: 'center'}}>{loginState?"Don't have an account?":"Already have an account?"} <button className="link" onClick={() =>{ 
             toggleLoginState(!loginState) }}>Click here</button> to {loginState?"sign up":"log in"}</p>  
         <Form onSubmit={(e)=>{
@@ -150,13 +150,13 @@ export default function Login({username, setUsername}){
             }
             <Form.Group>
                 <Form.Label size="lg">Email</Form.Label>
-                <Form.Control className="login" type="email" name="email" id="email" value={email} placeholder="email@example.com" size="lg" onChange={(e) => {
+                <Form.Control className="login" type="email" name="email" id="email" value={email} placeholder="email@example.com" size="15px" onChange={(e) => {
                     setEmail(e.target.value)
                 }}/>
             </Form.Group>
             <Form.Group>
                 <Form.Label size="lg">Password</Form.Label>
-                <Form.Control className="login" type="password" name="password" id="password" placeholder="enter password" size="lg" onChange={(e) => {
+                <Form.Control className="login" type="password" name="password" id="password" placeholder="enter password" size="15px" onChange={(e) => {
                     setPassword(e.target.value)
                 }} />
                 {
@@ -168,8 +168,8 @@ export default function Login({username, setUsername}){
                         }} />
                     </div>:<></>
                 }
-                <p style={{fontSize: 15}}>
-                    Forgot password? <button className="link" type="button" onClick={()=>{
+                <p style={{fontSize:'15px'}}>
+                    Forgot password? <button className="link" style={{fontSize:'15px'}} type="button" onClick={()=>{
                         toggleModal(true)
                     }}>Click here.</button>    
                 </p>

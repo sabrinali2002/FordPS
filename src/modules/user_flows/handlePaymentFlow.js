@@ -4,7 +4,7 @@ import carPrices from "../../jsons/carPrices.json";
 import '../../styles/App.css';
 import images from "../../images/image_link.json";
 
-export default function handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons) {
+export default function handlePaymentFlow(calcStep, model, setModel, query, setQuery, setMessages, setMenuButtons, setCalcButtons, blockQueries, setCalcStep, trim, setTrim, calcMode, setCalcMode, setLeaseStep, setFinanceStep, leaseStep, financeStep, changeChoice, setShowCalcButtons, setCalcHeadingText, payment, setPayment, origButtons, setOptionButtons, setChatGap) {
     const fixTrimName = (model, trim) => {
         if (
           model !== "Transit Cargo Van" &&
@@ -183,8 +183,10 @@ export default function handlePaymentFlow(calcStep, model, setModel, query, setQ
         if ((calcMode===3 || calcMode===1) && isNaN(query)) {
             break;
         }
+        setChatGap(true);
         blockQueries.current = false;
         setMessages((m) => [...m, { msg: "Is there anything else I can help you with?", author: "Ford Chat", line: true }]);
+        
         setMenuButtons(origButtons);
         setCalcStep(0);
         setCalcMode(0);

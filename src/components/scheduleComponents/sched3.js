@@ -184,7 +184,7 @@ export default function Sched3({
               marginBottom: 20,
             }}
           >
-            {maintenanceMode.length==0?"Trims to Test Drive":maintenanceMode+" for your "+trim+" "+model}
+            {maintenanceMode.length==0?"Trims to test drive":maintenanceMode+" for your "+trim+" "+model}
           </div>
           <div className="model-button-sched3">
             <img src={model.length===0?images["Default"]["Bronco"]:`${images[trim.length>0?model:"Default"][trim.length>0?trim:model]}`} 
@@ -192,7 +192,7 @@ export default function Sched3({
             <br/>{model.length===0?"Bronco":model}<BiRegistered/>{model.length===0?" Base":` ${trim}`}
           </div>
         </div>
-        <div style={{ width: "60%" }}>
+        <div style={{ width: "65%",marginLeft:'-50px' }}>
           <div
             style={{
               fontWeight: 500,
@@ -209,6 +209,7 @@ export default function Sched3({
               flexDirection: "column",
               justifyContent: "space-between",
               height: "70%",
+              textOverflow:'break-word'
             }}
           >
             <div

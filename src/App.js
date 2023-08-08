@@ -78,7 +78,7 @@ function App() {
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => !prevMode);
   };
-
+  const [chatGap, setChatGap] = useState(true);
   // PAYMENT CALCULATOR
 
   //which state the bot is in:
@@ -132,6 +132,7 @@ function App() {
   const [down, setDown] = useState(0);
   const [requestSent, setRequestSent] = useState(false);
   const [schedSent, setSchedSent] = useState(false);
+  const [locateButton, setLocateButton] = useState([]);
 
   const blockQueries = useRef(false);
   const recognition = useRef(null);
@@ -196,6 +197,7 @@ function App() {
       <button
         className="menu button-standard"
         onClick={() => {
+       setMenuButtons([]);
           setZipMode(0);
           setMessages((m) => {
             return [...m, { msg: "I'm an Existing Owner", author: "You" }];
@@ -204,6 +206,7 @@ function App() {
             return [...m, { msg: "", author: "Login" }];
           });
           setShowCalcButtons(false);
+          setChatGap(false);
         }}
       >
         I'm an Existing Owner
@@ -234,8 +237,9 @@ function App() {
         className="menu button-standard"
         onClick={() => {
           setZipMode(0);
+          setChatGap(false);
           setMessages((m) => {
-            return [...m, { msg: "Negotiation assistance", author: "You" }];
+            return [...m, { msg: "Send an order request", author: "You" }];
           });
           setMessages((m) => {
             return [
@@ -251,7 +255,7 @@ function App() {
           setShowCalcButtons(false);
         }}
       >
-        Negotiation assistance
+        Send an order request
       </button>
     </div>
   );
@@ -285,6 +289,7 @@ function App() {
         className="menu button-standard"
         onClick={() => {
           handleUserInput("NM");
+          setChatGap(false);
         }}
       >
         New models
@@ -293,6 +298,7 @@ function App() {
         className="menu button-standard"
         onClick={() => {
           handleUserInput("NF");
+          setChatGap(false);
         }}
       >
         Future models
@@ -301,6 +307,7 @@ function App() {
         className="menu button-standard"
         onClick={() => {
           handleUserInput("EV");
+          setChatGap(false);
         }}
       >
         EV Market
@@ -355,18 +362,19 @@ function App() {
   const buyingFordButtons = (
     <div className="buttons">
       <button
-        className="button-small"
+        className="back-button"
         onClick={() => {
           setMenuButtons(origButtons);
         }}
       >
-        Back
+        <span style={{fontSize:'22px'}}> &lt;</span>    Back
       </button>
       <button
         className="menu button-standard"
         onClick={() => {
           handleUserInput("I");
           setMenuButtons([]);
+          setChatGap(false);
         }}
       >
         Info about a specific car
@@ -375,6 +383,7 @@ function App() {
         className="menu button-standard"
         onClick={() => {
           handleUserInput("A");
+          setChatGap(false);
         }}
       >
         Car recommendation
@@ -384,6 +393,7 @@ function App() {
         onClick={() => {
           handleUserInput("D");
           setMenuButtons([]);
+          setChatGap(false);
         }}
       >
         Car pricing estimator
@@ -391,6 +401,7 @@ function App() {
       <button
         className="menu button-standard"
         onClick={() => {
+          setChatGap(false);
           handleUserInput("B");
           setMenuButtons([]);
           //setZipMode(0);
@@ -401,6 +412,7 @@ function App() {
       <button
         className="menu button-standard"
         onClick={() => {
+          setChatGap(false);
           handleUserInput("C");
           setMenuButtons([]);
         }}
@@ -666,6 +678,7 @@ function App() {
   // useEffect(()=>{handleMoreInfo()}, [tableForceUpdate]);
   const handleUserFeedback = () => {
     setMessages((m) => [...m, { msg: "", author: "Feedback" }]);
+    setShowCalcButtons(false);
   };
 
   //initial message
@@ -768,7 +781,10 @@ function App() {
       setShowingEvs,
       forceUpdate,
       setForceUpdate,
-      schedSent
+      schedSent,
+      setLocateButton,
+      knowMyPriceButtons,
+      setChatGap
     );
   }, [
     query,
@@ -793,22 +809,21 @@ function App() {
             setMenuButtons(origButtons);
             setCalcButtons([]);
             setOptionButtons([]);
+            setShowCalcButtons(false);
+            setModel("");
+            setTrim("");
+            setSelectedModel("");
+            setSelectedTrim("");
+            setChatGap(true);
           }}
         />
       </div>
       <div className="topbarback"></div>
       <div className="divider"></div>
-      <AccessibilityButton
-        toggleTextSize={toggleTextSize}
-        toggleDarkMode={toggleDarkMode}
-        queryText={queryText}
-        setQueryText={setQueryText}
-        darkMode={darkMode}
-        textSize={textSize}
-      />
       <div
         className="fullpage"
         style={{
+          marginTop:"500px",
           width: "100%",
           height: "100%",
           backgroundColor: darkMode ? "#000080" : "white",
@@ -827,8 +842,9 @@ function App() {
           className="ChatArea"
           style={{
             width: "100%",
-            height: "78vh",
-            paddingTop: "6%",
+            height: "80vh",
+            marginTop:'50px',
+            paddingTop: chatGap ? "110px" : '70px',
             display: "flex",
             flexDirection: "column",
             overflowY: "auto",
@@ -876,6 +892,7 @@ function App() {
                   setSchedSent={setSchedSent}
                   changeChoice={changeChoice}
                   key={index}
+                  setChatGap={setChatGap}
                 />
               );
             })}
@@ -925,128 +942,7 @@ function App() {
                 >
                   {calcButtons}
                 </div>
-                <button
-                  style={{
-                    position: "relative",
-                    left:'0%',
-                    color:'#322964'
-                  }}
-                  onClick={() => {
-                    if (infoMode === 0) {
-                      setShowCalcButtons(false);
-                      setMenuButtons(buyingFordButtons);
-                      setOptionButtons([]);
-                    } else if (infoMode === 1) {
-                      handleUserInput("I");
-                    } else {
-                      setQuery(cat);
-                      setInfoMode(infoMode - 1);
-                      handleUserFlow(
-                        tableForceUpdate,
-                        setTableForceUpdate,
-                        handleMoreInfo,
-                        handleCarInfoButton,
-                        fixTrimQueryQuotation,
-                        query,
-                        dealerList,
-                        carInfoData,
-                        setCarInfoData,
-                        extractFiveDigitString,
-                        findLocations,
-                        handleUserInput,
-                        blockQueries,
-                        choice,
-                        setQuery,
-                        zipMode,
-                        setZipCode,
-                        messages,
-                        setMessages,
-                        setZipMode,
-                        setDistance,
-                        setCalcButtons,
-                        calcButtonHandler,
-                        zipCode,
-                        distance,
-                        findMode,
-                        selectHandler,
-                        setFind,
-                        appendSelect,
-                        setSelect,
-                        questionnaireStep,
-                        setQuestionnaireAnswers,
-                        setQuestionnaireStep,
-                        questionnaireAnswers,
-                        calcStep,
-                        model,
-                        setModel,
-                        setCalcStep,
-                        trim,
-                        setTrim,
-                        calcMode,
-                        setCalcMode,
-                        setLeaseStep,
-                        setFinanceStep,
-                        leaseStep,
-                        financeStep,
-                        changeChoice,
-                        history,
-                        setHistory,
-                        infoMode,
-                        setInfoMode,
-                        vehicle,
-                        setVehicle,
-                        showCalcButtons,
-                        setShowCalcButtons,
-                        calcHeadingText,
-                        setCalcHeadingText,
-                        payment,
-                        setPayment,
-                        setMenuButtons,
-                        locateDealershipsFn,
-                        changeSelected,
-                        setDealers,
-                        selected,
-                        cat,
-                        setCat,
-                        origButtons,
-                        setOptionButtons,
-                        priceStep,
-                        setPriceStep,
-                        priceMode,
-                        setPriceMode,
-                        setPriceSummary,
-                        setShowPriceSummary,
-                        EV,
-                        vehicleMode,
-                        setVehicleMode,
-                        setLeaseStep1,
-                        setFinanceStep1,
-                        leaseStep1,
-                        financeStep1,
-                        dura,
-                        setDura,
-                        down,
-                        setDown,
-                        changeFind,
-                        requestSent,
-                        setShowingEvs,
-                        forceUpdate,
-                        setForceUpdate,
-                        schedSent
-                      );
-                    }
-                  }}
-                >
-                  <span
-                    style={{
-                      position: "relative",
-                      marginLeft: "12px",
-                      bottom: "5px",
-                      fontSize: "15px",
-                    }}>
-                    Back
-                  </span>
-                </button>
+                {locateButton}
               </div>
             </div>
           )}
@@ -1064,15 +960,10 @@ function App() {
           <div ref={messagesEndRef} />
         </div>
         <div>
-          <div style={{paddingTop:'20px'}}>
-            <motion.div
-              initial={{ y:110,opacity: 0, scale: 0.5}}
-              animate={{ opacity: 1, scale: 1}}
-              exit={{opacity: 0, scale: 0.5}}
-              transition={{duration:3}}
-            >
+          <div style={{marginBottom: '110px', paddingTop:'5px',marginTop:'1px', height: chatGap ? "60px" :'1px' }}>
+          {console.log("chatgap is")}
+                  {console.log(chatGap)}
               {menuButtons}
-            </motion.div>
           </div>
           <form
             onSubmit={(e) => {
@@ -1129,7 +1020,7 @@ function App() {
                 InputLabelProps={{
                   style: { fontFamily: "Antenna, sans-serif", color: darkMode ? "white" : "gray", },
                 }}
-                label={"Ask me anything..."}
+                label={username === "" ? "Enter your name" : "Ask me anything..."}
                 helperText={
                   blockQueries.current ? "Please wait!" : "Press enter to send."
                 }
@@ -1161,7 +1052,7 @@ function App() {
                   ),
                 }}
               />
-              <Tooltip title="Exit Chatbot" placement="top">
+              <Tooltip className="exiticon" title="Exit Chatbot" placement="top">
                 <BoxArrowLeft
                   size="2rem"
                   style={{
@@ -1173,6 +1064,14 @@ function App() {
                   onClick={handleUserFeedback}
                 />
               </Tooltip>
+              <AccessibilityButton className="accessguy"
+                toggleTextSize={toggleTextSize}
+                toggleDarkMode={toggleDarkMode}
+                queryText={queryText}
+                setQueryText={setQueryText}
+                darkMode={darkMode}
+                textSize={textSize}
+              />
             </div>
           </form>
         </div>

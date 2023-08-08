@@ -103,7 +103,7 @@ export function handleUserInputFn(
       "XL", "XLT", "Lariat", "Raptor"
     ]
   }
-  
+
   function getVarietiesByCategory(mainCategory) {
     // Check if the main category exists in the JSON data
     if (evs.hasOwnProperty(mainCategory)) {
@@ -553,9 +553,9 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
-              {evmarket}
-              <img
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px",  textAlign:'left' }}>
+              <span styl={{textAlign:'left'}}>{evmarket}</span>
+              <br></br>              <img
                   style={{ width: "50%", height: "auto",padding:"5px" }}
                   src={electricpic2}
                 />
@@ -579,7 +579,7 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px",  textAlign:'left'}}>
               {certifications}
               </div>
             </div>
@@ -601,7 +601,7 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px", textAlign:'left' }}>
               {emissions}
               </div>
             </div>
@@ -624,7 +624,7 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px", textAlign:'left' }}>
               {commitments}
               </div>
             </div>
@@ -647,7 +647,7 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px", textAlign:'left' }}>
               {pm}
               </div>
             </div>
@@ -669,7 +669,7 @@ export function handleUserInputFn(
               display:"flex",
               flexDirection:"row",
             }}>
-              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px" }}>
+              <div className="info-box" style={{ whiteSpace: 'pre-wrap', fontSize:"15px", textAlign:'left' }}>
               {endoflife}
               </div>
             </div>
@@ -791,8 +791,23 @@ export function handleUserFlow(
   setShowingEvs,
   forceUpdate,
   setForceUpdate,
-  schedSent
+  schedSent,
+  setLocateButton,
+  knowMyPriceButtons,
+  setChatGap
 ) {
+  const fixTrimName = (model, trim) => {
+    if (
+      model !== "Transit Cargo Van" &&
+      model !== "E-Transit Cargo Van" &&
+      model !== "Transit Crew Van" &&
+      model !== "Transit Passenger Van"
+    ) {
+      return trim;
+    }
+    trim = trim.replaceAll('"', '');
+    return trim;
+  };
   if (!blockQueries.current && query.length > 0) {
     blockQueries.current = true;
     setForceUpdate(!forceUpdate);
@@ -911,7 +926,8 @@ export function handleUserFlow(
             down,
             setDown,
             forceUpdate,
-            setForceUpdate
+            setForceUpdate,
+            setChatGap
           );
             if (priceStep !== 8 && !isNaN(query)) {
                 setQuery("");
@@ -1045,9 +1061,11 @@ export function handleUserFlow(
                       query,
                       setZipMode,
                       setOptionButtons,
-                      origButtons,
                       forceUpdate,
-                      setForceUpdate
+                      setForceUpdate,
+                      knowMyPriceButtons,
+                      setLocateButton,
+                      setChatGap
                     );
                     setTrim(trim);
                   }}
@@ -1091,7 +1109,10 @@ export function handleUserFlow(
               setZipMode,
               setOptionButtons,
               forceUpdate,
-              setForceUpdate
+              setForceUpdate,
+              knowMyPriceButtons,
+              setLocateButton,
+              setChatGap
             );
             blockQueries.current = false;
             break;
@@ -1123,7 +1144,10 @@ export function handleUserFlow(
               setZipMode,
               setOptionButtons,
               forceUpdate,
-              setForceUpdate
+              setForceUpdate,
+              knowMyPriceButtons,
+              setLocateButton,
+              setChatGap
             );
             blockQueries.current = false;
             break;
@@ -1155,7 +1179,8 @@ export function handleUserFlow(
               payment,
               setPayment,
               origButtons,
-              setOptionButtons
+              setOptionButtons,
+              setChatGap
             );
             blockQueries.current = false;
             break;
@@ -1163,15 +1188,15 @@ export function handleUserFlow(
           blockQueries.current = false;
           break;
         case "A":
+          console.log('setting chat gap');
           setQuery("");
+          setChatGap(true);
           sendRecommendRequestToServer(query, history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation).then(()=>{
             setMenuButtons(origButtons)
+            
           });
           break;
         case "B": {
-          console.log('case b');
-          //setZipMode(1);
-          //setMapBlocker(false);
           handleDealerFlow(
             zipMode,
             dealerList,
@@ -1221,6 +1246,7 @@ export function handleUserFlow(
                   zip: "",
                 },
               ]);
+              setCalcHeadingText("Select a model");
               setShowCalcButtons(true);
               setCalcButtons(
                 Object.keys(trims).map((model) => (
@@ -1247,17 +1273,16 @@ export function handleUserFlow(
               setFind(1);
             }
           } else if (findMode === 1) {
+            setCalcHeadingText("Select trims");
             setShowCalcButtons(true);
+            let backgroundC = 'white';
             setCalcButtons(
               <div>
                 {trims[query].map((trim) => (
                   <button
                     className="model-button"
                     style={{
-                      backgroundColor: selected[model].includes(trim)
-                        ? "red"
-                        : "white",
-                    }}
+                      backgroundColor: 'white'}}
                     key={trim}
                     value={trim}
                     onClick={(event) => {
@@ -1285,40 +1310,37 @@ export function handleUserFlow(
                         changeSelected(copy2);
                       }
                       setForceUpdate(!forceUpdate);
-                    }}
-                  >
-                    {trim}
+                      console.log(copy2, selected[model].includes(trim));
+                    }}>
+                     <img style={{ width: "160px", height: "auto" }} src={images[model][trim]} />
+                    <br />{fixTrimName(model,trim)}
                   </button>
                   // trims[query].contains(trim)) ? <button className='model-button' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
                   // : <button className='model-button-selected' key={trim} value={trim} onClick={appendSelect}>{trim}</button>
                 ))}
-                <div>
-                  <button className="button-small" onClick={changeFind}>
-                    back
-                  </button>
-                  <button
-                    className="button-small"
-                    onClick={locateDealershipsFn(
-                      setDealers,
-                      setCalcButtons,
-                      setSelect,
-                      selected,
-                      setFind,
-                      changeSelected,
-                      zipCode,
-                      -1,
-                      setMessages,
-                      setZipMode,
-                      setShowCalcButtons,
-                      model,
-                      selected[model][0]
-                    )}
-                  >
-                    Locate the nearest dealerships
-                  </button>
-                </div>
               </div>
             );
+            let locateButton = (<button className='locate-button'
+            onClick={
+              locateDealershipsFn(
+              setDealers,
+              setCalcButtons,
+              setSelect,
+              selected,
+              setFind,
+              changeSelected,
+              zipCode,
+              -1,
+              setMessages,
+              setZipMode,
+              setShowCalcButtons,
+              model,
+              selected[model][0],
+              setLocateButton
+            )}>
+            Locate nearby dealerships
+          </button>);
+            setLocateButton(locateButton);
             setSelect(true);
           }
           blockQueries.current = false;
@@ -1365,6 +1387,7 @@ export function handleUserFlow(
             case 4:
               //setQuestionnaireAnswers(q=>[...q, query])
               let questionnaireAnswersCopy = [...questionnaireAnswers, query];
+              setChatGap(true);
               setForceUpdate(!forceUpdate);
               const ultimateQueryString =
                 "Here is my budget: " +
@@ -1378,7 +1401,8 @@ export function handleUserFlow(
               sendRecommendRequestToServer(
                 ultimateQueryString,
                 history, carInfoData, messages, forceUpdate, blockQueries, setCarInfoData, setMessages, setForceUpdate, setHistory, fixTrimQueryQuotation).then(()=>{
-                    setMenuButtons(origButtons)
+                    setMenuButtons(origButtons);
+                    
                 })
               setQuestionnaireStep(5);
               break;;
@@ -1415,7 +1439,8 @@ export function handleUserFlow(
             payment,
             setPayment,
             origButtons,
-            setOptionButtons
+            setOptionButtons,
+            setChatGap
           );
           break;
         default:

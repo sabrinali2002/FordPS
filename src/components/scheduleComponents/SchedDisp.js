@@ -9,7 +9,7 @@ import { getAuth } from "firebase/auth";
 
 const auth = getAuth(firebase);
 
-function SchedDisp({ dealer, phone, setPhone, address, setAddress, link, setLink, hours, setHours, maintenanceMode="", model="", trim="", backButton, setMenuButtons, setMessages, origButtons,setSchedSent }) {
+function SchedDisp({ dealer, phone, setPhone, address, setAddress, link, setLink, hours, setHours, maintenanceMode="", model="", trim="", backButton, setMenuButtons, setMessages, origButtons,setSchedSent, changeChoice, setQuery, setChatGap }) {
   const [hour, setHour] = useState(null);
   const [date, setDate] = useState(null);
   const [name, setName] = useState(null);
@@ -41,12 +41,15 @@ function SchedDisp({ dealer, phone, setPhone, address, setAddress, link, setLink
     setAddress(address);
     setLink(link);
     setHours(hours);
+    changeChoice("");
+    setQuery("")
     setMessages((m) => {
       return [
         ...m,
         { msg: "Is there anything else I can help you with?", author: "Ford Chat" },
       ];
     });
+    setChatGap(true);
     setMenuButtons(origButtons);
     return;
   };
