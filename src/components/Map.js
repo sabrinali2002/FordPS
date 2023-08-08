@@ -871,6 +871,7 @@ function Map({
           setSchedSent={setSchedSent}
           changeChoice={changeChoice}
           setQuery={setQuery}
+          setChatGap={setChatGap}
         />
       )}
       {isScheduler2Visible && (
