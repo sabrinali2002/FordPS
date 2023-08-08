@@ -904,7 +904,7 @@ function Map({
             width: "70%",
             height: "350px",
             borderRadius: "15px",
-            left: "80px",
+            left: "calc(2% + 54px)",
             padding: "25px",
             marginBottom: "15px",
           }}
