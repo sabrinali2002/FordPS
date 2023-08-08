@@ -24,7 +24,7 @@ export default function DisplayReview({ data, setScreen, reviews, starCount, ave
                 backgroundColor: "#d4e3fa",
                 flexDirection: "column",
                 margin: "10px",
-                marginLeft:"80px",
+                marginLeft:"calc(2% + 54px)",
                 boxShadow: "0 4px 2px -2px gray",
             }}
         >

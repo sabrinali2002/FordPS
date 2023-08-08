@@ -32,7 +32,7 @@ export default function DisplayInfo({ info, handler, setMenuButtons, setInfoMode
                         backgroundColor: "#d4e3fa",
                         flexDirection: "column",
                         margin: "10px",
-                        marginLeft:'80px',
+                        marginLeft:'calc(2% + 54px)',
                         boxShadow: "0 4px 2px -2px gray",
                     }}
                 >
