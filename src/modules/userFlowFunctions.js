@@ -1260,7 +1260,9 @@ export function handleUserFlow(
                     }}
                     key={trim}
                     value={trim}
-                    onClick={() => {
+                    onClick={(event) => {
+                      const button = event.target;
+                      button.style.backgroundColor = 'grey';
                       let copy, copy2;
                       if (trim in selected[model]) {
                         copy = selected[model];
@@ -1278,7 +1280,6 @@ export function handleUserFlow(
                         changeSelected(copy2);
                       }
                       setForceUpdate(!forceUpdate);
-                      console.log(copy2, selected[model].includes(trim));
                     }}
                   >
                     {trim}
