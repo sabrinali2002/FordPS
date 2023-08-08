@@ -1262,7 +1262,12 @@ export function handleUserFlow(
                     value={trim}
                     onClick={(event) => {
                       const button = event.target;
-                      button.style.backgroundColor = 'grey';
+                      if(button.style.backgroundColor == 'grey'){
+                        button.style.backgroundColor = 'white';
+                      }
+                      else{
+                        button.style.backgroundColor = 'grey';
+                      }
                       let copy, copy2;
                       if (trim in selected[model]) {
                         copy = selected[model];
